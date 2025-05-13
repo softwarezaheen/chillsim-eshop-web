@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* EXPLANATION : woff : for compression and faster loading time */
+@font-face {
+  font-family: "quicksand-light";
+  src: url("/fonts/quicksand/Quicksand-Light.ttf") format("woff2");
+}
+
+@font-face {
+  font-family: "quicksand-regular";
+  src: url("/fonts/quicksand/Quicksand-Regular.ttf") format("woff2");
+}
+@font-face {
+  font-family: "quicksand-medium";
+  src: url("/fonts/quicksand/Quicksand-Medium.ttf") format("woff2");
+}
+
+@font-face {
+  font-family: "quicksand-semibold";
+  src: url("/fonts/quicksand/Quicksand-SemiBold.ttf") format("woff2");
+}
+@font-face {
+  font-family: "quicksand-bold";
+  src: url("/fonts/quicksand/Quicksand-Bold.ttf") format("woff2");
+}
+
+.Toastify__toast--error.Toastify__toast {
+  color: var(--error) !important;
+}
+
+.Toastify__toast--success.Toastify__toast {
+  color: var(--success) !important;
+}
+.Toastify__toast--warning.Toastify__toast {
+  color: var(--warning) !important;
+}
+.Toastify__toast-body {
+  font-size: 0.9rem;
+}
+
+.Toastify__toast--error.Toast__progress_bar {
+  background-color: var(--error) !important;
+}
+
+.Toastify__progress-bar--success {
+  background-color: var(--success) !important;
+}
+
+.Toastify__progress-bar--error {
+  background: var(--error) !important;
+}
+.Toastify__progress-bar--warning {
+  background: var(--warning) !important;
+}
+
+.Toastify__toast--error .Toastify__toast-icon svg {
+  fill: var(--error);
+}
+.Toastify__toast--success .Toastify__toast-icon svg {
+  fill: var(--success);
+}
+.Toastify__toast--warning .Toastify__toast-icon svg {
+  fill: var(--warning);
+}
+
+@layer components {
+  .label-input-wrapper {
+    @apply flex flex-col gap-[0.5rem];
+  }
+}

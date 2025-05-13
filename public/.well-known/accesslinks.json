@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "monty.esim.opensource.test",
+      "sha256_cert_fingerprints": [
+        "63:46:3C:77:34:9D:A9:DF:77:DF:B5:C3:47:14:CC:BA:A8:64:6E:5C:FC:73:22:0D:CF:AA:9C:60:3E:43:B8:38"
+      ]
+    }
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "translations": {
+    "common": {
+      "hooray": "Hooray!"
+    },
+    "order": {
+      "payment_successfull": "Your payment was done successfully"
+    },
+    "nav": {
+      "home": "Home",
+      "plans": "Plans",
+      "howItWorks": "How It Works",
+      "partnership": "Partnership",
+      "aboutUs": "About Us",
+      "contactUs": "Contact Us",
+      "signIn": "Sign In",
+      "myWallet": "My Wallet",
+      "myEsim": "My Esim",
+      "ordersHistory": "Orders History",
+      "accountInfo": "Account Info",
+      "deleteAccount": "Delete Account",
+      "logout": "Logout"
+    },
+    "auth": {
+      "signInTitle": "Sign in / Sign up",
+      "newUser": "New user?",
+      "createAccount": "Create an account",
+      "email": "Email",
+      "password": "Password",
+      "acceptTerms": "I accept the",
+      "termsAndConditions": "Terms and Conditions",
+      "signIn": "Sign In",
+      "signingIn": "Signing in...",
+      "loginSuccess": "Successfully signed in!",
+      "orContinueWith": "Or",
+      "signInWithGoogle": "Sign in with Google",
+      "signInWithFacebook": "Sign in with Facebook",
+      "verifyEmail": "Please verify your email!",
+      "verificationCodeSent": "You're almost there! A verification code was sent to your email",
+      "verify": "Verify",
+      "verifying": "Verifying...",
+      "didntReceiveCode": "Didn't receive a code?",
+      "resendNow": "Resend now"
+    }
+  }
+}

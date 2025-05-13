@@ -1,0 +1,186 @@
+//UTILITIES
+import React, { useState } from "react";
+//COMPONENT
+import {
+  Avatar,
+  AvatarGroup,
+  Button,
+  Card,
+  CardContent,
+  Skeleton,
+} from "@mui/material";
+import BundleDetail from "../detail/BundleDetail";
+import DoDisturbIcon from "@mui/icons-material/DoDisturb";
+
+const BundleCard = ({
+  bundle,
+  countryData,
+  isLoading,
+  globalDisplay,
+  cruises,
+  iccid,
+  regionIcon,
+}) => {
+  const [openDetail, setOpenDetail] = useState(false);
+  const handleDetail = () => {
+    setOpenDetail(true);
+  };
+
+  return (
+    <>
+      <Card className="!rounded-lg">
+        <CardContent className="flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row justify-between justify-center sm:items-center sm:items-start gap-4">
+            <div className="flex flex-row  items-center gap-2 min-w-0">
+              {isLoading ? (
+                <>
+                  <Skeleton variant="circular" width={45} height={45} />
+                  <Skeleton variant="text" width="100px" height={24} />
+                </>
+              ) : (
+                <>
+                  <Avatar
+                    src={
+                      globalDisplay
+                        ? "/media/global.svg"
+                        : regionIcon //NOTES: requested to be done from frontend manually taked by props
+                        ? regionIcon
+                        : bundle?.icon
+                    }
+                    alt={bundle?.display_title || ""}
+                    sx={{ width: 45, height: 45 }}
+                  >
+                    {/* fallback image */}
+                    <img
+                      src={"/media/global.svg"}
+                      className={"bg-white"}
+                      alt={bundle?.display_title || ""}
+                    />
+                  </Avatar>
+                  <p className="text-content-600 font-bold text-lg capitalize truncate">
+                    {bundle?.display_title}
+                  </p>
+                </>
+              )}
+            </div>
+            <p className="text-2xl font-bold text-end whitespace-nowrap text-primary">
+              {isLoading ? (
+                <Skeleton variant="text" width="30px" height={32} />
+              ) : (
+                bundle?.gprs_limit_display
+              )}
+            </p>
+          </div>
+          <hr />
+          <div className="flex flex-row justify-between items-center gap-4">
+            <p className="text-sm truncate min-w-0">
+              {isLoading ? (
+                <Skeleton variant="text" width="100px" height={20} />
+              ) : (
+                `Validity ${bundle?.validity_display}`
+              )}
+            </p>
+            <div className="flex flex-row justify-between items-center gap-2 whitespace-nowrap">
+              {!globalDisplay &&
+                countryData &&
+                (isLoading ? (
+                  <>
+                    <Skeleton variant="text" width={"50px"} height={20} />
+                    <Skeleton variant="circular" width={20} height={20} />
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm">Available in</p>
+                    <Avatar
+                      src={countryData?.icon}
+                      alt="bundle-country-image"
+                      sx={{ width: 20, height: 20 }}
+                    />
+                  </>
+                ))}
+            </div>
+          </div>
+          {!cruises && (
+            <div className="flex flex-row justify-between gap-4 bg-bgLight rounded-lg p-4">
+              <p className="text-primary font-semibold text-sm">
+                Supported Countries
+              </p>
+              <AvatarGroup
+                max={4}
+                total={bundle?.count_countries || 0}
+                sx={{
+                  "& .MuiAvatar-root": {
+                    width: 20,
+                    height: 20,
+                    fontSize: "0.75rem",
+                  },
+                  "& .MuiAvatarGroup-avatar": {
+                    width: 20,
+                    height: 20,
+                    fontSize: "0.75rem",
+                  },
+                  "& .MuiAvatar-root:first-of-type": {
+                    zIndex: 1,
+                  },
+                }}
+              >
+                {isLoading ? (
+                  Array.from({ length: 4 }).map((_, idx) => (
+                    <Skeleton
+                      variant="circular"
+                      width={20}
+                      height={20}
+                      key={idx}
+                    />
+                  ))
+                ) : bundle?.countries?.length === 0 ? (
+                  <DoDisturbIcon color="primary" />
+                ) : (
+                  bundle?.countries?.map((supportedCountries, index) => (
+                    <Avatar
+                      key={index}
+                      alt={supportedCountries?.country}
+                      src={supportedCountries?.icon}
+                    />
+                  ))
+                )}
+              </AvatarGroup>
+            </div>
+          )}
+          {isLoading ? (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={40}
+              className="mt-4"
+            />
+          ) : (
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => {
+                handleDetail();
+              }}
+            >
+              <p className="font-bold text-base">
+                Buy now - {bundle?.price_display}
+              </p>
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+      {openDetail && (
+        <BundleDetail
+          regionIcon={regionIcon}
+          globalDisplay={globalDisplay}
+          onClose={() => setOpenDetail(false)}
+          bundle={bundle}
+          iccid={iccid}
+          countryData={countryData}
+        />
+      )}
+    </>
+  );
+};
+
+export default BundleCard;

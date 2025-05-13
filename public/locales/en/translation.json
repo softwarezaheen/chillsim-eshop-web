@@ -1,0 +1,129 @@
+{
+  "common": {
+    "hooray": "Hooray!"
+  },
+  "account": {
+    "delete_account": "Delete Account",
+    "delete_account_paragraph": "This will delete your account from monty esim app. You can always access your bought eSIM and activated profile through your phone",
+    "delete_account_confirmation": "Please enter your email in order to confirm deleting your account"
+  },
+  "notifications": {
+    "title": "Notifications"
+  },
+
+  "noDataFound": {
+    "no_valid_iccid": "No ICCID provided. Please provide a valid ICCID.",
+    "no_data_matching_iccid": "No data available for the provided ICCID",
+    "no_active_plans": "No active plans",
+    "no_expired_plans": "No expired plans"
+  },
+  "label": {
+    "purchase_date": "Purchase Date",
+    "iccid number": "ICCID Number",
+    "order_id": "Order ID",
+    "bundle_name": "Bundle Name",
+    "link": "Link"
+  },
+  "bundle": {
+    "bundle_existence_title": "You have purchased an eSIM before!",
+    "bundle_existence_text": "If you still have the SIM on your device and you will use it from here, it is faster to top it up!"
+  },
+  "btn": {
+    "buy_new_esim": "Buy a new eSIM",
+    "top_up_existing_esim": "Top-up my existing SIM",
+    "save": "Save",
+    "copy_link": "Copy Link",
+    "user_guide": "User Guide",
+    "signin_signup": "Sign in / Sign Up",
+    "resend_now": "Resend now",
+    "view_receipt": "View Receipt",
+    "download": "Download",
+    "view_more": "View More",
+    "delete": "Delete",
+    "add_top_up": "Add Top Up",
+    "consumption": "Consumption",
+    "view_qr_code": "View QR Code",
+    "shop_now": "Shop Now",
+    "learn_more": "Learn more",
+    "view_all_plans": "View all plans"
+  },
+  "orders": {
+    "plan_history": "Plan History",
+    "edit_name": "Edit Name",
+    "top_up_plan": "Top up Plan",
+    "top_up_plan_text": "Top up your plan now and benefit from its data and coverage",
+    "consumption_details": "Consumption Details",
+    "consumption_details_text": "This is your consumption rate till now",
+    "share_your_bundle_text": "Share your bundle with friends, family, or anyone you think might benefit from it",
+    "share_your_bundle": "Share Your Bundle",
+    "qrcode_detail": "QR Code Details",
+    "payment_successfull": "Your payment was done successfully!",
+    "please_wait_to_fetch_order": "Please wait while we fetch your order details",
+    "qrcode_sent_text": "The QR code was sent to your email. You can scan it here and share it with your friends.",
+    "orders_history": "Orders History",
+    "order_id": "Order ID",
+    "order_status": "Order Status",
+    "payment_details": "Payment Details"
+  },
+  "esim": {
+    "title": "My eSIM",
+    "current_plans": "Current Plans",
+    "expired_plans": "Expired Plans",
+    "esim_detail": "Esim Detail"
+  },
+  "nav": {
+    "home": "Home",
+    "plans": "Plans",
+    "howItWorks": "How It Works",
+    "partnership": "Partnership",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "signIn": "Sign In",
+    "myWallet": "My Wallet",
+    "myEsim": "My eSIM",
+    "ordersHistory": "Orders History",
+    "accountInfo": "Account Info",
+    "deleteAccount": "Delete Account",
+    "logout": "Logout"
+  },
+  "userGuide": {
+    "goto_settings": "Go to Settings",
+    "select_mobile_settings": "Select Mobile Services",
+    "select_add_esim": "Select Add eSIM",
+    "select_use_qr_code": "Select Use QR Code",
+    "place_qr_code": "Place the QR code you’ve received inside the phone camera frame to scan the code",
+    "go_mobile_data": "Go back to Mobile Service and Select on Mobile Data Options",
+    "toggle_data_roaming": "Select the toggle button next to Data Roaming to turn the function on or off",
+    "good_to_go": "You’re good to go!",
+    "slide_two_fingers": "Slide two fingers downwards starting from the top of the screen",
+    "select_settings_icon": "Select the Settings icon",
+    "select_connections": "Select Connections",
+    "select_sim_manager": "Select SIM manager",
+    "go_back_connections": "Go back to Connections and Select Mobile networks",
+    "select_qr_code": "Select QR code",
+    "toggle_roaming": "Toggle Roaming"
+  },
+
+  "auth": {
+    "signInTitle": "Sign in / Sign up",
+    "newUser": "New user?",
+    "createAccount": "Create an account",
+    "email": "Email",
+    "password": "Password",
+    "acceptTerms": "I accept the",
+    "termsAndConditions": "Terms and Conditions",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "loginSuccess": "Successfully signed in!",
+    "orContinueWith": "Or",
+    "signInWithGoogle": "Sign in with Google",
+    "signInWithFacebook": "Sign in with Facebook",
+    "verifyEmail": "Please verify your email!",
+    "verificationCodeSent": "You're almost there! A verification code was sent to your email",
+    "verify": "Verify",
+    "verifying": "Verifying...",
+    "didntReceiveCode": "Didn't receive a code?",
+    "resendNow": "Resend now",
+    "didnt_receive_email": "Didn't receive an email?"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "translations": {
+    "nav": {
+      "home": "الرئيسية",
+      "plans": "الباقات",
+      "howItWorks": "كيف يعمل",
+      "partnership": "الشراكة",
+      "aboutUs": "من نحن",
+      "contactUs": "اتصل بنا",
+      "signIn": "تسجيل الدخول"
+    },
+    "auth": {
+      "signInTitle": "تسجيل الدخول إلى حسابك",
+      "newUser": "مستخدم جديد؟",
+      "createAccount": "إنشاء حساب",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "acceptTerms": "أوافق على",
+      "termsAndConditions": "الشروط والأحكام",
+      "signIn": "تسجيل الدخول",
+      "signingIn": "جاري تسجيل الدخول...",
+      "loginSuccess": "تم تسجيل الدخول بنجاح!",
+      "orContinueWith": "أو المتابعة باستخدام",
+      "signInWithGoogle": "تسجيل الدخول باستخدام Google",
+      "signInWithFacebook": "تسجيل الدخول باستخدام Facebook"
+    }
+  }
+}
