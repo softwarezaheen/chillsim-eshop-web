@@ -1,4 +1,4 @@
-# Monty eSim EShop
+# Monty eSim EShop Web
 
 ## **Introduction**
 
@@ -26,7 +26,7 @@ Before you begin, ensure you have the following software installed on your syste
 1. Clone the repo:
 
 ```bash
-   git clone https://github.com/your-username/your-project-name.git
+   git clone https://github.com/montymobile1/montyesim-eshop-web
 ```
 
 2.Navigate into the project directory:
