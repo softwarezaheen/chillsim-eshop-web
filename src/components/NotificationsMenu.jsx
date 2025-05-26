@@ -40,7 +40,9 @@ const NotificationsMenuBody = () => {
 
   return (
     <div
-      className={`flex flex-col gap-[1rem] absolute ${localStorage.getItem("i18nextLng") === "ar" ? "left-0" : "right-0"} mt-2 w-64 md:w-80 max-h-[400px] overflow-y-auto rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4`}
+      className={`flex flex-col gap-[1rem] absolute ${
+        localStorage.getItem("i18nextLng") === "ar" ? "left-0" : "right-0"
+      } mt-2 w-64 md:w-80 max-h-[400px] overflow-y-auto rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4`}
     >
       <div className={"flex flex-row justify-between items-center"}>
         <h3 className="text-lg font-semibold">{t("notifications.title")}</h3>
@@ -53,7 +55,8 @@ const NotificationsMenuBody = () => {
           </Link>
         )}
       </div>
-      {isLoading ? (
+
+      {isLoading &&
         Array(2)
           .fill()
           ?.map((el, index) => (
@@ -61,8 +64,10 @@ const NotificationsMenuBody = () => {
               className={"w-full"}
               key={`notification-skeleton-${index}`}
             />
-          ))
-      ) : !notifications || notifications?.length === 0 || error ? (
+          ))}
+      {(!isLoading && !notifications) ||
+      notifications?.length === 0 ||
+      error ? (
         <NoDataFound text={t("notifications.noNotificationsFound")} />
       ) : (
         <div className="space-y-4">

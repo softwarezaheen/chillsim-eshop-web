@@ -1,20 +1,19 @@
-import { Close } from "@mui/icons-material";
-import { Button, Dialog, DialogContent, IconButton } from "@mui/material";
-import React, { useState } from "react";
-import * as yup from "yup";
-import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { SignOut } from "../../redux/reducers/authReducer";
-import { queryClient } from "../../main";
-import { useNavigate } from "react-router-dom";
-import { FormInput } from "../shared/form-components/FormComponents";
+import { Close } from "@mui/icons-material";
+import { Button, Dialog, IconButton } from "@mui/material";
+import { deleteToken } from "firebase/messaging";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import * as yup from "yup";
+import { messaging } from "../../../firebaseconfig";
 import { DeleteAccountSVG } from "../../assets/icons/Common";
 import { deleteAccount } from "../../core/apis/authAPI";
-import { deleteToken } from "firebase/messaging";
-import { messaging } from "../../../firebaseconfig";
+import { queryClient } from "../../main";
+import { SignOut } from "../../redux/reducers/authReducer";
+import { FormInput } from "../shared/form-components/FormComponents";
 
 const schema = yup.object().shape({
   email: yup.string().email().required().nullable(),
@@ -23,13 +22,11 @@ const schema = yup.object().shape({
 const DeleteAccountPopup = ({ onClose }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [setIsSubmitting] = useState(false);
 
   const {
     control,
     handleSubmit,
-    reset,
-    formState: { errors },
   } = useForm({
     defaultValues: {
       email: "",
@@ -54,9 +51,7 @@ const DeleteAccountPopup = ({ onClose }) => {
       })
       .catch((e) => {
         toast?.error(
-          e?.response?.data?.message ||
-            e?.message ||
-            "Failed to delete account",
+          e?.response?.data?.message || e?.message || "Failed to delete account"
         );
       })
       .finally(() => {

@@ -43,8 +43,8 @@ const BundleDetail = ({
       if (login_type === "phone") {
         navigate(
           `/signin?next=${encodeURIComponent(
-            `/checkout/${bundle?.bundle_code}`,
-          )}`,
+            `/checkout/${bundle?.bundle_code}`
+          )}`
         );
       } else {
         navigate(`/checkout/${bundle?.bundle_code}`);
@@ -77,6 +77,12 @@ const BundleDetail = ({
         .finally(() => setIsSubmitting(false));
     }
   };
+
+  const avatarSrc = (() => {
+    if (globalDisplay) return "/media/global.svg";
+    if (regionIcon) return regionIcon;
+    return bundle?.icon;
+  })();
 
   return (
     <Dialog fullWidth open={true} maxWidth={"sm"}>
@@ -111,13 +117,7 @@ const BundleDetail = ({
         >
           <div className={"flex flex-row gap-4 items-center min-w-0 "}>
             <Avatar
-              src={
-                globalDisplay
-                  ? "/media/global.svg"
-                  : regionIcon
-                    ? regionIcon
-                    : bundle?.icon
-              }
+              src={avatarSrc}
               alt={bundle?.display_title || ""}
               sx={{ width: 45, height: 45 }}
             >
@@ -217,7 +217,7 @@ const BundleDetail = ({
               "flex flex-col w-[100%] sm:basis-[50%]  gap-[1rem] bg-bgLight rounded-md p-2 sm:min-h-[150px] sm:h-[220px]",
               {
                 "flex-1": bundle?.bundle_category?.type === "CRUISE",
-              },
+              }
             )}
           >
             <h6>{t("bundles.additionalInfo")}</h6>

@@ -1,13 +1,13 @@
 //UTILITIES
-import React, { useState, useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 //REDUCER
 import { AttachSearch, DetachSearch } from "../../redux/reducers/searchReducer";
 //COMPONENT
-import CountryCard from "./country-card/CountryCard";
-import BundleList from "../bundle/BundleList";
 import { Collapse, Grid2, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import BundleList from "../bundle/BundleList";
+import CountryCard from "./country-card/CountryCard";
 
 export const CountriesList = (props) => {
   const {
@@ -58,7 +58,7 @@ export const CountriesList = (props) => {
   // Calculate the row index for a given country
   const getRowIndex = (countryId) => {
     const countryIndex = data.findIndex(
-      (country) => (region ? country.region_code : country.id) === countryId,
+      (country) => (region ? country.region_code : country.id) === countryId
     );
     return Math.floor(countryIndex / itemsPerRow);
   };
@@ -95,24 +95,26 @@ export const CountriesList = (props) => {
                   },
                 ],
               }),
-        }),
+        })
       );
     }
   };
+
+  let gridColsClass = "grid-cols-3";
+  switch (itemsPerRow) {
+    case 1:
+      gridColsClass = "grid-cols-1";
+      break;
+    case 2:
+      gridColsClass = "grid-cols-2";
+      break;
+  }
 
   return (
     <div ref={sectionRef} className="space-y-4">
       {rows?.map((row, rowIndex) => (
         <div key={rowIndex} className="space-y-4">
-          <div
-            className={`grid gap-6 ${
-              itemsPerRow === 1
-                ? "grid-cols-1"
-                : itemsPerRow === 2
-                  ? "grid-cols-2"
-                  : "grid-cols-3"
-            }`}
-          >
+          <div className={`grid gap-6 ${gridColsClass}`}>
             {row?.map(
               (country) =>
                 country && (
@@ -125,7 +127,7 @@ export const CountriesList = (props) => {
                     }
                     expandedCountry={expandedCountry}
                   />
-                ),
+                )
             )}
           </div>
 

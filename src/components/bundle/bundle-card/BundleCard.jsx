@@ -44,6 +44,12 @@ const BundleCard = ({
     return `${count} ${translatedUnit}`;
   };
 
+  const avatarSrc = (() => {
+    if (globalDisplay) return "/media/global.svg";
+    if (regionIcon) return regionIcon; //NOTES: requested to be done from frontend manually taken by props
+    return bundle?.icon;
+  })();
+
   return (
     <>
       <Card className="!rounded-lg">
@@ -58,13 +64,7 @@ const BundleCard = ({
               ) : (
                 <>
                   <Avatar
-                    src={
-                      globalDisplay
-                        ? "/media/global.svg"
-                        : regionIcon //NOTES: requested to be done from frontend manually taked by props
-                        ? regionIcon
-                        : bundle?.icon
-                    }
+                    src={avatarSrc}
                     alt={bundle?.display_title || ""}
                     sx={{ width: 45, height: 45 }}
                   >
@@ -102,7 +102,7 @@ const BundleCard = ({
                 <Skeleton variant="text" width="100px" height={20} />
               ) : (
                 `${t("bundles.validity")}: ${formatValidity(
-                  bundle?.validity_display
+                  bundle?.validity_display,
                 )}`
               )}
             </p>
@@ -150,7 +150,7 @@ const BundleCard = ({
                   },
                 }}
               >
-                {isLoading ? (
+                {isLoading &&
                   Array.from({ length: 4 }).map((_, idx) => (
                     <Skeleton
                       variant="circular"
@@ -158,8 +158,8 @@ const BundleCard = ({
                       height={20}
                       key={idx}
                     />
-                  ))
-                ) : bundle?.countries?.length === 0 ? (
+                  ))}
+                {!isLoading && bundle?.countries?.length === 0 ? (
                   <DoDisturbIcon color="primary" />
                 ) : (
                   bundle?.countries?.map((supportedCountries, index) => (

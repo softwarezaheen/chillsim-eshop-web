@@ -1,17 +1,16 @@
 //UTILITIES
-import React from "react";
-import { useQuery } from "react-query";
 import clsx from "clsx";
+import { useQuery } from "react-query";
 
 //COMPONENT
+import { useTranslation } from "react-i18next";
 import {
   getBundlesByCountry,
   getBundlesByRegion,
 } from "../../core/apis/homeAPI";
-import BundleCard from "./bundle-card/BundleCard";
-import NoDataFound from "../shared/no-data-found/NoDataFound";
 import { getEsimRelatedTopup } from "../../core/apis/userAPI";
-import { useTranslation } from "react-i18next";
+import NoDataFound from "../shared/no-data-found/NoDataFound";
+import BundleCard from "./bundle-card/BundleCard";
 
 const useBundlesQuery = ({ expandedCountry, region, bundleOrder }) => {
   return useQuery({

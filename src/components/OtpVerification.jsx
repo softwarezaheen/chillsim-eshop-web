@@ -1,26 +1,19 @@
-import * as yup from "yup";
-import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 //COMPONENT
-import {
-  Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { userLogin, verifyOTP, resendOrderOTP } from "../core/apis/authAPI";
-import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import { SignIn, SignOut } from "../redux/reducers/authReducer";
-import { useNavigate, useParams } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
 import clsx from "clsx";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { resendOrderOTP, userLogin, verifyOTP } from "../core/apis/authAPI";
 import { verifyOrderOTP } from "../core/apis/userAPI";
-import { queryClient } from "../main";
 import { dcbMessage } from "../core/variables/ProjectVariables";
+import { queryClient } from "../main";
+import { SignIn } from "../redux/reducers/authReducer";
 
 const schema = ({ t }) =>
   yup.object().shape({
@@ -31,7 +24,7 @@ const schema = ({ t }) =>
           .string()
           .matches(/^\d$/, t("auth.otpMustBeNumber"))
           .required(t("auth.otpRequired"))
-          .length(1, t("auth.otpDigitLength")),
+          .length(1, t("auth.otpDigitLength"))
       )
       .length(6, t("auth.otpSixDigits")),
   });
@@ -58,15 +51,13 @@ const OtpVerification = ({
   const [resend, setResend] = useState(true);
   const [timer, setTimer] = useState(120); // 120 seconds = 2 minutes
   const { login_type, otp_channel } = useSelector((state) => state.currency);
-  const [verifiedBy, setVerifiedBy] = useState("email");
-  const [proceed, setProceed] = useState(false);
+  const [_, setVerifiedBy] = useState("email");
+  const [proceed] = useState(false);
   const {
     control,
     handleSubmit,
     reset,
-    setValue,
     getValues,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -148,7 +139,7 @@ const OtpVerification = ({
             dispatch(
               SignIn({
                 ...res?.data?.data,
-              }),
+              })
             );
           }
         } else {
@@ -350,10 +341,14 @@ const OtpVerification = ({
             <>
               {t("auth.didntReceiveCode")}{" "}
               <span
-                className={"text-secondary underline cursor-pointer"}
-                onClick={() => handleResendOtp()}
+                role="button"
+                tabIndex={0}
+                onClick={handleResendOtp}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") handleResendOtp();
+                }}
+                className="text-secondary underline cursor-pointer"
               >
-                {" "}
                 {t("auth.resendNow")}
               </span>
             </>

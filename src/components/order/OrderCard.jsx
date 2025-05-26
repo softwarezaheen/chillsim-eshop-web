@@ -26,10 +26,11 @@ import {
   TableRow,
 } from "@mui/material";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { CustomPopover } from "../../assets/CustomComponents";
+import { formatValidity } from "../../assets/utils/formatValidity";
 import { getOrderHistoryById } from "../../core/apis/userAPI";
 import OrderReceipt from "../receipt/OrderReceipt";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
@@ -38,7 +39,6 @@ import OrderConsumption from "./OrderConsumption";
 import OrderLabelChange from "./OrderLabelChange";
 import OrderPopup from "./OrderPopup";
 import OrderTopup from "./OrderTopup";
-import { formatValidity } from "../../assets/utils/formatValidity";
 const OrderCard = ({ order, myesim, refetchData }) => {
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -52,7 +52,6 @@ const OrderCard = ({ order, myesim, refetchData }) => {
   const {
     data: orderDetail,
     isLoading,
-    error,
   } = useQuery({
     queryKey: [`${collapseElement}-order-history-id`, collapseElement],
     queryFn: () =>
@@ -94,54 +93,6 @@ const OrderCard = ({ order, myesim, refetchData }) => {
     "Purchase Date",
   ];
 
-  const test = [
-    {
-      user_order_id: "dee75030-2015-415f-9be7-a81963fd12fe",
-      iccid: "67005751370677599761",
-      bundle_type: "Primary Bundle",
-      plan_started: false,
-      bundle_expired: false,
-      created_at: "1742546922",
-      bundle: {
-        display_title: "The World is Yours!",
-        display_subtitle: "The World is Yours!",
-        bundle_code: "4a054dfa-a36d-48b0-bd5c-7dc9b7887805",
-        bundle_category: {
-          type: "COUNTRY",
-          title: "Country",
-          code: "de314467-623c-4256-a18a-d8d94f67c410",
-        },
-        bundle_region: [],
-        bundle_marketing_name: "The World is Yours!",
-        bundle_name: "The World is Yours!",
-        count_countries: 1,
-        currency_code: "EUR",
-        gprs_limit_display: "1 GB",
-        price: 2,
-        price_display: "2 EUR",
-        unlimited: false,
-        validity: 1,
-        plan_type: "Data only",
-        activity_policy:
-          "The validity period starts when the eSIM connects to any supported networks.",
-        validity_display: "1 Day",
-        countries: [
-          {
-            id: "dc30e33d-38d7-4f53-8495-fe3702c0b19d",
-            alternative_country: "Austria",
-            country: "Austria",
-            country_code: "Unknown",
-            iso3_code: "AUT",
-            zone_name: "Unknown",
-            icon: "https://bloexfogutsvlprzkyhv.supabase.co/storage/v1/object/public/media/country/aut.png",
-            operator_list: null,
-          },
-        ],
-        icon: "https://bloexfogutsvlprzkyhv.supabase.co/storage/v1/object/public/media/country/aut.png",
-        label: null,
-      },
-    },
-  ];
 
   return (
     <Card key={order.order_number || order?.iccid}>

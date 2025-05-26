@@ -1,21 +1,15 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
 //COMPONENT
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import Container from "../Container";
-import DrawerMenu from "../drawer/DrawerMenu";
-import { authMenuItems, menuItems } from "../../core/variables/StaticVariables";
 import { useSelector } from "react-redux";
-import UserMenu from "../UserMenu";
-import NotificationsMenu from "../NotificationsMenu";
-import { Drawer } from "@mui/material";
-import {
-  LazyLoadComponent,
-  LazyLoadImage,
-} from "react-lazy-load-image-component";
+import { authMenuItems, menuItems } from "../../core/variables/StaticVariables";
+import Container from "../Container";
 import LanguageSwitcher from "../LanguageSwitcher.jsx";
+import NotificationsMenu from "../NotificationsMenu";
+import UserMenu from "../UserMenu";
+import DrawerMenu from "../drawer/DrawerMenu";
 import IconImage from "../iconImage/IconImage";
 
 const Navbar = ({ main }) => {
@@ -64,6 +58,16 @@ const Navbar = ({ main }) => {
     };
   }, [lastScrollY, isHomePage]);
 
+  let textColorClass = "";
+
+  if (isActive(item.path)) {
+    textColorClass = "text-secondary";
+  } else if (!isHomePage || showMenu) {
+    textColorClass = "text-primary hover:text-secondary";
+  } else {
+    textColorClass = "text-white hover:text-secondary";
+  }
+
   const menuLinks = useMemo(() => {
     if (main) return menuItems;
     else return authMenuItems;
@@ -96,13 +100,7 @@ const Navbar = ({ main }) => {
                   key={item.path}
                   to={item.path}
                   onClick={() => window.scrollTo(0, 0)}
-                  className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
-                    isActive(item.path)
-                      ? "text-secondary"
-                      : !isHomePage || showMenu
-                        ? "text-primary hover:text-secondary"
-                        : "text-white hover:text-secondary"
-                  }`}
+                  className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${textColorClass}`}
                 >
                   {item.icon && <item.icon className="w-4 h-4 mr-2" />}
                   {t(`nav.${item.label}`)}
