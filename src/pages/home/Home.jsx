@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 
 const Home = () => {
   const { t } = useTranslation();
-
+  const sea_option = useSelector((state) => state.currency?.sea_option);
   const featuresRef = useRef(null);
 
   const scrollToFeatures = () => {
@@ -70,7 +70,7 @@ const Home = () => {
       {/* Bestsellers Section */}
       <section className="py-24 bg-gray-50" ref={featuresRef}>
         <Container>
-          <Plans cruises />
+          <Plans cruises={sea_option} />
         </Container>
       </section>
       {/* Benefits Section */}

@@ -1,15 +1,14 @@
 //UTILITIES
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
 //REDUCER
-import { LimitedSignOut, SignOut } from "../../redux/reducers/authReducer";
+import { LimitedSignOut } from "../../redux/reducers/authReducer";
 import { AttachSearch, DetachSearch } from "../../redux/reducers/searchReducer";
 //API
-import { getHomePageContent } from "../../core/apis/homeAPI";
+import { useHomeCountries } from "../../core/custom-hook/useHomeCountries";
 //COMPONENT
 import CountriesList from "../../components/country-section/CountriesList";
 import { CountriesSkeletons } from "../../components/shared/skeletons/HomePageSkeletons";
@@ -21,12 +20,10 @@ import {
   IconButton,
   Radio,
   RadioGroup,
-  Stack,
-  Switch,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { ArrowBack, Search } from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 import { StyledTextField } from "../../assets/CustomComponents";
 import BundleList from "../../components/bundle/BundleList";
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
@@ -35,11 +32,16 @@ import PaymentCompletion from "../../components/payment/PaymentCompletion";
 import OrderPopup from "../../components/order/OrderPopup";
 import DirectionsBoatFilledOutlinedIcon from "@mui/icons-material/DirectionsBoatFilledOutlined";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
-import BundleDetail from "../../components/bundle/detail/BundleDetail";
+import { useTranslation } from "react-i18next";
 
 const Plans = (props) => {
-  const { cruises } = props;
+  const { t } = useTranslation();
 
+  const seaOption =
+    import.meta.env.VITE_APP_SEA_OPTION === undefined
+      ? true
+      : import.meta.env.VITE_APP_SEA_OPTION === "true";
+  const defaultOption = seaOption ? "cruises" : "land";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -48,17 +50,17 @@ const Plans = (props) => {
   const pathSegments = location.pathname.split("/").filter(Boolean);
   const mainPath = pathSegments[1] || ""; // "cruises" or "" (land) //now : "land" or
 
-  const [activeRadio, setActiveRadio] = useState(mainPath || "cruises");
+  const [activeRadio, setActiveRadio] = useState(mainPath || defaultOption);
   const [activeTab, setActiveTab] = useState(
-    searchParams.get("type") || "countries"
+    searchParams.get("type") || "countries",
   );
 
-  const [isSearching, setIsSearching] = useState(isSmall ? true : false);
+  const [isSearching, setIsSearching] = useState(isSmall);
   const [showAllCountries, setShowAllCountries] = useState(false);
   const [openOrderDetail, setOpenOrderDetail] = useState(false);
 
   const [search, setSearch] = useState(
-    searchParams.getAll("country_codes") || []
+    searchParams.getAll("country_codes") || [],
   );
   const [filters, setFilters] = useState({
     type: searchParams.get("type") || "",
@@ -78,28 +80,25 @@ const Plans = (props) => {
   };
 
   const [hoorayOpen, setHorrayOpen] = useState(
-    searchParams.get("order_id") || false
+    searchParams.get("order_id") || false,
   );
 
   //if testing
   // const data = [];
   // const isLoading = false;
   // const error = false;
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["home-countries"],
-    queryFn: () => getHomePageContent().then((res) => res?.data?.data),
-  });
+  const { data, isLoading, error } = useHomeCountries();
 
   const homeData = useMemo(() => {
     let dataType = filters?.type || "";
-    console.log("changingg data", data, dataType, cruises);
+
     if (data) {
       if (dataType === "regions") {
         return data?.regions?.filter((el) => el?.region_code !== "GLOBAL");
       } else if (dataType === "global") {
         dispatch(DetachSearch());
         return data?.global_bundles || [];
-      } else if (cruises) {
+      } else if (activeRadio === "cruises") {
         return data?.cruise_bundles || [];
       } else {
         if (showAllCountries) {
@@ -111,7 +110,7 @@ const Plans = (props) => {
     } else {
       return [];
     }
-  }, [data, activeTab, showAllCountries, filters?.type, activeRadio, cruises]);
+  }, [data, activeTab, showAllCountries, filters?.type, activeRadio]);
 
   const resetFilter = () => {
     setIsSearching(false);
@@ -130,53 +129,53 @@ const Plans = (props) => {
   return (
     <>
       <div className="flex flex-col gap-[2rem] max-w-2xl mx-auto mb-12">
-        <div className="flex flex-row justify-center items-center">
-          <RadioGroup
-            name="use-radio-group"
-            value={activeRadio}
-            onChange={handleRadioChange}
-            row
-            sx={{ columnGap: 2, flexWrap: "nowrap", overflowX: "auto" }}
-          >
-            <FormControlLabel
-              sx={{ alignItems: "center !important", whiteSpace: "nowrap" }}
-              value="cruises"
-              label={
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <DirectionsBoatFilledOutlinedIcon color="primary" />
-                  <Typography
-                    fontWeight={"bold"}
-                    color="primary"
-                    fontSize={"1rem"}
-                  >
-                    At Sea
-                  </Typography>
-                </Stack>
-              }
-              control={<Radio checked={activeRadio === "cruises"} />}
-            />
-            <FormControlLabel
-              sx={{ alignItems: "center !important", whiteSpace: "nowrap" }}
-              value="land"
-              label={
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <TerrainOutlinedIcon color="primary" />
-                  <Typography
-                    fontWeight={"bold"}
-                    color="primary"
-                    fontSize={"1rem"}
-                  >
-                    On Land
-                  </Typography>
-                </Stack>
-              }
-              control={<Radio checked={activeRadio === "land"} />}
-            />
-          </RadioGroup>
-        </div>
-        {activeRadio == "cruises" ? (
-          ""
-        ) : (
+        {seaOption && (
+          <div className="flex flex-row justify-center items-center">
+            <RadioGroup
+              name="use-radio-group"
+              value={activeRadio}
+              onChange={handleRadioChange}
+              row
+              sx={{ columnGap: 2, flexWrap: "nowrap" }}
+            >
+              <FormControlLabel
+                sx={{ alignItems: "center !important", whiteSpace: "nowrap" }}
+                value="cruises"
+                label={
+                  <div className="flex flex-row gap-[0.5rem] items-center">
+                    <DirectionsBoatFilledOutlinedIcon color="primary" />
+                    <Typography
+                      fontWeight={"bold"}
+                      color="primary"
+                      fontSize={"1rem"}
+                    >
+                      {t("plans.atSea")}
+                    </Typography>
+                  </div>
+                }
+                control={<Radio checked={activeRadio === "cruises"} />}
+              />
+              <FormControlLabel
+                sx={{ alignItems: "center !important", whiteSpace: "nowrap" }}
+                value="land"
+                label={
+                  <div className="flex flex-row gap-[0.5rem] items-center">
+                    <TerrainOutlinedIcon color="primary" />
+                    <Typography
+                      fontWeight={"bold"}
+                      color="primary"
+                      fontSize={"1rem"}
+                    >
+                      {t("plans.onLand")}
+                    </Typography>
+                  </div>
+                }
+                control={<Radio checked={activeRadio === "land"} />}
+              />
+            </RadioGroup>
+          </div>
+        )}
+        {activeRadio !== "cruises" && (
           <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-center sm:items-center gap-4 relative w-full">
             {/* Search Bar Container */}
             <div
@@ -186,7 +185,7 @@ const Plans = (props) => {
                 }`,
                 {
                   "w-auto": isSmall,
-                }
+                },
               )}
             >
               {isSearching ? (
@@ -202,7 +201,7 @@ const Plans = (props) => {
                     value={
                       filters?.country_codes?.length !== 0
                         ? data?.countries?.filter((el) =>
-                            filters?.country_codes.split(",")?.includes(el?.id)
+                            filters?.country_codes.split(",")?.includes(el?.id),
                           )
                         : []
                     }
@@ -215,45 +214,53 @@ const Plans = (props) => {
                         ].some((field) =>
                           field
                             ?.toLowerCase()
-                            .includes(inputValue.toLowerCase())
-                        )
+                            .includes(inputValue.toLowerCase()),
+                        ),
                       );
                     }}
                     options={data?.countries || []}
                     getOptionLabel={(option) => option.country}
                     onChange={(_, value) => {
-                      if (value?.length === 0) {
-                        setIsSearching(false);
+                      if (value.length > 3) {
+                        toast.error(t("plans.restrictedCountriesSelection"));
                       }
-                      setSearch(
-                        value?.map((el) => {
-                          return { id: el?.id };
-                        })
-                      );
-                      setActiveTab("countries");
-                      setFilters({
-                        ...filters,
-                        type: "",
-                        country_codes:
-                          value?.map((el) => el?.id).join(",") || "",
-                      });
-                      dispatch(
-                        AttachSearch({
-                          countries:
-                            value?.map((el) => {
-                              return {
-                                iso3_code: el?.iso3_code,
-                                country_name: el?.country,
-                              };
-                            }) || [],
-                        })
-                      );
+                      console.log(value.length, "valuee length1");
+                      if (value.length <= 3 || value?.length === 0) {
+                        console.log(value.length, "valuee length1");
+                        if (value?.length === 0) {
+                          setIsSearching(false);
+                        }
+
+                        setSearch(
+                          value?.map((el) => {
+                            return { id: el?.id };
+                          }),
+                        );
+                        setActiveTab("countries");
+                        setFilters({
+                          ...filters,
+                          type: "",
+                          country_codes:
+                            value?.map((el) => el?.id).join(",") || "",
+                        });
+                        dispatch(
+                          AttachSearch({
+                            countries:
+                              value?.map((el) => {
+                                return {
+                                  iso3_code: el?.iso3_code,
+                                  country_name: el?.country,
+                                };
+                              }) || [],
+                          }),
+                        );
+                      }
                     }}
                     className="w-full flex"
                     renderInput={(params) => (
                       <StyledTextField
                         {...params}
-                        placeholder="Search by country"
+                        placeholder={t("plans.searchByCountry")}
                         variant="outlined"
                         className="w-full"
                         size="small"
@@ -294,7 +301,7 @@ const Plans = (props) => {
                         : "text-primary"
                     }`}
                   >
-                    Countries
+                    {t("btn.countries")}
                   </button>
 
                   <button
@@ -312,7 +319,7 @@ const Plans = (props) => {
                         : "text-primary"
                     }`}
                   >
-                    Regions
+                    {t("btn.regions")}
                   </button>
                   <button
                     onClick={() => {
@@ -329,7 +336,7 @@ const Plans = (props) => {
                         : "text-primary"
                     }`}
                   >
-                    Global
+                    {t("btn.global")}
                   </button>
                 </div>
               </div>
@@ -340,15 +347,13 @@ const Plans = (props) => {
       {isLoading ? (
         <CountriesSkeletons />
       ) : !homeData || homeData?.length === 0 || error ? (
-        <NoDataFound
-          text={"No plans available at the moment. Please check back later"}
-        />
+        <NoDataFound text={t("plans.noPlansAvailable")} />
       ) : filters?.country_codes?.length !== 0 ? (
         <BundleList
           expandedCountry={filters?.country_codes}
           supportedCountries={search}
         />
-      ) : filters?.type === "global" || cruises ? (
+      ) : filters?.type === "global" || activeRadio === "cruises" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           {homeData?.map((bundleElement) => (
             <BundleCard
@@ -357,7 +362,7 @@ const Plans = (props) => {
               countryData={null}
               isLoading={false}
               globalDisplay={true}
-              cruises={cruises}
+              cruises={activeRadio === "cruises"}
             />
           ))}{" "}
         </div>

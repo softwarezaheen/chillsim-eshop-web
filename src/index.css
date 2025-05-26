@@ -70,3 +70,7 @@
     @apply flex flex-col gap-[0.5rem];
   }
 }
+
+.PhoneInputCountrySelectArrow {
+  @apply mx-3; 
+}

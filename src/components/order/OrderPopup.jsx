@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 const OrderPopup = ({ id, onClose, orderData }) => {
   const { t } = useTranslation();
   const { isAuthenticated, user_info, tmp } = useSelector(
-    (state) => state.authentication
+    (state) => state.authentication,
   );
 
   const { data, isLoading, error } = useQuery({
@@ -40,7 +40,6 @@ const OrderPopup = ({ id, onClose, orderData }) => {
     }
   }, []);
 
-  console.log(data, "dataaaaaaaaaaaaaaaaaaa", error);
   return (
     <Dialog open={true} maxWidth="sm">
       <DialogContent className="flex flex-col gap-[1rem] xs:!px-8 !py-10 min-w-[200px] max-w-[500px]">
@@ -48,17 +47,26 @@ const OrderPopup = ({ id, onClose, orderData }) => {
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
         </div>
-        <h1 className={"text-center"}>{t("orders.qrcode_detail")}</h1>
+        <h1 className={"mt-2 text-center"}>{t("orders.qrcode_detail")}</h1>
         <p className={"text-center text-content-600 font-medium"}>
           {t("orders.qrcode_sent_text")}
         </p>
@@ -89,7 +97,12 @@ const OrderPopup = ({ id, onClose, orderData }) => {
               </div>
             </div>
             <div className={"flex flex-col gap-[0.5rem]"}>
-              <label className={"font-semibold"}>SM-DP+ Address</label>
+              <label
+                dir={"ltr"}
+                className={`font-semibold ${localStorage.getItem("i18nextLng") === "ar" ? "text-right" : "text-left"}`}
+              >
+                SM-DP+ &nbsp;{t("orders.smdpAddress")}
+              </label>
               <div
                 className={
                   "flex flex-row justify-between items-center bg-white shadow-sm p-[0.8rem] rounded-md"
@@ -105,9 +118,9 @@ const OrderPopup = ({ id, onClose, orderData }) => {
                 <IconButton
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      data?.smdp_address || orderData?.smdp_address
+                      data?.smdp_address || orderData?.smdp_address,
                     );
-                    toast.success("Copied Successfully");
+                    toast.success(t("btn.copiedSuccessfully"));
                   }}
                 >
                   <ContentCopyIcon fontSize="small" color="primary" />
@@ -115,7 +128,9 @@ const OrderPopup = ({ id, onClose, orderData }) => {
               </div>
             </div>
             <div className={"flex flex-col gap-[0.5rem]"}>
-              <label className={"font-semibold"}>Activate Code</label>
+              <label className={"font-semibold"}>
+                {t("orders.activateCode")}
+              </label>
               <div
                 className={
                   "flex flex-row justify-between items-center bg-white shadow-sm p-[0.8rem] rounded-md"
@@ -131,9 +146,9 @@ const OrderPopup = ({ id, onClose, orderData }) => {
                 <IconButton
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      orderData?.activation_code || data?.activation_code
+                      orderData?.activation_code || data?.activation_code,
                     );
-                    toast.success("Copied Successfully");
+                    toast.success(t("btn.copiedSuccessfully"));
                   }}
                 >
                   <ContentCopyIcon fontSize="small" color="primary" />
@@ -143,8 +158,8 @@ const OrderPopup = ({ id, onClose, orderData }) => {
           </>
         ) : (
           <NoDataFound
-            text={`Failed to load order data.${
-              !isAuthenticated ? " Please sign in to check more details" : ""
+            text={`${t("orders.failedToLoad")}${
+              !isAuthenticated ? ` ${t("orders.pleaseSignIn")}` : ""
             } `}
           />
         )}

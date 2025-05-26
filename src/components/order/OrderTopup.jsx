@@ -6,6 +6,7 @@ import { Close } from "@mui/icons-material";
 //COMPONENT
 import { Dialog, DialogContent, IconButton } from "@mui/material";
 import BundleList from "../bundle/BundleList";
+import { useSelector } from "react-redux";
 
 const OrderTopup = ({ onClose, bundle }) => {
   const { t } = useTranslation();
@@ -17,17 +18,26 @@ const OrderTopup = ({ onClose, bundle }) => {
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
         </div>
-        <div className={"flex flex-col gap-[1rem]"}>
+        <div className={"mt-2 flex flex-col gap-[1rem]"}>
           <h1 className={"text-center"}>{t("orders.top_up_plan")}</h1>
           <p className={"text-center text-primary font-semibold"}>
             {t("orders.top_up_plan_text")}

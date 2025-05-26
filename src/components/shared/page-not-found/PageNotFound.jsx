@@ -1,8 +1,11 @@
 import React from "react";
 import { PageNotFoundSVG } from "../../../assets/icons/Home";
 import { SuccessfulPaymentSVG } from "../../../assets/icons/Payment";
+import { useTranslation } from "react-i18next";
 
 const PageNotFound = () => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={
@@ -10,8 +13,8 @@ const PageNotFound = () => {
       }
     >
       <PageNotFoundSVG />
-      <h1>Page Not Found</h1>
-      <p>Sorry, the page you are looking for doesn't exist.</p>
+      <h1>{t("common.pageNotFound")}</h1>
+      <p>{t("common.pageNotExistMessage")}</p>
     </div>
   );
 };

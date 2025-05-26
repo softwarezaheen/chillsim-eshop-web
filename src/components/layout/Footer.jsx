@@ -11,8 +11,14 @@ import {
   supportMap,
   supportPhone,
 } from "../../core/variables/ProjectVariables";
-
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 const Footer = () => {
+  const { t } = useTranslation();
+
+  const whatsapp_number = useSelector(
+    (state) => state.currency?.whatsapp_number || ""
+  );
   const handleNavigation = () => {
     window.scrollTo(0, 0);
   };
@@ -22,17 +28,24 @@ const Footer = () => {
   return (
     <div className="bg-primary text-white">
       <Container className="py-8 flex flex-col gap-[1rem]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="flex flex-col sm:flex-row items-center sm:items-baseline justify-around gap-[2rem]">
           {/* Contact Info */}
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-10 h-10 rounded bg-white flex items-center justify-center">
-                <PhoneOutlinedIcon className="w-5 h-5 text-primary" />
+          {whatsapp_number?.trim() !== "" && (
+            <div className="text-center">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded bg-white flex items-center justify-center">
+                  <PhoneOutlinedIcon className="w-5 h-5 text-primary" />
+                </div>
               </div>
+              <h3 className="text-lg font-semibold mb-2 text-white">
+                {" "}
+                {t("footer.phone")}
+              </h3>
+              <p dir="ltr">
+                {whatsapp_number?.trim() === "" ? "N/A" : whatsapp_number}
+              </p>
             </div>
-            <h3 className="text-lg font-semibold mb-2 text-white">Phone</h3>
-            <p>{supportPhone}</p>
-          </div>
+          )}
 
           {/* Email */}
           <div className="text-center">
@@ -41,7 +54,10 @@ const Footer = () => {
                 <MailOutlinedIcon className="w-5 h-5 text-primary" />
               </div>
             </div>
-            <h3 className="text-lg font-semibold mb-2 text-white">Email</h3>
+            <h3 className="text-lg font-semibold mb-2 text-white">
+              {" "}
+              {t("footer.email")}
+            </h3>
             <a href={`mailto:${supportEmail}`}>{supportEmail}</a>
           </div>
 
@@ -52,8 +68,16 @@ const Footer = () => {
                 <RoomOutlinedIcon className="w-5 h-5 text-primary" />
               </div>
             </div>
-            <h3 className="text-lg font-semibold mb-2 text-white">Office</h3>
-            <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
+            <h3 className="text-lg font-semibold mb-2 text-white">
+              {" "}
+              {t("footer.office")}
+            </h3>
+            <a
+              dir="ltr"
+              href={googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {supportAddress}
             </a>
           </div>
@@ -62,30 +86,32 @@ const Footer = () => {
         {/* Bottom Links */}
         <div className=" pt-2 border-t border-white">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-6 mb-4 md:mb-0">
+            <div className="flex items-center space-x-6 mb-4 gap-2 md:mb-0">
               <Link
                 to={"/privacy"}
                 onClick={() => handleNavigation()}
                 className="text-sm text-white"
               >
-                Privacy Policy
+                {t("footer.privacyPolicy")}
               </Link>
               <Link
                 to={"/terms"}
                 onClick={() => handleNavigation()}
                 className="text-sm text-white"
               >
-                Terms & Conditions
+                {t("footer.termsAndConditions")}
               </Link>
               <Link
                 to={"/contact-us"}
                 onClick={() => handleNavigation()}
                 className="text-sm text-white"
               >
-                Contact Us
+                {t("footer.contactUs")}
               </Link>
             </div>
-            <div className="text-sm text-white">© 2025 {footerProjectName}</div>
+            <div dir="ltr" className="text-sm text-white">
+              © 2025 {footerProjectName}
+            </div>
           </div>
         </div>
       </Container>

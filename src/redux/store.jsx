@@ -11,6 +11,7 @@ import SearchSlice from "./reducers/searchReducer";
 import OrderSlice from "./reducers/orderReducer";
 import DeviceSlice from "./reducers/deviceReducer";
 import CurrencySlice from "./reducers/currencyReducer";
+import directionReducer from "./reducers/directionSlice.jsx";
 import hardSet from "redux-persist/es/stateReconciler/hardSet";
 import { thunk } from "redux-thunk";
 
@@ -20,13 +21,14 @@ const rootReducer = combineReducers({
   order: OrderSlice,
   device: DeviceSlice,
   currency: CurrencySlice,
+  direction: directionReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
   stateReconciler: hardSet,
-  whitelist: ["authentication", "search", "device", "currency"],
+  whitelist: ["authentication", "search", "device", "currency", "direction"],
   debug: true,
 };
 
@@ -46,7 +48,7 @@ const store = configureStore(
         serializableCheck: false,
       }),
   },
-  composeEnhancers(applyMiddleware(thunk))
+  composeEnhancers(applyMiddleware(thunk)),
 );
 
 // Create a persistor for the store

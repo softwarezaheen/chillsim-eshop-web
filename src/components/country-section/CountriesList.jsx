@@ -7,6 +7,7 @@ import { AttachSearch, DetachSearch } from "../../redux/reducers/searchReducer";
 import CountryCard from "./country-card/CountryCard";
 import BundleList from "../bundle/BundleList";
 import { Collapse, Grid2, useMediaQuery } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export const CountriesList = (props) => {
   const {
@@ -17,7 +18,7 @@ export const CountriesList = (props) => {
     countryDisplay,
     setShowAllCountries,
   } = props;
-
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const sectionRef = useRef(null);
 
@@ -57,7 +58,7 @@ export const CountriesList = (props) => {
   // Calculate the row index for a given country
   const getRowIndex = (countryId) => {
     const countryIndex = data.findIndex(
-      (country) => (region ? country.region_code : country.id) === countryId
+      (country) => (region ? country.region_code : country.id) === countryId,
     );
     return Math.floor(countryIndex / itemsPerRow);
   };
@@ -94,7 +95,7 @@ export const CountriesList = (props) => {
                   },
                 ],
               }),
-        })
+        }),
       );
     }
   };
@@ -108,8 +109,8 @@ export const CountriesList = (props) => {
               itemsPerRow === 1
                 ? "grid-cols-1"
                 : itemsPerRow === 2
-                ? "grid-cols-2"
-                : "grid-cols-3"
+                  ? "grid-cols-2"
+                  : "grid-cols-3"
             }`}
           >
             {row?.map(
@@ -124,7 +125,7 @@ export const CountriesList = (props) => {
                     }
                     expandedCountry={expandedCountry}
                   />
-                )
+                ),
             )}
           </div>
 
@@ -158,7 +159,7 @@ export const CountriesList = (props) => {
             }}
             className="px-8 py-3 bg-primary text-white rounded font-medium hover:bg-secondary/90 transition-colors"
           >
-            {showAllCountries ? "View Less" : "View All Countries"}
+            {showAllCountries ? t("btn.viewLess") : t("btn.viewAllCountries")}
           </button>
         </div>
       )}

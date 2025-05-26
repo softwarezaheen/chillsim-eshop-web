@@ -1,5 +1,61 @@
 import { vi } from "vitest";
 
+// Set up DOM element for React's createRoot
+if (typeof document !== 'undefined') {
+  const root = document.createElement('div');
+  root.id = 'root';
+  document.body.appendChild(root);
+}
+
+// Mock the queryClient import from main.jsx to prevent circular dependency
+vi.mock("./../main", () => {
+  return {
+    queryClient: {
+      clear: vi.fn(),
+    },
+  };
+});
+
+// Mock Firebase messaging
+vi.mock("../../firebaseconfig", () => {
+  return {
+    messaging: null,
+    onMessageListener: vi.fn(),
+    auth: {},
+    googleProvider: {},
+    signInWithPopup: vi.fn(),
+    requestPermission: vi.fn(),
+  };
+});
+
+// Mock deleteToken from firebase/messaging
+vi.mock("firebase/messaging", () => {
+  return {
+    getMessaging: vi.fn(),
+    getToken: vi.fn(),
+    isSupported: vi.fn().mockReturnValue(false),
+    onMessage: vi.fn(),
+    deleteToken: vi.fn(),
+  };
+});
+
+// Mock authAPI.jsx
+vi.mock("./../core/apis/authAPI", () => {
+  return {
+    userLimitedLogin: vi.fn(),
+    userLogin: vi.fn(),
+    resendOrderOTP: vi.fn(),
+    verifyOTP: vi.fn(),
+    userLogout: vi.fn(),
+    getUserInfo: vi.fn(),
+    isUserLoggedIn: vi.fn(),
+    refreshToken: vi.fn(),
+    updateUserInfo: vi.fn(),
+    deleteAccount: vi.fn(),
+    supabaseSignout: vi.fn(),
+  };
+});
+
 vi.mock("./../core/supabase/SupabaseClient.jsx", () => {
   return {
     createClient: vi.fn().mockReturnValue({

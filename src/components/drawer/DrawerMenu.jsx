@@ -65,7 +65,14 @@ const DrawerMenu = ({ toggleMenu, setToggleMenu }) => {
           }`}
         >
           {t(`nav.${item?.label}`)}
-          <ArrowForwardIosIcon fontSize="small" />
+          <ArrowForwardIosIcon
+            style={
+              localStorage.getItem("i18nextLng") === "ar"
+                ? { transform: "scale(-1,1)" }
+                : {}
+            }
+            fontSize="small"
+          />
         </Link>
       ))}
       <div className="my-2 border-t border-gray-100" />
@@ -77,7 +84,14 @@ const DrawerMenu = ({ toggleMenu, setToggleMenu }) => {
               handleLogout();
             }}
           >
-            <LogoutOutlinedIcon className={"text-red-600"} />
+            <LogoutOutlinedIcon
+              style={
+                localStorage.getItem("i18nextLng") === "ar"
+                  ? { marginLeft: "8px" }
+                  : {}
+              }
+              className={"text-red-600"}
+            />
             <span className="text-red-600 font-semibold">
               {t("nav.logout")}
             </span>

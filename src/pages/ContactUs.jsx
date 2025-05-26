@@ -9,8 +9,10 @@ import { FAQSkeletons } from "../components/shared/skeletons/HomePageSkeletons";
 import { ConnectSVG } from "../assets/icons/Home";
 import EditorText from "../components/shared/editor-text/EditorText";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const ContactUs = () => {
+  const { t } = useTranslation();
   const {
     data: faqs,
     isLoading,
@@ -47,14 +49,15 @@ const ContactUs = () => {
           <div className="flex flex-col gap-[1rem] text-center">
             <div className="flex flex-row items-end justify-center gap-[0.5rem]">
               <p className={"font-semibold text-content-600 text-lg"}>
-                Easy and Fast
+                {t("howItWorks.easyAndFast")}
               </p>
-              <ConnectSVG flip={true} />
+              <ConnectSVG flip={localStorage.getItem("i18nextLng") === "en"} />
             </div>
-            <h2 className="text-4xl font-bold">Frequently asked questions</h2>
+            <h2 className="text-4xl font-bold">
+              {t("contactUs.frequentlyAskedQuestions")}
+            </h2>
             <p className="text-gray-600">
-              Subscribe to learn about new product features, the latest in
-              technology, solutions, and updates.
+              {t("contactUs.subscribeDescription")}
             </p>
           </div>
 
@@ -62,11 +65,7 @@ const ContactUs = () => {
             {isLoading ? (
               <FAQSkeletons />
             ) : !content || content?.length === 0 ? (
-              <NoDataFound
-                text={
-                  "We couldn't find any FAQs right now. If you have questions, feel free to contact us!"
-                }
-              />
+              <NoDataFound text={t("contactUs.noFaqsMessage")} />
             ) : (
               content?.map((faq, index) => (
                 <div
@@ -75,7 +74,7 @@ const ContactUs = () => {
                 >
                   <button
                     onClick={() => toggleFaq(index)}
-                    className="w-full px-6 py-4 flex items-center justify-between text-left"
+                    className={`w-full px-6 py-4 flex items-center justify-between ${localStorage.getItem("i18nextLng") === "ar" ? "text-right" : "text-left"}`}
                   >
                     <span className="font-medium text-gray-900">
                       {faq?.question}

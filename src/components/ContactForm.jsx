@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Container from "./Container";
 import {
@@ -12,24 +12,38 @@ import { toast } from "react-toastify";
 import { ConnectSVG } from "../assets/icons/Home";
 import clsx from "clsx";
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
-const schema = yup.object().shape({
-  email: yup.string().label("Email").email().required().nullable(),
-  content: yup.string().label("Message").required().nullable().max(255),
-});
+const schema = ({ t }) =>
+  yup.object().shape({
+    email: yup
+      .string()
+      .label("Email")
+      .email(t("profile.errors.emailInvalid"))
+      .required(`${t("checkout.emailRequired")}`)
+      .nullable(),
+    content: yup
+      .string()
+      .label("Message")
+      .required(`${t("contactUs.messageRequired")}`)
+      .nullable()
+      .max(
+        255,
+        t("errors.maxCharacter", {
+          field: t("contactUs.message"),
+          character: 255,
+        }),
+      ),
+  });
 
 const ContactForm = ({ bg }) => {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
+  const { t } = useTranslation();
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       email: "",
       content: "",
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema({ t })),
     mode: "all",
   });
 
@@ -38,16 +52,16 @@ const ContactForm = ({ bg }) => {
   const handleSubmitForm = async (payload) => {
     setIsSubmitting(true);
 
-    contactUs({ ...payload, content: "mel is testing" })
+    contactUs({ ...payload, content: t("contactUs.melIsTesting") })
       .then((res) => {
         if (res?.data?.status === "success") {
-          toast.success("Your message has been sent successfully!");
+          toast.success(t("contactUs.messageSentSuccessfully"));
         } else {
           toast.error(res?.message);
         }
       })
       .catch((e) => {
-        toast?.error(e?.message || "Failed to send message");
+        toast?.error(e?.message || t("contactUs.failedToSendMessage"));
       })
       .finally(() => {
         reset({
@@ -69,15 +83,17 @@ const ContactForm = ({ bg }) => {
         <div className="max-w-2xl mx-auto flex flex-col gap-[2rem]">
           <div className="text-center flex flex-col gap-[1rem]">
             <div className="flex justify-center items-end">
-              <ConnectSVG />{" "}
+              <ConnectSVG flip={localStorage.getItem("i18nextLng") === "ar"} />
               <p className={"font-semibold text-content-600 text-lg"}>
-                Contact us
+                {t("contactUs.contactUs")}
               </p>
             </div>
-            <h2 className="text-4xl font-bold">Need some help?</h2>
+            <h2 className="text-4xl font-bold">
+              {t("contactUs.needSomeHelp")}{" "}
+              {localStorage.getItem("i18nextLng") === "ar" ? "؟" : "?"}
+            </h2>
             <p className="text-gray-600 font-semibold">
-              For all inquiries, please email us using the form below. Our team
-              is there for you 24/7!
+              {t("contactUs.contactInfo")}
             </p>
           </div>
 
@@ -87,7 +103,7 @@ const ContactForm = ({ bg }) => {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Email
+                {t("checkout.email")}
               </label>
               <Controller
                 render={({
@@ -95,7 +111,7 @@ const ContactForm = ({ bg }) => {
                   fieldState: { error },
                 }) => (
                   <FormInput
-                    placeholder={"Enter email"}
+                    placeholder={t("checkout.enterEmail")}
                     value={value}
                     helperText={error?.message}
                     onChange={(value) => onChange(value)}
@@ -111,7 +127,7 @@ const ContactForm = ({ bg }) => {
                 htmlFor="message"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Message
+                {t("contactUs.message")}
               </label>
               <Controller
                 render={({
@@ -122,7 +138,7 @@ const ContactForm = ({ bg }) => {
                     rows={5}
                     value={value}
                     onChange={(value) => onChange(value)}
-                    placeholder="Type your message"
+                    placeholder={t("contactUs.typeYourMessage")}
                     helperText={error?.message}
                   />
                 )}
@@ -146,8 +162,7 @@ const ContactForm = ({ bg }) => {
                 color="primary"
                 disabled={isSubmitting}
               >
-                {" "}
-                {isSubmitting ? "Sending..." : "Send message"}
+                {isSubmitting ? t("btn.sending") : t("btn.sendMessage")}
               </Button>
             </div>
           </form>

@@ -24,6 +24,16 @@ const firebaseConfig = {
   appId: "__VITE_FIREBASE_APP_ID__",
 };
 
+// const firebaseConfig = {
+//   apiKey: `AIzaSyCKvWxpI-sFEkO6K4X2EiDaiIIr4LMaEMY`,
+//   authDomain: `luxesim-test.firebaseapp.com`,
+//   projectId: `luxesim-test`,
+//   storageBucket: `luxesim-test.firebasestorage.app`,
+//   messagingSenderId: `178766894738`,
+//   appId: `1:178766894738:web:f21b7a66e4292ac3afb84b`,
+//   measurementId: `G-R8847LR2WG`,
+// };
+
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();

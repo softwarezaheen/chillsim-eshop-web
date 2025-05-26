@@ -7,23 +7,26 @@ import "@testing-library/jest-dom";
 import PlansWrapper from "../pages/plans/PlansWrapper.jsx";
 
 describe("Main Page", () => {
-  let container;
-
-  beforeEach(() => {
-    container = render(
+  it("renders without crashing", () => {
+    render(
       <MemoryRouter>
         <Provider store={store}>
           <PlansWrapper />
         </Provider>
       </MemoryRouter>,
     );
+    // Check for a key element to confirm render
+    expect(screen.getByText("plans.chooseYourPlan")).toBeInTheDocument();
   });
 
-  it("loads page without crashing", () => {
-    expect(container).toBeTruthy();
-  });
-
-  it("renders the page", () => {
-    expect(screen.getByText("Choose your plan")).toBeInTheDocument();
+  it("displays the correct page content", () => {
+    render(
+      <MemoryRouter>
+        <Provider store={store}>
+          <PlansWrapper />
+        </Provider>
+      </MemoryRouter>,
+    );
+    expect(screen.getByText("plans.chooseYourPlan")).toBeInTheDocument();
   });
 });

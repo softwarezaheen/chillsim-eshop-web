@@ -16,19 +16,24 @@ import {
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
+import { useSelector } from "react-redux";
 
 const OrderReceipt = ({ order, onClose, isLoading }) => {
   const { t } = useTranslation();
+
   const orderDisplay = useMemo(() => {
+    if (!order) return {};
+
     return {
-      "Company Name": order?.company_name,
-      Address: order?.payment_details?.address,
-      Email: order?.payment_details?.receipt_email,
-      "Order ID": order?.order_number,
-      "Payment Details": order?.payment_details?.card_display,
-      "Order Type": order?.order_type,
+      [t("orders.companyName")]: order.company_name,
+      ...(order.payment_type === "Card" && {
+        [t("orders.address")]: order.payment_details?.address,
+        [t("orders.email")]: order.payment_details?.receipt_email,
+      }),
+      [t("orders.orderId")]: order.order_number,
+      [t("orders.orderType")]: order.order_type,
     };
-  }, [order]);
+  }, [order, t]);
 
   return (
     <Dialog fullWidth open={true} maxWidth={"md"} onClose={onClose}>
@@ -37,18 +42,27 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
         </div>
         <div>
-          <img src={"/logo/logo.png"} className={"h-16"} />
+          <img src={"/logo/logo.png"} className={"mt-2 h-16"} />
         </div>
         {isLoading || (!isLoading && order) ? (
           <>
@@ -60,7 +74,7 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
                     {isLoading ? (
                       <Skeleton width={100} />
                     ) : (
-                      orderDisplay?.[orderElement] || "N/A"
+                      orderDisplay?.[orderElement] || t("common.notAvailable")
                     )}
                   </p>
                 </div>
@@ -68,25 +82,25 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
                 <hr />
               </div>
             ))}
-            <label className={"text-title"}>Summary</label>
+            <label className={"text-title"}>{t("checkout.summary")}</label>
             <TableContainer
               component={Paper}
               sx={{ boxShadow: "none", minHeight: "110px" }}
             >
-              <Table sx={{ border: "1px solid black" }}>
+              <Table sx={{ border: "1px solid black" }} dir="ltr">
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{ border: "1px solid black" }}>
-                      Qty
+                      {t("orders.qty")}
                     </TableCell>
                     <TableCell sx={{ border: "1px solid black" }}>
-                      Product
+                      {t("orders.product")}
                     </TableCell>
                     <TableCell sx={{ border: "1px solid black" }}>
-                      Unit Price
+                      {t("orders.unitPrice")}
                     </TableCell>
                     <TableCell sx={{ border: "1px solid black" }}>
-                      Amount
+                      {t("orders.amount")}
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -126,7 +140,7 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
               }
             >
               <p>
-                Total Price:{" "}
+                {t("orders.totalPrice")}{" "}
                 {isLoading ? (
                   <Skeleton width={50} />
                 ) : (
@@ -134,7 +148,7 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
                 )}
               </p>
               <p>
-                Final Price:{" "}
+                {t("orders.finalPrice")}{" "}
                 {isLoading ? (
                   <Skeleton width={50} />
                 ) : (
@@ -144,7 +158,7 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
             </div>
           </>
         ) : (
-          <NoDataFound text={"Failed to load order receipt details"} />
+          <NoDataFound text={t("orders.failedToLoadOrderReceiptDetails")} />
         )}
       </DialogContent>
     </Dialog>

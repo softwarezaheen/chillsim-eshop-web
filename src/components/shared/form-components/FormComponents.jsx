@@ -102,9 +102,17 @@ export const FormCheckBox = (props) => {
     <FormControl>
       <FormGroup>
         <FormControlLabel
-          sx={{ alignItems: "flex-start" }}
+          sx={{
+            marginRight:
+              localStorage.getItem("i18nextLng") === "ar" ? 0 : undefined,
+            alignItems: "flex-start",
+          }}
           control={
             <Checkbox
+              sx={{
+                paddingRight:
+                  localStorage.getItem("i18nextLng") === "ar" ? 0 : undefined,
+              }}
               value={value}
               checked={value}
               disabled={disabled}
@@ -211,18 +219,26 @@ export const FormSwitch = (props) => {
   );
 };
 
-export const FormPhoneInput = ({ helperText, value, onChange }) => {
+export const FormPhoneInput = ({
+  helperText,
+  value,
+  onChange,
+  disabled,
+  ...props
+}) => {
   return (
     <FormGroup aria-label="position" row>
       <PhoneInput
         international
-        className="w-full shadow-sm rounded h-[40px] p-4 border-2 border-transparent hover:border-[#122644]"
+        className="w-full shadow-sm !bg-white disabled:bg-white rounded h-[40px] p-4 border-2 border-transparent hover:border-[#122644]"
         defaultCountry="LB"
         value={value}
+        disabled={disabled}
         onChange={(value, country) => onChange(value)}
         numberInputProps={{
           className: "rounded-md px-4 focus:outline-none",
         }}
+        {...props}
       />
 
       {helperText && <FormHelperText>{helperText}</FormHelperText>}

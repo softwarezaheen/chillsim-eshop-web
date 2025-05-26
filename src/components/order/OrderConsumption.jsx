@@ -11,9 +11,9 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { getMyEsimConsumption } from "../../core/apis/userAPI";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
+import { useSelector } from "react-redux";
 
 const OrderConsumption = ({ onClose, bundle }) => {
-  console.log(bundle, bundle.iccid);
   const { t } = useTranslation();
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["my-esim-consumption"],
@@ -33,17 +33,26 @@ const OrderConsumption = ({ onClose, bundle }) => {
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
         </div>
-        <div className={"flex flex-col gap-[1rem]"}>
+        <div className={"mt-2 flex flex-col gap-[1rem]"}>
           <h1 className={"text-center"}>{t("orders.consumption_details")}</h1>
           <p className={"text-center text-primary font-semibold"}>
             {t("orders.consumption_details_text")}
@@ -54,11 +63,19 @@ const OrderConsumption = ({ onClose, bundle }) => {
                 {isLoading ? (
                   <Skeleton width={100} />
                 ) : (
-                  <p className={"text-primary basis-[70%]"}>
-                    <span className={"font-bold"}>
-                      {data?.data_used_display} / {data?.data_allocated_display}
-                    </span>{" "}
-                    Consumed
+                  // <p className={"text-primary basis-[70%]"}>
+                  //   <span className={"font-bold"}>
+                  //     {data?.data_used_display} / {data?.data_allocated_display}
+                  //   </span>{" "}
+                  //   {t("orders.consumed")}
+                  // </p>
+                  <p className="text-primary basis-[70%]">
+                    <span dir={"ltr"}>
+                      {data?.data_used_display} /{data?.data_allocated_display}
+                    </span>
+                    <span style={{ margin: "0 5px" }}>
+                      {t("orders.dataUsage")}
+                    </span>
                   </p>
                 )}
 
@@ -67,12 +84,16 @@ const OrderConsumption = ({ onClose, bundle }) => {
                   variant="determinate"
                 />
                 <p className={"flex justify-end flex-1 text-primary"}>
-                  {isLoading ? <Skeleton width={50} /> : `${data?.plan_status}`}
+                  {isLoading ? (
+                    <Skeleton width={50} />
+                  ) : (
+                    t(`plans.${data?.plan_status}`)
+                  )}
                 </p>
               </div>
             </div>
           ) : (
-            <NoDataFound text="Failed to load eSIM cosumption" />
+            <NoDataFound text={t("orders.failedToLoadEsimConsumption")} />
           )}
         </div>
       </DialogContent>

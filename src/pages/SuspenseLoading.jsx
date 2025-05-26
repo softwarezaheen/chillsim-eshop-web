@@ -17,7 +17,7 @@ const SuspenseLoading = () => {
           className="animate-pulse"
           alt={import.meta.env.VITE_APP_PROJECT_TITLE || ""}
           height={300}
-          src={"/logo/loader.png"}
+          src={"/logo/logo.png"}
           width={200}
           loading="lazy"
         />

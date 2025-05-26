@@ -6,9 +6,11 @@ import { Check, Close } from "@mui/icons-material";
 import { Button, Dialog, DialogContent, IconButton } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const BundleExistence = ({ onClose, bundle }) => {
   const { t } = useTranslation();
+
   return (
     <Dialog fullWidth open={true} maxWidth={"sm"}>
       <DialogContent className={"flex flex-col gap-6 "}>
@@ -16,19 +18,28 @@ const BundleExistence = ({ onClose, bundle }) => {
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
         </div>
         <div
           className={
-            "flex flex-col gap-[1rem] justify-center items-center text-center"
+            "mt-2 flex flex-col gap-[1rem] justify-center items-center text-center"
           }
         >
           <CheckCircleIcon fontSize="large" color="primary" />

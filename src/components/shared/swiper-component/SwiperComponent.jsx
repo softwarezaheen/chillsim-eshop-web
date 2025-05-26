@@ -3,10 +3,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Swiper } from "swiper/react";
 import clsx from "clsx";
 import { Navigation, Pagination } from "swiper/modules";
-
 //COMPONENT
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useSelector } from "react-redux";
 
 const SwiperComponent = ({ slidesPerView, children, swiperRef }) => {
   const [isBeginning, setIsBeginning] = useState(true);
@@ -56,14 +56,25 @@ const SwiperComponent = ({ slidesPerView, children, swiperRef }) => {
           <div
             className={"flex items-center h-[100%]"}
             onClick={() => {
-              if (!isBeginning) {
-                handlePrev();
+              if (localStorage.getItem("i18nextLng") === "ar") {
+                if (!isEnd) {
+                  handleNext();
+                }
+              } else {
+                if (!isBeginning) {
+                  handlePrev();
+                }
               }
             }}
           >
             <ArrowBackIosIcon
               color={"primary"}
-              className={clsx({ "opacity-50 cursor-default": isBeginning })}
+              className={clsx({
+                "opacity-50 cursor-default":
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? isEnd
+                    : isBeginning,
+              })}
             />
           </div>
         </div>
@@ -71,14 +82,25 @@ const SwiperComponent = ({ slidesPerView, children, swiperRef }) => {
           <div
             className={"flex items-center h-[100%]"}
             onClick={() => {
-              if (!isEnd) {
-                handleNext();
+              if (localStorage.getItem("i18nextLng") === "ar") {
+                if (!isBeginning) {
+                  handlePrev();
+                }
+              } else {
+                if (!isEnd) {
+                  handleNext();
+                }
               }
             }}
           >
             <ArrowForwardIosIcon
               color="primary"
-              className={clsx({ "opacity-50 cursor-default": isEnd })}
+              className={clsx({
+                "opacity-50 cursor-default":
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? isBeginning
+                    : isEnd,
+              })}
             />
           </div>
         </div>

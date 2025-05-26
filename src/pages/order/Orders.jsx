@@ -72,7 +72,9 @@ const Orders = () => {
             ))
         ) : error || !orders || orders?.length === 0 ? (
           <NoDataFound
-            text={error ? "Failed to load orders" : "No orders yet"}
+            text={
+              error ? t("orders.failedToLoadOrders") : t("orders.noOrdersYet")
+            }
             image={<NoDataFoundSVG />}
           />
         ) : (

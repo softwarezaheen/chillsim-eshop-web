@@ -7,8 +7,10 @@ import { ConnectSVG } from "../assets/icons/Home";
 import { ContentSkeletons } from "../components/shared/skeletons/HomePageSkeletons";
 import { NoContentSVG } from "../assets/icons/Common";
 import EditorText from "../components/shared/editor-text/EditorText";
+import { useTranslation } from "react-i18next";
 
 const Terms = () => {
+  const { t } = useTranslation();
   const { data, isLoading, error } = useQuery({
     queryKey: [`terms-content`],
     queryFn: () =>
@@ -27,8 +29,8 @@ const Terms = () => {
             image={<NoContentSVG />}
             text={
               error
-                ? "Failed to load About us Data"
-                : "No content available at  this moment"
+                ? t("terms.failedToLoadTermsData")
+                : t("aboutUs.noContentAvailable")
             }
           />
         </div>
@@ -45,7 +47,8 @@ const Terms = () => {
                     className={"m-auto"}
                   />
                 ) : (
-                  data?.page_title || "Terms and Conditions"
+                  // data?.page_title || t("terms.termsAndConditions")
+                  t("footer.termsAndConditions")
                 )}
               </h1>
               <p className="text-xl text-gray-600 text-center leading-relaxed">

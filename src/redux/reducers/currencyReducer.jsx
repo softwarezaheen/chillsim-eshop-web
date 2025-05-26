@@ -4,6 +4,13 @@ import { fetchConfigurationInfoFromAPI } from "../redux-services/configurationSe
 const initialState = {
   system_currency: "EUR",
   user_currency: null,
+  login_type: "email",
+  otp_channel: ["email"],
+  sea_option: true,
+  social_login: true,
+  allowed_payment_types: ["dcb"],
+  whatsapp_number: "",
+  bundles_version: null,
 };
 
 //EXPLANATION: I moved the api to authServices to prevent circular dependency
@@ -34,17 +41,61 @@ const CurrencySlice = createSlice({
         let currency = action.payload?.data?.data?.find(
           (el) => el?.key === "default_currency"
         );
-        console.log(
-          action.payload,
-          action.payload?.data?.data,
-          "sysss",
-          currency
+        let paymentTypes = action.payload?.data?.data?.find(
+          (el) => el?.key === "allowed_payment_types"
         );
+        let loginType = action.payload?.data?.data?.find(
+          (el) => el?.key === "login_type"
+        );
+        let versionId = action.payload?.data?.data?.find(
+          (el) => el?.key === "CATALOG.BUNDLES_CACHE_VERSION"
+        );
+
+        state.bundles_version = versionId?.value || null;
+        state.login_type = loginType?.value || "email";
+        state.otp_channel = import.meta.env.VITE_APP_OTP_CHANNEL
+          ? import.meta.env.VITE_APP_OTP_CHANNEL.split(",")
+          : ["email"];
+        state.sea_option = import.meta.env.VITE_APP_SEA_OPTION
+          ? import.meta.env.VITE_APP_SEA_OPTION === "true"
+            ? true
+            : false
+          : true;
+        state.social_login = import.meta.env.VITE_APP_SOCIAL_LOGIN
+          ? import.meta.env.VITE_APP_SOCIAL_LOGIN === "true"
+            ? true
+            : false
+          : true;
+
+        let whatsappNumber = action.payload?.data?.data?.find(
+          (el) => el?.key === "WHATSAPP_NUMBER"
+        );
+
+        state.whatsapp_number = whatsappNumber?.value || "";
         state.system_currency = currency?.value || "EUR";
+        state.allowed_payment_types = paymentTypes?.value.split(",") || ["dcb"];
         state.isLoading = false;
       })
       .addCase(fetchCurrencyInfo.rejected, (state, action) => {
+        //render config related to env even if configuration api failed
+        state.login_type = "email";
+        state.bundles_version = "";
+        state.otp_channel = import.meta.env.VITE_APP_OTP_CHANNEL
+          ? import.meta.env.VITE_APP_OTP_CHANNEL.split(",")
+          : ["email"];
+        state.sea_option = import.meta.env.VITE_APP_SEA_OPTION
+          ? import.meta.env.VITE_APP_SEA_OPTION === "true"
+            ? true
+            : false
+          : true;
+        state.social_login = import.meta.env.VITE_APP_SOCIAL_LOGIN
+          ? import.meta.env.VITE_APP_SOCIAL_LOGIN === "true"
+            ? true
+            : false
+          : true;
+        state.allowed_payment_types = ["dcb"];
         state.system_currency = "EUR";
+        state.whatsapp_number = "";
         state.isLoading = false;
         state.error = action.payload;
       });

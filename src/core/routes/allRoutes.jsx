@@ -35,7 +35,10 @@ export const allRoutes = [
       import.meta.env.VITE_APP_HOME_VISIBLE === "true"
         ? []
         : [
-            { path: "", element: <Plans cruises /> },
+            {
+              path: "",
+              element: <Plans />,
+            },
             { path: "land", element: <Plans /> },
           ],
   },
@@ -43,7 +46,10 @@ export const allRoutes = [
     path: "/plans",
     element: <PlansWrapper />,
     children: [
-      { path: "", element: <Plans cruises /> },
+      {
+        path: "",
+        element: <Plans />,
+      },
       { path: "land", element: <Plans /> },
     ],
   },

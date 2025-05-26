@@ -20,54 +20,15 @@ import { Button, Skeleton } from "@mui/material";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
 import { queryClient } from "../../main";
 import { LimitedSignOut } from "../../redux/reducers/authReducer";
+import { useTranslation } from "react-i18next";
 
 const schema = yup.object().shape({
   card: yup.string().nullable(),
 });
 
 export const StripePayment = (props) => {
-  const { iccid } = useParams();
-  const { related_search } = useSelector((state) => state.search);
-  const [clientSecret, setClientSecret] = useState(null);
-  const [stripePromise, setStripePromise] = useState(null);
-  const [orderDetail, setOrderDetail] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const related_search_test = {
-    related_search: {
-      region: null,
-      countries: [
-        {
-          iso3_code: "AUT",
-          country_name: "Austria",
-        },
-      ],
-    },
-  };
-  useEffect(() => {
-    setLoading(true);
-    let handleAPI = iccid ? assignTopupBundle : assignBundle;
-    //this api is for creating a  payment intent to get client secret
-    /*|| "cc3d8d05-6bcc-453e-b6a5-3204489907f3"*/
-    handleAPI({
-      bundle_code: props?.bundle?.bundle_code,
-      payment_type: "Card",
-      ...(!iccid ? { related_search: related_search } : { iccid: iccid }),
-      promo_code: "",
-      referral_code: "",
-      affiliate_code: "",
-    })
-      .then((res) => {
-        console.log(res?.data?.data, "ORDER 11111");
-        setOrderDetail(res?.data?.data);
-        setClientSecret(res?.data?.data?.payment_intent_client_secret);
-        setStripePromise(loadStripe(res?.data?.data?.publishable_key));
-        setLoading(false);
-      })
-      .catch((e) => {
-        setLoading(false);
-        toast?.error(e?.message || "Failed to load payment input");
-      });
-  }, []);
+  const { t } = useTranslation();
+  const { stripePromise, clientSecret, orderDetail, loading } = props;
 
   // Enable the skeleton loader UI for the optimal loading experience.
   const loader = "auto";
@@ -77,21 +38,27 @@ export const StripePayment = (props) => {
       <Skeleton variant="rectangular" height={150} />
     </div>
   ) : stripePromise && clientSecret ? (
-    <Elements stripe={stripePromise} options={{ clientSecret, loader }}>
+    <Elements
+      stripe={stripePromise}
+      options={{
+        clientSecret,
+        loader,
+        locale: localStorage.getItem("i18nextLng"),
+      }}
+    >
       <InjectedCheckout {...props} orderDetail={orderDetail} />
     </Elements>
   ) : (
     <div className={"flex flex-col gap-8 w-full sm:basis-[50%] shrink-0"}>
-      <NoDataFound
-        text={"Failed to load payment inputs. Please try again later"}
-      />
+      <NoDataFound text={t("stripe.failedToLoadPaymentInputs")} />
     </div>
   );
 };
 
 const InjectedCheckout = ({ orderDetail }) => {
+  const { t } = useTranslation();
   const { iccid } = useParams();
-  const elements = useElements();
+  const elements = useElements({ locale: localStorage.getItem("i18nextLng") });
   const stripe = useStripe();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -113,7 +80,7 @@ const InjectedCheckout = ({ orderDetail }) => {
 
   const handleSubmitForm = () => {
     if (!stripe || !elements) {
-      toast.error("Payment cannot be processed. Please contact IT support.");
+      toast.error(t("stripe.paymentProcessingError"));
       return;
     }
     const searchParams = new URLSearchParams(location.search);
@@ -131,14 +98,12 @@ const InjectedCheckout = ({ orderDetail }) => {
 
             // Inform the customer that there was an error.
           } else {
-            const queryKeys = ["my-esim"];
+            queryClient.invalidateQueries({ queryKey: ["my-esim"] });
             if (iccid) {
-              queryKeys.push(`esim-detail-${iccid}`);
+              queryClient.invalidateQueries({
+                queryKey: [`esim-detail-${iccid}`],
+              });
             }
-
-            queryClient.invalidateQueries({
-              queryKey: queryKeys,
-            });
 
             navigate({
               pathname: iccid ? `/esim/${iccid}` : "/plans",
@@ -147,11 +112,11 @@ const InjectedCheckout = ({ orderDetail }) => {
           }
         })
         .catch((error) => {
-          toast.error(error?.message || "Failed to confirm payment");
+          toast.error(error?.message || t("stripe.paymentConfirmationFailed"));
         })
         .finally(() => setIsSubmitting(false));
     } catch (error) {
-      toast.error("Failed to confirm payment");
+      toast.error(t("stripe.paymentConfirmationFailed"));
       setIsSubmitting(false);
     }
   };
@@ -162,7 +127,7 @@ const InjectedCheckout = ({ orderDetail }) => {
 
   return (
     <div className={"flex flex-col gap-8 w-full sm:basis-[50%] shrink-0"}>
-      <h1>Payment Method</h1>
+      <h1>{t("stripe.paymentMethod")}</h1>
 
       <>
         <PaymentElement id="payment-element" onChange={handleChange} />
@@ -175,7 +140,7 @@ const InjectedCheckout = ({ orderDetail }) => {
             disabled={isSubmitting}
             onClick={() => handleSubmitForm()}
           >
-            Pay Now
+            {t("btn.payNow")}
           </Button>
           <Button
             color="primary"
@@ -186,7 +151,7 @@ const InjectedCheckout = ({ orderDetail }) => {
               navigate("/plans");
             }}
           >
-            Cancel
+            {t("btn.cancel")}
           </Button>
         </div>
       </>

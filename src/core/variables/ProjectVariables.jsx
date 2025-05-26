@@ -1,5 +1,8 @@
 export const supportEmail = "support@montyesim.com";
 export const supportPhone = "+44 207 370 53 10";
+export const supportWhatsappPhone = "+442073705310";
+export const supportedPrefix = ["93", "99"];
+export const dcbMessage = "mtnDcbMessage";
 export const footerProjectName = "Monty eSIM";
 export const supportAddress = (
   <>

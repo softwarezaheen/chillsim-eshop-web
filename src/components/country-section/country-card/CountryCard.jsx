@@ -14,6 +14,7 @@ const CountryCard = ({ handleExpandClick, expandedCountry, data, region }) => {
       return false;
     }
   }, [data, expandedCountry]);
+
   return (
     <Card
       className={clsx("!rounded-lg", {

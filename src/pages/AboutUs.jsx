@@ -7,8 +7,11 @@ import { ConnectSVG } from "../assets/icons/Home";
 import { ContentSkeletons } from "../components/shared/skeletons/HomePageSkeletons";
 import { NoContentSVG } from "../assets/icons/Common";
 import EditorText from "../components/shared/editor-text/EditorText";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const AboutUs = () => {
+  const { t } = useTranslation();
   const { data, isLoading, error } = useQuery({
     queryKey: ["about-us"],
     queryFn: () =>
@@ -20,9 +23,9 @@ const AboutUs = () => {
   return (
     <div className="flex flex-col gap-[2rem]">
       <div className="flex justify-center items-end">
-        <ConnectSVG />
+        <ConnectSVG flip={localStorage.getItem("i18nextLng") === "ar"} />
         <p className={"font-semibold text-content-600 text-lg"}>
-          Stay Connected
+          {t("aboutUs.stayConnected")}
         </p>
       </div>
       {isLoading ? (
@@ -33,8 +36,8 @@ const AboutUs = () => {
             image={<NoContentSVG />}
             text={
               error
-                ? "Failed to load About us Data"
-                : "No content available at  this moment"
+                ? t("aboutUs.failedToLoadAboutUsData")
+                : t("aboutUs.noContentAvailable")
             }
           />
         </div>
@@ -50,7 +53,8 @@ const AboutUs = () => {
                   className={"m-auto"}
                 />
               ) : (
-                data?.page_title || "About Us"
+                // data?.page_title || t("aboutUs.About us")
+                t("aboutUs.About us")
               )}
             </h1>
             <p className="text-xl text-gray-600 text-center leading-relaxed">

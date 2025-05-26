@@ -1,5 +1,5 @@
 //UTILITIES
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
@@ -23,69 +23,26 @@ import {
 } from "../../components/shared/form-components/FormComponents";
 import { Button, Link, Skeleton } from "@mui/material";
 import { StripePayment } from "../../components/stripe-payment/StripePayment";
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .label("Email")
-    .email()
-    .test("no-alias", "Alias emails (with '+') are not allowed", (value) => {
-      if (!value) return true;
-      const [localPart] = value.split("@");
-      return !localPart.includes("+");
-    })
-    .required()
-    .nullable(),
-  confirm: yup.boolean().oneOf([true], "Confirmation is required").required(),
-});
+import PaymentFlow from "../../components/payment/PaymentFlow";
+import TmpLogin from "../../components/tmp-login/TmpLogin";
+import { useTranslation } from "react-i18next";
 
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
+  const { login_type } = useSelector((state) => state.currency);
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+
   const { data, isLoading, error } = useQuery({
     queryKey: [`${id}-details`],
     queryFn: () => getBundleById(id).then((res) => res?.data?.data),
     enabled: !!id,
   });
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    getValues,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "",
-      confirm: false,
-    },
-    resolver: yupResolver(schema),
-    mode: "all",
-  });
-
-  const handleSubmitForm = async (payload) => {
-    setIsSubmitting(true);
-    userLimitedLogin({
-      ...payload,
-    })
-      .then((res) => {
-        if (res?.data?.status === "success") {
-          dispatch(LimitedSignIn({ ...res?.data?.data }));
-        } else {
-          toast.error(res?.message);
-        }
-      })
-      .catch((e) => {
-        toast?.error(e?.message || "Failed to send message");
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
-  };
   const confirmed = useMemo(() => {
     return isAuthenticated || tmp?.isAuthenticated;
   }, [isAuthenticated, tmp]);
@@ -105,7 +62,16 @@ const Checkout = () => {
           dispatch(LimitedSignOut());
         }}
       >
-        <ArrowBackIosNewIcon color="primary" fontSize="small" /> Go Back
+        <ArrowBackIosNewIcon
+          sx={
+            localStorage.getItem("i18nextLng") === "ar"
+              ? { transform: "scale(-1,1)" }
+              : {}
+          }
+          color="primary"
+          fontSize="small"
+        />{" "}
+        {t("checkout.goBack")}
       </div>
 
       <div
@@ -130,121 +96,51 @@ const Checkout = () => {
         //     <NoDataFound text={"Failed to load bunde checkout info"} />
         //   </div>)
         !confirmed ? (
-          <form
-            onSubmit={handleSubmit(handleSubmitForm)}
-            className={"flex flex-col gap-8 w-full sm:basis-[50%] shrink-0"}
-          >
-            <div className={"flex flex-col gap-[1rem]"}>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block font-medium text-gray-700 mb-2"
-                >
-                  Email
-                </label>
-                <Controller
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
-                    <FormInput
-                      placeholder={"Enter email"}
-                      value={value}
-                      helperText={error?.message}
-                      onChange={(value) => onChange(value)}
-                    />
-                  )}
-                  name="email"
-                  control={control}
-                />
-              </div>
-
-              <Controller
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <FormCheckBox
-                    placeholder={"Enter email"}
-                    value={value}
-                    helperText={error?.message}
-                    onChange={(value) => onChange(value)}
-                    label={
-                      <div
-                        className={
-                          "flex flex-col text-sm gap-[0.1rem] font-semibold"
-                        }
-                      >
-                        <div>
-                          I confirm that the above email is valid and does not
-                          contain any typos.
-                        </div>
-                        <div>
-                          And I accept the{" "}
-                          <Link
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            color="secondary"
-                            href="/terms"
-                            underline="none"
-                          >
-                            Terms & Conditions
-                          </Link>{" "}
-                          and I understand that the product only work with eSIM
-                          compatible and carrier-unlocked devices.
-                        </div>
-                      </div>
-                    }
-                  />
-                )}
-                name="confirm"
-                control={control}
-              />
-            </div>
-            <div className={"flex flex-row justify-center sm:justify-start "}>
-              <Button
-                disabled={isSubmitting}
-                color="primary"
-                type="submit"
-                variant="contained"
-                sx={{ width: "30%" }}
-              >
-                Confirm
-              </Button>
-            </div>
-          </form>
+          <TmpLogin />
         ) : (
-          <StripePayment bundle={data} />
+          <PaymentFlow bundle={data} />
         )}
         <div
           className={
             "bg-primary-50 p-4 rounded-2xl flex flex-col gap-8 w-full sm:basis-[50%] shadow-sm grow-0 min-w-0"
           }
         >
-          <h1 className={"font-bold text-2xl"}>Summary</h1>
+          <h1 className={"font-bold text-2xl"}>{t("checkout.summary")}</h1>
           <div className={"flex flex-col gap-2 min-w-0"}>
             <div
               className={
                 "flex flex-row justify-between items-start gap-[1rem] min-w-0"
               }
             >
-              <label className={"flex-1 font-semibold"}>Bundle Name</label>
-              <p className={"flex-1 font-bold text-end truncate"}>
-                {data?.display_title || "N/A"}
+              <label className={"flex-1 font-semibold"}>
+                {t("checkout.bundleName")}
+              </label>
+              <p
+                dir={"ltr"}
+                className={`flex-1 font-bold truncate ${localStorage.getItem("i18nextLng") === "en" ? "text-right" : "text-left"}`}
+              >
+                {data?.display_title || t("common.notAvailable")}
               </p>
             </div>
             <div
               className={"flex flex-row justify-between items-start gap-[1rem]"}
             >
-              <label className={"flex-1 font-semibold"}>Subtotal</label>
-              <p className={"flex-1 font-bold text-end"}>
+              <label className={"flex-1 font-semibold"}>
+                {t("checkout.subtotal")}
+              </label>
+              <p
+                dir={"ltr"}
+                className={`flex-1 font-bold ${localStorage.getItem("i18nextLng") === "en" ? "text-right" : "text-left"}`}
+              >
                 {data?.price_display}
               </p>
             </div>
             <div
               className={"flex flex-row justify-between items-start gap-[1rem]"}
             >
-              <label className={"flex-1 font-semibold"}>Estimated Tax</label>
+              <label className={"flex-1 font-semibold"}>
+                {t("checkout.estimatedTax")}
+              </label>
               <p className={"flex-1 font-bold text-end"}>---</p>
             </div>
           </div>
@@ -252,8 +148,13 @@ const Checkout = () => {
           <div
             className={"flex flex-row justify-between items-start gap-[1rem]"}
           >
-            <label className={"font-semibold"}>Total</label>
-            <p className={"font-bold text-2xl"}>{data?.price_display}</p>
+            <label className={"font-semibold"}>{t("checkout.total")}</label>
+            <p
+              dir={"ltr"}
+              className={`font-bold text-2xl ${localStorage.getItem("i18nextLng") === "en" ? "text-right" : "text-left"}`}
+            >
+              {data?.price_display}
+            </p>
           </div>
         </div>
       </div>

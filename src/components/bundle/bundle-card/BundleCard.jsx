@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import BundleDetail from "../detail/BundleDetail";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const BundleCard = ({
   bundle,
@@ -21,9 +23,25 @@ const BundleCard = ({
   iccid,
   regionIcon,
 }) => {
+  const { t } = useTranslation();
   const [openDetail, setOpenDetail] = useState(false);
   const handleDetail = () => {
     setOpenDetail(true);
+  };
+
+  const formatValidity = (validityDisplay) => {
+    if (!validityDisplay) return "";
+
+    const [num, rawUnit] = validityDisplay.split(" ");
+    const count = Number(num);
+    if (isNaN(count) || !rawUnit) return validityDisplay;
+
+    const unitKeyRaw = rawUnit.toLowerCase().replace(/s$/, "");
+    const unitKey = count === 1 ? unitKeyRaw : `${unitKeyRaw}_plural`;
+
+    const translatedUnit = i18next.t(`bundles.unit.${unitKey}`);
+
+    return `${count} ${translatedUnit}`;
   };
 
   return (
@@ -57,13 +75,19 @@ const BundleCard = ({
                       alt={bundle?.display_title || ""}
                     />
                   </Avatar>
-                  <p className="text-content-600 font-bold text-lg capitalize truncate">
+                  <p
+                    dir={"ltr"}
+                    className="text-content-600 font-bold text-lg capitalize truncate"
+                  >
                     {bundle?.display_title}
                   </p>
                 </>
               )}
             </div>
-            <p className="text-2xl font-bold text-end whitespace-nowrap text-primary">
+            <p
+              dir={"ltr"}
+              className="text-2xl font-bold text-end whitespace-nowrap text-primary"
+            >
               {isLoading ? (
                 <Skeleton variant="text" width="30px" height={32} />
               ) : (
@@ -77,7 +101,9 @@ const BundleCard = ({
               {isLoading ? (
                 <Skeleton variant="text" width="100px" height={20} />
               ) : (
-                `Validity ${bundle?.validity_display}`
+                `${t("bundles.validity")}: ${formatValidity(
+                  bundle?.validity_display
+                )}`
               )}
             </p>
             <div className="flex flex-row justify-between items-center gap-2 whitespace-nowrap">
@@ -90,7 +116,7 @@ const BundleCard = ({
                   </>
                 ) : (
                   <>
-                    <p className="text-sm">Available in</p>
+                    <p className="text-sm">{t("bundles.availableIn")}</p>
                     <Avatar
                       src={countryData?.icon}
                       alt="bundle-country-image"
@@ -103,7 +129,7 @@ const BundleCard = ({
           {!cruises && (
             <div className="flex flex-row justify-between gap-4 bg-bgLight rounded-lg p-4">
               <p className="text-primary font-semibold text-sm">
-                Supported Countries
+                {t("bundles.supportedCountries")}
               </p>
               <AvatarGroup
                 max={4}
@@ -117,7 +143,7 @@ const BundleCard = ({
                   "& .MuiAvatarGroup-avatar": {
                     width: 20,
                     height: 20,
-                    fontSize: "0.75rem",
+                    fontSize: "0.5rem",
                   },
                   "& .MuiAvatar-root:first-of-type": {
                     zIndex: 1,
@@ -163,7 +189,7 @@ const BundleCard = ({
               }}
             >
               <p className="font-bold text-base">
-                Buy now - {bundle?.price_display}
+                {t("btn.buyNow")} - {bundle?.price_display}
               </p>
             </Button>
           )}
@@ -171,6 +197,7 @@ const BundleCard = ({
       </Card>
       {openDetail && (
         <BundleDetail
+          formatValidity={formatValidity}
           regionIcon={regionIcon}
           globalDisplay={globalDisplay}
           onClose={() => setOpenDetail(false)}

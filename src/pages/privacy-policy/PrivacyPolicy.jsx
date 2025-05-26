@@ -9,8 +9,10 @@ import { ContentSkeletons } from "../../components/shared/skeletons/HomePageSkel
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
 import { NoContentSVG } from "../../assets/icons/Common";
 import EditorText from "../../components/shared/editor-text/EditorText";
+import { useTranslation } from "react-i18next";
 
 const PrivacyPolicy = () => {
+  const { t } = useTranslation();
   const { data, isLoading, error } = useQuery({
     queryKey: ["privacy-policy"],
     queryFn: () =>
@@ -22,9 +24,9 @@ const PrivacyPolicy = () => {
   return (
     <div className="flex flex-col gap-[2rem]">
       <div className="flex justify-center items-end">
-        <ConnectSVG />
+        <ConnectSVG flip={localStorage.getItem("i18nextLng") === "ar"} />
         <p className={"font-semibold text-content-600 text-lg"}>
-          Stay Connected
+          {t("aboutUs.stayConnected")}
         </p>
       </div>
       {isLoading ? (
@@ -32,11 +34,15 @@ const PrivacyPolicy = () => {
       ) : !data || error ? (
         <div className="px-4 sm:px-6 lg:px-8 pb-16">
           <NoDataFound
-            image={<NoContentSVG />}
+            image={
+              <NoContentSVG
+                flip={localStorage.getItem("i18nextLng") === "ar"}
+              />
+            }
             text={
               error
-                ? "Failed to load Privacy Policy Data"
-                : "No content available at  this moment"
+                ? t("privacy.failedToLoadPrivacyPolicyData")
+                : t("privacy.noContentAvailable")
             }
           />
         </div>
@@ -52,7 +58,8 @@ const PrivacyPolicy = () => {
                   className={"m-auto"}
                 />
               ) : (
-                data?.page_title || "Privacy Policy"
+                // data?.page_title || "Privacy Policy"
+                t("privacy.Privacy Policy")
               )}
             </h1>
             <p className="text-xl text-gray-600 text-center leading-relaxed">

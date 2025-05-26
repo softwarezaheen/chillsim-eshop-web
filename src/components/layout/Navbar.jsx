@@ -15,14 +15,14 @@ import {
   LazyLoadComponent,
   LazyLoadImage,
 } from "react-lazy-load-image-component";
+import LanguageSwitcher from "../LanguageSwitcher.jsx";
+import IconImage from "../iconImage/IconImage";
 
 const Navbar = ({ main }) => {
   const { isAuthenticated } = useSelector((state) => state.authentication);
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -72,7 +72,7 @@ const Navbar = ({ main }) => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 align-senter ${
           !isHomePage || showMenu ? "bg-white shadow-sm" : "bg-transparent"
         }`}
       >
@@ -80,35 +80,28 @@ const Navbar = ({ main }) => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <button onClick={handleLogoClick} className="flex items-center">
-                <LazyLoadImage
-                  alt={import.meta.env.VITE_APP_PROJECT_TITLE}
-                  src={
-                    !isHomePage || showMenu
-                      ? "/logo/logo.png"
-                      : "/logo/logo-white.png"
-                  }
-                  width={150}
-                  height={32}
-                />
-              </button>
+              <IconImage
+                handleLogoClick={handleLogoClick}
+                isHomePage={isHomePage}
+                showMenu={showMenu}
+              />
             </div>
 
             {/* Desktop Navigation */}
             <div
-              className={`hidden lg:flex items-center justify-center flex-1 px-8 transition-opacity duration-300`}
+              className={`hidden lg:flex absolute left-1/2 transform -translate-x-1/2 items-center transition-opacity duration-300`}
             >
               {menuLinks?.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
                   onClick={() => window.scrollTo(0, 0)}
-                  className={`px-4 py-2 text-base transition-colors flex items-center font-quicksandSemibold ${
+                  className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
                     isActive(item.path)
                       ? "text-secondary"
                       : !isHomePage || showMenu
-                      ? "text-primary hover:text-secondary"
-                      : "text-white hover:text-secondary"
+                        ? "text-primary hover:text-secondary"
+                        : "text-white hover:text-secondary"
                   }`}
                 >
                   {item.icon && <item.icon className="w-4 h-4 mr-2" />}
@@ -120,12 +113,14 @@ const Navbar = ({ main }) => {
             {/* Right Section */}
             {isAuthenticated ? (
               <div className="hidden lg:flex flex items-center space-x-6">
+                <LanguageSwitcher />
+
                 <NotificationsMenu />
 
                 <UserMenu />
               </div>
             ) : (
-              <div className="hidden lg:flex items-center space-x-6">
+              <div className="hidden lg:flex items-center">
                 {location?.pathname !== "/signin" && (
                   <Link
                     to="/signin"
@@ -134,12 +129,14 @@ const Navbar = ({ main }) => {
                     {t("nav.signIn")}
                   </Link>
                 )}
+                <LanguageSwitcher />
               </div>
             )}
 
             {/* Mobile menu button */}
             <div className="flex lg:hidden items-center space-x-4">
               {isAuthenticated && <NotificationsMenu />}
+              <LanguageSwitcher />
               <button
                 onClick={() => setToggleMenu(!toggleMenu)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-700"

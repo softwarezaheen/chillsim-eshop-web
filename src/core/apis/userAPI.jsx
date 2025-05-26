@@ -95,11 +95,14 @@ export const getEsimRelatedTopup = async ({ bundle_code, iccid }) => {
   }
 };
 
-export const updateBundleLabel = async (payload) => {
+export const updateBundleLabelByIccid = async (payload) => {
   try {
-    const res = await api.post(`api/v1/user/bundle-label/${payload?.code}`, {
-      ...payload,
-    });
+    const res = await api.post(
+      `api/v1/user/bundle-label-by-iccid/${payload?.code}`,
+      {
+        ...payload,
+      }
+    );
     return res;
   } catch (error) {
     throw error;
@@ -127,6 +130,15 @@ export const getMyEsimConsumption = async (payload) => {
 export const markAsRead = async (payload) => {
   try {
     const res = await api.post(`api/v1/user/read-user-notification/`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const verifyOrderOTP = async (payload) => {
+  try {
+    const res = await api.post(`api/v1/user/bundle/verify_order_otp`, payload);
     return res;
   } catch (error) {
     throw error;

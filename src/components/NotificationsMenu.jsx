@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { Badge, Skeleton } from "@mui/material";
 import { toast } from "react-toastify";
 import { useNotifications } from "../core/context/NotificationContext";
+import { useSelector } from "react-redux";
 
 const NotificationsMenuBody = () => {
   const { t } = useTranslation();
@@ -21,11 +22,11 @@ const NotificationsMenuBody = () => {
         if (res?.data?.status === "success") {
           refetch();
         } else {
-          toast.error(res?.message || "Failed to mark as unread");
+          toast.error(res?.message || t("notifications.failedToMarkAsUnread"));
         }
       })
       .catch((e) => {
-        toast.error(e?.message || "Failed to mark as unread");
+        toast.error(e?.message || t("notifications.failedToMarkAsUnread"));
       });
   }, []);
 
@@ -38,7 +39,9 @@ const NotificationsMenuBody = () => {
   }, [checkUnread]);
 
   return (
-    <div className="flex flex-col gap-[1rem] absolute right-0 mt-2 w-80 max-h-[400px] overflow-y-auto rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4">
+    <div
+      className={`flex flex-col gap-[1rem] absolute ${localStorage.getItem("i18nextLng") === "ar" ? "left-0" : "right-0"} mt-2 w-64 md:w-80 max-h-[400px] overflow-y-auto rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4`}
+    >
       <div className={"flex flex-row justify-between items-center"}>
         <h3 className="text-lg font-semibold">{t("notifications.title")}</h3>
         {notifications?.length >= 1 && (
@@ -60,7 +63,7 @@ const NotificationsMenuBody = () => {
             />
           ))
       ) : !notifications || notifications?.length === 0 || error ? (
-        <NoDataFound text={"No Notifications Found"} />
+        <NoDataFound text={t("notifications.noNotificationsFound")} />
       ) : (
         <div className="space-y-4">
           {notifications?.map((notification, index) => (
@@ -72,9 +75,11 @@ const NotificationsMenuBody = () => {
                   : ""
               }`}
             >
-              <h3 className={"truncate min-w-0"}>{notification.title}</h3>
+              <h3 className={"truncate min-w-0"}>
+                <span dir={"ltr"}>{notification.title}</span>
+              </h3>
               <p className="text-sm text-gray-900 mb-1 truncate min-w-0">
-                {notification.content}
+                <span dir={"ltr"}>{notification.content}</span>
               </p>
               <p className="text-xs text-gray-500">
                 {dayjs.unix(notification?.datetime).fromNow()}

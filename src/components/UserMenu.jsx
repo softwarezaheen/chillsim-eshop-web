@@ -10,7 +10,6 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { useClickOutside } from "../core/custom-hook/useClickOutside";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import SimCardOutlinedIcon from "@mui/icons-material/SimCardOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { useAuth } from "../core/context/AuthContext";
 
@@ -19,6 +18,7 @@ const UserMenu = () => {
   const profileRef = useRef(null);
   const { handleLogout } = useAuth();
   const { user_info } = useSelector((state) => state.authentication);
+  const { login_type } = useSelector((state) => state.currency);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   useClickOutside(profileRef, () => setIsProfileOpen(false));
@@ -26,6 +26,7 @@ const UserMenu = () => {
   const onClose = () => {
     setIsProfileOpen(false);
   };
+
   return (
     <div className="relative" ref={profileRef}>
       <button
@@ -38,9 +39,16 @@ const UserMenu = () => {
       </button>
 
       {isProfileOpen && (
-        <div className="absolute right-0 mt-2 w-80 rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4">
+        <div
+          className={`absolute ${localStorage.getItem("i18nextLng") === "ar" ? "left-0" : "right-0"} mt-2 w-80 rounded-2xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4`}
+        >
           <div className="mb-4 px-2">
-            <p className="text-sm truncate font-semibold">{user_info?.email}</p>
+            <p
+              dir={"ltr"}
+              className={`text-sm truncate font-semibold ${localStorage.getItem("i18nextLng") === "ar" ? "text-right" : "text-left"}`}
+            >
+              {login_type === "phone" ? user_info?.msisdn : user_info?.email}
+            </p>
           </div>
 
           <div className="space-y-2">
@@ -49,7 +57,14 @@ const UserMenu = () => {
               className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors"
               onClick={onClose}
             >
-              <PermIdentityIcon color="primary" />
+              <PermIdentityIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginLeft: "8px" }
+                    : {}
+                }
+                color="primary"
+              />
 
               <span className="font-semibold">{t("nav.accountInfo")}</span>
             </Link>
@@ -58,7 +73,14 @@ const UserMenu = () => {
               className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors"
               onClick={onClose}
             >
-              <SimCardOutlinedIcon color="primary" />
+              <SimCardOutlinedIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginLeft: "8px" }
+                    : {}
+                }
+                color="primary"
+              />
               <span className={"font-semibold"}>{t("nav.myEsim")}</span>
             </Link>
             <div className="my-2 border-t border-gray-100" />
@@ -67,7 +89,14 @@ const UserMenu = () => {
               className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors"
               onClick={onClose}
             >
-              <InfoOutlinedIcon color="primary" />
+              <InfoOutlinedIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginLeft: "8px" }
+                    : {}
+                }
+                color="primary"
+              />
               <span className={"font-semibold"}>{t("nav.aboutUs")}</span>
             </Link>
             <Link
@@ -75,7 +104,14 @@ const UserMenu = () => {
               className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors"
               onClick={onClose}
             >
-              <BookOutlinedIcon color="primary" />
+              <BookOutlinedIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginLeft: "8px" }
+                    : {}
+                }
+                color="primary"
+              />
               <span className={"font-semibold"}>{t("nav.howItWorks")}</span>
             </Link>
 
@@ -87,7 +123,14 @@ const UserMenu = () => {
                 onClose();
               }}
             >
-              <LogoutOutlinedIcon className={"text-red-600"} />
+              <LogoutOutlinedIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginLeft: "8px" }
+                    : {}
+                }
+                className={"text-red-600"}
+              />
               <span className="text-red-600 font-semibold">
                 {t("nav.logout")}
               </span>

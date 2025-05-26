@@ -4,8 +4,13 @@ import React, { useEffect } from "react";
 //COMPONENT
 import { Close, QuestionMark } from "@mui/icons-material";
 import { Dialog, DialogContent, IconButton } from "@mui/material";
+import { useTranslation, Trans } from "react-i18next";
+import { useSelector } from "react-redux";
 
-const EmailSent = ({ email, onClose }) => {
+const EmailSent = ({ email, onClose, verifyBy, phone }) => {
+  const { login_type } = useSelector((state) => state.currency);
+  console.log(verifyBy, "verifyy by", login_type, "loginn type");
+  const { t } = useTranslation();
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -25,12 +30,21 @@ const EmailSent = ({ email, onClose }) => {
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
@@ -45,13 +59,28 @@ const EmailSent = ({ email, onClose }) => {
               className="text-gray-700"
               fontSize="small"
               color={"info"}
+              sx={
+                localStorage.getItem("i18nextLng") === "ar"
+                  ? { transform: "scale(-1,1)" }
+                  : {}
+              }
             />
           </div>
-          <h4 className={"font-bold"}>Sign-in Email Sent</h4>
-          <p className={"text-center font-semibold"}>
-            A sign-in email with additional instructions was sent{" "}
-            {email ? `to ${email?.toLowerCase() || ""}` : ""}. Check your email
-            to complete sign-in.
+          <h4 className={"font-bold"}>
+            {t("auth.signInSent", { method: t(`auth.${verifyBy}`) })}
+          </h4>
+          <p className="text-center font-semibold">
+            <Trans
+              i18nKey="auth.signInInstructionsSent"
+              values={{
+                verifyBy: t(`auth.${verifyBy}`),
+                contact:
+                  login_type === "phone"
+                    ? phone?.toLowerCase() || ""
+                    : email?.toLowerCase() || "",
+              }}
+              components={{ ltr: <span dir="ltr" /> }}
+            />
           </p>
         </div>
       </DialogContent>

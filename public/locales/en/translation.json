@@ -1,6 +1,9 @@
 {
   "common": {
-    "hooray": "Hooray!"
+    "hooray": "Hooray!",
+    "notAvailable": "N/A",
+    "pageNotFound": "Page Not Found",
+    "pageNotExistMessage": "Sorry, the page you are looking for doesn't exist."
   },
   "account": {
     "delete_account": "Delete Account",
@@ -8,9 +11,12 @@
     "delete_account_confirmation": "Please enter your email in order to confirm deleting your account"
   },
   "notifications": {
-    "title": "Notifications"
+    "title": "Notifications",
+    "failedToLoadNotifications": "Failed to load notifications",
+    "noNotificationsYet": "No notifications yet",
+    "failedToMarkAsUnread": "Failed to mark as unread",
+    "noNotificationsFound": "No Notifications Found"
   },
-
   "noDataFound": {
     "no_valid_iccid": "No ICCID provided. Please provide a valid ICCID.",
     "no_data_matching_iccid": "No data available for the provided ICCID",
@@ -22,7 +28,8 @@
     "iccid number": "ICCID Number",
     "order_id": "Order ID",
     "bundle_name": "Bundle Name",
-    "link": "Link"
+    "link": "Link",
+    "enterName": "Enter name"
   },
   "bundle": {
     "bundle_existence_title": "You have purchased an eSIM before!",
@@ -45,7 +52,22 @@
     "view_qr_code": "View QR Code",
     "shop_now": "Shop Now",
     "learn_more": "Learn more",
-    "view_all_plans": "View all plans"
+    "view_all_plans": "View all plans",
+    "buyNow": "Buy now",
+    "checkingBundle": "Checking Bundle...",
+    "countries": "Countries",
+    "regions": "Regions",
+    "global": "Global",
+    "viewLess": "View Less",
+    "viewAllCountries": "View All Countries",
+    "copiedSuccessfully": "Copied Successfully",
+    "confirm": "Confirm",
+    "sending": "Sending...",
+    "sendMessage": "Send message",
+    "payNow": "Pay Now",
+    "cancel": "Cancel",
+    "savingChanges": "Saving Changes...",
+    "saveChanges": "Save Changes"
   },
   "orders": {
     "plan_history": "Plan History",
@@ -63,7 +85,37 @@
     "orders_history": "Orders History",
     "order_id": "Order ID",
     "order_status": "Order Status",
-    "payment_details": "Payment Details"
+    "payment_details": "Payment Details",
+    "smdpAddress": "Address",
+    "activateCode": "Activate Code",
+    "failedToLoad": "Failed to load order data.",
+    "pleaseSignIn": "Please sign in to check more details",
+    "ordered": "Ordered",
+    "Amount": "Amount",
+    "Type": "Type",
+    "Validity": "Validity",
+    "Data": "Data",
+    "Order ID": "Order ID",
+    "Purchase Date": "Purchase Date",
+    "dataUsage": "consumed",
+    "failedToLoadEsimConsumption": "Failed to load eSIM consumption",
+    "qty": "Qty",
+    "product": "Product",
+    "unitPrice": "Unit Price",
+    "amount": "Amount",
+    "totalPrice": "Total Price:",
+    "finalPrice": "Final Price:",
+    "failedToLoadOrderReceiptDetails": "Failed to load order receipt details",
+    "failedToLoadOrders": "Failed to load orders",
+    "noOrdersYet": "No orders yet",
+    "companyName": "Company Name",
+    "address": "Address",
+    "email": "Email",
+    "orderId": "Order ID",
+    "orderType": "Order Type",
+    "Primary Bundle": "Primary Bundle",
+    "TopUp Bundle": "TopUp Bundle",
+    "labelRequired": "Label is a required field"
   },
   "esim": {
     "title": "My eSIM",
@@ -103,8 +155,8 @@
     "select_qr_code": "Select QR code",
     "toggle_roaming": "Toggle Roaming"
   },
-
   "auth": {
+    "phone": "phone",
     "signInTitle": "Sign in / Sign up",
     "newUser": "New user?",
     "createAccount": "Create an account",
@@ -118,12 +170,195 @@
     "orContinueWith": "Or",
     "signInWithGoogle": "Sign in with Google",
     "signInWithFacebook": "Sign in with Facebook",
-    "verifyEmail": "Please verify your email!",
-    "verificationCodeSent": "You're almost there! A verification code was sent to your email",
+    "verifyEmail": "Please verify your {{verifyBy}}!",
+    "sms": "SMS",
+    "whatsapp": "Whatsapp",
+    "syrialtelDcbMessage": "You are about to pay using SyriaCash. A verification code was sent to by {{verifyBy}}",
+    "mtnDcbMessage": "You are about to pay using your MTN airtime balance. A verification code was sent to by {{verifyBy}}",
+    "verificationCodeSent": "You're almost there! A verification code was sent to by {{verifyBy}}",
     "verify": "Verify",
     "verifying": "Verifying...",
     "didntReceiveCode": "Didn't receive a code?",
     "resendNow": "Resend now",
-    "didnt_receive_email": "Didn't receive an email?"
+    "didnt_receive_email": "Didn't receive an email?",
+    "welcomeBackEnterEmail": "Welcome back! Please enter your {{loginType}}.",
+    "confirmationRequired": "Confirmation is required",
+    "failedToVerifyOtp": "Failed to verify otp",
+    "resendCode": "Resend Code",
+    "signInSent": "{{method}} Sent",
+    "signInEmailWithInstructionsSent": "A sign-in {{method}} with additional instructions was sent",
+    "checkEmailToCompleteSignIn": "Check your email to complete sign-in",
+    "phoneRequired": "Phone is required",
+    "invalidPhone": "Invalid phone number",
+    "selectVerificationMethod": "Please select a verification method",
+    "otpMustBeNumber": "OTP must be a number",
+    "otpRequired": "OTP is required",
+    "otpDigitLength": "Each OTP digit must be exactly one character",
+    "otpSixDigits": "OTP must have exactly 6 digits",
+    "signInInstructionsSent": "A sign-in <ltr>{{verifyBy}}</ltr> was sent to <ltr>{{contact}}</ltr>. Check your <ltr>{{verifyBy}}</ltr> and enter the OTP on the next screen to complete the sign-in.",
+    "phoneNumberRequired": "Phone Number field is required",
+    "verifyByChannel": "Verify by {{channel}}",
+    "invalidPhoneNumber": "Invalid phone number",
+    "confirmValidAndNoTypos": "I confirm that the above {{login_type}} is valid and does not contain any typos.",
+    "andIAcceptThe": "And I accept the",
+    "andIUnderstandProductWorksWithESIM": "and I understand that the product only works with eSIM compatible and carrier-unlocked devices.",
+    "emailMustBeValid": "Email must be a valid email",
+    "phoneNumber": "Phone Number"
+  },
+  "plans": {
+    "restrictedCountriesSelection": "You can select up to 3 countries only",
+    "chooseYourPlan": "Choose your plan",
+    "please": "Please",
+    "dial": "dial",
+    "checkCompatibility": "to check device compatibility, if EID exist then",
+    "compatibleDevice": "your device is compatible",
+    "noPlansAvailable": "No plans available at the moment. Please check back later",
+    "atSea": "At Sea",
+    "onLand": "On Land",
+    "searchByCountry": "Search by country",
+    "Plan Started": "Plan Started",
+    "Plan Not Started": "Plan Not Started"
+  },
+  "bundles": {
+    "validity": "Validity",
+    "noBundlesAvailable": "Currently, There no bundles available",
+    "noTopupsAvailable": "Currently, There are no top-ups available",
+    "availableIn": "Available in",
+    "supportedCountries": "Supported Countries",
+    "bundleIsntSupportedCountry": "This bundle isn't supported in any country.",
+    "additionalInfo": "Additional Information",
+    "planType": "Plan Type",
+    "activationPolicy": "Activation Policy",
+    "compatibility": "Compatibility",
+    "findOut": "Find out if your device supports eSIM by dialing <0>{{code}}</0> and looking for <1>{{term}}</1>.",
+    "failedToLoadBundles": "Failed to load bundles",
+    "duration": "{{count}} {{unit}}",
+    "unit": {
+      "day": "day",
+      "day_plural": "days",
+      "month": "month",
+      "month_plural": "months",
+      "year": "year",
+      "year_plural": "years"
+    }
+  },
+  "checkout": {
+    "aliasEmailNotAllowed": "Alias emails (with '+') are not allowed",
+    "confirmationRequired": "Confirmation is required",
+    "emailRequired": "Email is a required field!",
+    "failedToSendMessage": "Failed to send message",
+    "goBack": "Go Back",
+    "email": "Email",
+    "enterEmail": "Enter Email",
+    "emailConfirmationMessage": "I confirm that the above email is valid and does not contain any typos.",
+    "terms": "Terms & Conditions",
+    "esimCompatibilityNote": "and I understand that the product only works with eSIM compatible and carrier-unlocked devices.",
+    "summary": "Summary",
+    "bundleName": "Bundle Name",
+    "subtotal": "Subtotal",
+    "estimatedTax": "Estimated Tax",
+    "total": "Total"
+  },
+  "howItWorks": {
+    "easyAndFast": "Easy and fast",
+    "howToSetUpMontyEsim": "How to set up your eSIM",
+    "step": "Step",
+    "of": "of"
+  },
+  "aboutUs": {
+    "stayConnected": "Stay Connected",
+    "failedToLoadAboutUsData": "Failed to load About us Data",
+    "noContentAvailable": "No content available at this moment",
+    "About us": "About Us"
+  },
+  "contactUs": {
+    "messageRequired": "Message is a required field",
+    "melIsTesting": "mel is testing",
+    "messageSentSuccessfully": "Your message has been sent successfully!",
+    "failedToSendMessage": "Failed to send message",
+    "contactUs": "Contact us",
+    "needSomeHelp": "Need some help",
+    "contactInfo": "For all inquiries, please email us using the form below. Our team is there for you 24/7!",
+    "message": "Message",
+    "typeYourMessage": "Type your message",
+    "frequentlyAskedQuestions": "Frequently asked questions",
+    "subscribeDescription": "Subscribe to learn about new product features, the latest in technology, solutions, and updates.",
+    "noFaqsMessage": "We couldn't find any FAQs right now. If you have questions, feel free to contact us!"
+  },
+  "footer": {
+    "contactUs": "Contact Us",
+    "termsAndConditions": "Terms & Conditions",
+    "privacyPolicy": "Privacy Policy",
+    "office": "Office",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "stripe": {
+    "failedToLoadPaymentInput": "Failed to load payment input",
+    "paymentProcessingError": "Payment cannot be processed. Please contact IT support.",
+    "paymentConfirmationFailed": "Failed to confirm payment",
+    "paymentMethod": "Payment Method",
+    "failedToLoadPaymentInputs": "Failed to load payment inputs. Please try again later"
+  },
+  "planType": {
+    "Data only": "Data only"
+  },
+  "validity": {
+    "Day": "Day",
+    "day": "day",
+    "Week": "Week",
+    "week": "week",
+    "month": "month",
+    "Month": "Month",
+    "Year": "Year",
+    "year": "year"
+  },
+  "activity_policy": "The validity period starts when the eSIM connects to any supported networks.",
+  "terms": {
+    "failedToLoadTermsData": "Failed to load Terms Data",
+    "termsAndConditions": "Terms & Conditions"
+  },
+  "errors": {
+    "maxCharacter": "يجب أن لا يحتوي {{field}} على أكثر من {{character}} حرفًا"
+  },
+  "profile": {
+    "infoUpdatedSuccessfully": "Information Updated Successfully",
+    "failedToUpdateUserInfo": "Failed to update user info",
+    "accountInformation": "Account Information",
+    "firstName": "First Name",
+    "enterFirstName": "Enter first name",
+    "lastName": "Last Name",
+    "enterLastName": "Enter last name",
+    "phoneNumber": "Phone Number",
+    "defaultCurrency": "Default Currency",
+    "defaultCurrencyFallback": "If no default currency is specified, the system will fall back to using {{system_currency}} as the default currency.",
+    "selectDefaultCurrency": "Select default currency",
+    "receiveUpdatesByEmail": "Receive update about our services, news, and offers by email",
+    "errors": {
+      "onlyLettersAllowed": "Only letters are allowed",
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "invalidPhone": "Invalid phone number",
+      "phoneRequired": "Phone is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email must be a valid email",
+      "maxCharacter": "{{field}} must be at most {{character}} characters"
+    }
+  },
+  "status": {
+    "success": "Success",
+    "pending": "Pending",
+    "failed": "Failed",
+    "failure": "Failure"
+  },
+  "payment": {
+    "paymentTypeNotAvailable": "This payment type is not available now",
+    "failedToLoadPaymentInput": "Failed to load payment input",
+    "paymentMethod": "Payment Method"
+  },
+  "privacy": {
+    "failedToLoadPrivacyPolicyData": "Failed to load Privacy Policy Data",
+    "noContentAvailable": "No content available at this moment",
+    "Privacy Policy": "Privacy Policy"
   }
 }

@@ -11,6 +11,7 @@ import {
 import BundleCard from "./bundle-card/BundleCard";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
 import { getEsimRelatedTopup } from "../../core/apis/userAPI";
+import { useTranslation } from "react-i18next";
 
 const useBundlesQuery = ({ expandedCountry, region, bundleOrder }) => {
   return useQuery({
@@ -48,6 +49,7 @@ const BundleList = ({
   topup,
   regionIcon,
 }) => {
+  const { t } = useTranslation();
   const { data, isLoading, error } = useBundlesQuery({
     expandedCountry,
     region,
@@ -75,7 +77,7 @@ const BundleList = ({
   if (error) {
     return (
       <div className="grid grid-cols-1 gap-6 mb-6">
-        <NoDataFound text={"Failed to load bundles"} />
+        <NoDataFound text={t("bundles.failedToLoadBundles")} />
       </div>
     );
   }
@@ -86,8 +88,8 @@ const BundleList = ({
         <NoDataFound
           text={
             topup
-              ? "Currently, There are no top-ups available"
-              : "Currently, There no bundles available"
+              ? t("bundles.noTopupsAvailable")
+              : t("bundles.noBundlesAvailable")
           }
         />
       </div>
@@ -108,7 +110,7 @@ const BundleList = ({
           }
         )}
       >
-        {data?.map((bundleElement, index) => (
+        {data?.map((bundleElement) => (
           <BundleCard
             iccid={bundleOrder?.iccid}
             supportedCountries={supportedCountries}

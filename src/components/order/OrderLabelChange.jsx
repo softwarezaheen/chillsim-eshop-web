@@ -6,14 +6,28 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //COMPONENT
 import { Button, Dialog, DialogContent, IconButton } from "@mui/material";
 import { FormInput } from "../shared/form-components/FormComponents";
-import { updateBundleLabel } from "../../core/apis/userAPI";
+import { updateBundleLabelByIccid } from "../../core/apis/userAPI";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { Close } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { queryClient } from "../../main";
 
-const schema = yup.object().shape({
-  label: yup.string().label("Label").max(30).required().nullable(),
-});
+const schema = ({ t }) =>
+  yup.object().shape({
+    label: yup
+      .string()
+      .label("Label")
+      .max(
+        30,
+        t("errors.maxCharacter", {
+          field: t("label.bundle_name"),
+          character: 60,
+        })
+      )
+      .required()
+      .nullable(),
+  });
 
 const OrderLabelChange = ({ refetch, onClose, bundle }) => {
   const { t } = useTranslation();
@@ -28,7 +42,7 @@ const OrderLabelChange = ({ refetch, onClose, bundle }) => {
     defaultValues: {
       label: bundle?.label_name || bundle?.display_title,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema({ t })),
     mode: "all",
   });
 
@@ -36,12 +50,15 @@ const OrderLabelChange = ({ refetch, onClose, bundle }) => {
     console.log(bundle, "vvvvv");
     setIsSubmitting(true);
 
-    updateBundleLabel({ ...payload, code: bundle?.bundle_code })
+    updateBundleLabelByIccid({ ...payload, code: bundle?.iccid })
       .then((res) => {
         if (res?.data?.status === "success") {
-          toast.success("Your message has been sent successfully!");
+          toast.success(t("contactUs.messageSentSuccessfully"));
           onClose();
           refetch();
+          queryClient.invalidateQueries({
+            queryKey: [`my-esim`],
+          });
         } else {
           toast.error(res?.message);
         }
@@ -60,18 +77,27 @@ const OrderLabelChange = ({ refetch, onClose, bundle }) => {
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
         </div>
         <form
-          className={"flex flex-col gap-[1rem]"}
+          className={"mt-2 flex flex-col gap-[1rem]"}
           onSubmit={handleSubmit(handleSubmitForm)}
         >
           <h1 className={"text-center"}>{t("orders.edit_name")}</h1>
@@ -83,7 +109,7 @@ const OrderLabelChange = ({ refetch, onClose, bundle }) => {
                 fieldState: { error },
               }) => (
                 <FormInput
-                  placeholder={"Enter name"}
+                  placeholder={t("label.enterName")}
                   value={value}
                   helperText={error?.message}
                   onChange={(value) => onChange(value)}

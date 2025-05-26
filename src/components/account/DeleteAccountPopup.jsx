@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import * as yup from "yup";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { SignOut } from "../../redux/reducers/authReducer";
 import { queryClient } from "../../main";
@@ -22,7 +22,6 @@ const schema = yup.object().shape({
 
 const DeleteAccountPopup = ({ onClose }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -55,7 +54,9 @@ const DeleteAccountPopup = ({ onClose }) => {
       })
       .catch((e) => {
         toast?.error(
-          e?.response?.data?.message || e?.message || "Failed to delete account"
+          e?.response?.data?.message ||
+            e?.message ||
+            "Failed to delete account",
         );
       })
       .finally(() => {
@@ -73,17 +74,26 @@ const DeleteAccountPopup = ({ onClose }) => {
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
         </div>
-        <div className={"flex flex-col items-center gap-[1rem]"}>
+        <div className={"mt-2 flex flex-col items-center gap-[1rem]"}>
           <DeleteAccountSVG />
           <h1>{t("account.delete_account")}</h1>
           <p className={"text-primary text-center"}>

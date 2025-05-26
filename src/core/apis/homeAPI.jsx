@@ -1,6 +1,6 @@
 import { api } from "./axios";
 
-export const getHomePageContent = async (payload) => {
+export const getHomePageContent = async () => {
   try {
     const res = await api.get("api/v1/home/");
     return res;

@@ -1,6 +1,13 @@
-import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
-import dayjs from "dayjs";
+import { Edit } from "@mui/icons-material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import AddToPhotosOutlinedIcon from "@mui/icons-material/AddToPhotosOutlined";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import LanguageIcon from "@mui/icons-material/Language";
+import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import QrCode2OutlinedIcon from "@mui/icons-material/QrCode2Outlined";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import WifiIcon from "@mui/icons-material/Wifi";
 import {
   Avatar,
   Button,
@@ -11,7 +18,6 @@ import {
   IconButton,
   Paper,
   Skeleton,
-  Slide,
   Table,
   TableBody,
   TableCell,
@@ -19,29 +25,20 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import AddToPhotosOutlinedIcon from "@mui/icons-material/AddToPhotosOutlined";
-import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import QrCode2OutlinedIcon from "@mui/icons-material/QrCode2Outlined";
-import ShareIcon from "@mui/icons-material/Share";
-import { CustomPopover } from "../../assets/CustomComponents";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import LanguageIcon from "@mui/icons-material/Language";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
-import WifiIcon from "@mui/icons-material/Wifi";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import dayjs from "dayjs";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
+import { CustomPopover } from "../../assets/CustomComponents";
 import { getOrderHistoryById } from "../../core/apis/userAPI";
-import TagComponent from "../shared/tag-component/TagComponent";
 import OrderReceipt from "../receipt/OrderReceipt";
+import NoDataFound from "../shared/no-data-found/NoDataFound";
+import TagComponent from "../shared/tag-component/TagComponent";
 import OrderConsumption from "./OrderConsumption";
-import OrderShare from "./OrderShare";
+import OrderLabelChange from "./OrderLabelChange";
 import OrderPopup from "./OrderPopup";
 import OrderTopup from "./OrderTopup";
-import { Edit } from "@mui/icons-material";
-import OrderLabelChange from "./OrderLabelChange";
-import NoDataFound from "../shared/no-data-found/NoDataFound";
-
+import { formatValidity } from "../../assets/utils/formatValidity";
 const OrderCard = ({ order, myesim, refetchData }) => {
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -174,7 +171,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
             <div className="flex flex-col justify-between items-start min-w-0 flex-1">
               <div className="w-full overflow-hidden">
                 <p className="text-xl font-bold text-primary truncate w-full flex items-center gap-[0.2rem]">
-                  <span className="truncate">
+                  <span dir="ltr" className="truncate">
                     {order?.bundle_details?.display_title ||
                       order?.bundle_details?.label_name ||
                       ""}{" "}
@@ -191,21 +188,23 @@ const OrderCard = ({ order, myesim, refetchData }) => {
               {myesim && (
                 //NOTES: done by request because title and sub title are same
                 <p className="text-base text-gray-500 truncate w-full">
-                  {order?.bundle_details?.display_subtitle || ""}
+                  <span dir="ltr">
+                    {order?.bundle_details?.display_subtitle || ""}
+                  </span>
                 </p>
               )}
             </div>
           </div>
           <div className="flex items-center flex-shrink-0 gap-2">
             <div className="text-xl font-bold text-end hidden sm:block text-primary">
-              {order?.bundle_details?.price_display}
+              <span dir="ltr">{order?.bundle_details?.price_display}</span>
             </div>
             <IconButton
               onClick={() =>
                 setCollapseElement(
                   collapseElement === order?.order_number
                     ? null
-                    : order?.order_number
+                    : order?.order_number,
                 )
               }
             >
@@ -219,20 +218,51 @@ const OrderCard = ({ order, myesim, refetchData }) => {
         </div>
         <div className={"flex flex-wrap flex-row gap-[0.5rem]"}>
           <Chip
-            icon={<CalendarMonthIcon fontSize="small" />}
-            label={`Ordered ${dayjs
+            icon={
+              <CalendarMonthIcon
+                fontSize="small"
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginRight: "6px" }
+                    : {}
+                }
+              />
+            }
+            label={`${t("orders.ordered")} ${dayjs
               .unix(order?.order_date || order?.bundle_details?.payment_date)
               .format("LL")}`}
             color="secondary"
           />
           <Chip
-            icon={<AccessTimeIcon fontSize="small" />}
-            label={order?.bundle_details?.validity_display}
+            icon={
+              <AccessTimeIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginRight: "6px" }
+                    : {}
+                }
+                fontSize="small"
+              />
+            }
+            label={formatValidity(order?.bundle_details?.validity_display)}
             color="secondary"
           />
           <Chip
-            icon={<WifiIcon fontSize="small" />}
-            label={order?.bundle_details?.gprs_limit_display}
+            icon={
+              <WifiIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginRight: "6px" }
+                    : {}
+                }
+                fontSize="small"
+              />
+            }
+            label={
+              <span dir={"ltr"}>
+                {order?.bundle_details?.gprs_limit_display}
+              </span>
+            }
             color="secondary"
           />
           <Chip
@@ -244,8 +274,20 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                   : "default",
             }}
             aria-describedby={id}
-            icon={<LanguageIcon />}
-            label={`${order?.bundle_details?.countries?.length} Countries`}
+            icon={
+              <LanguageIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginRight: "6px" }
+                    : {}
+                }
+              />
+            }
+            label={
+              <span dir={"ltr"}>
+                {`${order?.bundle_details?.countries?.length} ${t("btn.countries")}`}
+              </span>
+            }
             color="secondary"
           />
           {open && (
@@ -274,7 +316,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                       alt={country?.country || "country-flag"}
                       sx={{ width: 25, height: 25 }}
                     />
-                    {country?.country || "N/A"}
+                    {country?.country || t("common.notAvailable")}
                   </div>
                 ))}
               </div>
@@ -320,24 +362,35 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                     </label>
                     <TagComponent value={order?.order_status} />
                   </div>
-                  <div className={"flex flex-col gap-[0.5rem]"}>
-                    <label className={"font-semibold"}>
-                      {t("orders.payment_details")}
-                    </label>
-                    <p>
-                      {isLoading ? (
-                        <Skeleton width={50} />
-                      ) : (
-                        orderDetail?.payment_details?.card_display || "N/A"
-                      )}
-                    </p>
-                  </div>
+                  {order?.payment_type === "Card" && (
+                    <div className={"flex flex-col gap-[0.5rem]"}>
+                      <label className={"font-semibold"}>
+                        {t("orders.payment_details")}
+                      </label>
+                      <p>
+                        {isLoading ? (
+                          <Skeleton width={50} />
+                        ) : (
+                          orderDetail?.payment_details?.card_display || "N/A"
+                        )}
+                      </p>
+                    </div>
+                  )}
+
                   <Button
                     onClick={() => setOpenOrderReceipt(true)}
                     sx={{ width: "200px" }}
                     variant="outlined"
                     color="primary"
-                    startIcon={<ReceiptLongIcon />}
+                    startIcon={
+                      <ReceiptLongIcon
+                        style={
+                          localStorage.getItem("i18nextLng") === "ar"
+                            ? { marginLeft: "8px" }
+                            : {}
+                        }
+                      />
+                    }
                   >
                     {t("btn.view_receipt")}
                   </Button>
@@ -359,11 +412,13 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                         maxHeight: "300px",
                       }}
                     >
-                      <Table>
+                      <Table dir="ltr">
                         <TableHead>
                           <TableRow>
                             {transactionHeaders?.map((th, index) => (
-                              <TableCell key={index}>{th}</TableCell>
+                              <TableCell key={index}>
+                                {t(`orders.${th}`)}
+                              </TableCell>
                             ))}
                           </TableRow>
                         </TableHead>
@@ -387,14 +442,25 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                                   {isLoading ? (
                                     <Skeleton width={50} />
                                   ) : (
-                                    tb?.bundle_type
+                                    t(`orders.${tb?.bundle_type}`)
                                   )}
                                 </TableCell>
                                 <TableCell sx={{ minWidth: "100px" }}>
                                   {isLoading ? (
                                     <Skeleton width={50} />
                                   ) : (
-                                    tb?.bundle?.validity_display
+                                    <span
+                                      dir={
+                                        localStorage.getItem("i18nextLng") ===
+                                        "ar"
+                                          ? "rtl"
+                                          : "ltr"
+                                      }
+                                    >
+                                      {formatValidity(
+                                        tb?.bundle?.validity_display,
+                                      )}
+                                    </span>
                                   )}
                                 </TableCell>
                                 <TableCell sx={{ minWidth: "100px" }}>
@@ -423,7 +489,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                                   )}
                                 </TableCell>
                               </TableRow>
-                            )
+                            ),
                           )}
                         </TableBody>
                       </Table>
@@ -440,7 +506,16 @@ const OrderCard = ({ order, myesim, refetchData }) => {
             <div className="flex flex-wrap gap-[0.3rem] justify-center items-center">
               <Button
                 onClick={() => setOpenConsumption(true)}
-                startIcon={<LanguageOutlinedIcon fontSize="small" />}
+                startIcon={
+                  <LanguageOutlinedIcon
+                    style={
+                      localStorage.getItem("i18nextLng") === "ar"
+                        ? { marginLeft: "8px" }
+                        : {}
+                    }
+                    fontSize="small"
+                  />
+                }
                 variant="outlined"
                 color="primary"
                 sx={{ width: "fit-content" }}
@@ -449,7 +524,16 @@ const OrderCard = ({ order, myesim, refetchData }) => {
               </Button>
               <Button
                 onClick={() => setOpenQRCode(true)}
-                startIcon={<QrCode2OutlinedIcon fontSize="small" />}
+                startIcon={
+                  <QrCode2OutlinedIcon
+                    style={
+                      localStorage.getItem("i18nextLng") === "ar"
+                        ? { marginLeft: "8px" }
+                        : {}
+                    }
+                    fontSize="small"
+                  />
+                }
                 variant="outlined"
                 color="primary"
                 sx={{ width: "fit-content" }}
@@ -459,7 +543,16 @@ const OrderCard = ({ order, myesim, refetchData }) => {
               {order?.bundle_details?.is_topup_allowed && (
                 <Button
                   onClick={() => setOpenTopUp(true)}
-                  startIcon={<AddToPhotosOutlinedIcon fontSize="small" />}
+                  startIcon={
+                    <AddToPhotosOutlinedIcon
+                      style={
+                        localStorage.getItem("i18nextLng") === "ar"
+                          ? { marginLeft: "8px" }
+                          : {}
+                      }
+                      fontSize="small"
+                    />
+                  }
                   variant="contained"
                   color="primary"
                   sx={{ width: "fit-content" }}

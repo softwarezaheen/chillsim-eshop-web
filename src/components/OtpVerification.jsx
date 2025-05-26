@@ -4,35 +4,62 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 //COMPONENT
-import { Button, TextField } from "@mui/material";
-import { userLogin, verifyOTP } from "../core/apis/authAPI";
+import {
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { userLogin, verifyOTP, resendOrderOTP } from "../core/apis/authAPI";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SignIn, SignOut } from "../redux/reducers/authReducer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import clsx from "clsx";
+import { verifyOrderOTP } from "../core/apis/userAPI";
+import { queryClient } from "../main";
+import { dcbMessage } from "../core/variables/ProjectVariables";
 
-const schema = yup.object().shape({
-  otp: yup
-    .array()
-    .of(
-      yup
-        .string()
-        .matches(/^\d$/, "OTP must be a number")
-        .required("OTP is required")
-        .length(1, "Each OTP digit must be exactly one character")
-    )
-    .length(6, "OTP must have exactly 6 digits"),
-});
+const schema = ({ t }) =>
+  yup.object().shape({
+    otp: yup
+      .array()
+      .of(
+        yup
+          .string()
+          .matches(/^\d$/, t("auth.otpMustBeNumber"))
+          .required(t("auth.otpRequired"))
+          .length(1, t("auth.otpDigitLength")),
+      )
+      .length(6, t("auth.otpSixDigits")),
+  });
 
-const OtpVerification = ({ email, onVerify, setShowEmailSent }) => {
+const OtpVerification = ({
+  email,
+  onVerify,
+  setShowEmailSent,
+  phone,
+  orderDetail,
+  verifyBy,
+  checkout = false,
+  recallAssign,
+}) => {
+  const { iccid } = useParams();
+
   const { t } = useTranslation();
+  console.log(checkout, "sssssssssssssssss");
   const inputRefs = useRef([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [isVerifying, setIsVerifying] = useState(false);
   const [resend, setResend] = useState(true);
   const [timer, setTimer] = useState(120); // 120 seconds = 2 minutes
-
+  const { login_type, otp_channel } = useSelector((state) => state.currency);
+  const [verifiedBy, setVerifiedBy] = useState("email");
+  const [proceed, setProceed] = useState(false);
   const {
     control,
     handleSubmit,
@@ -45,7 +72,7 @@ const OtpVerification = ({ email, onVerify, setShowEmailSent }) => {
     defaultValues: {
       otp: ["", "", "", "", "", ""],
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema({ t })),
     mode: "all",
   });
 
@@ -76,32 +103,63 @@ const OtpVerification = ({ email, onVerify, setShowEmailSent }) => {
     return () => clearInterval(interval);
   }, [timer]);
 
+  useEffect(() => {
+    setVerifiedBy(otp_channel?.[0]);
+  }, [otp_channel]);
+
   const handleSubmitForm = (payload) => {
     setIsVerifying(true);
-    verifyOTP({
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("order_id", orderDetail?.order_id);
+    let handleAPI = checkout ? verifyOrderOTP : verifyOTP;
+    handleAPI({
       ...payload,
-      user_email: email,
-      verification_pin: payload.otp.join(""),
-      provider_token: "",
-      provider_type: "",
+      ...(checkout
+        ? {
+            order_id: orderDetail?.order_id,
+            otp: payload.otp.join(""),
+            iccid: iccid,
+          }
+        : {
+            ...(login_type === "phone"
+              ? { phone: phone }
+              : { user_email: email }),
+            verification_pin: payload.otp.join(""),
+            provider_token: "",
+            provider_type: "",
+          }),
     })
       .then((res) => {
         if (res?.data?.status === "success") {
-          //login user
-          dispatch(
-            SignIn({
-              ...res?.data?.data,
-            })
-          );
+          if (checkout) {
+            queryClient.invalidateQueries({ queryKey: ["my-esim"] });
+            if (iccid) {
+              queryClient.invalidateQueries({
+                queryKey: [`esim-detail-${iccid}`],
+              });
+            }
+
+            navigate({
+              pathname: iccid ? `/esim/${iccid}` : "/plans",
+              search: !iccid ? `?${searchParams.toString()}` : "",
+            });
+          } else {
+            //login user
+            dispatch(
+              SignIn({
+                ...res?.data?.data,
+              }),
+            );
+          }
         } else {
-          toast.error("Failed to verify otp");
+          toast.error(t("auth.failedToVerifyOtp"));
           setIsVerifying(false);
         }
       })
       .catch((error) => {
         reset();
 
-        toast.error(error?.message || "Failed to verify otp");
+        toast.error(error?.developerMessage || t("auth.failedToVerifyOtp"));
       })
       .finally(() => {
         setIsVerifying(false);
@@ -130,19 +188,33 @@ const OtpVerification = ({ email, onVerify, setShowEmailSent }) => {
   };
 
   const handleResendOtp = () => {
-    userLogin({
-      email: email,
-    })
-      .then((res) => {
-        if (res?.data?.status === "success") {
-          setShowEmailSent(true);
-          setResend(true);
-          setTimer(120);
-        }
+    console.log(orderDetail, "ordrrr detaill");
+    if (checkout) {
+      resendOrderOTP(orderDetail?.order_id)
+        .then((res) => {
+          if (res?.data?.status === "success") {
+            setResend(true);
+            setTimer(120);
+          }
+        })
+        .catch((e) => {
+          toast?.error(e?.message || "Failed to send message");
+        });
+    } else {
+      userLogin({
+        [login_type]: login_type === "phone" ? phone : email,
       })
-      .catch((e) => {
-        toast?.error(e?.message || "Failed to send message");
-      });
+        .then((res) => {
+          if (res?.data?.status === "success") {
+            setShowEmailSent(true);
+            setResend(true);
+            setTimer(120);
+          }
+        })
+        .catch((e) => {
+          toast?.error(e?.message || "Failed to send message");
+        });
+    }
   };
 
   const shouldBeDisabled = useMemo(() => {
@@ -152,22 +224,79 @@ const OtpVerification = ({ email, onVerify, setShowEmailSent }) => {
     );
   }, [errors, getValues()]);
 
+  console.log(checkout, otp_channel, proceed);
+  //EXPLANATION : PLEASE DON'T CHANGE THIS AS IT WILL BE APPLIED LATER
+
+  // if (checkout && otp_channel?.length > 1 && !proceed) {
+  //   return (
+  //     <div className={"flex flex-col gap-[1rem]"}>
+  //       <RadioGroup
+  //         name="use-radio-group"
+  //         value={verifiedBy}
+  //         onChange={(e) => setVerifiedBy(e.target.value)}
+  //         row
+  //         sx={{ columnGap: 2, flexWrap: "nowrap", overflowX: "auto" }}
+  //       >
+  //         {otp_channel?.map((channel) => (
+  //           <FormControlLabel
+  //             sx={{
+  //               alignItems: "center !important",
+  //               whiteSpace: "nowrap",
+  //             }}
+  //             value={channel}
+  //             label={
+  //               <div className="flex flex-row gap-[0.5rem] items-center">
+  //                 <Typography
+  //                   fontWeight={"bold"}
+  //                   color="primary"
+  //                   fontSize={"1rem"}
+  //                 >
+  //                   Verify by {channel}
+  //                 </Typography>
+  //               </div>
+  //             }
+  //             control={<Radio checked={verifiedBy === channel} />}
+  //           />
+  //         ))}
+  //       </RadioGroup>
+  //       <div className={"flex flex-row justify-center sm:justify-start "}>
+  //         <Button
+  //           onClick={() => setProceed(true)}
+  //           color="primary"
+  //           type="submit"
+  //           variant="contained"
+  //           sx={{ width: "30%" }}
+  //         >
+  //           Confirm
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   );
+  // } else
   return (
     <form
       onSubmit={handleSubmit(handleSubmitForm)}
-      className="w-full max-w-md mx-auto flex flex-col gap-[2rem] px-8 sm:px-unset"
+      className={clsx("w-full max-w-md  flex flex-col gap-[2rem] sm:px-unset", {
+        "px-8 mx-auto": !checkout,
+      })}
     >
       <h1 className="font-bold text-center text-primary">
-        {t("auth.verifyEmail")}
+        {t("auth.verifyEmail", { verifyBy: t(`auth.${verifyBy}`) })}
       </h1>
       <p className="text-center font-semibold text-content-600">
-        {t("auth.verificationCodeSent")}
+        {checkout
+          ? t(`auth.${dcbMessage}`, { verifyBy: t(`auth.${verifyBy}`) })
+          : t("auth.verificationCodeSent", { verifyBy: t(`auth.${verifyBy}`) })}
         <br />
-        <span className="font-medium">{email?.toLowerCase() || ""}</span>
+        <span dir="ltr" className="font-medium">
+          {login_type === "phone"
+            ? phone?.toLowerCase() || ""
+            : email?.toLowerCase || ""}
+        </span>
       </p>
 
       {/* OTP Input */}
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center gap-2" dir="ltr">
         {Array(6)
           .fill()
           ?.map((digit, index) => (
@@ -180,7 +309,7 @@ const OtpVerification = ({ email, onVerify, setShowEmailSent }) => {
                 fieldState: { error },
               }) => (
                 <TextField
-                  inputRef={(el) => (inputRefs.current[index] = el)} // Assign ref4
+                  inputRef={(el) => (inputRefs.current[index] = el)}
                   value={value}
                   maxLength={1}
                   onChange={(e) => {
@@ -191,7 +320,12 @@ const OtpVerification = ({ email, onVerify, setShowEmailSent }) => {
                   }}
                   onPaste={(e) => handlePaste(e, index)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
-                  inputProps={{ maxLength: 1 }}
+                  dir="ltr"
+                  inputProps={{
+                    maxLength: 1,
+                    dir: "ltr",
+                    style: { textAlign: "center" },
+                  }}
                   variant="outlined"
                   fullWidth
                   autoFocus={index === 0}
@@ -225,7 +359,7 @@ const OtpVerification = ({ email, onVerify, setShowEmailSent }) => {
             </>
           ) : (
             <p className={"text-secondary font-bold"}>
-              Resend Code in {Math.floor(timer / 60)}:
+              {t("auth.resendCode")} {Math.floor(timer / 60)}:
               {(timer % 60).toString().padStart(2, "0")}
             </p>
           )}

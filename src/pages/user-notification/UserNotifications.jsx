@@ -8,9 +8,11 @@ import { Card, CardContent, Skeleton } from "@mui/material";
 import { getUserNotifications } from "../../core/apis/userAPI";
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
 import { NoDataFoundSVG } from "../../assets/icons/Common";
+import { useTranslation } from "react-i18next";
 
 const UserNotifications = () => {
   const { ref, inView } = useInView();
+  const { t } = useTranslation();
 
   const fetchNotifications = async ({ pageParam = 1 }) => {
     const { data } = await getUserNotifications({
@@ -49,7 +51,7 @@ const UserNotifications = () => {
 
   return (
     <div className={"flex flex-col gap-[1rem]"}>
-      <h1>Notifications</h1>
+      <h1>{t("notifications.title")}</h1>
       {isLoading ? (
         Array(4)
           .fill()
@@ -63,7 +65,11 @@ const UserNotifications = () => {
           ))
       ) : error || !notifications || notifications?.length === 0 ? (
         <NoDataFound
-          text={error ? "Failed to load notifications" : "No notifications yet"}
+          text={
+            error
+              ? t("notifications.failedToLoadNotifications")
+              : t("notifications.noNotificationsYet")
+          }
           image={<NoDataFoundSVG />}
         />
       ) : (
@@ -77,7 +83,7 @@ const UserNotifications = () => {
                   }
                 >
                   <h3 className="text-lg font-semibold  truncate min-w-0 w-full sm: flex-grow text-primary">
-                    {el?.title}
+                    <span dir={"ltr"}>{el?.title}</span>
                   </h3>
                   <div
                     className={
@@ -88,7 +94,9 @@ const UserNotifications = () => {
                   </div>
                 </div>
 
-                <p>{el?.content}</p>
+                <p>
+                  <span dir={"ltr"}>{el?.content}</span>
+                </p>
               </CardContent>
             </Card>
           ))}

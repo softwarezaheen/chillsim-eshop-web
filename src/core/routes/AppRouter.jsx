@@ -1,12 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { allRoutes } from "./allRoutes";
 import RouteWrapper from "./RouteWrapper";
+import { useAppRoutes } from "../custom-hook/useAppRoutes";
 
 const AppRouter = () => {
+  const allRoutes = useAppRoutes();
   return (
     <Routes>
-      {allRoutes.map((route) => {
+      {allRoutes?.map((route) => {
         if (route.children) {
           return (
             <Route

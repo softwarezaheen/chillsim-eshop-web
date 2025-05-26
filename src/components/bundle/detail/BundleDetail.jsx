@@ -9,9 +9,7 @@ import {
   Button,
   Dialog,
   DialogContent,
-  Icon,
   IconButton,
-  Tooltip,
   useMediaQuery,
 } from "@mui/material";
 import { checkBundleExist } from "../../../core/apis/userAPI";
@@ -20,6 +18,8 @@ import BundleExistence from "./BundleExistence";
 import { useSelector } from "react-redux";
 import clsx from "clsx";
 import TooltipComponent from "../../shared/tooltip/TooltipComponent";
+import { useTranslation, Trans } from "react-i18next";
+import { formatValidity } from "../../../assets/utils/formatValidity";
 
 const BundleDetail = ({
   onClose,
@@ -28,19 +28,28 @@ const BundleDetail = ({
   iccid,
   regionIcon,
 }) => {
+  const { t } = useTranslation();
   const isSmall = useMediaQuery("(max-width: 639px)");
   const navigate = useNavigate();
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
+  const { login_type } = useSelector((state) => state.currency);
   const [openRedirection, setOpenRedirection] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  console.log(bundle, "bundleee detail");
 
   const handleCheckExist = () => {
     //order top-up
     console.log(tmp?.isAuthenticated, isAuthenticated, "check maro");
     if (!tmp?.isAuthenticated && !isAuthenticated) {
-      navigate(`/checkout/${bundle?.bundle_code}`);
+      if (login_type === "phone") {
+        navigate(
+          `/signin?next=${encodeURIComponent(
+            `/checkout/${bundle?.bundle_code}`,
+          )}`,
+        );
+      } else {
+        navigate(`/checkout/${bundle?.bundle_code}`);
+      }
+
       return;
     }
     if (iccid) {
@@ -68,6 +77,7 @@ const BundleDetail = ({
         .finally(() => setIsSubmitting(false));
     }
   };
+
   return (
     <Dialog fullWidth open={true} maxWidth={"sm"}>
       <DialogContent className={"flex flex-col gap-2"}>
@@ -75,19 +85,28 @@ const BundleDetail = ({
           <IconButton
             aria-label="close"
             onClick={onClose}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: "black",
-            })}
+            sx={() =>
+              localStorage.getItem("i18nextLng") === "ar"
+                ? {
+                    position: "absolute",
+                    left: 8,
+                    top: 8,
+                    color: "black",
+                  }
+                : {
+                    position: "absolute",
+                    right: 8,
+                    top: 8,
+                    color: "black",
+                  }
+            }
           >
             <Close />
           </IconButton>
         </div>
         <div
           className={
-            "flex flex-col sm:flex-row justify-between sm:items-start gap-[0.3rem]"
+            "mt-2 flex flex-col sm:flex-row justify-between sm:items-start gap-[0.3rem]"
           }
         >
           <div className={"flex flex-row gap-4 items-center min-w-0 "}>
@@ -96,8 +115,8 @@ const BundleDetail = ({
                 globalDisplay
                   ? "/media/global.svg"
                   : regionIcon
-                  ? regionIcon
-                  : bundle?.icon
+                    ? regionIcon
+                    : bundle?.icon
               }
               alt={bundle?.display_title || ""}
               sx={{ width: 45, height: 45 }}
@@ -113,6 +132,7 @@ const BundleDetail = ({
               className={"flex flex-col justify-between items-start min-w-0"}
             >
               <p
+                dir={"ltr"}
                 className={
                   "text-xl font-bold text-primary truncate w-full sm:max-w-none"
                 }
@@ -131,11 +151,12 @@ const BundleDetail = ({
               "text-2xl font-bold text-primary flex justify-end break-all"
             }
           >
-            {bundle?.validity_display || ""}
+            {`${formatValidity(bundle?.validity_display)}` || ""}
           </div>
         </div>
         <hr />
         <div
+          dir={"ltr"}
           className={
             "flex sm:flex-row justify-between  items-center text-2xl font-bold text-primary min-w-0 gap-[0.5rem]"
           }
@@ -159,7 +180,7 @@ const BundleDetail = ({
               }
             >
               <h6>
-                Supported Countries{" "}
+                {t("bundles.supportedCountries")}&nbsp;
                 {bundle?.countries?.length !== 0 &&
                   `(${bundle?.countries?.length})`}
               </h6>
@@ -169,7 +190,7 @@ const BundleDetail = ({
                 }
               >
                 {bundle?.countries?.length === 0 ? (
-                  <NoDataFound text="This bundle isn't supported in any country." />
+                  <NoDataFound text={t("bundles.bundleIsntSupportedCountry")} />
                 ) : (
                   bundle?.countries?.map((supportedCountries, index) => (
                     <div
@@ -180,7 +201,7 @@ const BundleDetail = ({
                         src={supportedCountries?.icon}
                         alt={
                           supportedCountries?.country ||
-                          `supported-coutry-${index}`
+                          `supported-country-${index}`
                         }
                         sx={{ width: 20, height: 20 }}
                       />
@@ -196,10 +217,10 @@ const BundleDetail = ({
               "flex flex-col w-[100%] sm:basis-[50%]  gap-[1rem] bg-bgLight rounded-md p-2 sm:min-h-[150px] sm:h-[220px]",
               {
                 "flex-1": bundle?.bundle_category?.type === "CRUISE",
-              }
+              },
             )}
           >
-            <h6>Additional Information</h6>
+            <h6>{t("bundles.additionalInfo")}</h6>
 
             <div
               className={
@@ -207,16 +228,21 @@ const BundleDetail = ({
               }
             >
               <div className={"flex flex-col gap-[0.1rem]"}>
-                <div className={"text-content-600"}>Plan Type</div>
+                <div className={"text-content-600"}>
+                  {t("bundles.planType")}
+                </div>
                 <p className={"font-semibold break-words"}>
-                  {bundle?.plan_type || "N/A"}
+                  {t(`planType.${bundle?.plan_type}`) ||
+                    t("common.notAvailable")}
                 </p>
               </div>
               <hr />
               <div>
-                <div className={"text-content-600"}>Activation Policy</div>
+                <div className={"text-content-600"}>
+                  {t("bundles.activationPolicy")}
+                </div>
                 <p className={"font-semibold break-words"}>
-                  {bundle?.activity_policy || "N/A"}
+                  {t(`activity_policy`) || t("common.notAvailable")}
                 </p>
               </div>
             </div>
@@ -241,10 +267,13 @@ const BundleDetail = ({
             </div>
           </div>
           <div className={"flex flex-col gap-1"}>
-            <h6>Compatibility</h6>
+            <h6>{t("bundles.compatibility")}</h6>
             <p className={"text-sm font-bold break-words"}>
-              Find out if your device can use eSIM by dialing *#06# and looking
-              for the EID.
+              <Trans
+                i18nKey="bundles.findOut"
+                values={{ code: "*#06#", term: "EID" }}
+                components={[<span dir="ltr" />, <span dir="ltr" />]}
+              />
             </p>
           </div>
         </div>
@@ -258,8 +287,8 @@ const BundleDetail = ({
         >
           <p className={"font-bold !text-base truncate max-w-20px"}>
             {isSubmitting
-              ? "Checking Bundle..."
-              : `Buy now - ${bundle?.price_display}`}
+              ? t("btn.checkingBundle")
+              : `${t("btn.buyNow")} - ${bundle?.price_display}`}
           </p>
         </Button>
       </div>

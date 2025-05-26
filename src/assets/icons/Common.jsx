@@ -1,8 +1,9 @@
-export const NoContentSVG = () => {
+export const NoContentSVG = ({ flip = false }) => {
   return (
     <svg
       width="109"
       height="151"
+      transform={flip ? "scale(-1,1)" : ""}
       viewBox="0 0 109 151"
       fill={"none"}
       xmlns="http://www.w3.org/2000/svg"
