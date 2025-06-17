@@ -80,7 +80,7 @@ const Home = () => {
             <div className="relative">
               <img
                 src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800"
-                alt="iPhone with Monty eSIM"
+                alt="iPhone with Chill SIM"
                 className="w-full rounded-3xl shadow-2xl"
               />
             </div>

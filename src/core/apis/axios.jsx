@@ -21,7 +21,7 @@ api.interceptors.request.use(
     console.log(sessionStorage.getItem("x-device-id"), "x device id");
     const xDeviceId = sessionStorage.getItem("x-device-id") || "1234";
     // Set the accept-language header dynamically
-    config.headers["accept-language"] = localStorage.getItem("i18nextLng");
+    config.headers["accept-language"] = 'en';
     const authenticationStore = store?.getState()?.authentication;
     console.log(
       authenticationStore?.tmp?.isAuthenticated,

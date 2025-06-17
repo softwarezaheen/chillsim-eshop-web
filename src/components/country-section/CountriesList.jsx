@@ -100,15 +100,11 @@ export const CountriesList = (props) => {
     }
   };
 
-  let gridColsClass = "grid-cols-3";
-  switch (itemsPerRow) {
-    case 1:
-      gridColsClass = "grid-cols-1";
-      break;
-    case 2:
-      gridColsClass = "grid-cols-2";
-      break;
-  }
+  const gridColsClass = useMemo(() => {
+    if (itemsPerRow == 1) return "grid-cols-1";
+    else if (itemsPerRow == 2) return "grid-cols-2";
+    else return "grid-cols-3";
+  }, [itemsPerRow]);
 
   return (
     <div ref={sectionRef} className="space-y-4">

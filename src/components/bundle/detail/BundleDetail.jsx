@@ -1,5 +1,5 @@
 //UTILITIES
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //COMPONENT
 import NoDataFound from "../../shared/no-data-found/NoDataFound";
@@ -78,11 +78,12 @@ const BundleDetail = ({
     }
   };
 
-  const avatarSrc = (() => {
+const avatarSrc = useMemo(() => {
     if (globalDisplay) return "/media/global.svg";
-    if (regionIcon) return regionIcon;
-    return bundle?.icon;
-  })();
+    else if (regionIcon)
+      return regionIcon; //NOTES: requested to be done from frontend manually taken by props
+    else return bundle?.icon;
+  }, [globalDisplay, regionIcon, bundle]);
 
   return (
     <Dialog fullWidth open={true} maxWidth={"sm"}>

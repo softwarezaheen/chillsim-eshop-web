@@ -8,7 +8,6 @@ import SignIn from "../../pages/SignIn";
 import Terms from "../../pages/Terms";
 import Esim from "../../pages/my-esim/Esim";
 import Orders from "../../pages/order/Orders";
-import DownloadTheme from "../../pages/DownloadTheme";
 import Checkout from "../../pages/checkout/Checkout";
 import PageNotFound from "../../components/shared/page-not-found/PageNotFound";
 import Plans from "../../pages/plans/Plans";
@@ -73,10 +72,6 @@ export const useAppRoutes = () => {
       {
         path: "/contact-us",
         element: <ContactUs />,
-      },
-      {
-        path: "/download-theme",
-        element: <DownloadTheme />,
       },
       {
         path: "/terms",

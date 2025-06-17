@@ -7,7 +7,7 @@
   },
   "account": {
     "delete_account": "Delete Account",
-    "delete_account_paragraph": "This will delete your account from monty esim app. You can always access your bought eSIM and activated profile through your phone",
+    "delete_account_paragraph": "This will delete your account from Chill SIM app. You can always access your bought eSIM and activated profile through your phone",
     "delete_account_confirmation": "Please enter your email in order to confirm deleting your account"
   },
   "notifications": {

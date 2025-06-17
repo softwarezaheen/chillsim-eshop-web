@@ -1,5 +1,5 @@
 //UTILITIES
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 //COMPONENT
 import {
   Avatar,
@@ -44,11 +44,12 @@ const BundleCard = ({
     return `${count} ${translatedUnit}`;
   };
 
-  const avatarSrc = (() => {
+ const avatarSrc = useMemo(() => {
     if (globalDisplay) return "/media/global.svg";
-    if (regionIcon) return regionIcon; //NOTES: requested to be done from frontend manually taken by props
-    return bundle?.icon;
-  })();
+    else if (regionIcon)
+      return regionIcon; //NOTES: requested to be done from frontend manually taken by props
+    else return bundle?.icon;
+  }, [globalDisplay, regionIcon, bundle]);
 
   return (
     <>

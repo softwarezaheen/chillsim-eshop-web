@@ -58,15 +58,13 @@ const Navbar = ({ main }) => {
     };
   }, [lastScrollY, isHomePage]);
 
-  let textColorClass = "";
-
-  if (isActive(item.path)) {
-    textColorClass = "text-secondary";
-  } else if (!isHomePage || showMenu) {
-    textColorClass = "text-primary hover:text-secondary";
-  } else {
-    textColorClass = "text-white hover:text-secondary";
-  }
+  const customClassName = useMemo(() => {
+    if (!isHomePage || showMenu) {
+      return "text-primary hover:text-secondary";
+    } else {
+      return "text-white hover:text-secondary";
+    }
+  }, [isHomePage, showMenu]);
 
   const menuLinks = useMemo(() => {
     if (main) return menuItems;
@@ -100,7 +98,10 @@ const Navbar = ({ main }) => {
                   key={item.path}
                   to={item.path}
                   onClick={() => window.scrollTo(0, 0)}
-                  className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${textColorClass}`}
+                 className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
+                    isActive(item.path) ? "text-secondary" : customClassName
+                  }`}
+ 
                 >
                   {item.icon && <item.icon className="w-4 h-4 mr-2" />}
                   {t(`nav.${item.label}`)}
@@ -111,7 +112,7 @@ const Navbar = ({ main }) => {
             {/* Right Section */}
             {isAuthenticated ? (
               <div className="hidden lg:flex flex items-center space-x-6">
-                <LanguageSwitcher />
+             
 
                 <NotificationsMenu />
 
@@ -127,14 +128,14 @@ const Navbar = ({ main }) => {
                     {t("nav.signIn")}
                   </Link>
                 )}
-                <LanguageSwitcher />
+              
               </div>
             )}
 
             {/* Mobile menu button */}
             <div className="flex lg:hidden items-center space-x-4">
               {isAuthenticated && <NotificationsMenu />}
-              <LanguageSwitcher />
+             
               <button
                 onClick={() => setToggleMenu(!toggleMenu)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-700"

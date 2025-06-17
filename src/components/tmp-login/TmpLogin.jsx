@@ -229,7 +229,7 @@ const TmpLogin = () => {
                 <div
                   className={"flex flex-col text-sm gap-[0.1rem] font-semibold"}
                 >
-                  <div>{t("confirmValidAndNoTypos", { login_type })}</div>
+                  <div>{t("auth.confirmValidAndNoTypos", { login_type })}</div>
                   <div>
                     {t("auth.andIAcceptThe")}{" "}
                     <Link

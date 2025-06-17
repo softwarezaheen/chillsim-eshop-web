@@ -40,7 +40,7 @@ export const benefits = [
     bg: "bg-primary-300",
     title: "A money saver",
     description:
-      "In addition to making your trip easier, eSIM will spare you excessive data charges. With Monty eSIM, you get to browse the best bundles at the most affordable prices!",
+      "In addition to making your trip easier, eSIM will spare you excessive data charges. With Chill SIM, you get to browse the best bundles at the most affordable prices!",
   },
   {
     icon: <PublicOutlinedIcon sx={{ color: "white" }} />,

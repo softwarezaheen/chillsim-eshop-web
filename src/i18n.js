@@ -7,7 +7,7 @@ import Backend from "i18next-http-backend";
 if (!localStorage.getItem("i18nextLng")) {
   localStorage.setItem(
     "i18nextLng",
-    import.meta.env.VITE_DEFAULT_LANGUAGE || "ar"
+    import.meta.env.VITE_DEFAULT_LANGUAGE || "en"
   );
 }
 
@@ -16,7 +16,7 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: import.meta.env.VITE_DEFAULT_LANGUAGE || "ar", // fallback only
+    fallbackLng: import.meta.env.VITE_DEFAULT_LANGUAGE || "en", // fallback only
     debug: false,
     interpolation: {
       escapeValue: false,
@@ -26,7 +26,7 @@ i18n
       caches: ["localStorage"], // cache detected language in localStorage automatically
       lookupLocalStorage: "i18nextLng",
     },
-    supportedLngs: ["en", "ar", "fr"],
+    supportedLngs: ["en"],
     backend: {
       loadPath: "/locales/{{lng}}/translation.json",
     },

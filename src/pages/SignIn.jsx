@@ -121,11 +121,7 @@ const SignIn = () => {
         }
       })
       .catch((e) => {
-        toast?.error(
-          e?.response?.data?.message ||
-            e?.message ||
-            t("checkout.failedToSendMessage")
-        );
+           toast?.error(e?.message || t("checkout.failedToSendMessage"))
       })
       .finally(() => setIsSubmitting(false));
   };
