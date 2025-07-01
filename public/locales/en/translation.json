@@ -174,7 +174,7 @@
     "sms": "SMS",
     "whatsapp": "Whatsapp",
     "syrialtelDcbMessage": "You are about to pay using SyriaCash. A verification code was sent to by {{verifyBy}}",
-    "mtnDcbMessage": "You are about to pay using your MTN airtime balance. A verification code was sent to by {{verifyBy}}",
+    "ChillDcbMessage": "You are about to pay using your Chill SIM balance. A verification code was sent to by {{verifyBy}}",
     "verificationCodeSent": "You're almost there! A verification code was sent to by {{verifyBy}}",
     "verify": "Verify",
     "verifying": "Verifying...",

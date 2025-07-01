@@ -127,8 +127,6 @@ const InjectedCheckout = ({ orderDetail }) => {
 
   return (
     <div className={"flex flex-col gap-8 w-full sm:basis-[50%] shrink-0"}>
-      <h1>{t("stripe.paymentMethod")}</h1>
-
       <>
         <PaymentElement id="payment-element" onChange={handleChange} />
 

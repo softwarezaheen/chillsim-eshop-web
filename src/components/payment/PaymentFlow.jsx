@@ -43,7 +43,7 @@ const PaymentFlow = (props) => {
   const { login_type } = useSelector((state) => state.currency);
   const [clientSecret, setClientSecret] = useState(null);
   const [stripePromise, setStripePromise] = useState(null);
-  const [selectedType, setSelectedType] = useState("dcb");
+  const [selectedType, setSelectedType] = useState("card");
   const [orderDetail, setOrderDetail] = useState(null);
   const [loading, setLoading] = useState(false);
   const related_search_test = {
