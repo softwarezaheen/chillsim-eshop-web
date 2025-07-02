@@ -231,7 +231,7 @@ export const FormPhoneInput = ({
       <PhoneInput
         international
         className="w-full shadow-sm !bg-white disabled:bg-white rounded h-[40px] p-4 border-2 border-transparent hover:border-[#122644]"
-        defaultCountry="LB"
+        defaultCountry="RO"
         value={value}
         disabled={disabled}
         onChange={(value, country) => onChange(value)}

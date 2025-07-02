@@ -180,8 +180,8 @@ const SignIn = () => {
                 }) => (
                   <FormPhoneInput
                     value={value}
-                    defaultCountry="SY"
-                    countries={["SY"]}
+                    defaultCountry="RO"
+                    countries={["RO"]}
                     international={false}
                     countrySelectProps={{ disabled: true }}
                     helperText={error?.message}
