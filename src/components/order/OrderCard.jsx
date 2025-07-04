@@ -64,12 +64,17 @@ const OrderCard = ({ order, myesim, refetchData }) => {
     isLoading: consumptionLoading,
     error: consumptionError,
   } = useQuery({
-    queryKey: [`my-esim-consumption-${order?.bundle_details?.iccid}`],
+    queryKey: [
+      `my-esim-consumption-${order?.bundle_details?.iccid}`,
+      openConsumption,
+    ],
     queryFn: () =>
       getMyEsimConsumption(order?.bundle_details?.iccid).then(
         (res) => res?.data?.data
       ),
-    enabled: !!collapseElement && !!order?.bundle_details?.iccid,
+    enabled:
+      (!!collapseElement || !!openConsumption) &&
+      !!order?.bundle_details?.iccid,
   });
 
   const open = Boolean(anchorEl);
@@ -139,7 +144,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                       order?.bundle_details?.label_name ||
                       ""}{" "}
                   </span>
-                  {myesim && (
+                  {myesim && !order?.bundle_details?.bundle_expired && (
                     <Edit
                       fontSize="small"
                       sx={{ cursor: "pointer" }}
@@ -325,11 +330,15 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                       {t(`label.eSIM_validity`)}
                     </label>
                     <p>
-                      {consumptionData?.expiry_date
-                        ? dayjs(consumptionData?.expiry_date)?.format(
-                            "DD-MM-YYYY HH:mm"
-                          )
-                        : t("common.notAvailable")}
+                      {consumptionLoading ? (
+                        <Skeleton />
+                      ) : consumptionData?.expiry_date ? (
+                        dayjs(consumptionData?.expiry_date)?.format(
+                          "DD-MM-YYYY HH:mm"
+                        )
+                      ) : (
+                        t("common.notAvailable")
+                      )}
                     </p>
                   </div>
                 </>
@@ -556,7 +565,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
         {openConsumption && (
           <OrderConsumption
             data={consumptionData}
-            lisLoading={consumptionLoading}
+            isLoading={consumptionLoading}
             onClose={() => setOpenConsumption(false)}
           />
         )}

@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 const OrderPopup = ({ id, onClose, orderData }) => {
   const { t } = useTranslation();
   const { isAuthenticated, user_info, tmp } = useSelector(
-    (state) => state.authentication,
+    (state) => state.authentication
   );
 
   const { data, isLoading, error } = useQuery({
@@ -67,10 +67,23 @@ const OrderPopup = ({ id, onClose, orderData }) => {
           </IconButton>
         </div>
         <h1 className={"mt-2 text-center"}>{t("orders.qrcode_detail")}</h1>
-        <p className={"text-center text-content-600 font-medium"}>
-          {t("orders.qrcode_sent_text")}
-        </p>
-        {isLoading || (!isLoading && (data || orderData)) ? (
+        {!isLoading ? (
+          orderData || data ? (
+            <p className={"text-center text-content-600 font-medium"}>
+              {t("orders.qrcode_sent_text")}
+            </p>
+          ) : (
+            ""
+          )
+        ) : (
+          <div className={"flex flex-col gap-[1rem]"}>
+            <p className={"text-center text-content-600 font-medium"}>
+              {t("orders.qrcode_loading")}
+            </p>
+            <Skeleton width={"100%"} />
+          </div>
+        )}
+        {!isLoading && (data || orderData) && (
           <>
             <div
               className={
@@ -99,7 +112,11 @@ const OrderPopup = ({ id, onClose, orderData }) => {
             <div className={"flex flex-col gap-[0.5rem]"}>
               <label
                 dir={"ltr"}
-                className={`font-semibold ${localStorage.getItem("i18nextLng") === "ar" ? "text-right" : "text-left"}`}
+                className={`font-semibold ${
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? "text-right"
+                    : "text-left"
+                }`}
               >
                 SM-DP+ &nbsp;{t("orders.smdpAddress")}
               </label>
@@ -118,7 +135,7 @@ const OrderPopup = ({ id, onClose, orderData }) => {
                 <IconButton
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      data?.smdp_address || orderData?.smdp_address,
+                      data?.smdp_address || orderData?.smdp_address
                     );
                     toast.success(t("btn.copiedSuccessfully"));
                   }}
@@ -146,7 +163,7 @@ const OrderPopup = ({ id, onClose, orderData }) => {
                 <IconButton
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      orderData?.activation_code || data?.activation_code,
+                      orderData?.activation_code || data?.activation_code
                     );
                     toast.success(t("btn.copiedSuccessfully"));
                   }}
@@ -156,7 +173,9 @@ const OrderPopup = ({ id, onClose, orderData }) => {
               </div>
             </div>{" "}
           </>
-        ) : (
+        )}
+
+        {!isLoading && !data && !orderData && (
           <NoDataFound
             text={`${t("orders.failedToLoad")}${
               !isAuthenticated ? ` ${t("orders.pleaseSignIn")}` : ""

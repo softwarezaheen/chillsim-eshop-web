@@ -29,7 +29,8 @@
     "order_id": "Order ID",
     "bundle_name": "Bundle Name",
     "link": "Link",
-    "enterName": "Enter name"
+    "enterName": "Enter name",
+    "eSIM_validity": "eSIM Validity"
   },
   "bundle": {
     "bundle_existence_title": "You have purchased an eSIM before!",
@@ -115,7 +116,8 @@
     "orderType": "Order Type",
     "Primary Bundle": "Primary Bundle",
     "TopUp Bundle": "TopUp Bundle",
-    "labelRequired": "Label is a required field"
+    "labelRequired": "Label is a required field",
+    "qrcode_loading": "Fetching QR code data. Just a moment..."
   },
   "esim": {
     "title": "My eSIM",
