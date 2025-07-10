@@ -32,7 +32,7 @@ const schema = ({ t }) =>
         t("errors.maxCharacter", {
           field: t("contactUs.message"),
           character: 255,
-        }),
+        })
       ),
   });
 
@@ -52,7 +52,7 @@ const ContactForm = ({ bg }) => {
   const handleSubmitForm = async (payload) => {
     setIsSubmitting(true);
 
-    contactUs({ ...payload})
+    contactUs({ ...payload })
       .then((res) => {
         if (res?.data?.status === "success") {
           toast.success(t("contactUs.messageSentSuccessfully"));

@@ -44,7 +44,7 @@ const BundleCard = ({
     return `${count} ${translatedUnit}`;
   };
 
- const avatarSrc = useMemo(() => {
+  const avatarSrc = useMemo(() => {
     if (globalDisplay) return "/media/global.svg";
     else if (regionIcon)
       return regionIcon; //NOTES: requested to be done from frontend manually taken by props
@@ -103,7 +103,7 @@ const BundleCard = ({
                 <Skeleton variant="text" width="100px" height={20} />
               ) : (
                 `${t("bundles.validity")}: ${formatValidity(
-                  bundle?.validity_display,
+                  bundle?.validity_display
                 )}`
               )}
             </p>

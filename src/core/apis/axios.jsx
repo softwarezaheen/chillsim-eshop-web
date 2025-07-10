@@ -6,6 +6,8 @@ import { DetachDevice } from "../../redux/reducers/deviceReducer";
 import { deleteToken } from "firebase/messaging";
 import { messaging } from "../../../firebaseconfig";
 import { supabaseSignout } from "./authAPI";
+import { backendMessagesTranslations } from "../variables/BackendMessages";
+import i18n from "../../i18n";
 
 export const api = axios.create({
   headers: {
@@ -21,12 +23,12 @@ api.interceptors.request.use(
     console.log(sessionStorage.getItem("x-device-id"), "x device id");
     const xDeviceId = sessionStorage.getItem("x-device-id") || "1234";
     // Set the accept-language header dynamically
-    config.headers["accept-language"] = 'en';
+    config.headers["accept-language"] = localStorage.getItem("i18nextLng");
     const authenticationStore = store?.getState()?.authentication;
     console.log(
       authenticationStore?.tmp?.isAuthenticated,
       "checkk interceptor",
-      authenticationStore,
+      authenticationStore
     );
     const defaultCunrency =
       sessionStorage?.getItem("user_currency") ||
@@ -44,7 +46,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 // Set the AUTH token for any request
 api.interceptors.response.use(
@@ -71,7 +73,7 @@ api.interceptors.response.use(
               "X-Language": "en",
               "x-device-id": sessionStorage.getItem("x-device-id") || "1234",
             },
-          },
+          }
         )
         .then((res) => {
           console.log("refetch token succeeeded ", res);
@@ -80,7 +82,7 @@ api.interceptors.response.use(
           store.dispatch(
             SignIn({
               ...res?.data?.data,
-            }),
+            })
           );
         })
         .catch((e) => {
@@ -99,9 +101,10 @@ api.interceptors.response.use(
       deleteToken(messaging);
       supabaseSignout();
     } else {
-      console.log(error, "interceptor error other than 401 and 403");
-      error.message = error?.response?.data?.message || error?.message;
+      const backendMessage = error?.response?.data?.message || error?.message;
+      const i18nKey = backendMessagesTranslations[backendMessage];
+      error.message = i18nKey ? i18n.t(`errors.${i18nKey}`) : backendMessage;
       return Promise.reject(error);
     }
-  },
+  }
 );

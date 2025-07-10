@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AttachDevice } from "../../redux/reducers/deviceReducer";
 import { Close } from "@mui/icons-material";
 import { useNotifications } from "../../core/context/NotificationContext";
+import { queryClient } from "../../main";
 
 const PushNotification = () => {
   const dispatch = useDispatch();
@@ -104,6 +105,14 @@ const PushNotification = () => {
   onMessageListener().then((payload) => {
     console.log("jjjjjjjjjjjjjjjjjjjjj1111");
     console.log(payload, "notificationnn payloadddd");
+    if (payload?.notification?.category == 2) {
+      queryClient.invalidateQueries({ queryKey: ["my-esim"] });
+      if (payload?.data?.iccid) {
+        queryClient.invalidateQueries({
+          queryKey: [`esim-detail-${payload?.data?.iccid}`],
+        });
+      }
+    }
     setNotification({
       title: payload?.notification?.title,
       body: payload?.notification?.body,

@@ -52,7 +52,7 @@ const Plans = (props) => {
 
   const [activeRadio, setActiveRadio] = useState(mainPath || defaultOption);
   const [activeTab, setActiveTab] = useState(
-    searchParams.get("type") || "countries",
+    searchParams.get("type") || "countries"
   );
 
   const [isSearching, setIsSearching] = useState(isSmall);
@@ -60,7 +60,7 @@ const Plans = (props) => {
   const [openOrderDetail, setOpenOrderDetail] = useState(false);
 
   const [search, setSearch] = useState(
-    searchParams.getAll("country_codes") || [],
+    searchParams.getAll("country_codes") || []
   );
   const [filters, setFilters] = useState({
     type: searchParams.get("type") || "",
@@ -80,7 +80,7 @@ const Plans = (props) => {
   };
 
   const [hoorayOpen, setHorrayOpen] = useState(
-    searchParams.get("order_id") || false,
+    searchParams.get("order_id") || false
   );
 
   //if testing
@@ -185,7 +185,7 @@ const Plans = (props) => {
                 }`,
                 {
                   "w-auto": isSmall,
-                },
+                }
               )}
             >
               {isSearching ? (
@@ -201,7 +201,7 @@ const Plans = (props) => {
                     value={
                       filters?.country_codes?.length !== 0
                         ? data?.countries?.filter((el) =>
-                            filters?.country_codes.split(",")?.includes(el?.id),
+                            filters?.country_codes.split(",")?.includes(el?.id)
                           )
                         : []
                     }
@@ -214,8 +214,8 @@ const Plans = (props) => {
                         ].some((field) =>
                           field
                             ?.toLowerCase()
-                            .includes(inputValue.toLowerCase()),
-                        ),
+                            .includes(inputValue.toLowerCase())
+                        )
                       );
                     }}
                     options={data?.countries || []}
@@ -234,7 +234,7 @@ const Plans = (props) => {
                         setSearch(
                           value?.map((el) => {
                             return { id: el?.id };
-                          }),
+                          })
                         );
                         setActiveTab("countries");
                         setFilters({
@@ -252,7 +252,7 @@ const Plans = (props) => {
                                   country_name: el?.country,
                                 };
                               }) || [],
-                          }),
+                          })
                         );
                       }
                     }}
