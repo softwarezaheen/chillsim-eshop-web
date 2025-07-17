@@ -285,7 +285,7 @@ const OtpVerification = ({
         <span dir="ltr" className="font-medium">
           {login_type === "phone"
             ? phone?.toLowerCase() || ""
-            : email?.toLowerCase || ""}
+            : email?.toLowerCase() || ""}
         </span>
       </p>
 

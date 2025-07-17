@@ -1,4 +1,4 @@
-export const supportEmail = "support@ChillSIM.com";
+export const supportEmail = "support@ChillSIM.net";
 export const supportPhone = "+40 774 652 102";
 export const supportWhatsappPhone = "+40774652102";
 export const supportedPrefix = ["93", "99"];
