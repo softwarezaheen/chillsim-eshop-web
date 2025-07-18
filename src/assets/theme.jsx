@@ -69,6 +69,10 @@ export const appTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: tailwindConfig.theme.borderRadius.DEFAULT,
+          padding:
+            localStorage.getItem("i18nextLng") === "ar"
+              ? "6px 12px"
+              : "4px 8px",
         },
       },
     },

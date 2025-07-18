@@ -200,17 +200,17 @@ const Plans = (props) => {
                     multiple
                     value={
                       filters?.country_codes?.length !== 0
-                        ? data?.countries?.filter((el) =>
+                        ? (data?.countries || [])?.filter((el) =>
                             filters?.country_codes.split(",")?.includes(el?.id)
                           )
                         : []
                     }
                     filterOptions={(options, { inputValue }) => {
-                      return options.filter((option) =>
+                      return options?.filter((option) =>
                         [
-                          option.country,
-                          option.iso3_code,
-                          option.country_code,
+                          option?.country,
+                          option?.iso3_code,
+                          option?.country_code,
                         ].some((field) =>
                           field
                             ?.toLowerCase()
@@ -219,14 +219,13 @@ const Plans = (props) => {
                       );
                     }}
                     options={data?.countries || []}
-                    getOptionLabel={(option) => option.country}
+                    getOptionLabel={(option) => option?.country}
                     onChange={(_, value) => {
-                      if (value.length > 3) {
+                      if (value?.length > 3) {
                         toast.error(t("plans.restrictedCountriesSelection"));
                       }
-                      console.log(value.length, "valuee length1");
-                      if (value.length <= 3 || value?.length === 0) {
-                        console.log(value.length, "valuee length1");
+
+                      if (value?.length <= 3 || value?.length === 0) {
                         if (value?.length === 0) {
                           setIsSearching(false);
                         }

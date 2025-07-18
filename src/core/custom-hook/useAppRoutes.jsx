@@ -21,7 +21,7 @@ import EsimDetail from "../../pages/my-esim/esim-detail/EsimDetail";
 import PrivacyPolicy from "../../pages/privacy-policy/PrivacyPolicy";
 
 export const useAppRoutes = () => {
-  const { login_type } = useSelector((state) => state.currency);
+  const login_type = useSelector((state) => state.currency?.login_type);
 
   return useMemo(
     () => [

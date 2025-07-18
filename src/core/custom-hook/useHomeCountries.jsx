@@ -7,12 +7,17 @@ import {
 import { useEffect } from "react";
 import { getHomePageContent } from "../apis/homeAPI";
 import { useQuery } from "react-query";
+import i18n from "../../i18n";
 
 export const VERSION_STORAGE_KEY = "app_bundles_version";
-export const API_CACHE_KEY = "home_countries_cache";
 
 export const useHomeCountries = () => {
-  const { bundles_version } = useSelector((state) => state.currency);
+  const bundles_version = useSelector(
+    (state) => state?.currency?.bundles_version
+  );
+  const language = i18n.language;
+
+  const cacheKey = `home_countries_cache_${language}`;
 
   //EXPLANATION: I am checking the version of bundles if changed then I invalidate the query
   useEffect(() => {
@@ -28,10 +33,10 @@ export const useHomeCountries = () => {
   }, [bundles_version, queryClient]);
 
   return useQuery({
-    queryKey: ["home-countries", bundles_version],
+    queryKey: ["home-countries", bundles_version, language],
     queryFn: async () => {
       try {
-        const cachedData = localStorage.getItem(API_CACHE_KEY);
+        const cachedData = localStorage.getItem(cacheKey);
         const storedVersion = getStoredVersion();
 
         if (cachedData && storedVersion === bundles_version) {
@@ -46,7 +51,7 @@ export const useHomeCountries = () => {
       const data = response?.data?.data;
 
       try {
-        localStorage.setItem(API_CACHE_KEY, JSON.stringify(data));
+        localStorage.setItem(cacheKey, JSON.stringify(data));
       } catch (error) {
         console.error("Error saving to localStorage:", error);
       }

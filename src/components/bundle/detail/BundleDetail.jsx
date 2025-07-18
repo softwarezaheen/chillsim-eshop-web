@@ -32,7 +32,7 @@ const BundleDetail = ({
   const isSmall = useMediaQuery("(max-width: 639px)");
   const navigate = useNavigate();
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
-  const { login_type } = useSelector((state) => state.currency);
+  const login_type = useSelector((state) => state.currency?.login_type);
   const [openRedirection, setOpenRedirection] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 

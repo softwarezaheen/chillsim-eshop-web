@@ -319,6 +319,8 @@ const OtpVerification = ({
                     maxLength: 1,
                     dir: "ltr",
                     style: { textAlign: "center" },
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
                   }}
                   variant="outlined"
                   fullWidth

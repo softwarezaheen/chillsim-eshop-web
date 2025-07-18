@@ -26,7 +26,7 @@ const Profile = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { user_info } = useSelector((state) => state.authentication);
-  const { login_type } = useSelector((state) => state.currency);
+  const login_type = useSelector((state) => state.currency?.login_type);
   const system_currency = useSelector(
     (state) => state.currency?.system_currency
   );
