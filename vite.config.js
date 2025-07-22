@@ -30,7 +30,7 @@ export default defineConfig(({ mode }) => {
   // Run the copy on config load
   copyFile(
     `./config/well-known/${currentMode}/accesslinks.json`,
-    "./public/.well-known/accesslinks.json",
+    "./public/.well-known/assetlinks.json",
   );
   copyFile(
     `./config/well-known/${currentMode}/apple-app-site-association`,
