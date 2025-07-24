@@ -16,6 +16,7 @@ import BundleCard from "../../components/bundle/bundle-card/BundleCard";
 import {
   Autocomplete,
   Badge,
+  Chip,
   FormControlLabel,
   IconButton,
   Radio,
@@ -68,11 +69,11 @@ const Plans = (props) => {
     order_id: searchParams.get("order_id") || null, // Extract single value
   });
 
-  console.log(mainPath);
-
   const handleRadioChange = (event) => {
     const newValue = event.target.value;
     setActiveRadio(newValue);
+    dispatch(DetachSearch());
+
     setActiveTab("countries");
     setFilters({ ...filters, type: "", country_codes: "" });
     setIsSearching(false);
@@ -117,6 +118,11 @@ const Plans = (props) => {
   };
 
   const handleQueryParams = useQueryParams(filters);
+
+  useEffect(() => {
+    dispatch(DetachSearch());
+  }, []);
+
   useEffect(() => {
     if (isSmall) {
       setIsSearching(true);

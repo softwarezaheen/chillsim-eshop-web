@@ -1,5 +1,9 @@
 import axios from "axios";
-import { SignIn, SignOut } from "../../redux/reducers/authReducer";
+import {
+  LimitedSignIn,
+  SignIn,
+  SignOut,
+} from "../../redux/reducers/authReducer";
 import { store } from "../../redux/store";
 import { queryClient } from "../../main";
 import { DetachDevice } from "../../redux/reducers/deviceReducer";
@@ -20,7 +24,6 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    console.log(sessionStorage.getItem("x-device-id"), "x device id");
     const xDeviceId = sessionStorage.getItem("x-device-id") || "1234";
     // Set the accept-language header dynamically
     config.headers["accept-language"] = localStorage.getItem("i18nextLng");
@@ -79,11 +82,25 @@ api.interceptors.response.use(
           console.log("refetch token succeeeded ", res);
           const newToken = res?.data?.data?.access_token;
           config.headers.Authorization = `Bearer ${newToken}`;
-          store.dispatch(
-            SignIn({
-              ...res?.data?.data,
-            })
-          );
+          if (authenticationStore?.tmp?.isAuthenticated) {
+            store.dispatch(
+              LimitedSignIn({
+                ...res?.data?.data,
+              })
+            );
+          } else if (authenticationStore?.isAuthenticated) {
+            store.dispatch(
+              SignIn({
+                ...res?.data?.data,
+              })
+            );
+          } else {
+            store.dispatch(SignOut());
+            store.dispatch(DetachDevice());
+            queryClient.clear();
+            deleteToken(messaging);
+            supabaseSignout();
+          }
         })
         .catch((e) => {
           console.log("refetch token failed", e);
@@ -93,6 +110,7 @@ api.interceptors.response.use(
           deleteToken(messaging);
           supabaseSignout();
         });
+
       return axios(config);
     } else if (error?.response?.status === 403) {
       store.dispatch(SignOut());

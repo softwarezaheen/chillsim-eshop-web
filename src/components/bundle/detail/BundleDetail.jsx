@@ -38,17 +38,24 @@ const BundleDetail = ({
 
   const handleCheckExist = () => {
     //order top-up
-    console.log(tmp?.isAuthenticated, isAuthenticated, "check maro");
-    if (!tmp?.isAuthenticated && !isAuthenticated) {
-      if (login_type === "phone") {
-        navigate(
-          `/signin?next=${encodeURIComponent(
-            `/checkout/${bundle?.bundle_code}`
-          )}`
-        );
-      } else {
-        navigate(`/checkout/${bundle?.bundle_code}`);
-      }
+
+    console.log(
+      tmp?.isAuthenticated,
+      isAuthenticated,
+      "checking authentication"
+    );
+
+    if (!tmp?.isAuthenticated && !isAuthenticated && login_type === "phone") {
+      navigate(
+        `/signin?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`
+      );
+      return;
+    }
+    if (
+      (tmp?.isAuthenticated && !isAuthenticated) ||
+      (!tmp?.isAuthenticated && !isAuthenticated)
+    ) {
+      navigate(`/checkout/${bundle?.bundle_code}`);
 
       return;
     }
