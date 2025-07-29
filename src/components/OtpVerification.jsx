@@ -123,17 +123,20 @@ const OtpVerification = ({
       .then((res) => {
         if (res?.data?.status === "success") {
           if (checkout) {
-            queryClient.invalidateQueries({ queryKey: ["my-esim"] });
-            if (iccid) {
-              queryClient.invalidateQueries({
-                queryKey: [`esim-detail-${iccid}`],
-              });
-            }
+            // Delay invalidation by 5 seconds
+            setTimeout(() => {
+              queryClient.invalidateQueries({ queryKey: ["my-esim"] });
+              if (iccid) {
+                queryClient.invalidateQueries({
+                  queryKey: [`esim-detail-${iccid}`],
+                });
+              }
 
-            navigate({
-              pathname: iccid ? `/esim/${iccid}` : "/plans",
-              search: !iccid ? `?${searchParams.toString()}` : "",
-            });
+              navigate({
+                pathname: iccid ? `/esim/${iccid}` : "/plans",
+                search: !iccid ? `?${searchParams.toString()}` : "",
+              });
+            }, 5000); // 5000 ms = 5 seconds
           } else {
             //login user
             dispatch(
@@ -282,7 +285,7 @@ const OtpVerification = ({
         <span dir="ltr" className="font-medium">
           {login_type === "phone"
             ? phone?.toLowerCase() || ""
-            : email?.toLowerCase || ""}
+            : email?.toLowerCase() || ""}
         </span>
       </p>
 
@@ -316,6 +319,8 @@ const OtpVerification = ({
                     maxLength: 1,
                     dir: "ltr",
                     style: { textAlign: "center" },
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
                   }}
                   variant="outlined"
                   fullWidth

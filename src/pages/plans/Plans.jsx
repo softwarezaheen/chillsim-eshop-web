@@ -16,6 +16,7 @@ import BundleCard from "../../components/bundle/bundle-card/BundleCard";
 import {
   Autocomplete,
   Badge,
+  Chip,
   FormControlLabel,
   IconButton,
   Radio,
@@ -52,7 +53,7 @@ const Plans = (props) => {
 
   const [activeRadio, setActiveRadio] = useState(mainPath || defaultOption);
   const [activeTab, setActiveTab] = useState(
-    searchParams.get("type") || "countries",
+    searchParams.get("type") || "countries"
   );
 
   const [isSearching, setIsSearching] = useState(isSmall);
@@ -60,7 +61,7 @@ const Plans = (props) => {
   const [openOrderDetail, setOpenOrderDetail] = useState(false);
 
   const [search, setSearch] = useState(
-    searchParams.getAll("country_codes") || [],
+    searchParams.getAll("country_codes") || []
   );
   const [filters, setFilters] = useState({
     type: searchParams.get("type") || "",
@@ -68,11 +69,11 @@ const Plans = (props) => {
     order_id: searchParams.get("order_id") || null, // Extract single value
   });
 
-  console.log(mainPath);
-
   const handleRadioChange = (event) => {
     const newValue = event.target.value;
     setActiveRadio(newValue);
+    dispatch(DetachSearch());
+
     setActiveTab("countries");
     setFilters({ ...filters, type: "", country_codes: "" });
     setIsSearching(false);
@@ -80,7 +81,7 @@ const Plans = (props) => {
   };
 
   const [hoorayOpen, setHorrayOpen] = useState(
-    searchParams.get("order_id") || false,
+    searchParams.get("order_id") || false
   );
 
   //if testing
@@ -117,6 +118,11 @@ const Plans = (props) => {
   };
 
   const handleQueryParams = useQueryParams(filters);
+
+  useEffect(() => {
+    dispatch(DetachSearch());
+  }, []);
+
   useEffect(() => {
     if (isSmall) {
       setIsSearching(true);
@@ -185,7 +191,7 @@ const Plans = (props) => {
                 }`,
                 {
                   "w-auto": isSmall,
-                },
+                }
               )}
             >
               {isSearching ? (
@@ -200,33 +206,32 @@ const Plans = (props) => {
                     multiple
                     value={
                       filters?.country_codes?.length !== 0
-                        ? data?.countries?.filter((el) =>
-                            filters?.country_codes.split(",")?.includes(el?.id),
+                        ? (data?.countries || [])?.filter((el) =>
+                            filters?.country_codes.split(",")?.includes(el?.id)
                           )
                         : []
                     }
                     filterOptions={(options, { inputValue }) => {
-                      return options.filter((option) =>
+                      return options?.filter((option) =>
                         [
-                          option.country,
-                          option.iso3_code,
-                          option.country_code,
+                          option?.country,
+                          option?.iso3_code,
+                          option?.country_code,
                         ].some((field) =>
                           field
                             ?.toLowerCase()
-                            .includes(inputValue.toLowerCase()),
-                        ),
+                            .includes(inputValue.toLowerCase())
+                        )
                       );
                     }}
                     options={data?.countries || []}
-                    getOptionLabel={(option) => option.country}
+                    getOptionLabel={(option) => option?.country}
                     onChange={(_, value) => {
-                      if (value.length > 3) {
+                      if (value?.length > 3) {
                         toast.error(t("plans.restrictedCountriesSelection"));
                       }
-                      console.log(value.length, "valuee length1");
-                      if (value.length <= 3 || value?.length === 0) {
-                        console.log(value.length, "valuee length1");
+
+                      if (value?.length <= 3 || value?.length === 0) {
                         if (value?.length === 0) {
                           setIsSearching(false);
                         }
@@ -234,7 +239,7 @@ const Plans = (props) => {
                         setSearch(
                           value?.map((el) => {
                             return { id: el?.id };
-                          }),
+                          })
                         );
                         setActiveTab("countries");
                         setFilters({
@@ -252,7 +257,7 @@ const Plans = (props) => {
                                   country_name: el?.country,
                                 };
                               }) || [],
-                          }),
+                          })
                         );
                       }
                     }}

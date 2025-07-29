@@ -1,0 +1,26 @@
+{
+    "activitycontinuation":
+    {
+        "apps":
+        [
+            "5DR38G7748.zaheen.esim.chillsim"
+        ]
+    },
+    "applinks":
+    {
+        "apps":
+        [
+            "5DR38G7748.zaheen.esim.chillsim"
+        ],
+        "details":
+        [
+            {
+                "appID": "5DR38G7748.zaheen.esim.chillsim",
+                "paths":
+                [
+                    "*"
+                ]
+            }
+        ]
+    }
+}

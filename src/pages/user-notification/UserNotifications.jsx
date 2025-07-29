@@ -37,7 +37,8 @@ const UserNotifications = () => {
     queryKey: ["user-notifications-page"],
     queryFn: fetchNotifications,
     getNextPageParam: (lastPage) => {
-      return lastPage?.totalCount < 20 ? undefined : lastPage?.page + 1;
+      console.log(lastPage, "lasttttt ");
+      return lastPage?.data?.length == 20 ? lastPage?.page + 1 : undefined;
     },
 
     select: (data) => data?.pages?.flatMap((page) => page.data),

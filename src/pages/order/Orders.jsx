@@ -18,7 +18,7 @@ const Orders = () => {
   const fetchOrders = async ({ pageParam = 1 }) => {
     const { data } = await getOrdersHistory({
       page_index: pageParam,
-      page_size: 10,
+      page_size: 20,
     });
     return {
       data: data?.data || [],
@@ -38,7 +38,7 @@ const Orders = () => {
     queryKey: ["orders-history"],
     queryFn: fetchOrders,
     getNextPageParam: (lastPage) => {
-      return lastPage?.totalCount < 10 ? undefined : lastPage?.page + 1;
+      return lastPage?.data?.length == 20 ? lastPage?.page + 1 : undefined;
     },
 
     select: (data) => data.pages.flatMap((page) => page.data),

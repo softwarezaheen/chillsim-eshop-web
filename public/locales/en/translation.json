@@ -7,7 +7,7 @@
   },
   "account": {
     "delete_account": "Delete Account",
-    "delete_account_paragraph": "This will delete your account from Chill SIM app. You can always access your bought eSIM and activated profile through your phone",
+    "delete_account_paragraph": "This will delete your account from monty esim app. You can always access your bought eSIM and activated profile through your phone",
     "delete_account_confirmation": "Please enter your email in order to confirm deleting your account"
   },
   "notifications": {
@@ -29,7 +29,8 @@
     "order_id": "Order ID",
     "bundle_name": "Bundle Name",
     "link": "Link",
-    "enterName": "Enter name"
+    "enterName": "Enter name",
+    "eSIM_validity": "eSIM Validity"
   },
   "bundle": {
     "bundle_existence_title": "You have purchased an eSIM before!",
@@ -115,7 +116,8 @@
     "orderType": "Order Type",
     "Primary Bundle": "Primary Bundle",
     "TopUp Bundle": "TopUp Bundle",
-    "labelRequired": "Label is a required field"
+    "labelRequired": "Label is a required field",
+    "qrcode_loading": "Fetching QR code data. Just a moment..."
   },
   "esim": {
     "title": "My eSIM",
@@ -173,9 +175,9 @@
     "verifyEmail": "Please verify your {{verifyBy}}!",
     "sms": "SMS",
     "whatsapp": "Whatsapp",
-    "syrialtelDcbMessage": "You are about to pay using SyriaCash. A verification code was sent to by {{verifyBy}}",
-    "mtnDcbMessage": "You are about to pay using your MTN airtime balance. A verification code was sent to by {{verifyBy}}",
-    "verificationCodeSent": "You're almost there! A verification code was sent to by {{verifyBy}}",
+    "dcbMessage": "You are about to pay using your phone number. A verification code was sent to you by {{verifyBy}}",
+    "ChillDcbMessage": "You are about to pay using your Chill SIM balance. A verification code was sent to you by {{verifyBy}}",
+    "verificationCodeSent": "You're almost there! A verification code was sent to you by {{verifyBy}}",
     "verify": "Verify",
     "verifying": "Verifying...",
     "didntReceiveCode": "Didn't receive a code?",
@@ -217,7 +219,8 @@
     "onLand": "On Land",
     "searchByCountry": "Search by country",
     "Plan Started": "Plan Started",
-    "Plan Not Started": "Plan Not Started"
+    "Plan Not Started": "Plan Not Started",
+    "Expired": "Expired"
   },
   "bundles": {
     "validity": "Validity",
@@ -319,7 +322,11 @@
     "termsAndConditions": "Terms & Conditions"
   },
   "errors": {
-    "maxCharacter": "يجب أن لا يحتوي {{field}} على أكثر من {{character}} حرفًا"
+    "maxCharacter": "{{field}} must not contain more than {{character}} characters",
+    "customer_not_enougn_balance": "Customer msisdn doesn’t have enough balance",
+    "invalid_otp": "Invalid OTP",
+    "technical_error": "Technical error",
+    "expired_otp": "Expired OTP"
   },
   "profile": {
     "infoUpdatedSuccessfully": "Information Updated Successfully",

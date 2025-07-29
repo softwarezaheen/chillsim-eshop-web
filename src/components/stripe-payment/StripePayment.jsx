@@ -98,17 +98,20 @@ const InjectedCheckout = ({ orderDetail }) => {
 
             // Inform the customer that there was an error.
           } else {
-            queryClient.invalidateQueries({ queryKey: ["my-esim"] });
-            if (iccid) {
-              queryClient.invalidateQueries({
-                queryKey: [`esim-detail-${iccid}`],
-              });
-            }
+            // Delay invalidation by 5 seconds
+            setTimeout(() => {
+              queryClient.invalidateQueries({ queryKey: ["my-esim"] });
+              if (iccid) {
+                queryClient.invalidateQueries({
+                  queryKey: [`esim-detail-${iccid}`],
+                });
+              }
 
-            navigate({
-              pathname: iccid ? `/esim/${iccid}` : "/plans",
-              search: !iccid ? `?${searchParams.toString()}` : "",
-            });
+              navigate({
+                pathname: iccid ? `/esim/${iccid}` : "/plans",
+                search: !iccid ? `?${searchParams.toString()}` : "",
+              });
+            }, 5000); // 5000 ms = 5 seconds
           }
         })
         .catch((error) => {
@@ -127,8 +130,6 @@ const InjectedCheckout = ({ orderDetail }) => {
 
   return (
     <div className={"flex flex-col gap-8 w-full sm:basis-[50%] shrink-0"}>
-      <h1>{t("stripe.paymentMethod")}</h1>
-
       <>
         <PaymentElement id="payment-element" onChange={handleChange} />
 

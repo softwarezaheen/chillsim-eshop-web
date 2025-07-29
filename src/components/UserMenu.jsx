@@ -18,7 +18,7 @@ const UserMenu = () => {
   const profileRef = useRef(null);
   const { handleLogout } = useAuth();
   const { user_info } = useSelector((state) => state.authentication);
-  const { login_type } = useSelector((state) => state.currency);
+  const login_type = useSelector((state) => state.currency?.login_type);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   useClickOutside(profileRef, () => setIsProfileOpen(false));

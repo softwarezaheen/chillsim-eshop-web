@@ -73,7 +73,9 @@ const CurrencySlice = createSlice({
 
         state.whatsapp_number = whatsappNumber?.value || "";
         state.system_currency = currency?.value || "EUR";
-        state.allowed_payment_types = paymentTypes?.value.split(",") || ["dcb"];
+        state.allowed_payment_types = paymentTypes?.value.split(",") || [
+          "wallet",
+        ];
         state.isLoading = false;
       })
       .addCase(fetchCurrencyInfo.rejected, (state, action) => {

@@ -24,10 +24,7 @@ const DeleteAccountPopup = ({ onClose }) => {
   const dispatch = useDispatch();
   const [setIsSubmitting] = useState(false);
 
-  const {
-    control,
-    handleSubmit,
-  } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
     },
@@ -50,9 +47,7 @@ const DeleteAccountPopup = ({ onClose }) => {
         }
       })
       .catch((e) => {
-        toast?.error(
-          e?.response?.data?.message || e?.message || "Failed to delete account"
-        );
+        toast?.error(e?.message || "Failed to delete account");
       })
       .finally(() => {
         setIsSubmitting(false);

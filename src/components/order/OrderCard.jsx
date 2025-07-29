@@ -30,8 +30,11 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { CustomPopover } from "../../assets/CustomComponents";
+import {
+  getMyEsimConsumption,
+  getOrderHistoryById,
+} from "../../core/apis/userAPI";
 import { formatValidity } from "../../assets/utils/formatValidity";
-import { getOrderHistoryById } from "../../core/apis/userAPI";
 import OrderReceipt from "../receipt/OrderReceipt";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
 import TagComponent from "../shared/tag-component/TagComponent";
@@ -49,14 +52,29 @@ const OrderCard = ({ order, myesim, refetchData }) => {
   const [openTopUp, setOpenTopUp] = useState(false);
   const [openLabelChange, setOpenLabelChange] = useState(false);
 
-  const {
-    data: orderDetail,
-    isLoading,
-  } = useQuery({
+  const { data: orderDetail, isLoading } = useQuery({
     queryKey: [`${collapseElement}-order-history-id`, collapseElement],
     queryFn: () =>
       getOrderHistoryById(collapseElement).then((res) => res?.data?.data),
-    enabled: !!collapseElement,
+    enabled: !!collapseElement && !myesim,
+  });
+
+  const {
+    data: consumptionData,
+    isLoading: consumptionLoading,
+    error: consumptionError,
+  } = useQuery({
+    queryKey: [
+      `my-esim-consumption-${order?.bundle_details?.iccid}`,
+      openConsumption,
+    ],
+    queryFn: () =>
+      getMyEsimConsumption(order?.bundle_details?.iccid).then(
+        (res) => res?.data?.data
+      ),
+    enabled:
+      (!!collapseElement || !!openConsumption) &&
+      !!order?.bundle_details?.iccid,
   });
 
   const open = Boolean(anchorEl);
@@ -92,8 +110,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
     "Order ID",
     "Purchase Date",
   ];
-
-
+  console.log(order, "ooooo");
   return (
     <Card key={order.order_number || order?.iccid}>
       <CardContent className={"flex flex-col gap-[1rem]"}>
@@ -127,7 +144,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                       order?.bundle_details?.label_name ||
                       ""}{" "}
                   </span>
-                  {myesim && (
+                  {myesim && !order?.bundle_details?.bundle_expired && (
                     <Edit
                       fontSize="small"
                       sx={{ cursor: "pointer" }}
@@ -153,9 +170,10 @@ const OrderCard = ({ order, myesim, refetchData }) => {
             <IconButton
               onClick={() =>
                 setCollapseElement(
-                  collapseElement === order?.order_number
+                  collapseElement ==
+                    (order?.bundle_details?.order_number || order?.order_number)
                     ? null
-                    : order?.order_number,
+                    : order?.bundle_details?.order_number || order?.order_number
                 )
               }
             >
@@ -236,7 +254,9 @@ const OrderCard = ({ order, myesim, refetchData }) => {
             }
             label={
               <span dir={"ltr"}>
-                {`${order?.bundle_details?.countries?.length} ${t("btn.countries")}`}
+                {`${order?.bundle_details?.countries?.length} ${t(
+                  "btn.countries"
+                )}`}
               </span>
             }
             color="secondary"
@@ -275,7 +295,12 @@ const OrderCard = ({ order, myesim, refetchData }) => {
           )}
         </div>
 
-        <Collapse in={collapseElement === order?.order_number}>
+        <Collapse
+          in={
+            collapseElement ==
+            (order?.bundle_details?.order_number || order?.order_number)
+          }
+        >
           <div className={"flex flex-col gap-[1rem]"}>
             {" "}
             <hr />
@@ -285,20 +310,38 @@ const OrderCard = ({ order, myesim, refetchData }) => {
               }
             >
               {myesim ? (
-                esimDetails?.map((el, index) => (
-                  <div className={"flex flex-col gap-[0.5rem]"} key={index}>
+                <>
+                  {esimDetails?.map((el, index) => (
+                    <div className={"flex flex-col gap-[0.5rem]"} key={index}>
+                      <label className={"font-semibold"}>
+                        {t(`label.${el.title}`)}
+                      </label>
+                      <p>
+                        {el.type === "date"
+                          ? dayjs
+                              .unix(order?.bundle_details?.[el?.field])
+                              .format("LL")
+                          : order?.bundle_details?.[el?.field]}{" "}
+                      </p>
+                    </div>
+                  ))}
+                  <div className={"flex flex-col gap-[0.5rem]"}>
                     <label className={"font-semibold"}>
-                      {t(`label.${el.title}`)}
+                      {t(`label.eSIM_validity`)}
                     </label>
                     <p>
-                      {el.type === "date"
-                        ? dayjs
-                            .unix(order?.bundle_details?.[el?.field])
-                            .format("LL")
-                        : order?.bundle_details?.[el?.field]}{" "}
+                      {consumptionLoading ? (
+                        <Skeleton />
+                      ) : consumptionData?.expiry_date ? (
+                        dayjs(consumptionData?.expiry_date)?.format(
+                          "DD-MM-YYYY HH:mm"
+                        )
+                      ) : (
+                        t("common.notAvailable")
+                      )}
                     </p>
                   </div>
-                ))
+                </>
               ) : (
                 <>
                   <div className={"flex flex-col gap-[0.5rem]"}>
@@ -409,7 +452,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                                       }
                                     >
                                       {formatValidity(
-                                        tb?.bundle?.validity_display,
+                                        tb?.bundle?.validity_display
                                       )}
                                     </span>
                                   )}
@@ -440,7 +483,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
                                   )}
                                 </TableCell>
                               </TableRow>
-                            ),
+                            )
                           )}
                         </TableBody>
                       </Table>
@@ -455,42 +498,46 @@ const OrderCard = ({ order, myesim, refetchData }) => {
           <>
             <hr />
             <div className="flex flex-wrap gap-[0.3rem] justify-center items-center">
-              <Button
-                onClick={() => setOpenConsumption(true)}
-                startIcon={
-                  <LanguageOutlinedIcon
-                    style={
-                      localStorage.getItem("i18nextLng") === "ar"
-                        ? { marginLeft: "8px" }
-                        : {}
-                    }
-                    fontSize="small"
-                  />
-                }
-                variant="outlined"
-                color="primary"
-                sx={{ width: "fit-content" }}
-              >
-                {t("btn.consumption")}
-              </Button>
-              <Button
-                onClick={() => setOpenQRCode(true)}
-                startIcon={
-                  <QrCode2OutlinedIcon
-                    style={
-                      localStorage.getItem("i18nextLng") === "ar"
-                        ? { marginLeft: "8px" }
-                        : {}
-                    }
-                    fontSize="small"
-                  />
-                }
-                variant="outlined"
-                color="primary"
-                sx={{ width: "fit-content" }}
-              >
-                {t("btn.view_qr_code")}
-              </Button>
+              {!order?.bundle_details?.bundle_expired && (
+                <Button
+                  onClick={() => setOpenConsumption(true)}
+                  startIcon={
+                    <LanguageOutlinedIcon
+                      style={
+                        localStorage.getItem("i18nextLng") === "ar"
+                          ? { marginLeft: "8px" }
+                          : {}
+                      }
+                      fontSize="small"
+                    />
+                  }
+                  variant="outlined"
+                  color="primary"
+                  sx={{ width: "fit-content" }}
+                >
+                  {t("btn.consumption")}
+                </Button>
+              )}
+              {!order?.bundle_details?.bundle_expired && (
+                <Button
+                  onClick={() => setOpenQRCode(true)}
+                  startIcon={
+                    <QrCode2OutlinedIcon
+                      style={
+                        localStorage.getItem("i18nextLng") === "ar"
+                          ? { marginLeft: "8px" }
+                          : {}
+                      }
+                      fontSize="small"
+                    />
+                  }
+                  variant="outlined"
+                  color="primary"
+                  sx={{ width: "fit-content" }}
+                >
+                  {t("btn.view_qr_code")}
+                </Button>
+              )}
               {order?.bundle_details?.is_topup_allowed && (
                 <Button
                   onClick={() => setOpenTopUp(true)}
@@ -517,7 +564,8 @@ const OrderCard = ({ order, myesim, refetchData }) => {
 
         {openConsumption && (
           <OrderConsumption
-            bundle={order?.bundle_details}
+            data={consumptionData}
+            isLoading={consumptionLoading}
             onClose={() => setOpenConsumption(false)}
           />
         )}

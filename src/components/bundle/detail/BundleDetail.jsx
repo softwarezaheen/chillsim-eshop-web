@@ -32,23 +32,30 @@ const BundleDetail = ({
   const isSmall = useMediaQuery("(max-width: 639px)");
   const navigate = useNavigate();
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
-  const { login_type } = useSelector((state) => state.currency);
+  const login_type = useSelector((state) => state.currency?.login_type);
   const [openRedirection, setOpenRedirection] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleCheckExist = () => {
     //order top-up
-    console.log(tmp?.isAuthenticated, isAuthenticated, "check maro");
-    if (!tmp?.isAuthenticated && !isAuthenticated) {
-      if (login_type === "phone") {
-        navigate(
-          `/signin?next=${encodeURIComponent(
-            `/checkout/${bundle?.bundle_code}`
-          )}`
-        );
-      } else {
-        navigate(`/checkout/${bundle?.bundle_code}`);
-      }
+
+    console.log(
+      tmp?.isAuthenticated,
+      isAuthenticated,
+      "checking authentication"
+    );
+
+    if (!tmp?.isAuthenticated && !isAuthenticated && login_type === "phone") {
+      navigate(
+        `/signin?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`
+      );
+      return;
+    }
+    if (
+      (tmp?.isAuthenticated && !isAuthenticated) ||
+      (!tmp?.isAuthenticated && !isAuthenticated)
+    ) {
+      navigate(`/checkout/${bundle?.bundle_code}`);
 
       return;
     }
@@ -78,7 +85,7 @@ const BundleDetail = ({
     }
   };
 
-const avatarSrc = useMemo(() => {
+  const avatarSrc = useMemo(() => {
     if (globalDisplay) return "/media/global.svg";
     else if (regionIcon)
       return regionIcon; //NOTES: requested to be done from frontend manually taken by props

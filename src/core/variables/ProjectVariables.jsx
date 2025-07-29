@@ -1,8 +1,8 @@
-export const supportEmail = "support@ChillSIM.com";
-export const supportPhone = "+40 745 248 149";
-export const supportWhatsappPhone = "+40745248149";
+export const supportEmail = "support@ChillSIM.net";
+export const supportPhone = "+40 774 652 102";
+export const supportWhatsappPhone = "+40774652102";
 export const supportedPrefix = ["93", "99"];
-export const dcbMessage = "mtnDcbMessage";
+export const dcbMessage = "ChillDcbMessage";
 export const footerProjectName = "Chill SIM";
 export const supportAddress = (
   <>

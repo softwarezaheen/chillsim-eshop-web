@@ -8,24 +8,16 @@ import {
 } from "@mui/material";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "react-query";
-import { getMyEsimConsumption } from "../../core/apis/userAPI";
-import NoDataFound from "../shared/no-data-found/NoDataFound";
-import { useSelector } from "react-redux";
 
-const OrderConsumption = ({ onClose, bundle }) => {
+import NoDataFound from "../shared/no-data-found/NoDataFound";
+
+const OrderConsumption = ({ onClose, data, isLoading }) => {
   const { t } = useTranslation();
-  const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["my-esim-consumption"],
-    queryFn: () =>
-      getMyEsimConsumption(bundle?.iccid).then((res) => res?.data?.data),
-    enabled: !!bundle?.iccid,
-  });
 
   const calculatedProgress = useMemo(() => {
     return (data?.data_used * 100) / data?.data_allocated;
   }, [data]);
-
+  console.log(data, "dddddddddddddddddd");
   return (
     <Dialog open={true} maxWidth="sm" fullWidth>
       <DialogContent className="flex flex-col gap-[1rem] xs:!px-8 !py-10">
