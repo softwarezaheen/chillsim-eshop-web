@@ -321,12 +321,13 @@
     "failedToLoadTermsData": "Failed to load Terms Data",
     "termsAndConditions": "Terms & Conditions"
   },
-  "errors": {
+"errors": {
     "maxCharacter": "{{field}} must not contain more than {{character}} characters",
     "customer_not_enougn_balance": "Customer msisdn doesn’t have enough balance",
     "invalid_otp": "Invalid OTP",
     "technical_error": "Technical error",
-    "expired_otp": "Expired OTP"
+    "expired_otp": "Expired OTP",
+    "bundle_not_available": "Bundle Not Available Now Try Again Later"
   },
   "profile": {
     "infoUpdatedSuccessfully": "Information Updated Successfully",

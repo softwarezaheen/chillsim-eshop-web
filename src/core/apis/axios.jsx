@@ -119,9 +119,15 @@ api.interceptors.response.use(
       deleteToken(messaging);
       supabaseSignout();
     } else {
-      const backendMessage = error?.response?.data?.message || error?.message;
+      console.log(error, "error");
+      const backendMessage =
+        error?.response?.data?.developerMessage || error?.message;
       const i18nKey = backendMessagesTranslations[backendMessage];
-      error.message = i18nKey ? i18n.t(`errors.${i18nKey}`) : backendMessage;
+      error.message = backendMessagesTranslations?.hasOwnProperty(
+        backendMessage
+      )
+        ? i18n.t(`errors.${i18nKey}`)
+        : backendMessage;
       return Promise.reject(error);
     }
   }
