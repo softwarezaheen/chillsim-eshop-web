@@ -26,10 +26,8 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
 
     return {
       [t("orders.companyName")]: order.company_name,
-      ...(order.payment_type === "Card" && {
-        [t("orders.address")]: order.payment_details?.address,
-        [t("orders.email")]: order.payment_details?.receipt_email,
-      }),
+      [t("orders.address")]: order.company_address,
+      [t("orders.email")]: order.company_email,
       [t("orders.orderId")]: order.order_number,
       [t("orders.orderType")]: order.order_type,
     };
