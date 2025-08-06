@@ -276,7 +276,6 @@
   },
   "contactUs": {
     "messageRequired": "Message is a required field",
-    "melIsTesting": "mel is testing",
     "messageSentSuccessfully": "Your message has been sent successfully!",
     "failedToSendMessage": "Failed to send message",
     "contactUs": "Contact us",
