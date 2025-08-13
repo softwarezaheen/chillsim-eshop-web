@@ -117,7 +117,11 @@ const Checkout = () => {
               </label>
               <p
                 dir={"ltr"}
-                className={`flex-1 font-bold truncate ${localStorage.getItem("i18nextLng") === "en" ? "text-right" : "text-left"}`}
+                className={`flex-1 font-bold truncate ${
+                  localStorage.getItem("i18nextLng") === "en"
+                    ? "text-right"
+                    : "text-left"
+                }`}
               >
                 {data?.display_title || t("common.notAvailable")}
               </p>
@@ -130,18 +134,14 @@ const Checkout = () => {
               </label>
               <p
                 dir={"ltr"}
-                className={`flex-1 font-bold ${localStorage.getItem("i18nextLng") === "en" ? "text-right" : "text-left"}`}
+                className={`flex-1 font-bold ${
+                  localStorage.getItem("i18nextLng") === "en"
+                    ? "text-right"
+                    : "text-left"
+                }`}
               >
                 {data?.price_display}
               </p>
-            </div>
-            <div
-              className={"flex flex-row justify-between items-start gap-[1rem]"}
-            >
-              <label className={"flex-1 font-semibold"}>
-                {t("checkout.estimatedTax")}
-              </label>
-              <p className={"flex-1 font-bold text-end"}>---</p>
             </div>
           </div>
           <hr />
@@ -151,7 +151,11 @@ const Checkout = () => {
             <label className={"font-semibold"}>{t("checkout.total")}</label>
             <p
               dir={"ltr"}
-              className={`font-bold text-2xl ${localStorage.getItem("i18nextLng") === "en" ? "text-right" : "text-left"}`}
+              className={`font-bold text-2xl ${
+                localStorage.getItem("i18nextLng") === "en"
+                  ? "text-right"
+                  : "text-left"
+              }`}
             >
               {data?.price_display}
             </p>

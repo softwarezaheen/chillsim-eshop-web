@@ -220,7 +220,8 @@
     "searchByCountry": "Search by country",
     "Plan Started": "Plan Started",
     "Plan Not Started": "Plan Not Started",
-    "Expired": "Expired"
+    "Expired": "Expired",
+    "Pending": "Pending"
   },
   "bundles": {
     "validity": "Validity",
@@ -320,7 +321,7 @@
     "failedToLoadTermsData": "Failed to load Terms Data",
     "termsAndConditions": "Terms & Conditions"
   },
-"errors": {
+  "errors": {
     "maxCharacter": "{{field}} must not contain more than {{character}} characters",
     "customer_not_enougn_balance": "Customer msisdn doesn’t have enough balance",
     "invalid_otp": "Invalid OTP",
