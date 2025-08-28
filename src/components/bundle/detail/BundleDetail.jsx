@@ -296,7 +296,7 @@ const BundleDetail = ({
           <p className={"font-bold !text-base truncate max-w-20px"}>
             {isSubmitting
               ? t("btn.checkingBundle")
-              : `${t("btn.buyNow")} - ${bundle?.price_display}`}
+              : `${t("btn.buyNow")} - ${bundle?.price_display} ${"(tax and fees not included)"}`}
           </p>
         </Button>
       </div>

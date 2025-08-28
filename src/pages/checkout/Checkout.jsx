@@ -27,6 +27,82 @@ import PaymentFlow from "../../components/payment/PaymentFlow";
 import TmpLogin from "../../components/tmp-login/TmpLogin";
 import { useTranslation } from "react-i18next";
 
+const getTaxValue = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  return (price * 0.21).toFixed(2) + " USD";
+};
+
+const getTaxedValue = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  return price * 0.21;
+};
+
+const getStripeFee = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  const tax = getTaxedValue(displayPrice);
+  const fee = (((price + tax) * 0.84173) * 0.012 + 0.25 / 0.84173).toFixed(2);
+  if (fee < 0.5) {
+    return "0.50 USD";
+  }
+  else 
+    if (fee < 1) {
+      return "1.00 USD";
+    }
+    else
+      if (fee < 1.5) {
+        return "1.50 USD";
+      }
+      else
+        if (fee < 2) {
+          return "2.00 USD";
+        }
+        else
+          if (fee < 2.5) {
+            return "2.50 USD";
+          }
+          else
+            return "3.00 USD";
+};
+
+const getStripedFee = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  const tax = getTaxedValue(displayPrice);
+  const fee = ((price + tax) * 0.84173) * 0.012 + 0.25 / 0.84173;
+  if (fee < 0.5) {
+    return 0.5;
+  }
+  else 
+    if (fee < 1) {
+      return 1;
+    }
+    else
+      if (fee < 1.5) {
+        return 1.5;
+      }
+      else
+        if (fee < 2) {
+          return 2;
+        }
+        else
+          if (fee < 2.5) {
+            return 2.5 ;
+          }
+          else
+            return 3;
+};
+
+const getTotalValue = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  const tax = getTaxedValue(displayPrice);
+  const fee = getStripedFee(displayPrice);
+  return (price + tax + fee).toFixed(2) + " USD";
+};
+
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
   const { login_type } = useSelector((state) => state.currency);
@@ -102,7 +178,7 @@ const Checkout = () => {
         )}
         <div
           className={
-            "bg-primary-50 p-4 rounded-2xl flex flex-col gap-8 w-full sm:basis-[50%] shadow-sm grow-0 min-w-0"
+            "bg-primary-50 p-4 rounded-2xl flex flex-col gap-5 w-full sm:basis-[50%] shadow-sm grow-0 min-w-0"
           }
         >
           <h1 className={"font-bold text-2xl"}>{t("checkout.summary")}</h1>
@@ -143,7 +219,44 @@ const Checkout = () => {
                 {data?.price_display}
               </p>
             </div>
-          </div>
+          <div
+              className={
+                "flex flex-row justify-between items-start gap-[1rem]"
+              }
+            >
+              <label className={"flex-1 font-semibold"}>
+                {t("checkout.tax")}
+              </label>
+              <p
+                dir={"ltr"}
+                className={`flex-1 font-bold ${
+                  localStorage.getItem("i18nextLng") === "en"
+                    ? "text-right"
+                    : "text-left"
+                }`}
+              >
+              {getTaxValue(data?.price_display)}
+              </p>
+            </div>
+            <div
+              className={
+                "flex flex-row justify-between items-start gap-[1rem]"
+              }
+            >
+              <label className={"flex-1 font-semibold"}>
+                {t("checkout.fee")}
+              </label>
+              <p
+                dir={"ltr"}
+                className={`flex-1 font-bold ${
+                  localStorage.getItem("i18nextLng") === "en"
+                    ? "text-right"
+                    : "text-left"
+                }`}
+              >
+              {getStripeFee(data?.price_display)}
+              </p>
+            </div>
           <hr />
           <div
             className={"flex flex-row justify-between items-start gap-[1rem]"}
@@ -157,8 +270,9 @@ const Checkout = () => {
                   : "text-left"
               }`}
             >
-              {data?.price_display}
+              {getTotalValue(data?.price_display)}
             </p>
+          </div>
           </div>
         </div>
       </div>

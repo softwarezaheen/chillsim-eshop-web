@@ -135,52 +135,6 @@ const Plans = (props) => {
   return (
     <>
       <div className="flex flex-col gap-[2rem] max-w-2xl mx-auto mb-12">
-        {seaOption && (
-          <div className="flex flex-row justify-center items-center">
-            <RadioGroup
-              name="use-radio-group"
-              value={activeRadio}
-              onChange={handleRadioChange}
-              row
-              sx={{ columnGap: 2, flexWrap: "nowrap" }}
-            >
-              <FormControlLabel
-                sx={{ alignItems: "center !important", whiteSpace: "nowrap" }}
-                value="cruises"
-                label={
-                  <div className="flex flex-row gap-[0.5rem] items-center">
-                    <DirectionsBoatFilledOutlinedIcon color="primary" />
-                    <Typography
-                      fontWeight={"bold"}
-                      color="primary"
-                      fontSize={"1rem"}
-                    >
-                      {t("plans.atSea")}
-                    </Typography>
-                  </div>
-                }
-                control={<Radio checked={activeRadio === "cruises"} />}
-              />
-              <FormControlLabel
-                sx={{ alignItems: "center !important", whiteSpace: "nowrap" }}
-                value="land"
-                label={
-                  <div className="flex flex-row gap-[0.5rem] items-center">
-                    <TerrainOutlinedIcon color="primary" />
-                    <Typography
-                      fontWeight={"bold"}
-                      color="primary"
-                      fontSize={"1rem"}
-                    >
-                      {t("plans.onLand")}
-                    </Typography>
-                  </div>
-                }
-                control={<Radio checked={activeRadio === "land"} />}
-              />
-            </RadioGroup>
-          </div>
-        )}
         {activeRadio !== "cruises" && (
           <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-center sm:items-center gap-4 relative w-full">
             {/* Search Bar Container */}
