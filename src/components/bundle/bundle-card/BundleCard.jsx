@@ -14,6 +14,12 @@ import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
+const getEuroPrice = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  return (price).toFixed(2) + " EUR";
+};
+
 const BundleCard = ({
   bundle,
   countryData,
@@ -190,7 +196,7 @@ const BundleCard = ({
               }}
             >
               <p className="text-base max-w-24px">
-                {t("btn.buyNow")} - {bundle?.price_display} {"(tax and fees not included)"}
+                {t("btn.buyNow")} - {getEuroPrice(bundle?.price_display)} {"(tax and fees not included)"}
               </p>
             </Button>
           )}

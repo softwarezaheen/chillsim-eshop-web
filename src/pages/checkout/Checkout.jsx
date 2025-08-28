@@ -27,10 +27,16 @@ import PaymentFlow from "../../components/payment/PaymentFlow";
 import TmpLogin from "../../components/tmp-login/TmpLogin";
 import { useTranslation } from "react-i18next";
 
+const getEuroPrice = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  return (price).toFixed(2) + " EUR";
+};
+
 const getTaxValue = (displayPrice) => {
   const match = String(displayPrice).match(/[\d.]+/);
   const price = match ? parseFloat(match[0]) : 0;
-  return (price * 0.21).toFixed(2) + " USD";
+  return (price * 0.21).toFixed(2) + " EUR";
 };
 
 const getTaxedValue = (displayPrice) => {
@@ -45,26 +51,26 @@ const getStripeFee = (displayPrice) => {
   const tax = getTaxedValue(displayPrice);
   const fee = (((price + tax) * 0.84173) * 0.012 + 0.25 / 0.84173).toFixed(2);
   if (fee < 0.5) {
-    return "0.50 USD";
+    return "0.50 EUR";
   }
   else 
     if (fee < 1) {
-      return "1.00 USD";
+      return "1.00 EUR";
     }
     else
       if (fee < 1.5) {
-        return "1.50 USD";
+        return "1.50 EUR";
       }
       else
         if (fee < 2) {
-          return "2.00 USD";
+          return "2.00 EUR";
         }
         else
           if (fee < 2.5) {
-            return "2.50 USD";
+            return "2.50 EUR";
           }
           else
-            return "3.00 USD";
+            return "3.00 EUR";
 };
 
 const getStripedFee = (displayPrice) => {
@@ -100,7 +106,7 @@ const getTotalValue = (displayPrice) => {
   const price = match ? parseFloat(match[0]) : 0;
   const tax = getTaxedValue(displayPrice);
   const fee = getStripedFee(displayPrice);
-  return (price + tax + fee).toFixed(2) + " USD";
+  return (price + tax + fee).toFixed(2) + " EUR";
 };
 
 const Checkout = () => {
@@ -216,7 +222,7 @@ const Checkout = () => {
                     : "text-left"
                 }`}
               >
-                {data?.price_display}
+                {getEuroPrice(data?.price_display)}
               </p>
             </div>
           <div
