@@ -21,6 +21,12 @@ import TooltipComponent from "../../shared/tooltip/TooltipComponent";
 import { useTranslation, Trans } from "react-i18next";
 import { formatValidity } from "../../../assets/utils/formatValidity";
 
+const getEuroPrice = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  return (price).toFixed(2) + " EUR";
+};
+
 const BundleDetail = ({
   onClose,
   bundle,
@@ -296,7 +302,7 @@ const BundleDetail = ({
           <p className={"font-bold !text-base truncate max-w-20px"}>
             {isSubmitting
               ? t("btn.checkingBundle")
-              : `${t("btn.buyNow")} - ${bundle?.price_display} ${"(tax and fees not included)"}`}
+              : `${t("btn.buyNow")} - ${getEuroPrice(bundle?.price_display)} ${"(tax and fees not included)"}`}
           </p>
         </Button>
       </div>
