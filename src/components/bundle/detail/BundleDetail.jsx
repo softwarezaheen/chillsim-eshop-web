@@ -179,7 +179,7 @@ const BundleDetail = ({
             <p className={"truncate min-w-0"}>{bundle?.gprs_limit_display}</p>
           </TooltipComponent>
           <p className={"flex flex-row justify-end whitespace-nowrap"}>
-            {bundle?.price_display}
+            {getEuroPrice(bundle?.price_display)}
           </p>
         </div>
         <div
@@ -251,6 +251,16 @@ const BundleDetail = ({
                 </p>
               </div>
               <hr />
+              <div className={"flex flex-col gap-[0.1rem]"}>
+                <div className={"text-content-600"}>
+                  {t("bundles.priceDetails")}
+                </div>
+                <p className={"font-semibold break-words"}>
+                  {t(`price_details`) ||
+                    t("common.notAvailable")}
+                </p>
+              </div>
+              <hr />
               <div>
                 <div className={"text-content-600"}>
                   {t("bundles.activationPolicy")}
@@ -302,7 +312,7 @@ const BundleDetail = ({
           <p className={"font-bold !text-base truncate max-w-20px"}>
             {isSubmitting
               ? t("btn.checkingBundle")
-              : `${t("btn.buyNow")} - ${getEuroPrice(bundle?.price_display)} ${"(tax and fees not included)"}`}
+              : `${t("btn.buyNow")} - ${getEuroPrice(bundle?.price_display)}`}
           </p>
         </Button>
       </div>

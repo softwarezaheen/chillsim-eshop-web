@@ -225,6 +225,7 @@
   },
   "bundles": {
     "validity": "Validity",
+    "priceDetails": "Price Details",
     "noBundlesAvailable": "Currently, There no bundles available",
     "noTopupsAvailable": "Currently, There are no top-ups available",
     "availableIn": "Available in",
@@ -319,6 +320,7 @@
     "year": "year"
   },
   "activity_policy": "The validity period starts when the eSIM connects to any supported networks.",
+  "price_details":"Prices shown exclude taxes and transaction fees.",
   "terms": {
     "failedToLoadTermsData": "Failed to load Terms Data",
     "termsAndConditions": "Terms & Conditions"
