@@ -195,8 +195,8 @@ const BundleCard = ({
                 handleDetail();
               }}
             >
-              <p className="text-base max-w-24px">
-                {t("btn.buyNow")} - {getEuroPrice(bundle?.price_display)} {"(tax and fees not included)"}
+              <p className="font-bold text-base max-w-24px">
+                {t("btn.buyNow")} - {getEuroPrice(bundle?.price_display)} 
               </p>
             </Button>
           )}
