@@ -261,7 +261,9 @@
     "bundleName": "Bundle Name",
     "subtotal": "Subtotal",
     "estimatedTax": "Estimated Tax",
-    "total": "Total"
+    "total": "Total",
+    "tax": "Tax",
+    "fee": "Stripe Fee"
   },
   "howItWorks": {
     "easyAndFast": "Easy and fast",

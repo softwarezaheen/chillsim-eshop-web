@@ -189,8 +189,8 @@ const BundleCard = ({
                 handleDetail();
               }}
             >
-              <p className="font-bold text-base">
-                {t("btn.buyNow")} - {bundle?.price_display}
+              <p className="text-base max-w-24px">
+                {t("btn.buyNow")} - {bundle?.price_display} {"(tax and fees not included)"}
               </p>
             </Button>
           )}
