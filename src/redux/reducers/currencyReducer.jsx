@@ -72,7 +72,7 @@ const CurrencySlice = createSlice({
         );
 
         state.whatsapp_number = whatsappNumber?.value || "";
-        state.system_currency = currency?.value || "EUR";
+        state.system_currency = "EUR";
         state.allowed_payment_types = paymentTypes?.value.split(",") || [
           "wallet",
         ];
