@@ -32,7 +32,7 @@ function App() {
   useEffect(() => {
     const lang = i18n.language;
     document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = "ltr";
   }, []);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ function App() {
       dispatch(fetchUserInfo());
     }
 
-    document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = "ltr";
   }, [i18n.language, dispatch]);
 
   const whatsappNumberUpdate = useMemo(() => {
