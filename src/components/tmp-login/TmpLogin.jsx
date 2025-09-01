@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Select from "react-select";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -23,71 +24,61 @@ import {
 import { userLimitedLogin } from "../../core/apis/authAPI";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { supportedPrefix } from "../../core/variables/ProjectVariables";
+import { romanianCities } from "./regions";
 
 const TmpLogin = () => {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
 
-  const { login_type, otp_channel, social_login } = useSelector(
-    (state) => state.currency,
-  );
-  const schema = ({ t }) =>
-    yup.object().shape({
-      phone: yup
-        .string()
-        .label("Phone number")
-        .nullable()
-        .when("$signinType", {
-          is: (val) => login_type === "phone",
-          then: (schema) => schema.required(t("auth.phoneRequired")),
-          otherwise: (schema) => schema.notRequired(),
-        })
-        .test("is-valid-phone", t("auth.invalidPhoneNumber"), (value) => {
-          if (!value) return true;
+  const { login_type, otp_channel } = useSelector((state) => state.currency);
 
-          // Validate phone number format
-          if (!isValidPhoneNumber(value)) return false;
-
-          // Validate first 2 digits after +963
-          const cleaned = value.replace(/^(\+?963)/, "");
-
-          const prefix = cleaned.substring(0, 2);
-          const validPrefixes = supportedPrefix;
-          return validPrefixes.includes(prefix);
-        }),
-
-      email: yup
-        .string()
-        .label("Email")
-        .email()
-        .test("no-alias", t("checkout.aliasEmailNotAllowed"), (value) => {
-          if (!value) return true;
-          const [localPart] = value.split("@");
-          return !localPart.includes("+");
-        })
-        .nullable()
-        .when("$signinType", {
-          is: (val) => login_type !== "phone",
-          then: (schema) => schema.required(t("checkout.emailRequired")),
-          otherwise: (schema) => schema.notRequired(),
-        }),
-      confirm: yup
-        .boolean()
-        .oneOf([true], t("auth.confirmationRequired"))
-        .required(),
-      verify_by: yup.string().when("$signinType", {
-        is: (val) => otp_channel?.length > 1,
-        then: (schema) => schema.required(t("auth.selectVerificationMethod")),
-        otherwise: (schema) => schema.notRequired(),
+  // ✅ Schema
+  const schema = yup.object().shape({
+    phone: yup
+      .string()
+      .nullable()
+      .when("$signinType", {
+        is: "phone",
+        then: (s) => s.required(t("auth.phoneRequired")),
+        otherwise: (s) => s.notRequired(),
+      })
+      .test("is-valid-phone", t("auth.invalidPhoneNumber"), (value) => {
+        if (!value) return true;
+        if (!isValidPhoneNumber(value)) return false;
+        const cleaned = value.replace(/^(\+?963)/, "");
+        const prefix = cleaned.substring(0, 2);
+        return supportedPrefix.includes(prefix);
       }),
-    });
+    email: yup
+      .string()
+      .email()
+      .nullable()
+      .when("$signinType", {
+        is: (val) => val !== "phone",
+        then: (s) => s.required(t("checkout.emailRequired")),
+        otherwise: (s) => s.notRequired(),
+      })
+      .test("no-alias", t("checkout.aliasEmailNotAllowed"), (value) => {
+        if (!value) return true;
+        const [localPart] = value.split("@");
+        return !localPart.includes("+");
+      }),
+    confirm: yup
+      .boolean()
+      .oneOf([true], t("auth.confirmationRequired"))
+      .required(),
+    verify_by: yup.string().when("$signinType", {
+      is: () => otp_channel?.length > 1,
+      then: (s) => s.required(t("auth.selectVerificationMethod")),
+      otherwise: (s) => s.notRequired(),
+    }),
+  });
 
   const {
     control,
     handleSubmit,
-    reset,
-    getValues,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -95,173 +86,285 @@ const TmpLogin = () => {
       phone: "",
       confirm: false,
       verify_by: otp_channel?.[0],
+      country: "",
+      city: "",
+      lastName: "",
+      firstName: "",
+      billingAddress: "",
     },
-    resolver: yupResolver(schema({ t })),
+    resolver: yupResolver(schema, { context: { signinType: login_type } }),
     mode: "all",
   });
 
+  const selectedCountry = watch("country");
+  const [billingType, setBillingType] = useState("individual");
+
+  // ✅ Submit handler
   const handleSubmitForm = async (payload) => {
     setIsSubmitting(true);
-    userLimitedLogin({
-      verify_by: payload?.verify_by,
-      confirm: payload?.confirm,
-      [login_type]: payload?.[login_type]?.toLowerCase(),
-    })
-      .then((res) => {
-        if (res?.data?.status === "success") {
-          dispatch(LimitedSignIn({ ...res?.data?.data }));
-        } else {
-          toast.error(res?.message);
-        }
-      })
-      .catch((e) => {
-        toast?.error(e?.message || t("checkout.failedToSendMessage"));
-      })
-      .finally(() => {
-        setIsSubmitting(false);
+    try {
+      const res = await userLimitedLogin({
+        verify_by: payload?.verify_by,
+        confirm: payload?.confirm,
+        [login_type]: payload?.[login_type]?.toLowerCase(),
       });
+      if (res?.data?.status === "success") {
+        dispatch(LimitedSignIn({ ...res?.data?.data }));
+      } else {
+        toast.error(res?.message);
+      }
+    } catch (e) {
+      toast.error(e?.message || t("checkout.failedToSendMessage"));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <form
       onSubmit={handleSubmit(handleSubmitForm)}
-      className={"flex flex-col gap-8 w-full sm:basis-[50%] shrink-0 "}
+      className="flex flex-col gap-8 w-full sm:basis-[50%] shrink-0"
     >
-      <div className={"flex flex-col gap-[1rem]"}>
-        {login_type === "phone" ? (
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium mb-2">
-              {t("profile.phoneNumber")}*
-            </label>
-            <Controller
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <FormPhoneInput
-                  value={value}
-                  defaultCountry="RO"
-                  countries={["RO"]}
-                  international={false}
-                  countrySelectProps={{ disabled: true }}
-                  helperText={error?.message}
-                  onChange={(value, country) => onChange(value)}
-                />
-              )}
-              name="phone"
-              control={control}
-            />
-          </div>
-        ) : (
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-2">
-              {t("orders.email")}
-            </label>
-            <Controller
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <FormInput
-                  placeholder={t("checkout.enterEmail")}
-                  value={value}
-                  helperText={error?.message}
-                  onChange={(value) => onChange(value)}
-                />
-              )}
-              name="email"
-              control={control}
-            />
-          </div>
-        )}
-        {otp_channel?.length > 1 && (
-          <Controller
-            render={({ field: { onChange, value }, fieldState: { error } }) => (
-              <div className={"flex flex-col gap-[0.5rem]"}>
-                <RadioGroup
-                  name="use-radio-group"
-                  value={value}
-                  onChange={onChange}
-                  row
-                  sx={{ columnGap: 2, flexWrap: "nowrap", overflowX: "auto" }}
-                >
-                  {otp_channel?.map((channel) => (
-                    <FormControlLabel
-                      sx={{
-                        alignItems: "center !important",
-                        whiteSpace: "nowrap",
-                      }}
-                      value={channel}
-                      label={
-                        <div className="flex flex-row gap-[0.5rem] items-center">
-                          <Typography
-                            fontWeight={"bold"}
-                            color="primary"
-                            fontSize={"1rem"}
-                          >
-                            {t("auth.verifyByChannel", {
-                              channel: channel,
-                            })}
-                          </Typography>
-                        </div>
-                      }
-                      control={<Radio checked={value === channel} />}
-                    />
-                  ))}
-                </RadioGroup>
-                {error?.message !== "" && (
-                  <FormHelperText>{error?.message}</FormHelperText>
-                )}
-              </div>
-            )}
-            name="verify_by"
-            control={control}
-          />
-        )}
+      {/* Billing Info */}
+      <h2 className="text-xl font-bold">{t("checkout.billingInformation")}</h2>
 
+      {/* Billing type */}
+      <div className="flex gap-6">
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            name="billingType"
+            value="individual"
+            checked={billingType === "individual"}
+            onChange={() => setBillingType("individual")}
+          />
+          {t("checkout.individual")}
+        </label>
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            name="billingType"
+            value="business"
+            checked={billingType === "business"}
+            onChange={() => setBillingType("business")}
+          />
+          {t("checkout.business")}
+        </label>
+      </div>
+
+      {/* Business fields */}
+      {billingType === "business" && (
+        <>
+          <Controller
+            name="companyName"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...field}
+                label={t("checkout.companyName")}
+                placeholder={t("checkout.companyName")}
+              />
+            )}
+          />
+          <Controller
+            name="vatCode"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...field}
+                label={t("checkout.vatCode")}
+                placeholder={t("checkout.vatCode")}
+              />
+            )}
+          />
+          <Controller
+            name="tradeRegistry"
+            control={control}
+            render={({ field }) => (
+              <FormInput
+                {...field}
+                label={t("checkout.tradeRegistry")}
+                placeholder={t("checkout.tradeRegistry")}
+              />
+            )}
+          />
+        </>
+      )}
+
+      {/* Common fields */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Controller
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <FormCheckBox
-              value={value}
-              helperText={error?.message}
-              onChange={(value) => onChange(value)}
-              label={
-                <div
-                  className={"flex flex-col text-sm gap-[0.1rem] font-semibold"}
-                >
-                  <div>{t("auth.confirmValidAndNoTypos", { login_type })}</div>
-                  <div>
-                    {t("auth.andIAcceptThe")}{" "}
-                    <Link
-                      rel="noopener noreferrer"
-                      target="_blank"
-                      color="secondary"
-                      href="/terms"
-                      underline="none"
-                    >
-                      {t("checkout.terms")}
-                    </Link>{" "}
-                    {t("auth.andIUnderstandProductWorksWithESIM")}
-                  </div>
-                </div>
-              }
+          name="lastName"
+          control={control}
+          render={({ field }) => (
+            <FormInput
+              {...field}
+              label={t("checkout.lastName")}
+              placeholder={t("checkout.lastName")}
             />
           )}
-          name="confirm"
+        />
+        <Controller
+          name="firstName"
           control={control}
+          render={({ field }) => (
+            <FormInput
+              {...field}
+              label={t("checkout.firstName")}
+              placeholder={t("checkout.firstName")}
+            />
+          )}
         />
       </div>
-      <div className={"flex flex-row justify-center sm:justify-start "}>
-        <Button
-          disabled={isSubmitting}
-          color="primary"
-          type="submit"
-          variant="contained"
-          sx={{ width: "30%" }}
-        >
-          {t("btn.confirm")}
-        </Button>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <FormInput
+              {...field}
+              label={t("checkout.email")}
+              placeholder={t("checkout.enterEmail")}
+            />
+          )}
+        />
+        <Controller
+          name="country"
+          control={control}
+          render={({ field }) => (
+            <FormInput
+              {...field}
+              label={t("checkout.country")}
+              placeholder={t("checkout.country")}
+            />
+          )}
+        />
       </div>
+
+      {/* City / State */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* City (dropdown if Romania, otherwise text input) */}
+      <Controller
+        name="city"
+        control={control}
+        render={({ field, fieldState }) =>
+          selectedCountry === "RO" || selectedCountry === "Romania" || selectedCountry === "romania" ? (
+            <Select
+              {...field}
+              options={Object.keys(romanianCities).flatMap((county) =>
+                romanianCities[county].map((city) => ({
+                  value: city.name,
+                  label: city.name,
+                }))
+              )}
+              placeholder={t("checkout.selectCity")}
+              onChange={(option) => field.onChange(option?.value)}
+              value={
+                field.value
+                  ? { value: field.value, label: field.value }
+                  : null
+              }
+            />
+          ) : (
+            <FormInput
+              {...field}
+              label={t("checkout.city")}
+              placeholder={t("checkout.city")}
+              helperText={fieldState.error?.message}
+            />
+          )
+        }
+      />
+
+      {/* State always free text */}
+      <Controller
+        name="state"
+        control={control}
+        render={({ field, fieldState }) => (
+          <FormInput
+            {...field}
+            label={t("checkout.state")}
+            placeholder={t("checkout.state")}
+            helperText={fieldState.error?.message}
+          />
+        )}
+      />
+    </div>
+
+      {/* Billing Address */}
+      <Controller
+        name="billingAddress"
+        control={control}
+        render={({ field }) => (
+          <FormInput
+            {...field}
+            label={t("checkout.billingAddress")}
+            placeholder={t("checkout.billingAddress")}
+          />
+        )}
+      />
+
+      {/* Confirm + OTP Channels */}
+      {otp_channel?.length > 1 && (
+        <Controller
+          name="verify_by"
+          control={control}
+          render={({ field, fieldState }) => (
+            <>
+              <RadioGroup {...field} row>
+                {otp_channel.map((channel) => (
+                  <FormControlLabel
+                    key={channel}
+                    value={channel}
+                    control={<Radio />}
+                    label={t("auth.verifyByChannel", { channel })}
+                  />
+                ))}
+              </RadioGroup>
+              {fieldState.error && (
+                <FormHelperText>{fieldState.error.message}</FormHelperText>
+              )}
+            </>
+          )}
+        />
+      )}
+
+      <Controller
+        name="confirm"
+        control={control}
+        render={({ field, fieldState }) => (
+          <FormCheckBox
+            {...field}
+            helperText={fieldState.error?.message}
+            label={
+              <div className="text-sm font-semibold flex flex-col gap-1">
+                <span>
+                  {t("auth.confirmValidAndNoTypos", { login_type })}
+                </span>
+                <span>
+                  {t("auth.andIAcceptThe")}{" "}
+                  <Link to="/terms" target="_blank">
+                    {t("checkout.terms")}
+                  </Link>{" "}
+                  {t("auth.andIUnderstandProductWorksWithESIM")}
+                </span>
+              </div>
+            }
+          />
+        )}
+      />
+
+      {/* Submit */}
+      <Button
+        disabled={isSubmitting}
+        color="primary"
+        type="submit"
+        variant="contained"
+        sx={{ width: "30%" }}
+      >
+        {t("btn.confirm")}
+      </Button>
     </form>
   );
 };
