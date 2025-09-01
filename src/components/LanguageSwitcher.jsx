@@ -12,14 +12,13 @@ const LanguageSwitcher = () => {
   const dispatch = useDispatch();
   const languages = [
     { code: "en", name: "English", flag: "EN" },
-    { code: "ar", name: "العربية", flag: "ع" },
-    // { code: "fr", name: "Français", flag: "FR" },
+    { code: "ro", name: "Română", flag: "RO" },
   ];
   const modalRef = useRef(null);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    const direction = lng === "ar" ? "rtl" : "ltr";
+    const direction = "ltr";
     dispatch(setDirection(direction));
     localStorage.setItem("i18nextLng", lng); // Save selected language
     document.documentElement.dir = direction;
@@ -60,7 +59,7 @@ const LanguageSwitcher = () => {
       </button>
       {openModal && (
         <div
-          className={`absolute ${i18n.language === "en" ? "right-0" : "left-0"} mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200`}
+          className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200`}
         >
           <div className="py-1">
             {languages?.map((language) => (

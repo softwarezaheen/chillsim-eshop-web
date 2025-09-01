@@ -6,6 +6,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useSelector } from "react-redux";
 import { authMenuItems, menuItems } from "../../core/variables/StaticVariables";
 import Container from "../Container";
+import i18n from "../../i18n.js";
 import LanguageSwitcher from "../LanguageSwitcher.jsx";
 import NotificationsMenu from "../NotificationsMenu";
 import UserMenu from "../UserMenu";
@@ -119,7 +120,27 @@ const Navbar = ({ main }) => {
                 <UserMenu />
               </div>
             ) : (
-              <div className="hidden lg:flex items-center">
+              <div className="flex items-center space-x-4">
+                <div className="text-sm font-bold flex items-center">
+                  <button
+                    onClick={() => i18n.changeLanguage("en")}
+                    className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
+                      i18n.language === "en" ? "text-secondary" : customClassName
+                    }`}
+                  >
+                    en
+                  </button>
+                  <span className="text-gray-400">|</span>
+                  <button
+                    onClick={() => i18n.changeLanguage("ro")}
+                    className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
+                      i18n.language === "ro" ? "text-secondary" : customClassName
+                    }`}
+                  >
+                    ro
+                  </button>
+                </div>
+
                 {location?.pathname !== "/signin" && (
                   <Link
                     to="/signin"
@@ -128,7 +149,7 @@ const Navbar = ({ main }) => {
                     {t("nav.signIn")}
                   </Link>
                 )}
-              
+
               </div>
             )}
 
