@@ -235,7 +235,7 @@
     "planType": "Categoria planului",
     "activationPolicy": "Politica de activare",
     "compatibility": "Compatibilitatea",
-    "findOut": "Find out if your device supports eSIM by dialing <0>{{code}}</0> and looking for <1>{{term}}</1>.",
+    "findOut": "Afla dacă dispozitivul tău suportă eSIM sunând la <0>{{code}}</0> și căutând <1>{{term}}</1>.",
     "failedToLoadBundles": "Nu s-au putut încărca pachetele",
     "duration": "{{count}} {{unit}}",
     "unit": {
