@@ -199,11 +199,7 @@ const Checkout = () => {
               </label>
               <p
                 dir={"ltr"}
-                className={`flex-1 font-bold truncate ${
-                  localStorage.getItem("i18nextLng") === "en"
-                    ? "text-right"
-                    : "text-left"
-                }`}
+                className={`flex-1 font-bold truncate text-right`}
               >
                 {data?.display_title || t("common.notAvailable")}
               </p>
@@ -216,11 +212,7 @@ const Checkout = () => {
               </label>
               <p
                 dir={"ltr"}
-                className={`flex-1 font-bold ${
-                  localStorage.getItem("i18nextLng") === "en"
-                    ? "text-right"
-                    : "text-left"
-                }`}
+                className={`flex-1 font-bold text-right `}
               >
                 {getEuroPrice(data?.price_display)}
               </p>
@@ -235,11 +227,7 @@ const Checkout = () => {
               </label>
               <p
                 dir={"ltr"}
-                className={`flex-1 font-bold ${
-                  localStorage.getItem("i18nextLng") === "en"
-                    ? "text-right"
-                    : "text-left"
-                }`}
+                className={`flex-1 font-bold text-right`}
               >
               {getTaxValue(data?.price_display)}
               </p>
@@ -254,11 +242,7 @@ const Checkout = () => {
               </label>
               <p
                 dir={"ltr"}
-                className={`flex-1 font-bold ${
-                  localStorage.getItem("i18nextLng") === "en"
-                    ? "text-right"
-                    : "text-left"
-                }`}
+                className={`flex-1 font-bold text-right`}
               >
               {getStripeFee(data?.price_display)}
               </p>
@@ -270,11 +254,7 @@ const Checkout = () => {
             <label className={"font-semibold"}>{t("checkout.total")}</label>
             <p
               dir={"ltr"}
-              className={`font-bold text-2xl ${
-                localStorage.getItem("i18nextLng") === "en"
-                  ? "text-right"
-                  : "text-left"
-              }`}
+              className={`font-bold text-2xl text-right`}
             >
               {getTotalValue(data?.price_display)}
             </p>
