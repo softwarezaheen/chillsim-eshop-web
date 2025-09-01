@@ -225,6 +225,7 @@
   },
   "bundles": {
     "validity": "Valabilitate",
+    "priceDetails": "Detalii Preț",
     "noBundlesAvailable": "În prezent, nu există pachete disponibile",
     "noTopupsAvailable": "În prezent, nu există reîncărcări disponibile",
     "availableIn": "Disponibil în",
@@ -320,6 +321,7 @@
     "year": "anul"
   },
   "activity_policy": "Perioada de valabilitate începe când eSIM-ul se conectează la orice rețea suportată.",
+  "price_details":"Prețurile afișate nu includ taxe și comisioane de tranzacție.",
   "terms": {
     "failedToLoadTermsData": "Nu s-au putut încărca informațiile despre Termeni",
     "termsAndConditions": "Termeni și condiții"
