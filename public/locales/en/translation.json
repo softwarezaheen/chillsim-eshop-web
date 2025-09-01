@@ -264,7 +264,7 @@
     "estimatedTax": "Estimated Tax",
     "total": "Total",
     "tax": "Tax",
-    "fee": "Stripe Fee"
+    "fee": "Processing Fee"
   },
   "howItWorks": {
     "easyAndFast": "Easy and fast",
