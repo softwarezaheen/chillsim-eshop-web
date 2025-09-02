@@ -33,6 +33,12 @@ const getEuroPrice = (displayPrice) => {
   return (price).toFixed(2) + " EUR";
 };
 
+const getEuroPriced = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  return price;
+};
+
 const getStripedFee = (displayPrice) => {
   const match = String(displayPrice).match(/[\d.]+/);
   const price = match ? parseFloat(match[0]) : 0;
@@ -116,6 +122,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
 
@@ -127,22 +134,28 @@ const Checkout = () => {
 
       if (!bundle) return null;
 
+      console.log(bundle, "BUNDLE DATA IN QUERY");
+
       // Add derived values
-      const fee = getStripeFee(bundle.price_display);
-      const total = getTotalValue(bundle.price_display);
+      const price = getEuroPriced(bundle?.original_price);
+      const fees = getStripedFee(bundle?.original_price);
 
       return {
         ...bundle,
-        processing_fee: fee,
-        total_price: total,
+        price_display: price + fees,
+        price: price,
+        fees: fees
       };
     }),
   enabled: !!id,
 });
 
+  console.log(data, "BUNDLE DATA");
+
   const confirmed = useMemo(() => {
     return isAuthenticated || tmp?.isAuthenticated;
   }, [isAuthenticated, tmp]);
+
 
   return (
     <div
@@ -230,7 +243,7 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right `}
               >
-                {getEuroPrice(data?.price_display)}
+                {data?.price + " EUR"}
               </p>
             </div>
           <div
@@ -245,7 +258,7 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right`}
               >
-              {data?.processing_fee}
+              {getStripeFee(data?.original_price)}
               </p>
             </div>
             <div
@@ -260,7 +273,7 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right`}
               >
-              {getTaxValue(data?.price_display)}
+              {getTaxValue(data?.price)}
               </p>
             </div>
           <hr />
@@ -272,7 +285,7 @@ const Checkout = () => {
               dir={"ltr"}
               className={`font-bold text-2xl text-right`}
             >
-              {getTotalValue(data?.price_display)}
+              {getTotalValue(data?.price)}
             </p>
           </div>
           </div>
