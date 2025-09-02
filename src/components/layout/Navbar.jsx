@@ -30,7 +30,7 @@ const Navbar = ({ main }) => {
       : false;
 
   const handleLogoClick = () => {
-    navigate("/");
+    navigate("/plans/land");
     window.scrollTo(0, 0);
   };
 
@@ -67,10 +67,17 @@ const Navbar = ({ main }) => {
     }
   }, [isHomePage, showMenu]);
 
-  const menuLinks = useMemo(() => {
-    if (main) return menuItems;
-    else return authMenuItems;
-  }, [main]);
+const menuLinks = useMemo(() => {
+  if (main) return menuItems;
+  else {
+    if (isAuthenticated) {
+      // 🔹 Combina ambele meniuri când userul este logat
+      return [...menuItems, ...authMenuItems];
+    } else {
+      return authMenuItems;
+    }
+  }
+}, [main, isAuthenticated]);
 
   return (
     <>
@@ -112,11 +119,28 @@ const Navbar = ({ main }) => {
 
             {/* Right Section */}
             {isAuthenticated ? (
-              <div className="hidden lg:flex flex items-center space-x-6">
-             
+              <div className="hidden lg:flex items-center space-x-6">
+                <div className="text-sm font-bold flex items-center">
+                  <button
+                    onClick={() => i18n.changeLanguage("en")}
+                    className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
+                      i18n.language === "en" ? "text-secondary" : customClassName
+                    }`}
+                  >
+                    en
+                  </button>
+                  <span className="text-gray-400">|</span>
+                  <button
+                    onClick={() => i18n.changeLanguage("ro")}
+                    className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
+                      i18n.language === "ro" ? "text-secondary" : customClassName
+                    }`}
+                  >
+                    ro
+                  </button>
+                </div>
 
                 <NotificationsMenu />
-
                 <UserMenu />
               </div>
             ) : (

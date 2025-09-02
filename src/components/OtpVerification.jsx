@@ -132,10 +132,7 @@ const OtpVerification = ({
                 });
               }
 
-              navigate({
-                pathname: iccid ? `/esim/${iccid}` : "/plans",
-                search: !iccid ? `?${searchParams.toString()}` : "",
-              });
+              navigate("/plans/land");
             }, 5000); // 5000 ms = 5 seconds
           } else {
             //login user

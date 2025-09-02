@@ -19,6 +19,7 @@ import Profile from "../../pages/profile/Profile";
 import UserNotifications from "../../pages/user-notification/UserNotifications";
 import EsimDetail from "../../pages/my-esim/esim-detail/EsimDetail";
 import PrivacyPolicy from "../../pages/privacy-policy/PrivacyPolicy";
+import TmpLogin from "../../components/tmp-login/TmpLogin";
 
 export const useAppRoutes = () => {
   const login_type = useSelector((state) => state.currency?.login_type);
@@ -49,20 +50,18 @@ export const useAppRoutes = () => {
               ],
       },
       {
-        path: "/plans",
-        element: <PlansWrapper />,
-        children: [
-          {
-            path: "",
-            element: <Plans />,
-          },
-          { path: "land", element: <Plans /> },
-        ],
+        path: "/plans/land",
+        element: <Plans />
       },
       { path: `/callback-google`, element: <AuthValidation /> },
       {
         path: "/how-it-works",
         element: <HowItWorks />,
+      },
+
+      {
+        path: "/tmp-login",
+        element: <TmpLogin />,
       },
 
       {

@@ -3,7 +3,7 @@ import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import AirplanemodeActiveOutlinedIcon from "@mui/icons-material/AirplanemodeActiveOutlined";
 export const menuItems = [
-  { path: "/plans", label: "plans" },
+  { path: "/plans/land", label: "plans" },
   { path: "/how-it-works", label: "howItWorks" },
   { path: "/about-us", label: "aboutUs" },
   { path: "/contact-us", label: "contactUs" },
