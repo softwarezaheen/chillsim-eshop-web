@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 //COMPONENT
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { useSelector } from "react-redux";
-import { authMenuItems, menuItems } from "../../core/variables/StaticVariables";
+import { authMenuItems, menuItems, menuItemsSigned } from "../../core/variables/StaticVariables";
 import Container from "../Container";
 import i18n from "../../i18n.js";
 import LanguageSwitcher from "../LanguageSwitcher.jsx";
@@ -72,7 +72,7 @@ const menuLinks = useMemo(() => {
   else {
     if (isAuthenticated) {
       // 🔹 Combina ambele meniuri când userul este logat
-      return [...menuItems, ...authMenuItems];
+      return [...menuItemsSigned, ...authMenuItems];
     } else {
       return authMenuItems;
     }

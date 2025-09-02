@@ -9,6 +9,12 @@ export const menuItems = [
   { path: "/contact-us", label: "contactUs" },
 ];
 
+export const menuItemsSigned = [
+  { path: "/plans/land", label: "plans" },
+  { path: "/how-it-works", label: "howItWorks" },
+  { path: "/contact-us", label: "contactUs" },
+];
+
 export const authMenuItems = [
   { path: "/esim", label: "myEsim" },
   { path: "/orders", label: "ordersHistory" },
