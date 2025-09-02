@@ -25,20 +25,25 @@ import { userLimitedLogin } from "../../core/apis/authAPI";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { supportedPrefix } from "../../core/variables/ProjectVariables";
 import { romanianCities } from "./regions";
+import { supabase } from "./supabase";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const TmpLogin = () => {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const nextUrl = params.get("next");
 
   const { login_type, otp_channel } = useSelector((state) => state.currency);
 
-  // ✅ Schema
   const schema = yup.object().shape({
     phone: yup
       .string()
       .nullable()
-      .when("$signinType", {
+      .when("login_type", {
         is: "phone",
         then: (s) => s.required(t("auth.phoneRequired")),
         otherwise: (s) => s.notRequired(),
@@ -50,11 +55,12 @@ const TmpLogin = () => {
         const prefix = cleaned.substring(0, 2);
         return supportedPrefix.includes(prefix);
       }),
+
     email: yup
       .string()
       .email()
       .nullable()
-      .when("$signinType", {
+      .when("login_type", {
         is: (val) => val !== "phone",
         then: (s) => s.required(t("checkout.emailRequired")),
         otherwise: (s) => s.notRequired(),
@@ -64,16 +70,15 @@ const TmpLogin = () => {
         const [localPart] = value.split("@");
         return !localPart.includes("+");
       }),
-    confirm: yup
-      .boolean()
-      .oneOf([true], t("auth.confirmationRequired"))
-      .required(),
-    verify_by: yup.string().when("$signinType", {
-      is: () => otp_channel?.length > 1,
+
+    confirm: yup.boolean().oneOf([true], t("auth.confirmationRequired")).required(),
+
+    verify_by: yup.string().when("otp_channel", {
+      is: (val) => Array.isArray(val) && val.length > 1,
       then: (s) => s.required(t("auth.selectVerificationMethod")),
-      otherwise: (s) => s.notRequired(),
     }),
   });
+
 
   const {
     control,
@@ -84,13 +89,16 @@ const TmpLogin = () => {
     defaultValues: {
       email: "",
       phone: "",
-      confirm: false,
-      verify_by: otp_channel?.[0],
+      firstName: "",
+      lastName: "",
       country: "",
       city: "",
-      lastName: "",
-      firstName: "",
+      state: "",
       billingAddress: "",
+      companyName: "",
+      vatCode: "",
+      tradeRegistry: "",
+      confirm: false
     },
     resolver: yupResolver(schema, { context: { signinType: login_type } }),
     mode: "all",
@@ -99,8 +107,8 @@ const TmpLogin = () => {
   const selectedCountry = watch("country");
   const [billingType, setBillingType] = useState("individual");
 
-  // ✅ Submit handler
   const handleSubmitForm = async (payload) => {
+    console.log("Submitting with payload:", payload);
     setIsSubmitting(true);
     try {
       const res = await userLimitedLogin({
@@ -110,6 +118,7 @@ const TmpLogin = () => {
       });
       if (res?.data?.status === "success") {
         dispatch(LimitedSignIn({ ...res?.data?.data }));
+        navigate(nextUrl);
       } else {
         toast.error(res?.message);
       }
@@ -117,6 +126,15 @@ const TmpLogin = () => {
       toast.error(e?.message || t("checkout.failedToSendMessage"));
     } finally {
       setIsSubmitting(false);
+    }
+    try {
+      const { data, error } = await supabase
+        .from("billing_information") 
+        .upsert([payload], { onConflict: "email" });
+
+      if (error) throw error;
+    } catch (error) {
+      console.error(error);
     }
   };
 

@@ -33,51 +33,10 @@ const getEuroPrice = (displayPrice) => {
   return (price).toFixed(2) + " EUR";
 };
 
-const getTaxValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  return (price * 0.21).toFixed(2) + " EUR";
-};
-
-const getTaxedValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  return price * 0.21;
-};
-
-const getStripeFee = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const tax = getTaxedValue(displayPrice);
-  const fee = (((price + tax) * 0.84173) * 0.012 + 0.25 / 0.84173).toFixed(2);
-  if (fee < 0.5) {
-    return "0.50 EUR";
-  }
-  else 
-    if (fee < 1) {
-      return "1.00 EUR";
-    }
-    else
-      if (fee < 1.5) {
-        return "1.50 EUR";
-      }
-      else
-        if (fee < 2) {
-          return "2.00 EUR";
-        }
-        else
-          if (fee < 2.5) {
-            return "2.50 EUR";
-          }
-          else
-            return "3.00 EUR";
-};
-
 const getStripedFee = (displayPrice) => {
   const match = String(displayPrice).match(/[\d.]+/);
   const price = match ? parseFloat(match[0]) : 0;
-  const tax = getTaxedValue(displayPrice);
-  const fee = ((price + tax) * 0.84173) * 0.012 + 0.25 / 0.84173;
+  const fee = ((price) * 0.84173) * 0.012 + 0.25 / 0.84173;
   if (fee < 0.5) {
     return 0.5;
   }
@@ -101,6 +60,47 @@ const getStripedFee = (displayPrice) => {
             return 3;
 };
 
+const getTaxValue = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  const fee = getStripedFee(displayPrice);
+  return ((price + fee) * 0.21).toFixed(2) + " EUR";
+};
+
+const getTaxedValue = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  const fee = getStripedFee(displayPrice);
+  return (price + fee) * 0.21;
+};
+
+const getStripeFee = (displayPrice) => {
+  const match = String(displayPrice).match(/[\d.]+/);
+  const price = match ? parseFloat(match[0]) : 0;
+  const fee = (((price) * 0.84173) * 0.012 + 0.25 / 0.84173).toFixed(2);
+  if (fee < 0.5) {
+    return "0.50 EUR";
+  }
+  else 
+    if (fee < 1) {
+      return "1.00 EUR";
+    }
+    else
+      if (fee < 1.5) {
+        return "1.50 EUR";
+      }
+      else
+        if (fee < 2) {
+          return "2.00 EUR";
+        }
+        else
+          if (fee < 2.5) {
+            return "2.50 EUR";
+          }
+          else
+            return "3.00 EUR";
+};
+
 const getTotalValue = (displayPrice) => {
   const match = String(displayPrice).match(/[\d.]+/);
   const price = match ? parseFloat(match[0]) : 0;
@@ -120,10 +120,25 @@ const Checkout = () => {
   const dispatch = useDispatch();
 
   const { data, isLoading, error } = useQuery({
-    queryKey: [`${id}-details`],
-    queryFn: () => getBundleById(id).then((res) => res?.data?.data),
-    enabled: !!id,
-  });
+  queryKey: [`${id}-details`],
+  queryFn: () =>
+    getBundleById(id).then((res) => {
+      const bundle = res?.data?.data;
+
+      if (!bundle) return null;
+
+      // Add derived values
+      const fee = getStripeFee(bundle.price_display);
+      const total = getTotalValue(bundle.price_display);
+
+      return {
+        ...bundle,
+        processing_fee: fee,
+        total_price: total,
+      };
+    }),
+  enabled: !!id,
+});
 
   const confirmed = useMemo(() => {
     return isAuthenticated || tmp?.isAuthenticated;
@@ -180,7 +195,8 @@ const Checkout = () => {
         !confirmed ? (
           <TmpLogin />
         ) : (
-          <PaymentFlow bundle={data} />
+          <PaymentFlow bundle={data} totalValue={getTotalValue(data?.price_display)} />
+
         )}
         <div
           className={
@@ -223,13 +239,13 @@ const Checkout = () => {
               }
             >
               <label className={"flex-1 font-semibold"}>
-                {t("checkout.tax")}
+                {t("checkout.fee")}
               </label>
               <p
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right`}
               >
-              {getTaxValue(data?.price_display)}
+              {data?.processing_fee}
               </p>
             </div>
             <div
@@ -238,13 +254,13 @@ const Checkout = () => {
               }
             >
               <label className={"flex-1 font-semibold"}>
-                {t("checkout.fee")}
+                {t("checkout.tax")}
               </label>
               <p
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right`}
               >
-              {getStripeFee(data?.price_display)}
+              {getTaxValue(data?.price_display)}
               </p>
             </div>
           <hr />

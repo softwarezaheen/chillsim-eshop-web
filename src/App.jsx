@@ -15,7 +15,7 @@ function App() {
   const whatsapp_number = useSelector(
     (state) => state.currency?.whatsapp_number || "",
   );
-  const { isAuthenticated } = useSelector((state) => state.authentication);
+  
   const { i18n } = useTranslation();
 
   const getDeviceId = async () => {
@@ -40,13 +40,6 @@ function App() {
       getDeviceId();
     }
     dispatch(fetchCurrencyInfo());
-
-    if (!isAuthenticated) {
-      dispatch(SignOut());
-    } else {
-      console.log("fetch user info app ");
-      dispatch(fetchUserInfo());
-    }
 
     document.documentElement.dir = "ltr";
   }, [i18n.language, dispatch]);

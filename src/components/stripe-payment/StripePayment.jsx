@@ -29,6 +29,8 @@ const schema = yup.object().shape({
 export const StripePayment = (props) => {
   const { t } = useTranslation();
   const { stripePromise, clientSecret, orderDetail, loading } = props;
+  const { totalValue } = props;
+
 
   // Enable the skeleton loader UI for the optimal loading experience.
   const loader = "auto";
@@ -62,6 +64,7 @@ const InjectedCheckout = ({ orderDetail }) => {
   const stripe = useStripe();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,

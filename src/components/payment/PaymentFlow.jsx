@@ -39,6 +39,7 @@ const typeMap = {
 };
 
 const PaymentFlow = (props) => {
+  console.log(props, "payment flow props");
   const { t } = useTranslation();
   const { iccid } = useParams();
   const { related_search } = useSelector((state) => state.search);
@@ -75,6 +76,7 @@ const PaymentFlow = (props) => {
         bundle_code: props?.bundle?.bundle_code,
         payment_type: typeMap?.[selectedType.toLowerCase()],
         ...(!iccid ? { related_search: related_search } : { iccid: iccid }),
+        total_value: props?.totalValue,
         promo_code: "",
         referral_code: "",
         affiliate_code: "",
@@ -116,6 +118,7 @@ const PaymentFlow = (props) => {
   }, [allowed_payment_types, selectedType]);
 
   console.log(allowed_payment_types, selectedType, "check select type");
+  console.log(orderDetail, "order detail");
 
   return (
     <div className={"flex flex-col gap-2 w-full sm:basis-[50%] shrink-0"}>

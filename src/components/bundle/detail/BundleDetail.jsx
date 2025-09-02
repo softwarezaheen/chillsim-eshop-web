@@ -59,9 +59,10 @@ const BundleDetail = ({
     }
     if (
       (tmp?.isAuthenticated && !isAuthenticated) ||
-      (!tmp?.isAuthenticated && !isAuthenticated)
+      (!tmp?.isAuthenticated && !isAuthenticated) ||
+      (!tmp?.isAuthenticated && isAuthenticated) 
     ) {
-      navigate(`/checkout/${bundle?.bundle_code}`);
+      navigate(`/tmp-login?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`);
 
       return;
     }
