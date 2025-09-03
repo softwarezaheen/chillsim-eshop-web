@@ -100,7 +100,8 @@ const TmpLogin = () => {
       companyName: "",
       vatCode: "",
       tradeRegistry: "",
-      confirm: false
+      confirm: false,
+      verify_by: otp_channel?.[0],
     },
     resolver: yupResolver(schema, { context: { signinType: login_type } }),
     mode: "all",
@@ -111,6 +112,11 @@ const TmpLogin = () => {
 
   const handleSubmitForm = async (payload) => {
     console.log("Submitting with payload:", payload);
+    userLimitedLogin({ 
+      verify_by: payload?.verify_by, 
+      confirm: payload?.confirm, 
+      [login_type]: payload?.[login_type]?.toLowerCase(),
+    });
     setIsSubmitting(true);
     try {
       const res = await userLimitedLogin({
