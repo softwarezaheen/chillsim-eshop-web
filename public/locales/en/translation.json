@@ -279,6 +279,7 @@
     "city": "City",
     "selectCity": "-- Select city --",
     "state": "State",
+    "selectCounty": "-- Select county --",
     "phone": "Contact phone number",
     "billingAddress": "Billing address"
   },

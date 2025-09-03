@@ -25,6 +25,8 @@ import { userLimitedLogin } from "../../core/apis/authAPI";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { supportedPrefix } from "../../core/variables/ProjectVariables";
 import { romanianCities } from "./regions";
+import { countries } from "./country";
+import { romanianCounties } from "./counties";
 import { supabase } from "./supabase";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -250,24 +252,39 @@ const TmpLogin = () => {
         <Controller
           name="country"
           control={control}
-          render={({ field }) => (
-            <FormInput
+          render={({ field, fieldState }) => (
+            <Select
               {...field}
-              label={t("checkout.country")}
-              placeholder={t("checkout.country")}
+              options={countries.map((country) => ({
+                value: country.alpha2.trim(), // use alpha2 as the actual value
+                label: country.name, // display country name
+              }))}
+              placeholder={t("checkout.selectCountry")}
+              onChange={(option) => field.onChange(option?.value)}
+              value={
+                field.value
+                  ? {
+                      value: field.value,
+                      label:
+                        countries.find((c) => c.alpha2.trim() === field.value)?.name ||
+                        field.value,
+                    }
+                  : null
+              }
             />
           )}
         />
+
       </div>
 
       {/* City / State */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {/* City (dropdown if Romania, otherwise text input) */}
+
       <Controller
         name="city"
         control={control}
         render={({ field, fieldState }) =>
-          selectedCountry === "RO" || selectedCountry === "Romania" || selectedCountry === "romania" ? (
+          selectedCountry === "RO" ? ( // ✅ check against country name
             <Select
               {...field}
               options={Object.keys(romanianCities).flatMap((county) =>
@@ -279,9 +296,7 @@ const TmpLogin = () => {
               placeholder={t("checkout.selectCity")}
               onChange={(option) => field.onChange(option?.value)}
               value={
-                field.value
-                  ? { value: field.value, label: field.value }
-                  : null
+                field.value ? { value: field.value, label: field.value } : null
               }
             />
           ) : (
@@ -294,19 +309,40 @@ const TmpLogin = () => {
           )
         }
       />
-
-      {/* State always free text */}
+      
       <Controller
         name="state"
         control={control}
-        render={({ field, fieldState }) => (
-          <FormInput
-            {...field}
-            label={t("checkout.state")}
-            placeholder={t("checkout.state")}
-            helperText={fieldState.error?.message}
-          />
-        )}
+        render={({ field, fieldState }) =>
+          selectedCountry === "RO" ? ( // ✅ verificare pe alpha2
+            <Select
+              {...field}
+              options={romanianCounties.map((county) => ({
+                value: county.alpha2.trim(),
+                label: county.name,
+              }))}
+              placeholder={t("checkout.selectCounty")}
+              onChange={(option) => field.onChange(option?.value)} // sau .label, vezi ce vrei să salvezi
+              value={
+                field.value
+                  ? {
+                      value: field.value,
+                      label:
+                        romanianCounties.find((c) => c.alpha2.trim() === field.value)?.name ||
+                        field.value,
+                    }
+                  : null
+              }
+            />
+          ) : (
+            <FormInput
+              {...field}
+              label={t("checkout.state")}
+              placeholder={t("checkout.state")}
+              helperText={fieldState.error?.message}
+            />
+          )
+        }
       />
     </div>
 
