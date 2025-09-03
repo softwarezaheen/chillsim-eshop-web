@@ -30,7 +30,7 @@ const Footer = () => {
   return (
     <div className="bg-primary text-white">
       <Container className="py-8 flex flex-col gap-[1rem]">
-        <div className="flex flex-col sm:flex-row items-center justify-around gap-[2rem]">
+        <div className="flex flex-row justify-around gap-[1rem]">
           {/* Contact Info */}
           {whatsapp_number?.trim() !== "" && (
             <div className="text-center">
@@ -84,7 +84,7 @@ const Footer = () => {
             </a>
           </div>
 
-          {i18n.language === "ro" && ( <div className="text-center">
+          {i18n.language === "ro" && ( <div className="text-center mt-5">
             <div className="flex items-center justify-center mb-4">
               <div className="w-20 h-20 rounded bg-white flex items-center justify-center">
                   <a

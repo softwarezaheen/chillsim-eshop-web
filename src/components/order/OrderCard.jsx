@@ -183,7 +183,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
         </div>
 
         <div className="text-xl font-bold items-center cursor-pointer text-end sm:hidden block">
-          {order.bundle_details?.price_display}
+          {order?.order_display_price}
         </div>
         <div className={"flex flex-wrap flex-row gap-[0.5rem]"}>
           <Chip

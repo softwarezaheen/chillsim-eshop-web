@@ -117,7 +117,9 @@
     "Primary Bundle": "Primary Bundle",
     "TopUp Bundle": "TopUp Bundle",
     "labelRequired": "Label is a required field",
-    "qrcode_loading": "Fetching QR code data. Just a moment..."
+    "qrcode_loading": "Fetching QR code data. Just a moment...",
+    "tax": "Tax:",
+    "fees": "Processing Fee"
   },
   "esim": {
     "title": "My eSIM",

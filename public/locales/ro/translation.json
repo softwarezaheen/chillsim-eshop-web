@@ -117,7 +117,9 @@
     "Primary Bundle": "Pachet principal",
     "TopUp Bundle": "Reîncărcare pachet",
     "labelRequired": "Câmpul „Etichetă” este obligatoriu",
-    "qrcode_loading": "Se preiau datele codului QR. Un moment, te rugăm..."
+    "qrcode_loading": "Se preiau datele codului QR. Un moment, te rugăm...",
+    "tax": "TVA:",
+    "fees": "Taxă de procesare"
   },
   "esim": {
     "title": "eSIM-ul meu",
