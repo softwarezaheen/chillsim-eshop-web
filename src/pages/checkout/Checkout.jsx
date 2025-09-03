@@ -143,8 +143,8 @@ const Checkout = () => {
       return {
         ...bundle,
         price_display: price + fees,
-        price: price,
-        fees: fees
+        price: price + fees,
+        fees: fees,
       };
     }),
   enabled: !!id,
@@ -208,7 +208,7 @@ const Checkout = () => {
         !confirmed ? (
           <TmpLogin />
         ) : (
-          <PaymentFlow bundle={data} totalValue={getTotalValue(data?.price_display)} />
+          <PaymentFlow bundle={data} totalValue={data?.price} />
 
         )}
         <div
@@ -243,7 +243,7 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right `}
               >
-                {data?.price + " EUR"}
+                {data?.original_price + " EUR"}
               </p>
             </div>
           <div
@@ -273,7 +273,7 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right`}
               >
-              {getTaxValue(data?.price)}
+              {getTaxValue(data?.original_price)}
               </p>
             </div>
           <hr />
@@ -285,7 +285,7 @@ const Checkout = () => {
               dir={"ltr"}
               className={`font-bold text-2xl text-right`}
             >
-              {getTotalValue(data?.price)}
+              {getTotalValue(data?.original_price)}
             </p>
           </div>
           </div>
