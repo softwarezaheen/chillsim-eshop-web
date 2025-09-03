@@ -44,17 +44,14 @@ function App() {
     document.documentElement.dir = "ltr";
   }, [i18n.language, dispatch]);
 
-  const whatsappNumberUpdate = useMemo(() => {
-    return whatsapp_number?.split("-")?.join("");
-  }, [whatsapp_number]);
 
   return (
     <div className="min-h-screen flex flex-col">
       <AppRouter />
       <PushNotification />
-      {whatsappNumberUpdate?.trim() !== "" && (
+      {whatsapp_number?.trim() !== "" && (
         <a
-          href={`https://wa.me/${whatsappNumberUpdate}`}
+          href={`https://wa.me/+40774652102`}
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-12 right-8 bg-success text-white p-4 rounded shadow-lg hover:bg-[#128C7E] transition-colors z-50"
