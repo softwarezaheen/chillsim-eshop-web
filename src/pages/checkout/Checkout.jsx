@@ -208,7 +208,7 @@ const Checkout = () => {
         !confirmed ? (
           <TmpLogin />
         ) : (
-          <PaymentFlow bundle={data} totalValue={data?.price} />
+          <PaymentFlow bundle={data} />
 
         )}
         <div
