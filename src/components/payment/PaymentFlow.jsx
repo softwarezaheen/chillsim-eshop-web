@@ -74,9 +74,9 @@ const PaymentFlow = (props) => {
       /*|| "cc3d8d05-6bcc-453e-b6a5-3204489907f3"*/
       handleAPI({
         bundle_code: props?.bundle?.bundle_code,
+        price: props?.bundle?.price,
         payment_type: typeMap?.[selectedType.toLowerCase()],
         ...(!iccid ? { related_search: related_search } : { iccid: iccid }),
-        total_value: props?.totalValue,
         promo_code: "",
         referral_code: "",
         affiliate_code: "",
