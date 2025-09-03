@@ -279,6 +279,7 @@
     "city": "Oraș",
     "selectCity": "-- Selectați orașul --",
     "state": "Județ",
+    "selectCounty": "-- Selectați județul --",
     "phone": "Număr de telefon",
     "billingAddress": "Adresă de facturare"
   },
