@@ -1,15 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchConfigurationInfoFromAPI } from "../redux-services/configurationServices";
+import { system_currency, supportWhatsappPhone } from "../../core/variables/ProjectVariables";
 
 const initialState = {
-  system_currency: "EUR",
+  system_currency: system_currency,
   user_currency: null,
   login_type: "email",
   otp_channel: ["email"],
   sea_option: true,
   social_login: true,
   allowed_payment_types: ["dcb"],
-  whatsapp_number: "",
+  whatsapp_number: supportWhatsappPhone,
   bundles_version: null,
 };
 
@@ -71,8 +72,8 @@ const CurrencySlice = createSlice({
           (el) => el?.key === "WHATSAPP_NUMBER"
         );
 
-        state.whatsapp_number = whatsappNumber?.value || "";
-        state.system_currency = "EUR";
+        state.whatsapp_number = whatsappNumber?.value || supportWhatsappPhone;
+        state.system_currency = currency?.value || system_currency;
         state.allowed_payment_types = paymentTypes?.value.split(",") || [
           "wallet",
         ];
@@ -96,8 +97,8 @@ const CurrencySlice = createSlice({
             : false
           : true;
         state.allowed_payment_types = ["dcb"];
-        state.system_currency = "EUR";
-        state.whatsapp_number = "";
+        state.system_currency = system_currency;
+        state.whatsapp_number = supportWhatsappPhone;
         state.isLoading = false;
         state.error = action.payload;
       });

@@ -27,94 +27,6 @@ import PaymentFlow from "../../components/payment/PaymentFlow";
 import TmpLogin from "../../components/tmp-login/TmpLogin";
 import { useTranslation } from "react-i18next";
 
-const getEuroPrice = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  return (price).toFixed(2) + " EUR";
-};
-
-const getEuroPriced = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  return price;
-};
-
-const getStripedFee = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = ((price) * 0.84173) * 0.012 + 0.25 / 0.84173;
-  if (fee < 0.5) {
-    return 0.5;
-  }
-  else 
-    if (fee < 1) {
-      return 1;
-    }
-    else
-      if (fee < 1.5) {
-        return 1.5;
-      }
-      else
-        if (fee < 2) {
-          return 2;
-        }
-        else
-          if (fee < 2.5) {
-            return 2.5 ;
-          }
-          else
-            return 3;
-};
-
-const getTaxValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = getStripedFee(displayPrice);
-  return ((price + fee) * 0.21).toFixed(2) + " EUR";
-};
-
-const getTaxedValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = getStripedFee(displayPrice);
-  return (price + fee) * 0.21;
-};
-
-const getStripeFee = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = (((price) * 0.84173) * 0.012 + 0.25 / 0.84173).toFixed(2);
-  if (fee < 0.5) {
-    return "0.50 EUR";
-  }
-  else 
-    if (fee < 1) {
-      return "1.00 EUR";
-    }
-    else
-      if (fee < 1.5) {
-        return "1.50 EUR";
-      }
-      else
-        if (fee < 2) {
-          return "2.00 EUR";
-        }
-        else
-          if (fee < 2.5) {
-            return "2.50 EUR";
-          }
-          else
-            return "3.00 EUR";
-};
-
-const getTotalValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const tax = getTaxedValue(displayPrice);
-  const fee = getStripedFee(displayPrice);
-  return (price + tax + fee).toFixed(2) + " EUR";
-};
-
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
   const { login_type } = useSelector((state) => state.currency);
@@ -124,6 +36,7 @@ const Checkout = () => {
 
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderDetail, setOrderDetail] = useState(null);
   const dispatch = useDispatch();
 
   const { data, isLoading, error } = useQuery({
@@ -136,15 +49,8 @@ const Checkout = () => {
 
       console.log(bundle, "BUNDLE DATA IN QUERY");
 
-      // Add derived values
-      const price = getEuroPriced(bundle?.original_price);
-      const fees = getStripedFee(bundle?.original_price);
-
       return {
         ...bundle,
-        price_display: price + fees,
-        price: price + fees,
-        fees: fees,
       };
     }),
   enabled: !!id,
@@ -156,6 +62,7 @@ const Checkout = () => {
     return isAuthenticated || tmp?.isAuthenticated;
   }, [isAuthenticated, tmp]);
 
+  console.log(confirmed, "CONFIRMED STATUS");
 
   return (
     <div
@@ -208,7 +115,11 @@ const Checkout = () => {
         !confirmed ? (
           <TmpLogin />
         ) : (
-          <PaymentFlow bundle={data} />
+          <PaymentFlow 
+            bundle={data}
+            orderDetail={orderDetail}
+            setOrderDetail={setOrderDetail}
+          />
 
         )}
         <div
@@ -243,7 +154,10 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right `}
               >
-                {data?.original_price + " EUR"}
+              { orderDetail?.original_amount
+                  ? (orderDetail.original_amount / 100).toFixed(2) + " " + orderDetail.currency
+                  : "---"
+              }
               </p>
             </div>
           <div
@@ -258,7 +172,11 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right`}
               >
-              {getStripeFee(data?.original_price)}
+              {/* {getStripeFee(data?.original_price)} */}
+              { orderDetail?.fee
+                  ? orderDetail.fee.toFixed(2) + " " + orderDetail.currency
+                  : "---"
+              }
               </p>
             </div>
             <div
@@ -273,7 +191,10 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right`}
               >
-              {getTaxValue(data?.original_price)}
+              { orderDetail?.vat
+                  ? orderDetail.vat.toFixed(2) + " " + orderDetail.currency
+                  : "---"
+              }
               </p>
             </div>
           <hr />
@@ -285,7 +206,10 @@ const Checkout = () => {
               dir={"ltr"}
               className={`font-bold text-2xl text-right`}
             >
-              {getTotalValue(data?.original_price)}
+              { !orderDetail
+                  ? t("common.loading")
+                  : ((orderDetail.original_amount / 100) + orderDetail.fee + orderDetail.vat).toFixed(2) + " " + orderDetail.currency
+              }
             </p>
           </div>
           </div>

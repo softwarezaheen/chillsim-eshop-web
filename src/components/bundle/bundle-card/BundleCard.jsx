@@ -196,7 +196,7 @@ const BundleCard = ({
               }}
             >
               <p className="font-bold text-base max-w-24px">
-                {t("btn.buyNow")} - {getEuroPrice(bundle?.price_display)} 
+                {t("btn.buyNow")} - {(bundle?.price_display)} 
               </p>
             </Button>
           )}

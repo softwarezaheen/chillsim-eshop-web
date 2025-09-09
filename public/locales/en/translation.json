@@ -3,7 +3,8 @@
     "hooray": "Hooray!",
     "notAvailable": "N/A",
     "pageNotFound": "Page Not Found",
-    "pageNotExistMessage": "Sorry, the page you are looking for doesn't exist."
+    "pageNotExistMessage": "Sorry, the page you are looking for doesn't exist.",
+    "loading": "Loading..."
   },
   "account": {
     "delete_account": "Delete Account",
@@ -252,6 +253,11 @@
   "checkout": {
     "aliasEmailNotAllowed": "Alias emails (with '+') are not allowed",
     "confirmationRequired": "Confirmation is required",
+    "companyNameRequired": "Company Name is required!",
+    "vatCodeRequired": "VAT code is required!",
+    "countryRequired": "Country is required!",
+    "cityRequired": "City is a required field!",
+    "stateRequired": "State is a required field!",
     "emailRequired": "Email is a required field!",
     "failedToSendMessage": "Failed to send message",
     "goBack": "Go Back",
@@ -270,6 +276,7 @@
     "billingInformation": "Billing information",
     "billingType": "Billing type",
     "individual": "Individual",
+    "invalidEmail": "Invalid email",
     "business": "Business",
     "companyName": "Company name",
     "vatCode": "VAT code",

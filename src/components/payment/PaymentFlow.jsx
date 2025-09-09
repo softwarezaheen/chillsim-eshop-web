@@ -49,7 +49,8 @@ const PaymentFlow = (props) => {
   const [clientSecret, setClientSecret] = useState(null);
   const [stripePromise, setStripePromise] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
-  const [orderDetail, setOrderDetail] = useState(null);
+  // const [orderDetail, setOrderDetail] = useState(null);
+  const { orderDetail, setOrderDetail } = props;
   const [loading, setLoading] = useState(false);
   const related_search_test = {
     related_search: {
@@ -74,7 +75,6 @@ const PaymentFlow = (props) => {
       /*|| "cc3d8d05-6bcc-453e-b6a5-3204489907f3"*/
       handleAPI({
         bundle_code: props?.bundle?.bundle_code,
-        price: props?.bundle?.price,
         payment_type: typeMap?.[selectedType.toLowerCase()],
         ...(!iccid ? { related_search: related_search } : { iccid: iccid }),
         promo_code: "",

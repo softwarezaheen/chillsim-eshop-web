@@ -1,6 +1,7 @@
 export const supportEmail = "support@ChillSIM.net";
 export const supportPhone = "+40774652102";
-export const supportWhatsappPhone = "+40774652102";
+export const supportWhatsappPhone = "+40774652102";  // this is rewritten by config API call and is just used as backup
+export const system_currency = "EUR";
 export const supportedPrefix = ["93", "99"];
 export const dcbMessage = "ChillDcbMessage";
 export const footerProjectName = "Chill SIM";

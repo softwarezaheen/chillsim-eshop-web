@@ -9,11 +9,12 @@ import AppRouter from "./core/routes/AppRouter";
 import { fetchUserInfo, SignOut } from "./redux/reducers/authReducer";
 import { fetchCurrencyInfo } from "./redux/reducers/currencyReducer";
 import { setDayjsLocale } from "./components/dayjsSetup.js";
+import { supportWhatsappPhone } from "./core/variables/ProjectVariables";
 
 function App() {
   const dispatch = useDispatch();
   const whatsapp_number = useSelector(
-    (state) => state.currency?.whatsapp_number || "",
+    (state) => state.currency?.whatsapp_number || supportWhatsappPhone,
   );
   
   const { i18n } = useTranslation();
@@ -51,7 +52,7 @@ function App() {
       <PushNotification />
       {whatsapp_number?.trim() !== "" && (
         <a
-          href={`https://wa.me/+40774652102`}
+          href={`https://wa.me/${whatsapp_number.replace(/[^+\d]/g, "")}`}
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-12 right-8 bg-success text-white p-4 rounded shadow-lg hover:bg-[#128C7E] transition-colors z-50"

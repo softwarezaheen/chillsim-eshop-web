@@ -3,7 +3,8 @@
     "hooray": "Conexiunea ta începe aici!",
     "notAvailable": "N/A",
     "pageNotFound": "Pagina nu a fost găsită",
-    "pageNotExistMessage": "Ne pare rău, pagina pe care o căutați nu există."
+    "pageNotExistMessage": "Ne pare rău, pagina pe care o căutați nu există.",
+    "loading": "Se încarcă..."
   },
   "account": {
     "delete_account": "Șterge contul",
@@ -252,7 +253,12 @@
   "checkout": {
     "aliasEmailNotAllowed": "Adresele de e-mail care conțin (with '+') nu sunt acceptate",
     "confirmationRequired": "Este necesară confirmarea",
+    "countryRequired": "Țara este un câmp obligatoriu!",
+    "stateRequired": "Județul este un câmp obligatoriu!",
+    "cityRequired": "Orașul este un câmp obligatoriu!",
     "emailRequired": "E-mailul este un câmp obligatoriu!",
+    "companyNameRequired": "Numele companiei este un câmp obligatoriu!",
+    "vatCodeRequired": "Codul TVA este un câmp obligatoriu!",
     "failedToSendMessage": "Mesajul nu a putut fi trimis",
     "goBack": "Înapoi",
     "email": "E-mail",
@@ -270,6 +276,7 @@
     "billingInformation": "Informații de facturare",
     "billingType": "Tip de facturare",
     "individual": "Persoana fizică",
+    "invalidEmail": "E-mail invalid",
     "business": "Persoana juridică",
     "companyName": "Numele companiei",
     "vatCode": "CUI",

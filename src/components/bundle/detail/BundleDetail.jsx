@@ -21,12 +21,6 @@ import TooltipComponent from "../../shared/tooltip/TooltipComponent";
 import { useTranslation, Trans } from "react-i18next";
 import { formatValidity } from "../../../assets/utils/formatValidity";
 
-const getEuroPrice = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  return (price).toFixed(2) + " EUR";
-};
-
 const BundleDetail = ({
   onClose,
   bundle,
@@ -180,7 +174,7 @@ const BundleDetail = ({
             <p className={"truncate min-w-0"}>{bundle?.gprs_limit_display}</p>
           </TooltipComponent>
           <p className={"flex flex-row justify-end whitespace-nowrap"}>
-            {getEuroPrice(bundle?.price_display)}
+            {bundle?.price_display}
           </p>
         </div>
         <div
@@ -313,7 +307,7 @@ const BundleDetail = ({
           <p className={"font-bold !text-base truncate max-w-20px"}>
             {isSubmitting
               ? t("btn.checkingBundle")
-              : `${t("btn.buyNow")} - ${getEuroPrice(bundle?.price_display)}`}
+              : `${t("btn.buyNow")} - ${bundle?.price_display}`}
           </p>
         </Button>
       </div>

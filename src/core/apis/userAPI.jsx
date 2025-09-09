@@ -144,3 +144,23 @@ export const verifyOrderOTP = async (payload) => {
     throw error;
   }
 };
+
+export const getBillingInfo = async (payload) => {
+  try {
+    const res = await api.get(`api/v1/user/get-billing-info`, {
+      params: { ...payload },
+    });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const saveBillingInfo = async (payload) => {
+  try {
+    const res = await api.post(`api/v1/user/save-billing-info`, payload);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
