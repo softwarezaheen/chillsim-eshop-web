@@ -38,6 +38,21 @@ const Checkout = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderDetail, setOrderDetail] = useState(null);
   const dispatch = useDispatch();
+  
+  const getDisplayAmount = (amount) => {
+    if (
+      orderDetail &&
+      orderDetail.currency &&
+      orderDetail.display_currency &&
+      orderDetail.exchange_rate &&
+      orderDetail.currency !== orderDetail.display_currency
+    ) {
+      // Convert to display currency
+      return (parseFloat(amount) / orderDetail.exchange_rate).toFixed(2);
+    }
+    // No conversion needed
+    return parseFloat(amount).toFixed(2);
+  };
 
   const { data, isLoading, error } = useQuery({
   queryKey: [`${id}-details`],
@@ -154,10 +169,9 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold text-right `}
               >
-              { orderDetail?.original_amount
-                  ? (orderDetail.original_amount / 100).toFixed(2) + " " + orderDetail.currency
-                  : "---"
-              }
+              {orderDetail?.original_amount
+                ? getDisplayAmount(orderDetail.original_amount / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
+                : "---"}
               </p>
             </div>
           <div
@@ -168,15 +182,10 @@ const Checkout = () => {
               <label className={"flex-1 font-semibold"}>
                 {t("checkout.fee")}
               </label>
-              <p
-                dir={"ltr"}
-                className={`flex-1 font-bold text-right`}
-              >
-              {/* {getStripeFee(data?.original_price)} */}
-              { orderDetail?.fee
-                  ? orderDetail.fee.toFixed(2) + " " + orderDetail.currency
-                  : "---"
-              }
+              <p dir="ltr" className="flex-1 font-bold text-right">
+                {orderDetail?.fee
+                  ? getDisplayAmount(orderDetail.fee) + " " + (orderDetail.display_currency || orderDetail.currency)
+                  : "---"}
               </p>
             </div>
             <div
@@ -187,14 +196,10 @@ const Checkout = () => {
               <label className={"flex-1 font-semibold"}>
                 {t("checkout.tax")}
               </label>
-              <p
-                dir={"ltr"}
-                className={`flex-1 font-bold text-right`}
-              >
-              { orderDetail?.vat
-                  ? orderDetail.vat.toFixed(2) + " " + orderDetail.currency
-                  : "---"
-              }
+              <p dir="ltr" className="flex-1 font-bold text-right">
+                {orderDetail?.vat
+                  ? getDisplayAmount(orderDetail.vat) + " " + (orderDetail.display_currency || orderDetail.currency)
+                  : "---"}
               </p>
             </div>
           <hr />
@@ -202,16 +207,54 @@ const Checkout = () => {
             className={"flex flex-row justify-between items-start gap-[1rem]"}
           >
             <label className={"font-semibold"}>{t("checkout.total")}</label>
-            <p
-              dir={"ltr"}
-              className={`font-bold text-2xl text-right`}
+            <p dir="ltr" 
+              className={
+                orderDetail &&
+                orderDetail.display_currency &&
+                orderDetail.currency &&
+                orderDetail.display_currency !== orderDetail.currency
+                  ? "font-bold text-right"
+                  : "font-bold text-2xl text-right"
+              }
             >
-              { !orderDetail
-                  ? t("common.loading")
-                  : ((orderDetail.original_amount / 100) + orderDetail.fee + orderDetail.vat).toFixed(2) + " " + orderDetail.currency
+              {!orderDetail
+                ? t("common.loading")
+                : (
+                    getDisplayAmount(orderDetail.original_amount / 100 + orderDetail.fee + orderDetail.vat) +
+                    " " +
+                    (orderDetail.display_currency || orderDetail.currency)
+                  )
               }
             </p>
           </div>
+          {orderDetail &&
+            orderDetail.display_currency &&
+            orderDetail.currency &&
+            orderDetail.display_currency !== orderDetail.currency && (
+              <>
+                <div className="flex flex-row justify-between items-start gap-[1rem]">
+                  <label className="font-semibold">
+                    {t("checkout.totalToBePaidIn", { currency: orderDetail.currency })}
+                  </label>
+                  <p dir="ltr" className="font-bold text-2xl text-right">
+                    {(
+                      (orderDetail.original_amount / 100) +
+                      orderDetail.fee +
+                      orderDetail.vat
+                    ).toFixed(2) + " " + orderDetail.currency}
+                  </p>
+                </div>
+                <div className="flex flex-row justify-between items-start gap-[1rem]">
+                  <label className="font-medium">
+                    {t("checkout.exchangeRate")}
+                  </label>
+                  <p dir="ltr" className="font-medium text-right">
+                    {`1 ${orderDetail.display_currency} = ${orderDetail.exchange_rate} ${orderDetail.currency}`}
+                  </p>
+                </div>
+              </>
+            )
+          }
           </div>
         </div>
       </div>

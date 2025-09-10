@@ -257,6 +257,8 @@
     "stateRequired": "Județul este un câmp obligatoriu!",
     "cityRequired": "Orașul este un câmp obligatoriu!",
     "emailRequired": "E-mailul este un câmp obligatoriu!",
+    "totalToBePaidIn": "Total de plată în {{currency}}",
+    "exchangeRate": "Curs de schimb",
     "companyNameRequired": "Numele companiei este un câmp obligatoriu!",
     "vatCodeRequired": "Codul TVA este un câmp obligatoriu!",
     "failedToSendMessage": "Mesajul nu a putut fi trimis",

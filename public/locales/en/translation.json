@@ -259,6 +259,8 @@
     "cityRequired": "City is a required field!",
     "stateRequired": "State is a required field!",
     "emailRequired": "Email is a required field!",
+    "totalToBePaidIn": "Total to be paid in {{currency}}",
+    "exchangeRate": "Exchange rate",
     "failedToSendMessage": "Failed to send message",
     "goBack": "Go Back",
     "email": "Email",
