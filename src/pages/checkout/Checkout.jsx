@@ -184,7 +184,7 @@ const Checkout = () => {
               </label>
               <p dir="ltr" className="flex-1 font-bold text-right">
                 {orderDetail?.fee
-                  ? getDisplayAmount(orderDetail.fee) + " " + (orderDetail.display_currency || orderDetail.currency)
+                  ? getDisplayAmount(orderDetail.fee / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
                   : "---"}
               </p>
             </div>
@@ -198,7 +198,7 @@ const Checkout = () => {
               </label>
               <p dir="ltr" className="flex-1 font-bold text-right">
                 {orderDetail?.vat
-                  ? getDisplayAmount(orderDetail.vat) + " " + (orderDetail.display_currency || orderDetail.currency)
+                  ? getDisplayAmount(orderDetail.vat / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
                   : "---"}
               </p>
             </div>
@@ -220,7 +220,7 @@ const Checkout = () => {
               {!orderDetail
                 ? t("common.loading")
                 : (
-                    getDisplayAmount(orderDetail.original_amount / 100 + orderDetail.fee + orderDetail.vat) +
+                    getDisplayAmount((orderDetail.original_amount + orderDetail.fee + orderDetail.vat)/100) +
                     " " +
                     (orderDetail.display_currency || orderDetail.currency)
                   )
@@ -238,9 +238,10 @@ const Checkout = () => {
                   </label>
                   <p dir="ltr" className="font-bold text-2xl text-right">
                     {(
-                      (orderDetail.original_amount / 100) +
+                      (orderDetail.original_amount +
                       orderDetail.fee +
                       orderDetail.vat
+                      ) / 100
                     ).toFixed(2) + " " + orderDetail.currency}
                   </p>
                 </div>

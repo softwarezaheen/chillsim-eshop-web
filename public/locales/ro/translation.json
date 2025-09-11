@@ -69,7 +69,8 @@
     "payNow": "Efectuează plata acum",
     "cancel": "Anulează",
     "savingChanges": "Se salvează modificările...",
-    "saveChanges": "Salvează modificările"
+    "saveChanges": "Salvează modificările",
+    "downloadInvoice": "Descarcă factura"
   },
   "orders": {
     "plan_history": "Istoric planuri",

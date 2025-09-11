@@ -165,7 +165,8 @@ const OrderCard = ({ order, myesim, refetchData }) => {
           </div>
           <div className="flex items-center flex-shrink-0 gap-2">
             <div className="text-xl font-bold text-end hidden sm:block text-primary">
-              <span dir="ltr">{order?.bundle_details?.price_display}</span>
+              {/* <span dir="ltr">{order?.bundle_details?.price_display}</span> */}
+              <span dir="ltr">{order?.order_display_price || ""}</span>
             </div>
             <IconButton
               onClick={() =>

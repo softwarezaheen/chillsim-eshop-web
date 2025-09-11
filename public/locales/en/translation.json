@@ -69,7 +69,8 @@
     "payNow": "Pay Now",
     "cancel": "Cancel",
     "savingChanges": "Saving Changes...",
-    "saveChanges": "Save Changes"
+    "saveChanges": "Save Changes",
+    "downloadInvoice": "Download Invoice"
   },
   "orders": {
     "plan_history": "Plan History",

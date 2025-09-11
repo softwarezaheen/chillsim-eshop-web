@@ -18,101 +18,6 @@ import { useTranslation } from "react-i18next";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
 import { useSelector } from "react-redux";
 
-const getEuroPrice = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  return (price).toFixed(2) + " EUR";
-};
-
-const getEuroPriced = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  return price;
-};
-
-const getStripedFee = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = ((price) * 0.84173) * 0.012 + 0.25 / 0.84173;
-  if (fee < 0.5) {
-    return 0.5;
-  }
-  else 
-    if (fee < 1) {
-      return 1;
-    }
-    else
-      if (fee < 1.5) {
-        return 1.5;
-      }
-      else
-        if (fee < 2) {
-          return 2;
-        }
-        else
-          if (fee < 2.5) {
-            return 2.5 ;
-          }
-          else
-            return 3;
-};
-
-const getTaxValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = getStripedFee(displayPrice);
-  return ((price + fee) * 0.21).toFixed(2) + " EUR";
-};
-
-const getTaxedValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = getStripedFee(displayPrice);
-  return (price + fee) * 0.21;
-};
-
-const getStripeFee = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = (((price) * 0.84173) * 0.012 + 0.25 / 0.84173).toFixed(2);
-  if (fee < 0.5) {
-    return "0.50 EUR";
-  }
-  else 
-    if (fee < 1) {
-      return "1.00 EUR";
-    }
-    else
-      if (fee < 1.5) {
-        return "1.50 EUR";
-      }
-      else
-        if (fee < 2) {
-          return "2.00 EUR";
-        }
-        else
-          if (fee < 2.5) {
-            return "2.50 EUR";
-          }
-          else
-            return "3.00 EUR";
-};
-
-const getPartialValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const fee = getStripedFee(displayPrice);
-  return (price + fee).toFixed(2) + " EUR";
-};
-
-const getTotalValue = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  const tax = getTaxedValue(displayPrice);
-  const fee = getStripedFee(displayPrice);
-  return (price + tax + fee).toFixed(2) + " EUR";
-};
-
 const OrderReceipt = ({ order, onClose, isLoading }) => {
   const { t } = useTranslation();
 
@@ -213,14 +118,14 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
                       {isLoading ? (
                         <Skeleton width={50} />
                       ) : (
-                        order?.order_display_price
+                        order?.order_amount + " " + order?.order_currency
                       )}
                     </TableCell>
                     <TableCell sx={{ border: "1px solid black" }}>
                       {isLoading ? (
                         <Skeleton width={50} />
                       ) : (
-                        getStripeFee(order?.order_display_price)
+                        (order?.order_fee || 0) + " " + order?.order_currency
                       )}
                     </TableCell>
                   </TableRow>
@@ -231,23 +136,36 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
               className={
                 "flex flex-col gap-[0.5rem] font-bold items-end text-primary"
               }
+              style={{ position: "relative" }}
             >
               <p>
                 {t("orders.tax")}{" "}
                 {isLoading ? (
                   <Skeleton width={50} />
                 ) : (
-                  getTaxValue(order?.order_display_price)
+                  (order?.order_vat || 0) + " " + order?.order_currency
                 )}
               </p>
-              <p>
-                {t("orders.finalPrice")}{" "}
-                {isLoading ? (
-                  <Skeleton width={50} />
-                ) : (
-                  getTotalValue(order?.order_display_price)
+              <div style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center" }}>
+                {order?.order_invoice && (
+                  <Button
+                    sx={{ width: "200px" }}
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => window.open(order.order_invoice, "_blank")}
+                  >
+                    {t("btn.downloadInvoice", "Download Invoice")}
+                  </Button>
                 )}
-              </p>
+                <p style={{ marginLeft: "auto" }}>
+                  {t("orders.finalPrice")}{" "}
+                  {isLoading ? (
+                    <Skeleton width={50} />
+                  ) : (
+                    order?.order_display_price || <span dir="ltr">0</span>
+                  )}
+                </p>
+              </div>
             </div>
           </>
         ) : (
