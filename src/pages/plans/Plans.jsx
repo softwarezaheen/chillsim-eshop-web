@@ -34,6 +34,7 @@ import OrderPopup from "../../components/order/OrderPopup";
 import DirectionsBoatFilledOutlinedIcon from "@mui/icons-material/DirectionsBoatFilledOutlined";
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import { useTranslation } from "react-i18next";
+import { gtmEvent } from "../../core/utils/gtm.jsx";
 
 const Plans = (props) => {
   const { t } = useTranslation();
@@ -213,6 +214,11 @@ const Plans = (props) => {
                               }) || [],
                           })
                         );
+                        if (value?.length) {
+                          value.forEach((el) => {
+                            gtmEvent('product_search', { country: el.country });
+                          });
+                        }
                       }
                     }}
                     className="w-full flex"
@@ -347,6 +353,7 @@ const Plans = (props) => {
       {openOrderDetail && (
         <OrderPopup
           id={searchParams.get("order_id")}
+          isFromPaymentCompletion={true}
           onClose={() => {
             setOpenOrderDetail(false);
             setFilters({ ...filters, order_id: null });

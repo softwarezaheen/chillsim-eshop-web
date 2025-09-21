@@ -29,6 +29,7 @@ import { romanianCities } from "./regions";
 import { countries } from "./country";
 import { romanianCounties } from "./counties";
 import { useNavigate, useLocation } from "react-router-dom";
+import { gtmEvent } from "../../core/utils/gtm.jsx";
 
 const TmpLogin = () => {
   const { t } = useTranslation();
@@ -239,6 +240,7 @@ const TmpLogin = () => {
     });
 
     if (canNavigate) {
+      gtmEvent("cart_save_billing_info", {});
       navigate(nextUrl);
     }
   };

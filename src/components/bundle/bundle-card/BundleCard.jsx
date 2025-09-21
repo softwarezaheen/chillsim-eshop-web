@@ -13,12 +13,7 @@ import BundleDetail from "../detail/BundleDetail";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-
-const getEuroPrice = (displayPrice) => {
-  const match = String(displayPrice).match(/[\d.]+/);
-  const price = match ? parseFloat(match[0]) : 0;
-  return (price).toFixed(2) + " EUR";
-};
+import { gtmEvent } from "../../../core/utils/gtm.jsx";
 
 const BundleCard = ({
   bundle,
@@ -32,6 +27,23 @@ const BundleCard = ({
   const { t } = useTranslation();
   const [openDetail, setOpenDetail] = useState(false);
   const handleDetail = () => {
+    // Fire view event for product details
+    if (iccid) {
+      gtmEvent("view_topup_details", {
+        bundle_id: bundle?.bundle_code || "",
+        bundle_name: bundle?.display_title || bundle?.title || "",
+        amount: bundle?.price || 0,
+        currency: bundle?.currency_code || "",
+        iccid: iccid
+      });
+    } else {
+      gtmEvent("view_product_details", {
+        bundle_id: bundle?.bundle_code || "",
+        bundle_name: bundle?.display_title || bundle?.title || "",
+        amount: bundle?.price || 0,
+        currency: bundle?.currency_code || ""
+      });
+    }
     setOpenDetail(true);
   };
 
@@ -192,6 +204,17 @@ const BundleCard = ({
               color="primary"
               variant="contained"
               onClick={() => {
+                // If this is a topup (iccid present), fire add_to_cart event
+                if (iccid) {
+                  gtmEvent("add_to_cart_topup", {
+                    bundle_id: bundle?.bundle_code || "",
+                    bundle_name: bundle?.display_title || bundle?.title || "",
+                    amount: bundle?.price || 0,
+                    currency: bundle?.currency_code || "",
+                    quantity: 1,
+                    iccid: iccid
+                  });
+                }
                 handleDetail();
               }}
             >

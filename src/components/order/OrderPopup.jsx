@@ -5,9 +5,11 @@ import { useQuery } from "react-query";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 //API
-import { getOrderByID } from "../../core/apis/userAPI";
+import { getOrderByID, getOrderHistoryById } from "../../core/apis/userAPI";
+import { gtmEvent } from "../../core/utils/gtm.jsx";
 //COMPONENT
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
@@ -21,8 +23,9 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const OrderPopup = ({ id, onClose, orderData }) => {
+const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false }) => {
   const { t } = useTranslation();
+  const { iccid } = useParams(); // Get iccid from URL to detect topup
   const { isAuthenticated, user_info, tmp } = useSelector(
     (state) => state.authentication
   );
@@ -33,12 +36,50 @@ const OrderPopup = ({ id, onClose, orderData }) => {
     enabled: !!id,
   });
 
+  // Fetch order history for GTM event (only when from payment completion)
+  const { data: orderHistoryData } = useQuery({
+    queryKey: [`${user_info?.id}-order-history-${id}`],
+    queryFn: () => getOrderHistoryById(id).then((res) => res?.data?.data),
+    enabled: !!id && isFromPaymentCompletion,
+  });
+
   useEffect(() => {
     //   //close popup if 401
     if (!isAuthenticated && !tmp?.isAuthenticated) {
       onClose();
     }
   }, []);
+
+  // Send GTM event when order data is loaded (only for payment completion)
+  useEffect(() => {
+    if (isFromPaymentCompletion && orderHistoryData && id) {
+      // Determine if this is a topup based on iccid presence or order data
+      const isTopup = !!iccid || orderHistoryData?.order_type === 'topup' || orderHistoryData?.iccid;
+      const eventName = isTopup ? "purchased_topup" : "purchased_bundle";
+      
+      gtmEvent(eventName, {
+        ecommerce: {
+          order_id: id,
+          product_id: orderHistoryData?.bundle_details?.bundle_code || "",
+          product_name: orderHistoryData?.bundle_details?.display_title || "",
+          amount: ((orderHistoryData?.order_amount || 0) / 100).toFixed(2),
+          currency: orderHistoryData?.order_currency || "",
+          fee: ((orderHistoryData?.order_fee || 0) / 100).toFixed(2),
+          tax: ((orderHistoryData?.order_vat || 0) / 100).toFixed(2),
+          total: (
+            ((orderHistoryData?.order_amount || 0) +
+              (orderHistoryData?.order_fee || 0) +
+              (orderHistoryData?.order_vat || 0)) /
+            100
+          ).toFixed(2),
+          payment_type: orderHistoryData?.payment_type || "",
+          promo_code: orderHistoryData?.promo_code || "",
+          discount: orderHistoryData?.discount || 0,
+          ...(isTopup && { iccid: iccid || orderHistoryData?.iccid }), // Add iccid for topups
+        }
+      });
+    }
+  }, [orderHistoryData, id, isFromPaymentCompletion, iccid]);
 
   return (
     <Dialog open={true} maxWidth="sm">

@@ -1,5 +1,5 @@
 //UTILITIES
-import React, { useEffect, useMemo, useState } from "react";
+import React, { use, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
@@ -26,6 +26,7 @@ import { StripePayment } from "../../components/stripe-payment/StripePayment";
 import PaymentFlow from "../../components/payment/PaymentFlow";
 import TmpLogin from "../../components/tmp-login/TmpLogin";
 import { useTranslation } from "react-i18next";
+import { gtmEvent } from "../../core/utils/gtm.jsx";
 
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
@@ -54,22 +55,39 @@ const Checkout = () => {
     return parseFloat(amount).toFixed(2);
   };
 
+  useEffect(() => {
+    if (orderDetail && orderDetail.order_id) {
+    gtmEvent("checkout", {
+      ecommerce: {
+        order_id: orderDetail.order_id,
+        bundle_id: data?.bundle_code || "",
+        bundle_name: data?.display_title || data?.title || "",
+        amount: (orderDetail.original_amount/100).toFixed(2),
+        currency: orderDetail.currency,
+        fee: (orderDetail.fee/100).toFixed(2),
+        tax: (orderDetail.vat/100).toFixed(2),
+        total: ((orderDetail.original_amount + orderDetail.fee + orderDetail.vat)/100).toFixed(2),
+      }
+    });
+  }
+  }, [orderDetail]);
+
   const { data, isLoading, error } = useQuery({
-  queryKey: [`${id}-details`],
-  queryFn: () =>
-    getBundleById(id).then((res) => {
-      const bundle = res?.data?.data;
+    queryKey: [`${id}-details`],
+    queryFn: () =>
+      getBundleById(id).then((res) => {
+        const bundle = res?.data?.data;
 
-      if (!bundle) return null;
+        if (!bundle) return null;
 
-      console.log(bundle, "BUNDLE DATA IN QUERY");
+        console.log(bundle, "BUNDLE DATA IN QUERY");
 
-      return {
-        ...bundle,
-      };
-    }),
-  enabled: !!id,
-});
+        return {
+          ...bundle,
+        };
+      }),
+    enabled: !!id,
+  });
 
   console.log(data, "BUNDLE DATA");
 
