@@ -6,7 +6,7 @@ export const DownloadButton = () => {
     if (/android/i.test(ua)) {
         window.location.href = "https://play.google.com/store/apps/details?id=zaheen.esim.chillsim";
     } else if (/iphone|ipad|ipod/i.test(ua)) {
-        window.location.href = "https://apps.apple.com/us/app/zaheen-esim/id1234567890";
+        window.location.href = "https://apps.apple.com/us/app/chillsim-travel-esim/id6747967151";
     } else {
         window.location.href = "https://chillsim.net/";
     }

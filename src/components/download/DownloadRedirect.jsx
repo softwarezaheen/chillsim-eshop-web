@@ -9,7 +9,7 @@ const DownloadRedirect = () => {
     if (/android/i.test(ua)) {
       window.location.replace("https://play.google.com/store/apps/details?id=zaheen.esim.chillsim");
     } else if (/iphone|ipad|ipod/i.test(ua)) {
-      window.location.replace("https://apps.apple.com/us/app/zaheen-esim/id1234567890");
+      window.location.replace("https://apps.apple.com/us/app/chillsim-travel-esim/id6747967151");
     } else {
       window.location.replace("https://chillsim.net/");
     }

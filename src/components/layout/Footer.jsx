@@ -13,7 +13,6 @@ import {
 } from "../../core/variables/ProjectVariables";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import anpcLogo from "./anpc.png";
 import i18n from "../../i18n";
 const Footer = () => {
   const { t } = useTranslation();
@@ -84,22 +83,33 @@ const Footer = () => {
             </a>
           </div>
 
-          {i18n.language === "ro" && ( <div className="text-center mt-5">
-            <div className="flex items-center justify-center mb-4">
-              <div className="w-20 h-20 rounded bg-white flex items-center justify-center">
-                  <a
-                    href="https://anpc.ro/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      src={anpcLogo}
-                      alt="Logo ANPC"
-                      className="max-h-12 max-w-12 object-contain"
-                    />
-                  </a>
+          {i18n.language === "ro" && ( <div className="text-center">
+              <div className="flex justify-center">
+                <a 
+                  href="https://anpc.ro/ce-este-sal/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="/images/anpc-sal.png"
+                    alt="Logo ANPC"
+                    className="max-h-10 object-contain"
+                  />
+                </a>
               </div>
-            </div>
+              <div className="flex justify-center"> 
+                <a
+                  href="https://ec.europa.eu/consumers/odr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="/images/anpc-sol.png"
+                    alt="Logo ANPC"
+                    className="max-h-12 object-contain"
+                  />
+                </a>
+              </div>
           </div>)}
 
 
