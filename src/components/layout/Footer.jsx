@@ -30,7 +30,7 @@ const Footer = () => {
   return (
     <div className="bg-primary text-white">
       <Container className="py-8 flex flex-col gap-[1rem]">
-        <div className="flex flex-row justify-around gap-[1rem]">
+        <div className="flex flex-col md:flex-row justify-around gap-[1rem]">
           {/* Contact Info */}
           {whatsapp_number?.trim() !== "" && (
             <div className="text-center">

@@ -10,6 +10,7 @@ import { AttachSearch, DetachSearch } from "../../redux/reducers/searchReducer";
 //API
 import { useHomeCountries } from "../../core/custom-hook/useHomeCountries";
 //COMPONENT
+import { DownloadButton } from "../../components/download/DownloadButton.jsx";
 import CountriesList from "../../components/country-section/CountriesList";
 import { CountriesSkeletons } from "../../components/shared/skeletons/HomePageSkeletons";
 import BundleCard from "../../components/bundle/bundle-card/BundleCard";
@@ -341,6 +342,8 @@ const Plans = (props) => {
           setShowAllCountries={setShowAllCountries}
         />
       )}
+
+      <DownloadButton />
 
       {searchParams.get("order_id") && hoorayOpen && (
         <PaymentCompletion
