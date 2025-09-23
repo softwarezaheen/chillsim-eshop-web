@@ -50,7 +50,7 @@ const BundleExistence = ({ onClose, bundle }) => {
 
           <Button
             component={Link}
-            to={`/checkout/${bundle?.bundle_code}`}
+            to={`/billing?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`}
             className={"max-w-xs"}
             variant={"contained"}
             color="primary"

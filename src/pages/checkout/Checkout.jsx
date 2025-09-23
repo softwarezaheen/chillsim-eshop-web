@@ -24,14 +24,13 @@ import {
 import { Button, Link, Skeleton } from "@mui/material";
 import { StripePayment } from "../../components/stripe-payment/StripePayment";
 import PaymentFlow from "../../components/payment/PaymentFlow";
-import TmpLogin from "../../components/tmp-login/TmpLogin";
 import { useTranslation } from "react-i18next";
 import { gtmEvent } from "../../core/utils/gtm.jsx";
 
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
   const { login_type } = useSelector((state) => state.currency);
-  const { id } = useParams();
+  const { id, iccid } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -141,12 +140,24 @@ const Checkout = () => {
                 />
               ))}
           </div>
-        ) : // :!data || error ? (
-        //   <div className={"w-full sm:basis-[50%] items-center justify-center"}>
-        //     <NoDataFound text={"Failed to load bunde checkout info"} />
-        //   </div>)
-        !confirmed ? (
-          <TmpLogin />
+        ) : !confirmed ? (
+          // If not authenticated, redirect to signin/billing flow
+          <div className={"w-full sm:basis-[50%] items-center justify-center flex flex-col gap-4"}>
+            <h2 className="text-xl font-semibold">{t("checkout.authenticationRequired")}</h2>
+            <p className="text-center">{t("checkout.redirectingToAuth")}</p>
+            {(() => {
+              // Redirect logic - this will execute immediately
+              const checkoutUrl = `/checkout/${id}${iccid ? `/${iccid}` : ''}`;
+              const billingUrl = `/billing?next=${encodeURIComponent(checkoutUrl)}`;
+              
+              // if (login_type === "phone") {
+              navigate(`/signin?next=${encodeURIComponent(billingUrl)}`);
+              // } else {
+                // navigate(`/tmp-login?next=${encodeURIComponent(billingUrl)}`);
+              // }
+              return null;
+            })()}
+          </div>
         ) : (
           <PaymentFlow 
             bundle={data}

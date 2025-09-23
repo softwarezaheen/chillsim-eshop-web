@@ -54,6 +54,7 @@ export const allRoutes = [
     ],
   },
   { path: `/callback-google`, element: <AuthValidation /> },
+  { path: `/auth-verify`, element: <AuthValidation /> },
   {
     path: "/how-it-works",
     element: <HowItWorks />,

@@ -70,7 +70,8 @@
     "cancel": "Cancel",
     "savingChanges": "Saving Changes...",
     "saveChanges": "Save Changes",
-    "downloadInvoice": "Download Invoice"
+    "downloadInvoice": "Download Invoice",
+    "continueToCheckout": "Continue to Checkout"
   },
   "orders": {
     "plan_history": "Plan History",
@@ -209,7 +210,13 @@
     "andIAcceptThe": "And I accept the",
     "andIUnderstandProductWorksWithESIM": "and I understand that the product only works with eSIM compatible and carrier-unlocked devices.",
     "emailMustBeValid": "Email must be a valid email",
-    "phoneNumber": "Phone Number"
+    "phoneNumber": "Phone Number",
+    "invalidOrMissingToken": "Invalid or missing authentication token",
+    "authenticationFailed": "Authentication failed. Please try again.",
+    "validatingAuth": "Validating authentication...",
+    "pleaseWaitValidating": "Please wait while we validate your authentication.",
+    "loginSuccessful": "Login successful!",
+    "tryAgain": "Try Again"
   },
   "plans": {
     "restrictedCountriesSelection": "You can select up to 3 countries only",
@@ -293,7 +300,9 @@
     "state": "State",
     "selectCounty": "-- Select county --",
     "phone": "Contact phone number",
-    "billingAddress": "Billing address"
+    "billingAddress": "Billing address",
+    "authenticationRequired": "Authentication required",
+    "redirectingToAuth": "Redirecting to authentication..."
   },
   "howItWorks": {
     "easyAndFast": "Easy and fast",

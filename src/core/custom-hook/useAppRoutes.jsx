@@ -21,6 +21,7 @@ import EsimDetail from "../../pages/my-esim/esim-detail/EsimDetail";
 import PrivacyPolicy from "../../pages/privacy-policy/PrivacyPolicy";
 import TmpLogin from "../../components/tmp-login/TmpLogin";
 import DownloadRedirect from "../../components/download/DownloadRedirect";
+import BillingPage from "../../pages/billing/BillingPage";
 
 export const useAppRoutes = () => {
   const login_type = useSelector((state) => state.currency?.login_type);
@@ -55,6 +56,7 @@ export const useAppRoutes = () => {
         element: <Plans />
       },
       { path: `/callback-google`, element: <AuthValidation /> },
+      { path: `/auth-verify`, element: <AuthValidation /> },
       {
         path: "/how-it-works",
         element: <HowItWorks />,
@@ -89,6 +91,11 @@ export const useAppRoutes = () => {
         path: "/signin",
         element: <SignIn />,
         isAuthRestricted: true,
+      },
+      {
+        path: "/billing",
+        element: <BillingPage />,
+        isPrivate: true,
       },
       {
         path: "/checkout/:id",

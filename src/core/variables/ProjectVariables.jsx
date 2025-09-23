@@ -11,4 +11,4 @@ export const supportAddress = (
     <p>10 Montreal Square, Romania, Bucharest.</p>
   </>
 );
-export const supportMap = "https://maps.app.goo.gl/tWCVru526AUnXCTk8";
+export const supportMap = "https://maps.app.goo.gl/zX37CyH5KXHojvrh9";

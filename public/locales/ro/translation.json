@@ -70,7 +70,8 @@
     "cancel": "Anulează",
     "savingChanges": "Se salvează modificările...",
     "saveChanges": "Salvează modificările",
-    "downloadInvoice": "Descarcă factura"
+    "downloadInvoice": "Descarcă factura",
+    "continueToCheckout": "Spre finalizarea comenzii"
   },
   "orders": {
     "plan_history": "Istoric planuri",
@@ -293,7 +294,9 @@
     "state": "Județ",
     "selectCounty": "-- Selectați județul --",
     "phone": "Număr de telefon",
-    "billingAddress": "Adresă de facturare"
+    "billingAddress": "Adresă de facturare",
+    "authenticationRequired": "Autentificare necesară",
+    "redirectingToAuth": "Redirecționare către autentificare..."
   },
   "howItWorks": {
     "easyAndFast": "Ușor și rapid",

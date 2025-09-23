@@ -46,26 +46,21 @@ const BundleDetail = ({
       "checking authentication"
     );
 
-    if (!tmp?.isAuthenticated && !isAuthenticated && login_type === "phone") {
+    // First, check if user is authenticated at all
+    if (!tmp?.isAuthenticated && !isAuthenticated) {
+      // Send completely unauthenticated users to signin first (always email login)
       navigate(
-        `/signin?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`
+        `/signin?next=${encodeURIComponent(`/billing?next=/checkout/${bundle?.bundle_code}`)}`
       );
       return;
     }
-    if (
-      (tmp?.isAuthenticated && !isAuthenticated) ||
-      (!tmp?.isAuthenticated && !isAuthenticated) ||
-      (!tmp?.isAuthenticated && isAuthenticated) 
-    ) {
-      navigate(`/tmp-login?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`);
 
-      return;
-    }
+    // If authenticated, always go to billing first (billing will handle existing info)
     if (iccid) {
-      navigate(`/checkout/${bundle?.bundle_code}/${iccid}`);
+      navigate(`/billing?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}/${iccid}`)}`);
       return;
     } else {
-      //normal order
+      // For normal orders, check if bundle exists first
       setIsSubmitting(true);
 
       checkBundleExist(bundle?.bundle_code)
@@ -74,8 +69,7 @@ const BundleDetail = ({
             if (res?.data?.data) {
               setOpenRedirection(true);
             } else {
-              
-              navigate(`/checkout/${bundle?.bundle_code}`);
+              navigate(`/billing?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`);
             }
           } else {
             toast.error(res?.message);

@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 //COMPONENT
 import {
   Backdrop,
@@ -32,6 +33,7 @@ import { supportedPrefix } from "../core/variables/ProjectVariables";
 
 const SignIn = () => {
   const { t } = useTranslation();
+  const location = useLocation();
   const { signinWithGoogle, loadingSocial, signinWithFacebook } = useAuth();
   const [showOtpVerification, setShowOtpVerification] = useState(false);
   const [showEmailSent, setShowEmailSent] = useState(false);
@@ -110,6 +112,7 @@ const SignIn = () => {
 
   const handleSubmitForm = (payload) => {
     setIsSubmitting(true);
+    
     userLogin({
       verify_by: payload?.verify_by,
       confirm: payload?.confirm,

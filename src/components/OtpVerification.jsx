@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { Button, TextField } from "@mui/material";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { resendOrderOTP, userLogin, verifyOTP } from "../core/apis/authAPI";
 import { verifyOrderOTP } from "../core/apis/userAPI";
@@ -45,6 +45,7 @@ const OtpVerification = ({
   console.log(checkout, "sssssssssssssssss");
   const inputRefs = useRef([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const [isVerifying, setIsVerifying] = useState(false);
@@ -141,6 +142,16 @@ const OtpVerification = ({
                 ...res?.data?.data,
               })
             );
+            
+            // Check for next parameter to continue the purchasing flow
+            const params = new URLSearchParams(location.search);
+            const nextUrl = params.get("next");
+            if (nextUrl) {
+              navigate(nextUrl);
+            } else {
+              // Default navigation if no next parameter
+              navigate("/plans/land");
+            }
           }
         } else {
           toast.error(t("auth.failedToVerifyOtp"));
