@@ -296,7 +296,12 @@
     "phone": "Număr de telefon",
     "billingAddress": "Adresă de facturare",
     "authenticationRequired": "Autentificare necesară",
-    "redirectingToAuth": "Redirecționare către autentificare..."
+    "redirectingToAuth": "Redirecționare către autentificare...",
+    "promoCode": "Ai un cod promoțional?",
+    "enterPromoCode": "Introduceți codul",
+    "apply": "Aplică",
+    "invalidPromoCode": "Cod promoțional invalid",
+    "promoCodeApplied": "Cod promoțional aplicat cu succes!"
   },
   "howItWorks": {
     "easyAndFast": "Ușor și rapid",

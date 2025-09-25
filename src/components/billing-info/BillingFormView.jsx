@@ -388,7 +388,7 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
         sx={{ width: "auto", alignSelf: "flex-start" }}
       >
         {isSubmitting 
-          ? t("btn.saving") 
+          ? t("btn.savingChanges") 
           : submitButtonText || t("btn.saveBillingInfo")
         }
       </Button>

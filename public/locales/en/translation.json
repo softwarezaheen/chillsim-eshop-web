@@ -302,7 +302,12 @@
     "phone": "Contact phone number",
     "billingAddress": "Billing address",
     "authenticationRequired": "Authentication required",
-    "redirectingToAuth": "Redirecting to authentication..."
+    "redirectingToAuth": "Redirecting to authentication...",
+    "promoCode": "Have a promo code?",
+    "enterPromoCode": "Enter code",
+    "apply": "Apply",
+    "invalidPromoCode": "Invalid promo code",
+    "promoCodeApplied": "Promo code applied successfully!"
   },
   "howItWorks": {
     "easyAndFast": "Easy and fast",

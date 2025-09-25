@@ -8,6 +8,7 @@ import * as yup from "yup";
 //API
 import { userLimitedLogin } from "../../core/apis/authAPI";
 import { getBundleById } from "../../core/apis/bundlesAPI";
+import { validatePromotion } from "../../core/apis/promotionAPI";
 //REDUCER
 import {
   LimitedSignIn,
@@ -37,8 +38,36 @@ const Checkout = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderDetail, setOrderDetail] = useState(null);
+  const [promoCode, setPromoCode] = useState("");
+  const [promoValidationMessage, setPromoValidationMessage] = useState("");
+  const [promoErrorMessage, setPromoErrorMessage] = useState("");
+  const [isPromoApplied, setIsPromoApplied] = useState(false);
   const dispatch = useDispatch();
-  
+
+  const handleApplyPromoCode = async () => {
+    if (promoCode.trim() && !isPromoApplied) {
+      // Clear any previous messages
+      setPromoValidationMessage("");
+      setPromoErrorMessage("");
+      
+      try {
+        const response = await validatePromotion({
+          promo_code: promoCode.trim().toUpperCase(),
+          bundle_code: data?.bundle_code
+        });
+        
+        if (response?.data?.message) {
+          setPromoValidationMessage(response.data.message);
+          setIsPromoApplied(true);
+          // Trigger PaymentFlow to reload assignMethod with new promo code
+          setOrderDetail(null); // This will cause PaymentFlow to re-run assignMethod
+        }
+      } catch (error) {
+        setPromoErrorMessage(t("checkout.invalidPromoCode"));
+      }
+    }
+  };
+
   const getDisplayAmount = (amount) => {
     if (
       orderDetail &&
@@ -160,9 +189,11 @@ const Checkout = () => {
           </div>
         ) : (
           <PaymentFlow 
+            key={`payment-flow-${isPromoApplied ? 'applied' : 'not-applied'}`}
             bundle={data}
             orderDetail={orderDetail}
             setOrderDetail={setOrderDetail}
+            promoCode={promoCode}
           />
 
         )}
@@ -231,6 +262,7 @@ const Checkout = () => {
                   : "---"}
               </p>
             </div>
+            
           <hr />
           <div
             className={"flex flex-row justify-between items-start gap-[1rem]"}
@@ -285,6 +317,48 @@ const Checkout = () => {
               </>
             )
           }
+          {/* Promo Code Section - Only show for new purchases, not top-ups */}
+          {!iccid && (
+            <div className="flex flex-col gap-2 mt-4">
+              <label className="font-semibold text-sm">{t("checkout.promoCode")}</label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={promoCode}
+                  onChange={(e) => {
+                    if (!isPromoApplied) {
+                      setPromoCode(e.target.value.toUpperCase());
+                      setPromoValidationMessage(""); // Clear message when user starts typing
+                      setPromoErrorMessage(""); // Clear error message when user starts typing
+                    }
+                  }}
+                  placeholder={t("checkout.enterPromoCode")}
+                  disabled={!orderDetail ? true :isPromoApplied}
+                  className="w-full sm:flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                />
+                <button
+                  onClick={handleApplyPromoCode}
+                  disabled={!promoCode.trim() || isPromoApplied || isLoading}
+                  className="w-full sm:w-auto px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {!orderDetail ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      {t("common.loading")}
+                    </>
+                  ) : (
+                    t("checkout.apply")
+                  )}
+                </button>
+              </div>
+              {promoValidationMessage && (
+                <p className="text-green-600 text-sm font-medium">{promoValidationMessage}</p>
+              )}
+              {promoErrorMessage && (
+                <p className="text-red-600 text-sm font-medium">{promoErrorMessage}</p>
+              )}
+            </div>
+          )}
           </div>
         </div>
       </div>
