@@ -117,52 +117,20 @@ const menuLinks = useMemo(() => {
               ))}
             </div>
 
-            {/* Right Section */}
+            {/* Right Section - Desktop Only */}
             {isAuthenticated ? (
               <div className="hidden lg:flex items-center space-x-6">
-                <div className="text-sm font-bold flex items-center">
-                  <button
-                    onClick={() => i18n.changeLanguage("en")}
-                    className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
-                      i18n.language === "en" ? "text-secondary" : customClassName
-                    }`}
-                  >
-                    en
-                  </button>
-                  <span className="text-gray-400">|</span>
-                  <button
-                    onClick={() => i18n.changeLanguage("ro")}
-                    className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
-                      i18n.language === "ro" ? "text-secondary" : customClassName
-                    }`}
-                  >
-                    ro
-                  </button>
+                <div className="hidden sm:block">
+                  <LanguageSwitcher isHomePage={isHomePage} showMenu={showMenu} />
                 </div>
 
                 <NotificationsMenu />
                 <UserMenu />
               </div>
             ) : (
-              <div className="flex items-center space-x-4">
-                <div className="text-sm font-bold flex items-center">
-                  <button
-                    onClick={() => i18n.changeLanguage("en")}
-                    className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
-                      i18n.language === "en" ? "text-secondary" : customClassName
-                    }`}
-                  >
-                    en
-                  </button>
-                  <span className="text-gray-400">|</span>
-                  <button
-                    onClick={() => i18n.changeLanguage("ro")}
-                    className={`px-4 py-2 text-base transition-colors flex items-center font-bold ${
-                      i18n.language === "ro" ? "text-secondary" : customClassName
-                    }`}
-                  >
-                    ro
-                  </button>
+              <div className="hidden lg:flex items-center space-x-4">
+                <div className="hidden sm:block">
+                  <LanguageSwitcher isHomePage={isHomePage} showMenu={showMenu} />
                 </div>
 
                 {location?.pathname !== "/signin" && (
@@ -179,6 +147,7 @@ const menuLinks = useMemo(() => {
 
             {/* Mobile menu button */}
             <div className="flex lg:hidden items-center space-x-4">
+              <LanguageSwitcher isHomePage={isHomePage} showMenu={showMenu} />
               {isAuthenticated && <NotificationsMenu />}
              
               <button

@@ -15,6 +15,7 @@ import {
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import clsx from "clsx";
 import { useAuth } from "../../core/context/AuthContext";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 const DrawerMenu = ({ toggleMenu, setToggleMenu }) => {
   const { t } = useTranslation();
@@ -76,6 +77,12 @@ const DrawerMenu = ({ toggleMenu, setToggleMenu }) => {
         </Link>
       ))}
       <div className="my-2 border-t border-gray-100" />
+      
+      {/* Language Switcher for mobile */}
+      <div className="mb-4">
+        <LanguageSwitcher isHomePage={false} showMenu={true} />
+      </div>
+      
       {isAuthenticated ? (
         <div className={"flex flex-col items-center justify-center"}>
           <button
