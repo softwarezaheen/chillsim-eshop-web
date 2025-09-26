@@ -200,7 +200,7 @@ const OrderCard = ({ order, myesim, refetchData }) => {
             }
             label={`${t("orders.ordered")} ${dayjs
               .unix(order?.order_date || order?.bundle_details?.payment_date)
-              .format("LL")}`}
+              .format("LL h:mm A")}`}
             color="secondary"
           />
           <Chip
