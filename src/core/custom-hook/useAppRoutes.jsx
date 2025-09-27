@@ -22,6 +22,7 @@ import PrivacyPolicy from "../../pages/privacy-policy/PrivacyPolicy";
 import TmpLogin from "../../components/tmp-login/TmpLogin";
 import DownloadRedirect from "../../components/download/DownloadRedirect";
 import BillingPage from "../../pages/billing/BillingPage";
+import Wallet from "../../pages/wallet/Wallet";
 
 export const useAppRoutes = () => {
   const login_type = useSelector((state) => state.currency?.login_type);
@@ -129,6 +130,11 @@ export const useAppRoutes = () => {
       {
         path: "/profile",
         element: <Profile />,
+        isPrivate: true,
+      },
+      {
+        path: "/wallet",
+        element: <Wallet />,
         isPrivate: true,
       },
     ],

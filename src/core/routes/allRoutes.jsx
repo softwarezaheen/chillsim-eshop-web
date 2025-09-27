@@ -19,6 +19,7 @@ import Profile from "../../pages/profile/Profile";
 import UserNotifications from "../../pages/user-notification/UserNotifications";
 import EsimDetail from "../../pages/my-esim/esim-detail/EsimDetail";
 import PrivacyPolicy from "../../pages/privacy-policy/PrivacyPolicy";
+import Wallet from "../../pages/wallet/Wallet";
 
 export const allRoutes = [
   {
@@ -115,6 +116,11 @@ export const allRoutes = [
   {
     path: "/profile",
     element: <Profile />,
+    isPrivate: true,
+  },
+  {
+    path: "/wallet",
+    element: <Wallet />,
     isPrivate: true,
   },
 ];

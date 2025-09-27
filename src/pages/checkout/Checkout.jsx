@@ -42,6 +42,7 @@ const Checkout = () => {
   const [promoValidationMessage, setPromoValidationMessage] = useState("");
   const [promoErrorMessage, setPromoErrorMessage] = useState("");
   const [isPromoApplied, setIsPromoApplied] = useState(false);
+  const [isWalletPaymentWithSufficientBalance, setIsWalletPaymentWithSufficientBalance] = useState(false);
   const dispatch = useDispatch();
 
   const handleApplyPromoCode = async () => {
@@ -194,6 +195,7 @@ const Checkout = () => {
             orderDetail={orderDetail}
             setOrderDetail={setOrderDetail}
             promoCode={promoCode}
+            setIsWalletPaymentWithSufficientBalance={setIsWalletPaymentWithSufficientBalance}
           />
 
         )}
@@ -219,104 +221,108 @@ const Checkout = () => {
                 {data?.display_title || t("common.notAvailable")}
               </p>
             </div>
-            <div
-              className={"flex flex-row justify-between items-start gap-[1rem]"}
-            >
-              <label className={"flex-1 font-semibold"}>
-                {t("checkout.subtotal")}
-              </label>
-              <p
-                dir={"ltr"}
-                className={`flex-1 font-bold text-right `}
+            {!isWalletPaymentWithSufficientBalance && (
+              <>
+                <div
+                  className={"flex flex-row justify-between items-start gap-[1rem]"}
+                >
+                  <label className={"flex-1 font-semibold"}>
+                    {t("checkout.subtotal")}
+                  </label>
+                  <p
+                    dir={"ltr"}
+                    className={`flex-1 font-bold text-right `}
+                  >
+                  {orderDetail?.original_amount
+                    ? getDisplayAmount(orderDetail.original_amount / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
+                    : "---"}
+                  </p>
+                </div>
+              <div
+                  className={
+                    "flex flex-row justify-between items-start gap-[1rem]"
+                  }
+                >
+                  <label className={"flex-1 font-semibold"}>
+                    {t("checkout.fee")}
+                  </label>
+                  <p dir="ltr" className="flex-1 font-bold text-right">
+                    {orderDetail?.fee
+                      ? getDisplayAmount(orderDetail.fee / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
+                      : "---"}
+                  </p>
+                </div>
+                <div
+                  className={
+                    "flex flex-row justify-between items-start gap-[1rem]"
+                  }
+                >
+                  <label className={"flex-1 font-semibold"}>
+                    {t("checkout.tax")}
+                  </label>
+                  <p dir="ltr" className="flex-1 font-bold text-right">
+                    {orderDetail?.vat
+                      ? getDisplayAmount(orderDetail.vat / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
+                      : "---"}
+                  </p>
+                </div>
+                
+              <hr />
+              <div
+                className={"flex flex-row justify-between items-start gap-[1rem]"}
               >
-              {orderDetail?.original_amount
-                ? getDisplayAmount(orderDetail.original_amount / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
-                : "---"}
-              </p>
-            </div>
-          <div
-              className={
-                "flex flex-row justify-between items-start gap-[1rem]"
-              }
-            >
-              <label className={"flex-1 font-semibold"}>
-                {t("checkout.fee")}
-              </label>
-              <p dir="ltr" className="flex-1 font-bold text-right">
-                {orderDetail?.fee
-                  ? getDisplayAmount(orderDetail.fee / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
-                  : "---"}
-              </p>
-            </div>
-            <div
-              className={
-                "flex flex-row justify-between items-start gap-[1rem]"
-              }
-            >
-              <label className={"flex-1 font-semibold"}>
-                {t("checkout.tax")}
-              </label>
-              <p dir="ltr" className="flex-1 font-bold text-right">
-                {orderDetail?.vat
-                  ? getDisplayAmount(orderDetail.vat / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
-                  : "---"}
-              </p>
-            </div>
-            
-          <hr />
-          <div
-            className={"flex flex-row justify-between items-start gap-[1rem]"}
-          >
-            <label className={"font-semibold"}>{t("checkout.total")}</label>
-            <p dir="ltr" 
-              className={
-                orderDetail &&
+                <label className={"font-semibold"}>{t("checkout.total")}</label>
+                <p dir="ltr" 
+                  className={
+                    orderDetail &&
+                    orderDetail.display_currency &&
+                    orderDetail.currency &&
+                    orderDetail.display_currency !== orderDetail.currency
+                      ? "font-bold text-right"
+                      : "font-bold text-2xl text-right"
+                  }
+                >
+                  {!orderDetail
+                    ? t("common.loading")
+                    : (
+                        getDisplayAmount((orderDetail.original_amount + orderDetail.fee + orderDetail.vat)/100) +
+                        " " +
+                        (orderDetail.display_currency || orderDetail.currency)
+                      )
+                  }
+                </p>
+              </div>
+              {orderDetail &&
                 orderDetail.display_currency &&
                 orderDetail.currency &&
-                orderDetail.display_currency !== orderDetail.currency
-                  ? "font-bold text-right"
-                  : "font-bold text-2xl text-right"
+                orderDetail.display_currency !== orderDetail.currency && (
+                  <>
+                    <div className="flex flex-row justify-between items-start gap-[1rem]">
+                      <label className="font-semibold">
+                        {t("checkout.totalToBePaidIn", { currency: orderDetail.currency })}
+                      </label>
+                      <p dir="ltr" className="font-bold text-2xl text-right">
+                        {(
+                          (orderDetail.original_amount +
+                          orderDetail.fee +
+                          orderDetail.vat
+                          ) / 100
+                        ).toFixed(2) + " " + orderDetail.currency}
+                      </p>
+                    </div>
+                    <div className="flex flex-row justify-between items-start gap-[1rem]">
+                      <label className="font-medium">
+                        {t("checkout.exchangeRate")}
+                      </label>
+                      <p dir="ltr" className="font-medium text-right">
+                        {`1 ${orderDetail.display_currency} = ${orderDetail.exchange_rate} ${orderDetail.currency}`}
+                      </p>
+                    </div>
+                  </>
+                )
               }
-            >
-              {!orderDetail
-                ? t("common.loading")
-                : (
-                    getDisplayAmount((orderDetail.original_amount + orderDetail.fee + orderDetail.vat)/100) +
-                    " " +
-                    (orderDetail.display_currency || orderDetail.currency)
-                  )
-              }
-            </p>
-          </div>
-          {orderDetail &&
-            orderDetail.display_currency &&
-            orderDetail.currency &&
-            orderDetail.display_currency !== orderDetail.currency && (
-              <>
-                <div className="flex flex-row justify-between items-start gap-[1rem]">
-                  <label className="font-semibold">
-                    {t("checkout.totalToBePaidIn", { currency: orderDetail.currency })}
-                  </label>
-                  <p dir="ltr" className="font-bold text-2xl text-right">
-                    {(
-                      (orderDetail.original_amount +
-                      orderDetail.fee +
-                      orderDetail.vat
-                      ) / 100
-                    ).toFixed(2) + " " + orderDetail.currency}
-                  </p>
-                </div>
-                <div className="flex flex-row justify-between items-start gap-[1rem]">
-                  <label className="font-medium">
-                    {t("checkout.exchangeRate")}
-                  </label>
-                  <p dir="ltr" className="font-medium text-right">
-                    {`1 ${orderDetail.display_currency} = ${orderDetail.exchange_rate} ${orderDetail.currency}`}
-                  </p>
-                </div>
               </>
-            )
-          }
+            )}
           {/* Promo Code Section - Only show for new purchases, not top-ups */}
           {!iccid && (
             <div className="flex flex-col gap-2 mt-4">

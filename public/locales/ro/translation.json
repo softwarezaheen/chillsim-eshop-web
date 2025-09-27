@@ -403,11 +403,38 @@
   "payment": {
     "paymentTypeNotAvailable": "Acest tip de plată nu este disponibil momentan",
     "failedToLoadPaymentInput": "Nu s-a putut încărca formularul de plată",
-    "paymentMethod": "Metodă de plată"
+    "paymentMethod": "Metodă de plată",
+    "walletBalance": "Portofel ({{balance}})",
+    "bundlePrice": "Prețul pachetului"
   },
   "privacy": {
     "failedToLoadPrivacyPolicyData": "Nu s-au putut încărca informațiile Politicii de confidențialitate",
     "noContentAvailable": "Momentan nu există conținut disponibil",
     "Privacy Policy": "Politica de confidențialitate"
+  },
+  "wallet": {
+    "currentBalance": "Sold curent",
+    "availableBalance": "Sold disponibil",
+    "lastUpdated": "Ultima actualizare",
+    "walletBalance": "Soldul portofelului",
+    "insufficientFunds": "Fonduri insuficiente",
+    "loadingBalance": "Se încarcă soldul...",
+    "redeemVoucher": "Utilizează un voucher",
+    "voucherExplanation": "Te rugăm să introduci codul voucher-ului pentru a actualiza soldul portofelului",
+    "enterVoucherCode": "Introdu codul voucher-ului",
+    "redeem": "Utilizează",
+    "redeeming": "Se utilizează...",
+    "voucherCodeRequired": "Codul voucher-ului este obligatoriu",
+    "voucherRedeemedSuccessfully": "Voucher-ul a fost utilizat cu succes! Soldul portofelului a fost actualizat.",
+    "voucherRedemptionFailed": "Utilizarea voucher-ului a eșuat. Te rugăm să verifici codul și să încerci din nou.",
+    "invalidVoucherCode": "Codul voucher-ului este invalid. Te rugăm să verifici codul și să încerci din nou.",
+    "insufficientFundsMessage": "Nu ai suficient sold în portofel pentru a plăti această sumă în întregime",
+    "paymentSuccessful": "Plata a fost realizată cu succes! Portofelul tău a fost debitat.",
+    "paymentFailed": "Plata prin portofel a eșuat. Te rugăm să încerci din nou.",
+    "payNowWithAmount": "Plătește Acum {{amount}}",
+    "noFeesOrTaxes": "Pentru plățile prin portofel nu se percep taxe sau comisioane",
+    "processingPayment": "Se procesează plata din portofel",
+    "processingMessage": "Te rugăm să aștepți în timp ce procesăm plata din portofelul tău...",
+    "amountBeingCharged": "Suma: {{amount}}"
   }
 }

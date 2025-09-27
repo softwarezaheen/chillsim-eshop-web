@@ -409,11 +409,38 @@
   "payment": {
     "paymentTypeNotAvailable": "This payment type is not available now",
     "failedToLoadPaymentInput": "Failed to load payment input",
-    "paymentMethod": "Payment Method"
+    "paymentMethod": "Payment Method",
+    "walletBalance": "Wallet ({{balance}})",
+    "bundlePrice": "Bundle Price"
   },
   "privacy": {
     "failedToLoadPrivacyPolicyData": "Failed to load Privacy Policy Data",
     "noContentAvailable": "No content available at this moment",
     "Privacy Policy": "Privacy Policy"
+  },
+  "wallet": {
+    "currentBalance": "Current Balance",
+    "availableBalance": "Available Balance",
+    "lastUpdated": "Last Updated",
+    "walletBalance": "Wallet Balance",
+    "insufficientFunds": "Insufficient funds",
+    "loadingBalance": "Loading balance...",
+    "redeemVoucher": "Redeem a voucher",
+    "voucherExplanation": "Please enter the voucher code in order to update your wallet balance",
+    "enterVoucherCode": "Enter voucher code",
+    "redeem": "Redeem",
+    "redeeming": "Redeeming...",
+    "voucherCodeRequired": "Voucher code is required",
+    "voucherRedeemedSuccessfully": "Voucher redeemed successfully! Your wallet balance has been updated.",
+    "voucherRedemptionFailed": "Failed to redeem voucher. Please check the code and try again.",
+    "invalidVoucherCode": "Voucher code is invalid. Please check the code and try again.",
+    "insufficientFundsMessage": "You have insufficient wallet balance to pay this in full",
+    "paymentSuccessful": "Payment successful! Your wallet has been charged.",
+    "paymentFailed": "Wallet payment failed. Please try again.",
+    "payNowWithAmount": "Pay Now {{amount}}",
+    "noFeesOrTaxes": "For wallet payments no fees or taxes are paid",
+    "processingPayment": "Processing Wallet Payment",
+    "processingMessage": "Please wait while we process your wallet payment...",
+    "amountBeingCharged": "Amount: {{amount}}"
   }
 }

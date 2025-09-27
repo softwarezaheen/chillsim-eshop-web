@@ -23,6 +23,7 @@ export const authMenuItems = [
 export const authResponsiveMenuItems = [
   { path: "/profile", label: "accountInfo" },
   { path: "/esim", label: "myEsim" },
+  { path: "/wallet", label: "myWallet" },
   { path: "/orders", label: "ordersHistory" },
 ];
 

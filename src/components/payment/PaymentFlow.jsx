@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { StripePayment } from "../stripe-payment/StripePayment";
 import { toast } from "react-toastify";
 import OtpVerification from "../OtpVerification";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   FormControlLabel,
   Radio,
@@ -22,6 +22,9 @@ import {
 } from "../../assets/CustomComponents";
 import { useTranslation } from "react-i18next";
 import LoadingPayment from "./LoadingPayment";
+import { queryClient } from "../../main";
+import { useDispatch } from "react-redux";
+import { fetchUserInfo } from "../../redux/reducers/authReducer";
 
 const ComponentMap = {
   card: StripePayment,
@@ -42,16 +45,61 @@ const PaymentFlow = (props) => {
   console.log(props, "payment flow props");
   const { t } = useTranslation();
   const { iccid } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { related_search } = useSelector((state) => state.search);
   const { user_info } = useSelector((state) => state.authentication);
-  const { login_type } = useSelector((state) => state.currency);
+  const { login_type, system_currency, user_currency } = useSelector((state) => state.currency);
   const { allowed_payment_types } = useSelector((state) => state?.currency);
   const [clientSecret, setClientSecret] = useState(null);
   const [stripePromise, setStripePromise] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   // const [orderDetail, setOrderDetail] = useState(null);
-  const { orderDetail, setOrderDetail, promoCode = "" } = props;
+  const { orderDetail, setOrderDetail, promoCode = "", setIsWalletPaymentWithSufficientBalance } = props;
   const [loading, setLoading] = useState(false);
+
+  // Helper functions for wallet balance
+  const getWalletBalance = () => {
+    return user_info?.balance || 
+           user_info?.wallet_balance || 
+           user_info?.account_balance || 
+           user_info?.available_balance || 
+           user_info?.credit_balance || 
+           0;
+  };
+
+  const getCurrency = () => {
+    const sessionCurrency = sessionStorage?.getItem("user_currency");
+    return user_currency?.currency || 
+           sessionCurrency ||
+           user_info?.currency || 
+           user_info?.default_currency ||
+           system_currency || 
+           "USD";
+  };
+
+  const formatCurrency = (amount, currencyCode) => {
+    try {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currencyCode,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(amount);
+    } catch (error) {
+      return `${amount.toFixed(2)} ${currencyCode}`;
+    }
+  };
+
+  const getPaymentTypeLabel = (type) => {
+    if (type?.toLowerCase() === "wallet") {
+      const balance = getWalletBalance();
+      const currency = getCurrency();
+      return `${type} (${formatCurrency(balance, currency)})`;
+    }
+    return type;
+  };
+
   const related_search_test = {
     related_search: {
       region: null,
@@ -64,39 +112,81 @@ const PaymentFlow = (props) => {
     },
   };
 
+  const handleWalletPaymentSuccess = (orderData) => {
+    console.log("Wallet payment successful:", orderData);
+    toast.success(t("wallet.paymentSuccessful"));
+    
+    // Update user info to refresh wallet balance
+    dispatch(fetchUserInfo());
+    
+    // Invalidate queries immediately
+    queryClient.invalidateQueries({ queryKey: ["my-esim"] });
+    if (iccid) {
+      queryClient.invalidateQueries({
+        queryKey: [`esim-detail-${iccid}`],
+      });
+    }
+
+    // Add a small delay to ensure users see the processing modal before navigation
+    setTimeout(() => {
+      // Navigate with order_id parameter to trigger the same flow as card payments
+      if (orderData?.order_id) {
+        const targetPath = iccid ? `/esim/${iccid}` : "/plans/land";
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set("order_id", orderData.order_id);
+        
+        navigate({
+          pathname: targetPath,
+          search: searchParams.toString(),
+        });
+      } else {
+        // Fallback if no order_id (shouldn't happen)
+        navigate({
+          pathname: iccid ? `/esim/${iccid}` : "/plans/land",
+          search: !iccid ? new URLSearchParams(window.location.search).toString() : "",
+        });
+      }
+    }, 2000); // 2 second delay to show processing modal
+  };
+
   const assignMethod = () => {
     setLoading(true);
 
-    if (selectedType === "wallet") {
-      toast.error(t("payment.paymentTypeNotAvailable"));
-    } else {
-      let handleAPI = iccid ? assignTopupBundle : assignBundle;
-      //this api is for creating a  payment intent to get client secret
-      /*|| "cc3d8d05-6bcc-453e-b6a5-3204489907f3"*/
-      handleAPI({
-        bundle_code: props?.bundle?.bundle_code,
-        payment_type: typeMap?.[selectedType.toLowerCase()],
-        ...(!iccid ? { related_search: related_search } : { iccid: iccid }),
-        promo_code: promoCode.toUpperCase(),
-        referral_code: "",
-        affiliate_code: "",
-      })
-        .then((res) => {
-          console.log(res?.data?.data, "ORDER 11111");
-          setOrderDetail(res?.data?.data);
+    let handleAPI = iccid ? assignTopupBundle : assignBundle;
+    //this api is for creating a  payment intent to get client secret
+    /*|| "cc3d8d05-6bcc-453e-b6a5-3204489907f3"*/
+    handleAPI({
+      bundle_code: props?.bundle?.bundle_code,
+      payment_type: typeMap?.[selectedType.toLowerCase()],
+      ...(!iccid ? { related_search: related_search } : { iccid: iccid }),
+      promo_code: promoCode.toUpperCase(),
+      referral_code: "",
+      affiliate_code: "",
+    })
+      .then((res) => {
+        console.log(res?.data?.data, "ORDER 11111");
+        setOrderDetail(res?.data?.data);
+        
+        // Handle wallet payment completion
+        if (selectedType === "wallet" && res?.data?.data?.payment_status === "COMPLETED") {
+          console.log("Wallet payment completed successfully:", res?.data?.data);
+          handleWalletPaymentSuccess(res?.data?.data);
+        } else if (selectedType !== "wallet") {
+          // For non-wallet payments, set up stripe
           setClientSecret(res?.data?.data?.payment_intent_client_secret);
           setStripePromise(loadStripe(res?.data?.data?.publishable_key));
-          setLoading(false);
-        })
-        .catch((e) => {
-          setLoading(false);
-          toast?.error(e?.message || t("payment.failedToLoadPaymentInput"));
-        });
-    }
+        }
+        
+        setLoading(false);
+      })
+      .catch((e) => {
+        setLoading(false);
+        toast?.error(e?.message || t("payment.failedToLoadPaymentInput"));
+      });
   };
 
   useEffect(() => {
-    if (selectedType) {
+    if (selectedType && selectedType !== "wallet") {
       assignMethod();
     }
   }, [selectedType]);
@@ -106,6 +196,23 @@ const PaymentFlow = (props) => {
       setSelectedType(allowed_payment_types?.[0]?.toLowerCase() || "dcb");
     }
   }, [allowed_payment_types]);
+
+  // Track wallet payment status with sufficient balance
+  useEffect(() => {
+    if (setIsWalletPaymentWithSufficientBalance && selectedType && orderDetail) {
+      const isWalletSelected = selectedType.toLowerCase() === "wallet";
+      
+      if (isWalletSelected) {
+        const balance = getWalletBalance();
+        const totalAmount = orderDetail?.total_amount || orderDetail?.amount || 0;
+        const hasSufficientBalance = balance >= totalAmount;
+        
+        setIsWalletPaymentWithSufficientBalance(hasSufficientBalance);
+      } else {
+        setIsWalletPaymentWithSufficientBalance(false);
+      }
+    }
+  }, [selectedType, orderDetail, setIsWalletPaymentWithSufficientBalance]);
 
   console.log(allowed_payment_types, "allowed payment types");
 
@@ -135,10 +242,14 @@ const PaymentFlow = (props) => {
               >
                 {allowed_payment_types?.map((type) => (
                   <CustomToggleButton
+                    key={type}
                     value={type?.toLowerCase()}
-                    sx={{ width: "150px" }}
+                    sx={{ 
+                      width: type?.toLowerCase() === "wallet" ? "200px" : "150px",
+                      fontSize: type?.toLowerCase() === "wallet" ? "0.875rem" : "1rem" 
+                    }}
                   >
-                    {type}
+                    {getPaymentTypeLabel(type)}
                   </CustomToggleButton>
                 ))}
               </CustomToggleGroup>
