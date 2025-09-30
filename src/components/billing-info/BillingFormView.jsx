@@ -31,6 +31,14 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
   const isAuthenticated = useSelector(
     (state) => state.authentication?.tmp?.isAuthenticated || state.authentication?.isAuthenticated
   );
+  
+  const authUser = useSelector((state) => 
+    state.authentication?.tmp?.isAuthenticated 
+      ? state.authentication?.tmp 
+      : state.authentication
+  );
+  
+  const userEmail = authUser?.user_info?.email || authUser?.email;
 
   const schema = useBillingFormSchema();
 
@@ -65,8 +73,8 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
         
         console.log("Setting billing info from API:", data);
         
-        // Set all values
-        setValue("email", data.email || "");
+        // Set all values - prioritize user's auth email over saved billing email
+        setValue("email", userEmail || data.email || "");
         setValue("firstName", data.firstName || "");
         setValue("lastName", data.lastName || "");
         setValue("country", data.country || "");
@@ -81,9 +89,14 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
           setBillingType("business");
           setValue("billingType", "business");
         }
+      } else {
+        // If no billing info exists, still set the user's email
+        setValue("email", userEmail || "");
       }
     } catch (error) {
       console.error("Error fetching billing info:", error);
+      // Even on error, set the user's email if available
+      setValue("email", userEmail || "");
     }
   };
 
@@ -121,6 +134,13 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
   useEffect(() => {
     fetchBillingInfo();
   }, []);
+
+  // Set the user's email when it becomes available
+  useEffect(() => {
+    if (userEmail) {
+      setValue("email", userEmail);
+    }
+  }, [userEmail, setValue]);
 
   return (
     <form
@@ -242,6 +262,28 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
               label={t("checkout.email")}
               placeholder={t("checkout.enterEmail")}
               helperText={fieldState.error?.message}
+              disabled={true}
+              sx={{
+                '& .MuiInputBase-input': {
+                  backgroundColor: '#f5f5f5',
+                  color: '#666666',
+                },
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#f5f5f5',
+                  '&.Mui-disabled': {
+                    backgroundColor: '#f5f5f5',
+                  },
+                  '& fieldset': {
+                    borderColor: '#e0e0e0',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#666666',
+                  '&.Mui-disabled': {
+                    color: '#666666',
+                  },
+                },
+              }}
             />
           )}
         />
