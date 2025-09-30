@@ -5,7 +5,7 @@
     "pageNotFound": "Page Not Found",
     "pageNotExistMessage": "Sorry, the page you are looking for doesn't exist.",
     "loading": "Loading...",
-    "validating": "Validating...",
+    "validating": "Validating..."
   },
   "account": {
     "delete_account": "Delete Account",
