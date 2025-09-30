@@ -26,7 +26,7 @@ import { Button, Link, Skeleton } from "@mui/material";
 import { StripePayment } from "../../components/stripe-payment/StripePayment";
 import PaymentFlow from "../../components/payment/PaymentFlow";
 import { useTranslation } from "react-i18next";
-import { gtmEvent } from "../../core/utils/gtm.jsx";
+import { gtmEvent, gtmBeginCheckoutEvent } from "../../core/utils/gtm.jsx";
 
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
@@ -89,23 +89,6 @@ const Checkout = () => {
     return parseFloat(amount).toFixed(2);
   };
 
-  useEffect(() => {
-    if (orderDetail && orderDetail.order_id) {
-    gtmEvent("checkout", {
-      ecommerce: {
-        order_id: orderDetail.order_id,
-        bundle_id: data?.bundle_code || "",
-        bundle_name: data?.display_title || data?.title || "",
-        amount: (orderDetail.original_amount/100).toFixed(2),
-        currency: orderDetail.currency,
-        fee: (orderDetail.fee/100).toFixed(2),
-        tax: (orderDetail.vat/100).toFixed(2),
-        total: ((orderDetail.original_amount + orderDetail.fee + orderDetail.vat)/100).toFixed(2),
-      }
-    });
-  }
-  }, [orderDetail]);
-
   const { data, isLoading, error } = useQuery({
     queryKey: [`${id}-details`],
     queryFn: () =>
@@ -124,6 +107,43 @@ const Checkout = () => {
   });
 
   console.log(data, "BUNDLE DATA");
+
+  useEffect(() => {
+    if (orderDetail && orderDetail.order_id) {
+      // Send GA4 begin_checkout event with promocode info
+      gtmBeginCheckoutEvent({
+        bundle_details: data,
+        order_amount: orderDetail.original_amount || 0,
+        order_fee: orderDetail.fee || 0,
+        order_vat: orderDetail.vat || 0,
+        currency: orderDetail.currency,
+        iccid: iccid,
+        promo_code: orderDetail.promo_code || (isPromoApplied ? promoCode : null)
+      });
+
+      // Legacy event for backward compatibility - also include promocode
+      // const legacyEcommerce = {
+      //   order_id: orderDetail.order_id,
+      //   bundle_id: data?.bundle_code || "",
+      //   bundle_name: data?.display_title || data?.title || "",
+      //   amount: (orderDetail.original_amount/100).toFixed(2),
+      //   currency: orderDetail.currency,
+      //   fee: (orderDetail.fee/100).toFixed(2),
+      //   tax: (orderDetail.vat/100).toFixed(2),
+      //   total: ((orderDetail.original_amount + orderDetail.fee + orderDetail.vat)/100).toFixed(2),
+      // };
+
+      // // Add coupon to legacy event if available
+      // const couponCode = orderDetail.promo_code || (isPromoApplied ? promoCode : null);
+      // if (couponCode) {
+      //   legacyEcommerce.coupon = couponCode;
+      // }
+
+      // gtmEvent("checkout", {
+      //   ecommerce: legacyEcommerce
+      // });
+    }
+  }, [orderDetail, data, iccid, promoCode, isPromoApplied]);
 
   const confirmed = useMemo(() => {
     return isAuthenticated || tmp?.isAuthenticated;

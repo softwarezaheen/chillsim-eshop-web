@@ -64,6 +64,22 @@ api.interceptors.response.use(
         ? authenticationStore?.tmp?.refresh_token
         : authenticationStore?.refresh_token;
 
+      console.log("Refresh token debug:", { 
+        refreshToken, 
+        authenticationStore,
+        tmpAuthenticated: authenticationStore?.tmp?.isAuthenticated,
+        tmpRefreshToken: authenticationStore?.tmp?.refresh_token,
+        mainRefreshToken: authenticationStore?.refresh_token
+      });
+
+      // // Check if refresh token exists before making the call
+      // if (!refreshToken) {
+      //   console.error("No refresh token available, clearing auth state");
+      //   // Clear the authentication state and redirect
+      //   store.dispatch({ type: 'authentication/SignOut' });
+      //   return Promise.reject(error);
+      // }
+
       console.log(error, "errrorrrr33333");
       await axios
         .post(

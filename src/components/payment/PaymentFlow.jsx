@@ -150,6 +150,23 @@ const PaymentFlow = (props) => {
   const assignMethod = () => {
     setLoading(true);
 
+    // Debug logging
+    console.log('assignMethod called with:', {
+      bundle: props?.bundle,
+      bundle_code: props?.bundle?.bundle_code,
+      iccid: iccid,
+      selectedType: selectedType,
+      promoCode: promoCode
+    });
+
+    // Safety check: ensure bundle_code is available
+    if (!props?.bundle?.bundle_code) {
+      console.error('Bundle code is missing! Cannot proceed with assignment.');
+      setLoading(false);
+      toast.error('Bundle information is not available. Please try again.');
+      return;
+    }
+
     let handleAPI = iccid ? assignTopupBundle : assignBundle;
     //this api is for creating a  payment intent to get client secret
     /*|| "cc3d8d05-6bcc-453e-b6a5-3204489907f3"*/

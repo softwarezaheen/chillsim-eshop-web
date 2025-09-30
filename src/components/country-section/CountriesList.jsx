@@ -8,7 +8,7 @@ import { Collapse, Grid2, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import BundleList from "../bundle/BundleList";
 import CountryCard from "./country-card/CountryCard";
-import { gtmEvent } from "../../core/utils/gtm.jsx";
+import { gtmEvent, gtmViewItemListEvent } from "../../core/utils/gtm.jsx";
 
 export const CountriesList = (props) => {
   const {
@@ -100,13 +100,35 @@ export const CountriesList = (props) => {
       );
       // GTM event logic
       if (region && element?.region_code) {
-        gtmEvent("view_region_products", {
-          region: element?.region_name || element?.region_code,
-        });
+        // Send GA4 view_item_list event for region with available bundle data
+        if (element?.bundles && element.bundles.length > 0) {
+          gtmViewItemListEvent(
+            element.bundles,
+            element?.region_name || element?.region_code,
+            element?.region_code,
+            'region'
+          );
+        }
+
+        // Legacy event
+        // gtmEvent("view_region_products", {
+        //   region: element?.region_name || element?.region_code,
+        // });
       } else if (!region && element?.id) {
-        gtmEvent("view_country_products", {
-          country: element?.country || element?.id,
-        });
+        // Send GA4 view_item_list event for country with available bundle data
+        if (element?.bundles && element.bundles.length > 0) {
+          gtmViewItemListEvent(
+            element.bundles,
+            element?.country || element?.id,
+            element?.id,
+            'country'
+          );
+        }
+
+        // Legacy event
+        // gtmEvent("view_country_products", {
+        //   country: element?.country || element?.id,
+        // });
       }
     }
   };

@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 
 //API
 import { getOrderByID, getOrderHistoryById } from "../../core/apis/userAPI";
-import { gtmEvent } from "../../core/utils/gtm.jsx";
+import { gtmEvent, gtmPurchaseEvent } from "../../core/utils/gtm.jsx";
 //COMPONENT
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
@@ -55,29 +55,50 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
     if (isFromPaymentCompletion && orderHistoryData && id) {
       // Determine if this is a topup based on iccid presence or order data
       const isTopup = !!iccid || orderHistoryData?.order_type === 'topup' || orderHistoryData?.iccid;
-      const eventName = isTopup ? "purchased_topup" : "purchased_bundle";
+      const eventName = isTopup ? "purchase_topup" : "purchase_bundle";
       
-      gtmEvent(eventName, {
-        ecommerce: {
-          order_id: id,
-          product_id: orderHistoryData?.bundle_details?.bundle_code || "",
-          product_name: orderHistoryData?.bundle_details?.display_title || "",
-          amount: ((orderHistoryData?.order_amount || 0) / 100).toFixed(2),
-          currency: orderHistoryData?.order_currency || "",
-          fee: ((orderHistoryData?.order_fee || 0) / 100).toFixed(2),
-          tax: ((orderHistoryData?.order_vat || 0) / 100).toFixed(2),
-          total: (
-            ((orderHistoryData?.order_amount || 0) +
-              (orderHistoryData?.order_fee || 0) +
-              (orderHistoryData?.order_vat || 0)) /
-            100
-          ).toFixed(2),
-          payment_type: orderHistoryData?.payment_type || "",
-          promo_code: orderHistoryData?.promo_code || "",
-          discount: orderHistoryData?.discount || 0,
-          ...(isTopup && { iccid: iccid || orderHistoryData?.iccid }), // Add iccid for topups
-        }
+      // Send GA4 ecommerce purchase event
+      gtmPurchaseEvent(eventName, {
+        order_id: id,
+        currency: orderHistoryData?.order_currency || "",
+        total_amount: (orderHistoryData?.order_amount || 0) + 
+                      (orderHistoryData?.order_fee || 0) + 
+                      (orderHistoryData?.order_vat || 0),
+        bundle_details: orderHistoryData?.bundle_details,
+        order_amount: orderHistoryData?.order_amount || 0,
+        order_fee: orderHistoryData?.order_fee || 0,
+        order_vat: orderHistoryData?.order_vat || 0,
+        payment_type: orderHistoryData?.payment_type || "",
+        promo_code: orderHistoryData?.promo_code || "",
+        discount: orderHistoryData?.discount || 0,
+        ...(isTopup && { iccid: iccid || orderHistoryData?.iccid }), // Add iccid for topups
       });
+      
+      // Also send the legacy gtmEvent for backward compatibility (if needed)
+      
+      // to be removed in future
+      // const eventNameLegacy = isTopup ? "purchase_topup_legacy" : "purchase_bundle_legacy";
+      // gtmEvent(eventNameLegacy, {
+      //   ecommerce: {
+      //     order_id: id,
+      //     product_id: orderHistoryData?.bundle_details?.bundle_code || "",
+      //     product_name: orderHistoryData?.bundle_details?.display_title || "",
+      //     amount: ((orderHistoryData?.order_amount || 0) / 100).toFixed(2),
+      //     currency: orderHistoryData?.order_currency || "",
+      //     fee: ((orderHistoryData?.order_fee || 0) / 100).toFixed(2),
+      //     tax: ((orderHistoryData?.order_vat || 0) / 100).toFixed(2),
+      //     total: (
+      //       ((orderHistoryData?.order_amount || 0) +
+      //         (orderHistoryData?.order_fee || 0) +
+      //         (orderHistoryData?.order_vat || 0)) /
+      //       100
+      //     ).toFixed(2),
+      //     payment_type: orderHistoryData?.payment_type || "",
+      //     promo_code: orderHistoryData?.promo_code || "",
+      //     discount: orderHistoryData?.discount || 0,
+      //     ...(isTopup && { iccid: iccid || orderHistoryData?.iccid }), // Add iccid for topups
+      //   }
+      // });
     }
   }, [orderHistoryData, id, isFromPaymentCompletion, iccid]);
 

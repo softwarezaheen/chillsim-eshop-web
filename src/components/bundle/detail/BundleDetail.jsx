@@ -20,7 +20,7 @@ import clsx from "clsx";
 import TooltipComponent from "../../shared/tooltip/TooltipComponent";
 import { useTranslation, Trans } from "react-i18next";
 import { formatValidity } from "../../../assets/utils/formatValidity";
-import { gtmEvent } from "../../../core/utils/gtm.jsx";
+import { gtmEvent, gtmAddToCartEvent } from "../../../core/utils/gtm.jsx";
 
 const BundleDetail = ({
   onClose,
@@ -299,28 +299,35 @@ const BundleDetail = ({
           variant={"contained"}
           color="primary"
           onClick={() => {
-            if (iccid) {
-              gtmEvent("add_to_cart_topup", {
-                ecommerce: {
-                  bundle_id: bundle?.bundle_code || "",
-                  bundle_name: bundle?.display_title || bundle?.title || "",
-                  amount: bundle?.price || 0,
-                  currency: bundle?.currency_code || "",
-                  quantity: 1,
-                  iccid: iccid,
-                }
-              });
-            } else {
-              gtmEvent("add_to_cart_bundle", {
-                ecommerce: {
-                  bundle_id: bundle?.bundle_code || "",
-                  bundle_name: bundle?.display_title || bundle?.title || "",
-                  amount: bundle?.price || 0,
-                  currency: bundle?.currency_code || "",
-                  quantity: 1,
-                }
-              });
-            }
+            // Send GA4 add_to_cart event
+            gtmAddToCartEvent({
+              ...bundle,
+              currency: bundle?.currency_code
+            }, !!iccid, iccid);
+
+            // Legacy events for backward compatibility
+            // if (iccid) {
+            //   gtmEvent("add_to_cart_topup", {
+            //     ecommerce: {
+            //       bundle_id: bundle?.bundle_code || "",
+            //       bundle_name: bundle?.display_title || bundle?.title || "",
+            //       amount: bundle?.price || 0,
+            //       currency: bundle?.currency_code || "",
+            //       quantity: 1,
+            //       iccid: iccid,
+            //     }
+            //   });
+            // } else {
+            //   gtmEvent("add_to_cart_bundle", {
+            //     ecommerce: {
+            //       bundle_id: bundle?.bundle_code || "",
+            //       bundle_name: bundle?.display_title || bundle?.title || "",
+            //       amount: bundle?.price || 0,
+            //       currency: bundle?.currency_code || "",
+            //       quantity: 1,
+            //     }
+            //   });
+            // }
             handleCheckExist()
           }}
         >
