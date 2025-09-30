@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
+import { useQueryClient } from "react-query";
 //COMPONENTS
 import { Card, CardContent, Button, TextField } from "@mui/material";
 import RedeemIcon from "@mui/icons-material/Redeem";
@@ -14,6 +15,7 @@ import { fetchUserInfo } from "../../redux/reducers/authReducer";
 const VoucherCard = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   const [voucherCode, setVoucherCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,6 +35,8 @@ const VoucherCard = () => {
       setVoucherCode(""); // Clear the input
       // Reload user info to get updated balance
       dispatch(fetchUserInfo());
+      // Invalidate wallet transactions to refresh the list
+      queryClient.invalidateQueries({ queryKey: ["wallet-transactions"] });
     } catch (error) {
       console.error("Voucher redemption error:", error);
       

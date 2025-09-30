@@ -42,11 +42,14 @@ const Checkout = () => {
   const [promoValidationMessage, setPromoValidationMessage] = useState("");
   const [promoErrorMessage, setPromoErrorMessage] = useState("");
   const [isPromoApplied, setIsPromoApplied] = useState(false);
+  const [isPromoValidating, setIsPromoValidating] = useState(false);
   const [isWalletPaymentWithSufficientBalance, setIsWalletPaymentWithSufficientBalance] = useState(false);
   const dispatch = useDispatch();
 
   const handleApplyPromoCode = async () => {
-    if (promoCode.trim() && !isPromoApplied) {
+    if (promoCode.trim() && !isPromoApplied && !isPromoValidating) {
+      // Set loading state
+      setIsPromoValidating(true);
       // Clear any previous messages
       setPromoValidationMessage("");
       setPromoErrorMessage("");
@@ -65,6 +68,8 @@ const Checkout = () => {
         }
       } catch (error) {
         setPromoErrorMessage(t("checkout.invalidPromoCode"));
+      } finally {
+        setIsPromoValidating(false);
       }
     }
   };
@@ -344,10 +349,15 @@ const Checkout = () => {
                 />
                 <button
                   onClick={handleApplyPromoCode}
-                  disabled={!promoCode.trim() || isPromoApplied || isLoading}
+                  disabled={!promoCode.trim() || isPromoApplied || isLoading || isPromoValidating}
                   className="w-full sm:w-auto px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {!orderDetail ? (
+                  {isPromoValidating ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      {t("common.validating")}
+                    </>
+                  ) : !orderDetail ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                       {t("common.loading")}

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 //COMPONENTS
 import WalletCard from "../../components/wallet/WalletCard";
 import VoucherCard from "../../components/wallet/VoucherCard";
+import WalletTransactions from "../../components/wallet/WalletTransactions";
 import { Skeleton } from "@mui/material";
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
 import { NoDataFoundSVG } from "../../assets/icons/Common";
@@ -17,14 +18,14 @@ const Wallet = () => {
   const { user_info, isLoading } = useSelector((state) => state.authentication);
   const { user_currency } = useSelector((state) => state.currency);
 
-  // Refetch user info when currency changes to get updated balance in new currency
+  // Refetch user info when currency changes
   useEffect(() => {
     if (user_currency?.currency) {
-      console.log("Currency changed in Wallet page, refetching user info to get updated balance...");
       dispatch(fetchUserInfo());
     }
   }, [user_currency?.currency, dispatch]);
 
+  // Show loading
   if (isLoading) {
     return (
       <div className="flex flex-col gap-[2rem]">
@@ -39,6 +40,7 @@ const Wallet = () => {
     );
   }
 
+  // Show if no user info
   if (!user_info) {
     return (
       <div className="flex flex-col gap-[2rem]">
@@ -54,15 +56,17 @@ const Wallet = () => {
   }
 
   return (
-    <div className="flex flex-col gap-[2rem]">
+    <div className="flex flex-col gap-[2rem] p-4">
       <div className="flex items-center justify-between gap-[2rem]">
-        <h1 className="font-bold">{t("nav.myWallet")}</h1>
+        <h1 className="text-2xl font-bold">{t("nav.myWallet", "My Wallet")}</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
         <WalletCard userInfo={user_info} />
         <VoucherCard />
       </div>
+
+      <WalletTransactions />
     </div>
   );
 };

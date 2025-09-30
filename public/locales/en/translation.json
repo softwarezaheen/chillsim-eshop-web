@@ -4,7 +4,8 @@
     "notAvailable": "N/A",
     "pageNotFound": "Page Not Found",
     "pageNotExistMessage": "Sorry, the page you are looking for doesn't exist.",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "validating": "Validating...",
   },
   "account": {
     "delete_account": "Delete Account",
@@ -441,6 +442,20 @@
     "noFeesOrTaxes": "For wallet payments no fees or taxes are paid",
     "processingPayment": "Processing Wallet Payment",
     "processingMessage": "Please wait while we process your wallet payment...",
-    "amountBeingCharged": "Amount: {{amount}}"
+    "amountBeingCharged": "Amount: {{amount}}",
+    "transactionHistory": "Transaction History",
+    "totalTransactions": "Total: {{count}}",
+    "noTransactionsYet": "No transactions yet",
+    "failedToLoadTransactions": "Failed to load wallet transactions",
+    "statusSuccess": "Success",
+    "statusFailed": "Failed",
+    "statusPending": "Pending",
+    "transactionTypeTopUp": "Wallet Top-up",
+    "transactionTypeVoucherRedeem": "Voucher Redemption",
+    "transactionTypeReferralReward": "Referral Reward",
+    "transactionTypeCashback": "Cashback",
+    "transactionTypePurchase": "Purchase",
+    "transactionTypeRefund": "Refund",
+    "comingSoon": "Coming soon..."
   }
 }

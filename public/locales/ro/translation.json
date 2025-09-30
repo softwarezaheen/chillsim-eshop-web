@@ -4,7 +4,8 @@
     "notAvailable": "N/A",
     "pageNotFound": "Pagina nu a fost găsită",
     "pageNotExistMessage": "Ne pare rău, pagina pe care o căutați nu există.",
-    "loading": "Se încarcă..."
+    "loading": "Se încarcă...",
+    "validating": "Se validează..."
   },
   "account": {
     "delete_account": "Șterge contul",
@@ -435,6 +436,20 @@
     "noFeesOrTaxes": "Pentru plățile prin portofel nu se percep taxe sau comisioane",
     "processingPayment": "Se procesează plata din portofel",
     "processingMessage": "Te rugăm să aștepți în timp ce procesăm plata din portofelul tău...",
-    "amountBeingCharged": "Suma: {{amount}}"
+    "amountBeingCharged": "Suma: {{amount}}",
+    "transactionHistory": "Istoricul tranzacțiilor",
+    "totalTransactions": "Total: {{count}}",
+    "noTransactionsYet": "Nu există tranzacții încă",
+    "failedToLoadTransactions": "Nu s-au putut încărca tranzacțiile din portofel",
+    "statusSuccess": "Realizată cu succes",
+    "statusFailed": "Eșuată",
+    "statusPending": "În așteptare",
+    "transactionTypeTopUp": "Reîncărcare portofel",
+    "transactionTypeVoucherRedeem": "Utilizare voucher",
+    "transactionTypeReferralReward": "Recompensă recomandare",
+    "transactionTypeCashback": "Cashback",
+    "transactionTypePurchase": "Cumpărare",
+    "transactionTypeRefund": "Rambursare",
+    "comingSoon": "În curând..."
   }
 }

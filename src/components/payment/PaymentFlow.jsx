@@ -42,7 +42,6 @@ const typeMap = {
 };
 
 const PaymentFlow = (props) => {
-  console.log(props, "payment flow props");
   const { t } = useTranslation();
   const { iccid } = useParams();
   const navigate = useNavigate();
@@ -113,7 +112,6 @@ const PaymentFlow = (props) => {
   };
 
   const handleWalletPaymentSuccess = (orderData) => {
-    console.log("Wallet payment successful:", orderData);
     toast.success(t("wallet.paymentSuccessful"));
     
     // Update user info to refresh wallet balance
@@ -164,12 +162,10 @@ const PaymentFlow = (props) => {
       affiliate_code: "",
     })
       .then((res) => {
-        console.log(res?.data?.data, "ORDER 11111");
         setOrderDetail(res?.data?.data);
         
         // Handle wallet payment completion
         if (selectedType === "wallet" && res?.data?.data?.payment_status === "COMPLETED") {
-          console.log("Wallet payment completed successfully:", res?.data?.data);
           handleWalletPaymentSuccess(res?.data?.data);
         } else if (selectedType !== "wallet") {
           // For non-wallet payments, set up stripe
@@ -214,8 +210,6 @@ const PaymentFlow = (props) => {
     }
   }, [selectedType, orderDetail, setIsWalletPaymentWithSufficientBalance]);
 
-  console.log(allowed_payment_types, "allowed payment types");
-
   const Component = useMemo(() => {
     return selectedType
       ? allowed_payment_types?.length == 1
@@ -223,9 +217,6 @@ const PaymentFlow = (props) => {
         : ComponentMap?.[selectedType?.toLowerCase()]
       : null;
   }, [allowed_payment_types, selectedType]);
-
-  console.log(allowed_payment_types, selectedType, "check select type");
-  console.log(orderDetail, "order detail");
 
   return (
     <div className={"flex flex-col gap-2 w-full sm:basis-[50%] shrink-0"}>

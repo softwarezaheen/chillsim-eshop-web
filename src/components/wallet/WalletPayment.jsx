@@ -57,21 +57,16 @@ const WalletPayment = ({ bundle, orderDetail, recallAssign }) => {
       return;
     }
     
-    console.log("Starting wallet payment, setting isProcessing to true");
     setIsProcessing(true);
     
     try {
       // Call the assign method for wallet payment
-      // The PaymentFlow's assignMethod will handle the success flow automatically
-      console.log("Calling recallAssign...");
       await recallAssign();
       
-      console.log("recallAssign completed successfully");
       // Don't set isProcessing to false here - let the success handler manage it
       // The success flow will navigate away, so the component will unmount
       
     } catch (error) {
-      console.error("Wallet payment error:", error);
       toast.error(t("wallet.paymentFailed"));
       setIsProcessing(false); // Only set to false on error
     }
@@ -161,9 +156,6 @@ const WalletPayment = ({ bundle, orderDetail, recallAssign }) => {
           </DialogContent>
         </Dialog>
       )}
-      
-      {/* Debug: Show processing state */}
-      {console.log("WalletPayment render - isProcessing:", isProcessing)}
     </>
   );
 };

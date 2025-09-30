@@ -10,13 +10,7 @@ const WalletCard = ({ userInfo }) => {
   const { t } = useTranslation();
   const { system_currency, user_currency } = useSelector((state) => state.currency);
 
-  // Debug: Log user info to see available fields
-  console.log("User info in WalletCard:", userInfo);
-  console.log("User currency from Redux:", user_currency);
-  console.log("System currency:", system_currency);
-
-  // Extract balance from user info - adjust the field name based on your API structure
-  // Common field names: balance, wallet_balance, account_balance, available_balance
+  // Extract balance from user info
   const balance = userInfo?.balance || 
                   userInfo?.wallet_balance || 
                   userInfo?.account_balance || 
