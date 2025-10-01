@@ -56,15 +56,35 @@ export const gtmPurchaseEvent = (eventName, orderData) => {
     iccid
   } = orderData;
 
-  // Order amounts from API are in cents, so convert them to currency units
-  const totalValue = formatCentsToValue(total_amount || (order_amount + order_fee + order_vat));
-  const itemPrice = formatCentsToValue(order_amount);
-  const feeAmount = formatCentsToValue(order_fee);
-  const taxAmount = formatCentsToValue(order_vat);
-  const discountAmount = formatCentsToValue(discount);
+  // Detect if values are already in currency format or cents
+  // If order_amount is less than 10 but the order seems reasonable, it's likely already in currency format
+  const isAlreadyCurrencyFormat = (order_amount < 10 && order_amount > 0.01);
+  
+  console.log('🔍 Currency format detection:', {
+    order_amount,
+    isAlreadyCurrencyFormat,
+    raw_amounts: { order_amount, order_fee, order_vat, discount, total_amount }
+  });
 
-  console.log('Purchase event debug:', {
-    raw_amounts: { order_amount, order_fee, order_vat, discount, total_amount },
+  // Format amounts based on detection
+  const totalValue = isAlreadyCurrencyFormat 
+    ? parseFloat((total_amount || (order_amount + order_fee + order_vat)).toFixed(2))
+    : formatCentsToValue(total_amount || (order_amount + order_fee + order_vat));
+  const itemPrice = isAlreadyCurrencyFormat 
+    ? parseFloat((order_amount || 0).toFixed(2))
+    : formatCentsToValue(order_amount);
+  const feeAmount = isAlreadyCurrencyFormat 
+    ? parseFloat((order_fee || 0).toFixed(2))
+    : formatCentsToValue(order_fee);
+  const taxAmount = isAlreadyCurrencyFormat 
+    ? parseFloat((order_vat || 0).toFixed(2))
+    : formatCentsToValue(order_vat);
+  const discountAmount = isAlreadyCurrencyFormat 
+    ? parseFloat((discount || 0).toFixed(2))
+    : formatCentsToValue(discount);
+
+  console.log('💰 Purchase event amounts:', {
+    format: isAlreadyCurrencyFormat ? 'currency' : 'cents',
     converted_amounts: { totalValue, itemPrice, feeAmount, taxAmount, discountAmount }
   });
 

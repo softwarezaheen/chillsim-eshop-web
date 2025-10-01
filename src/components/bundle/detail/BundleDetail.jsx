@@ -90,7 +90,12 @@ const BundleDetail = ({
   }, [globalDisplay, regionIcon, bundle]);
 
   return (
-    <Dialog fullWidth open={true} maxWidth={"sm"}>
+    <Dialog 
+      fullWidth 
+      open={true} 
+      maxWidth={"sm"}
+      onClose={onClose}
+    >
       <DialogContent className={"flex flex-col gap-2"}>
         <div className={"flex flex-row justify-end"}>
           <IconButton

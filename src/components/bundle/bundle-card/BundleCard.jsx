@@ -215,24 +215,15 @@ const BundleCard = ({
               onClick={(e) => {
                 e.stopPropagation(); // Prevent card click
                 
-                // Send GA4 add_to_cart event
-                gtmAddToCartEvent({
+                // Fire view_item event since button click prevents card click
+                // This is especially important for topup scenarios
+                gtmViewItemEvent({
                   ...bundle,
                   currency: bundle?.currency_code
-                }, !!iccid, iccid);
-
-                // Legacy event for backward compatibility
-                if (iccid) {
-                  gtmEvent("add_to_cart_topup", {
-                    bundle_id: bundle?.bundle_code || "",
-                    bundle_name: bundle?.display_title || bundle?.title || "",
-                    amount: bundle?.price || 0,
-                    currency: bundle?.currency_code || "",
-                    quantity: 1,
-                    iccid: iccid
-                  });
-                }
-                handleDetail();
+                }, !!iccid);
+                
+                // Open the detail modal - add_to_cart will be fired from within
+                setOpenDetail(true);
               }}
             >
               <p className="font-bold text-base max-w-24px">
@@ -244,6 +235,7 @@ const BundleCard = ({
       </Card>
       {openDetail && (
         <BundleDetail
+          key={bundle?.bundle_code || 'bundle-detail'}
           formatValidity={formatValidity}
           regionIcon={regionIcon}
           globalDisplay={globalDisplay}
