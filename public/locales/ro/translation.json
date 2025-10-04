@@ -334,6 +334,7 @@
     "contactUs": "Contactează-ne",
     "termsAndConditions": "Termeni și condiții",
     "privacyPolicy": "Politica de confidențialitate",
+    "cookiePolicy": "Politica de cookies",
     "office": "Birou",
     "email": "Adresă de e-mail",
     "phone": "Număr de telefon"
@@ -363,6 +364,9 @@
   "terms": {
     "failedToLoadTermsData": "Nu s-au putut încărca informațiile despre Termeni",
     "termsAndConditions": "Termeni și condiții"
+  },
+  "cookiePolicy": {
+    "failedToLoadCookiePolicyData": "Nu s-au putut încărca informațiile despre Politica de cookies"
   },
   "errors": {
     "maxCharacter": "{{field}} Nu trebuie să conțină mai mult de {{character}} caractere",

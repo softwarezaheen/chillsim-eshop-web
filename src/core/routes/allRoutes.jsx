@@ -19,6 +19,7 @@ import Profile from "../../pages/profile/Profile";
 import UserNotifications from "../../pages/user-notification/UserNotifications";
 import EsimDetail from "../../pages/my-esim/esim-detail/EsimDetail";
 import PrivacyPolicy from "../../pages/privacy-policy/PrivacyPolicy";
+import CookiePolicy from "../../pages/CookiePolicy";
 import Wallet from "../../pages/wallet/Wallet";
 
 export const allRoutes = [
@@ -80,6 +81,10 @@ export const allRoutes = [
   {
     path: "/privacy",
     element: <PrivacyPolicy />,
+  },
+  {
+    path: "/cookies-policy",
+    element: <CookiePolicy />,
   },
   {
     path: "/signin",

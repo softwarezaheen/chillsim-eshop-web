@@ -134,6 +134,13 @@ const Footer = () => {
                 {t("footer.termsAndConditions")}
               </Link>
               <Link
+                to={"/cookies-policy"}
+                onClick={() => handleNavigation()}
+                className="text-sm text-white"
+              >
+                {t("footer.cookiePolicy")}
+              </Link>
+              <Link
                 to={"/contact-us"}
                 onClick={() => handleNavigation()}
                 className="text-sm text-white"

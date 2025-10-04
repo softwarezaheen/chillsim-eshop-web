@@ -339,6 +339,7 @@
     "contactUs": "Contact Us",
     "termsAndConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
     "office": "Office",
     "email": "Email",
     "phone": "Phone"
@@ -368,6 +369,9 @@
   "terms": {
     "failedToLoadTermsData": "Failed to load Terms Data",
     "termsAndConditions": "Terms & Conditions"
+  },
+  "cookiePolicy": {
+    "failedToLoadCookiePolicyData": "Failed to load Cookie Policy Data"
   },
   "errors": {
     "maxCharacter": "{{field}} must not contain more than {{character}} characters",

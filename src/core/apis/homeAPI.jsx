@@ -73,3 +73,12 @@ export const getFAQContent = async () => {
     return error;
   }
 };
+
+export const getCookiesPolicyContent = async () => {
+  try {
+    const res = await api.get("api/v1/app/cookies-policy");
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
