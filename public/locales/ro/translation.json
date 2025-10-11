@@ -123,7 +123,12 @@
     "labelRequired": "Câmpul „Etichetă” este obligatoriu",
     "qrcode_loading": "Se preiau datele codului QR. Un moment, te rugăm...",
     "tax": "TVA:",
-    "fees": "Taxă de procesare"
+    "fees": "Taxă de procesare",
+    "downloadInvoice": "Descarcă factura",
+    "invoiceDownloaded": "Factura a fost descărcată cu succes",
+    "invoiceDownloadError": "Nu s-a putut descărca factura",
+    "downloadingInvoice": "Se descarcă factura...",
+    "redirectingAfterDownload": "Vei fi redirecționat în scurt timp..."
   },
   "esim": {
     "title": "eSIM-ul meu",
@@ -368,6 +373,7 @@
   "cookiePolicy": {
     "failedToLoadCookiePolicyData": "Nu s-au putut încărca informațiile despre Politica de cookies"
   },
+
   "errors": {
     "maxCharacter": "{{field}} Nu trebuie să conțină mai mult de {{character}} caractere",
     "customer_not_enougn_balance": "Numărul MSISDN al clientului nu are suficient credit",

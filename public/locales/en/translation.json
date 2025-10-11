@@ -123,7 +123,12 @@
     "labelRequired": "Label is a required field",
     "qrcode_loading": "Fetching QR code data. Just a moment...",
     "tax": "Tax:",
-    "fees": "Processing Fee"
+    "fees": "Processing Fee",
+    "downloadInvoice": "Download Invoice",
+    "invoiceDownloaded": "Invoice downloaded successfully",
+    "invoiceDownloadError": "Failed to download invoice",
+    "downloadingInvoice": "Downloading invoice...",
+    "redirectingAfterDownload": "You will be redirected shortly..."
   },
   "esim": {
     "title": "My eSIM",
@@ -373,6 +378,7 @@
   "cookiePolicy": {
     "failedToLoadCookiePolicyData": "Failed to load Cookie Policy Data"
   },
+
   "errors": {
     "maxCharacter": "{{field}} must not contain more than {{character}} characters",
     "customer_not_enougn_balance": "Customer msisdn doesn’t have enough balance",

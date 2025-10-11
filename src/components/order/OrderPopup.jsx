@@ -234,6 +234,59 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
                 </IconButton>
               </div>
             </div>{" "}
+            
+            {/* Download Invoice Button */}
+            {orderHistoryData?.pdf_url && (
+              <div className="flex flex-col gap-[0.5rem] mt-4">
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  onClick={async () => {
+                    try {
+                      // Import the API function
+                      const { getInvoicePDF } = await import('../../core/apis/authAPI');
+                      
+                      // Download the PDF
+                      const response = await getInvoicePDF(id);
+                      
+                      // Create blob and download
+                      const blob = new Blob([response.data], { type: 'application/pdf' });
+                      const url = URL.createObjectURL(blob);
+                      
+                      // Extract filename from Content-Disposition header or use default
+                      let filename = `invoice_${id}.pdf`;
+                      const contentDisposition = response.headers['content-disposition'];
+                      if (contentDisposition) {
+                        const match = contentDisposition.match(/filename="(.+)"/);
+                        if (match) {
+                          filename = match[1];
+                        }
+                      }
+                      
+                      // Create download link and trigger download
+                      const link = document.createElement('a');
+                      link.href = url;
+                      link.download = filename;
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                      
+                      // Clean up the blob URL
+                      URL.revokeObjectURL(url);
+                      
+                      toast.success(t('orders.invoiceDownloaded'));
+                    } catch (error) {
+                      console.error('Error downloading invoice:', error);
+                      toast.error(t('orders.invoiceDownloadError'));
+                    }
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  📄 {t('orders.downloadInvoice')}
+                </Button>
+              </div>
+            )}
           </>
         )}
 

@@ -107,3 +107,18 @@ export const deleteAccount = async (payload) => {
 export const supabaseSignout = async () => {
   await supabase.auth.signOut();
 };
+
+export const getInvoicePDF = async (invoiceId) => {
+  try {
+    const res = await api.get(`api/v1/user/invoice/${invoiceId}`, {
+      responseType: 'blob', // Important for PDF handling
+      headers: {
+        'Accept': 'application/pdf'
+      }
+    });
+    return res;
+  } catch (error) {
+    console.error("getInvoicePDF API error:", error);
+    throw error;
+  }
+};

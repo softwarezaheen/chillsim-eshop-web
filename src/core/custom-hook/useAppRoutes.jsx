@@ -20,6 +20,7 @@ import UserNotifications from "../../pages/user-notification/UserNotifications";
 import EsimDetail from "../../pages/my-esim/esim-detail/EsimDetail";
 import PrivacyPolicy from "../../pages/privacy-policy/PrivacyPolicy";
 import CookiePolicy from "../../pages/CookiePolicy";
+import Invoice from "../../pages/Invoice";
 import TmpLogin from "../../components/tmp-login/TmpLogin";
 import DownloadRedirect from "../../components/download/DownloadRedirect";
 import BillingPage from "../../pages/billing/BillingPage";
@@ -88,6 +89,11 @@ export const useAppRoutes = () => {
       {
         path: "/cookies-policy",
         element: <CookiePolicy />,
+      },
+      {
+        path: "/invoice/:invoiceId",
+        element: <Invoice />,
+        isPrivate: true,
       },
       {
         path: "/download",
