@@ -104,9 +104,16 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
     setIsSubmitting(true);
     let canNavigate = false;
     
+    // If billing type is individual, clear company-related fields before submission
     const submissionPayload = {
       ...payload,
       email: payload.email ? payload.email.toLowerCase() : "",
+      // Clear company fields if individual billing type
+      ...(billingType === "individual" && {
+        companyName: "",
+        vatCode: "",
+        tradeRegistry: "",
+      }),
     };
 
     try {
