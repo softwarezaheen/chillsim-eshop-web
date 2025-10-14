@@ -94,7 +94,8 @@ api.interceptors.response.use(
             // Set the new token and flag to skip auth refresh in request interceptor
             originalRequest.headers.Authorization = `Bearer ${token}`;
             originalRequest._skipAuthRefresh = true;
-            return api(originalRequest);
+            // Use raw axios to bypass interceptors (like 6b5af46)
+            return axios(originalRequest);
           })
           .catch((err) => {
             return Promise.reject(err);
@@ -134,10 +135,10 @@ api.interceptors.response.use(
         
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}api/v1/auth/refresh-token`,
-          { refresh_token: refreshToken },
+          null,
           {
             headers: {
-              "Content-Type": "application/json",
+              "x-refresh-token": refreshToken,
               "X-Timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
               "X-Language": "en",
               "x-device-id": sessionStorage.getItem("x-device-id") || "1234",
@@ -173,7 +174,8 @@ api.interceptors.response.use(
         isRefreshing = false;
 
         // Retry the original request with the new token
-        return api(originalRequest);
+        // Use raw axios to bypass interceptors (like 6b5af46)
+        return axios(originalRequest);
 
       } catch (refreshError) {
         console.error("Token refresh failed:", refreshError);
