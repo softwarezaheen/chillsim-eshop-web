@@ -22,6 +22,22 @@ export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
+// Token refresh management
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
 api.interceptors.request.use(
   (config) => {
     const xDeviceId = sessionStorage.getItem("x-device-id") || "1234";
@@ -55,11 +71,31 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const { config } = error;
-    console.log(error, "errrorrrr11");
-    if (error?.response?.status === 401) {
+    const originalRequest = error.config;
+    
+    console.log("Interceptor error:", error?.response?.status);
+
+    if (error?.response?.status === 401 && !originalRequest._retry) {
       const authenticationStore = store?.getState()?.authentication;
-      console.log(error, "errrorrrr22222", authenticationStore);
+      
+      // If already refreshing, queue this request
+      if (isRefreshing) {
+        console.log("🔄 Token refresh in progress, queuing request...");
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return api(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
       const refreshToken = authenticationStore?.tmp?.isAuthenticated
         ? authenticationStore?.tmp?.refresh_token
         : authenticationStore?.refresh_token;
@@ -72,17 +108,23 @@ api.interceptors.response.use(
         mainRefreshToken: authenticationStore?.refresh_token
       });
 
-      // // Check if refresh token exists before making the call
-      // if (!refreshToken) {
-      //   console.error("No refresh token available, clearing auth state");
-      //   // Clear the authentication state and redirect
-      //   store.dispatch({ type: 'authentication/SignOut' });
-      //   return Promise.reject(error);
-      // }
+      // Check if refresh token exists before making the call
+      if (!refreshToken) {
+        console.error("No refresh token available, clearing auth state");
+        isRefreshing = false;
+        processQueue(error, null);
+        store.dispatch(SignOut());
+        store.dispatch(DetachDevice());
+        queryClient.clear();
+        deleteToken(messaging);
+        supabaseSignout();
+        return Promise.reject(error);
+      }
 
-      console.log(error, "errrorrrr33333");
-      await axios
-        .post(
+      try {
+        console.log("🔄 Attempting token refresh...");
+        
+        const response = await axios.post(
           `${import.meta.env.VITE_API_URL}api/v1/auth/refresh-token`,
           null,
           {
@@ -93,41 +135,53 @@ api.interceptors.response.use(
               "x-device-id": sessionStorage.getItem("x-device-id") || "1234",
             },
           }
-        )
-        .then((res) => {
-          console.log("refetch token succeeeded ", res);
-          const newToken = res?.data?.data?.access_token;
-          config.headers.Authorization = `Bearer ${newToken}`;
-          if (authenticationStore?.tmp?.isAuthenticated) {
-            store.dispatch(
-              LimitedSignIn({
-                ...res?.data?.data,
-              })
-            );
-          } else if (authenticationStore?.isAuthenticated) {
-            store.dispatch(
-              SignIn({
-                ...res?.data?.data,
-              })
-            );
-          } else {
-            store.dispatch(SignOut());
-            store.dispatch(DetachDevice());
-            queryClient.clear();
-            deleteToken(messaging);
-            supabaseSignout();
-          }
-        })
-        .catch((e) => {
-          console.log("refetch token failed", e);
-          store.dispatch(SignOut());
-          store.dispatch(DetachDevice());
-          queryClient.clear();
-          deleteToken(messaging);
-          supabaseSignout();
-        });
+        );
 
-      return axios(config);
+        console.log("✅ Token refresh successful");
+
+        const newToken = response?.data?.data?.access_token;
+        
+        // Update the original request with new token
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
+        // Update Redux store based on auth type
+        if (authenticationStore?.tmp?.isAuthenticated) {
+          store.dispatch(
+            LimitedSignIn({
+              ...response?.data?.data,
+            })
+          );
+        } else if (authenticationStore?.isAuthenticated) {
+          store.dispatch(
+            SignIn({
+              ...response?.data?.data,
+            })
+          );
+        }
+
+        // Process all queued requests with new token
+        processQueue(null, newToken);
+        isRefreshing = false;
+
+        // Retry the original request
+        return api(originalRequest);
+
+      } catch (refreshError) {
+        console.error("Token refresh failed:", refreshError);
+        
+        // Clear queue and fail all pending requests
+        processQueue(refreshError, null);
+        isRefreshing = false;
+
+        // Sign out user
+        store.dispatch(SignOut());
+        store.dispatch(DetachDevice());
+        queryClient.clear();
+        deleteToken(messaging);
+        supabaseSignout();
+
+        return Promise.reject(refreshError);
+      }
     } else if (error?.response?.status === 403) {
       store.dispatch(SignOut());
       store.dispatch(DetachDevice());
