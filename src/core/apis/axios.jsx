@@ -134,10 +134,10 @@ api.interceptors.response.use(
         
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}api/v1/auth/refresh-token`,
-          null,
+          { refresh_token: refreshToken },
           {
             headers: {
-              "x-refresh-token": refreshToken,
+              "Content-Type": "application/json",
               "X-Timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
               "X-Language": "en",
               "x-device-id": sessionStorage.getItem("x-device-id") || "1234",
@@ -153,7 +153,7 @@ api.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
         originalRequest._skipAuthRefresh = true;
 
-        // Update Redux store based on auth type
+        // Update Redux store based on auth type with full response data
         if (authenticationStore?.tmp?.isAuthenticated) {
           store.dispatch(
             LimitedSignIn({
