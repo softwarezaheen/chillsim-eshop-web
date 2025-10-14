@@ -53,14 +53,20 @@ api.interceptors.request.use(
       sessionStorage?.getItem("user_currency") ||
       store?.getState()?.currency?.system_currency;
 
-    const token = authenticationStore?.tmp?.isAuthenticated
-      ? authenticationStore?.tmp?.access_token
-      : authenticationStore?.access_token;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-      config.headers["x-device-id"] = xDeviceId;
-      config.headers["x-currency"] = defaultCunrency || "EUR";
+    // Skip token update if this is a retry with a specific token already set
+    if (!config._skipAuthRefresh) {
+      const token = authenticationStore?.tmp?.isAuthenticated
+        ? authenticationStore?.tmp?.access_token
+        : authenticationStore?.access_token;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
+    
+    // Always set these headers
+    config.headers["x-device-id"] = xDeviceId;
+    config.headers["x-currency"] = defaultCunrency || "EUR";
+    
     return config;
   },
   (error) => {
@@ -85,7 +91,9 @@ api.interceptors.response.use(
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
+            // Set the new token and flag to skip auth refresh in request interceptor
             originalRequest.headers.Authorization = `Bearer ${token}`;
+            originalRequest._skipAuthRefresh = true;
             return api(originalRequest);
           })
           .catch((err) => {
@@ -141,8 +149,9 @@ api.interceptors.response.use(
 
         const newToken = response?.data?.data?.access_token;
         
-        // Update the original request with new token
+        // Update the original request with new token and skip auth refresh flag
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        originalRequest._skipAuthRefresh = true;
 
         // Update Redux store based on auth type
         if (authenticationStore?.tmp?.isAuthenticated) {
@@ -163,7 +172,7 @@ api.interceptors.response.use(
         processQueue(null, newToken);
         isRefreshing = false;
 
-        // Retry the original request
+        // Retry the original request with the new token
         return api(originalRequest);
 
       } catch (refreshError) {
