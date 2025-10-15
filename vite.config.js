@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import { loadEnv } from "vite";
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -79,7 +80,29 @@ export default defineConfig(({ mode }) => {
             }
           });
         },
+        buildStart() {
+          console.log("🔍 buildStart hook called - generating version.json");
+          
+          // Generate version.json in PUBLIC folder so Vite copies it to dist
+          const publicDir = "./public";
+          
+          // ✅ Generate version metadata for build tracking
+          const buildHash = crypto.randomBytes(8).toString("hex");
+          const versionData = {
+            version: buildHash,
+            timestamp: new Date().toISOString(),
+            mode: currentMode,
+          };
+
+          fs.writeFileSync(
+            `${publicDir}/version.json`,
+            JSON.stringify(versionData, null, 2)
+          );
+          console.log(`✅ Build version generated: ${buildHash}`);
+          console.log(`   Version file created in public/ (will be copied to dist/)`);
+        },
         buildEnd() {
+          console.log("🔍 buildEnd hook called");
           const publicDir = "./public";
           const distDir = "./dist";
 
@@ -110,6 +133,7 @@ export default defineConfig(({ mode }) => {
 
           // Ensure the file is copied to dist
           fs.writeFileSync(`${distDir}/firebase-messaging-sw.js`, swContent);
+          console.log("✅ Service worker copied to dist");
         },
       },
     ],

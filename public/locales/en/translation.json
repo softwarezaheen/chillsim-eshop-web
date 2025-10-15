@@ -378,6 +378,10 @@
   "cookiePolicy": {
     "failedToLoadCookiePolicyData": "Failed to load Cookie Policy Data"
   },
+  "update": {
+    "updateAvailable": "Page update available",
+    "refresh": "Refresh"
+  },
 
   "errors": {
     "maxCharacter": "{{field}} must not contain more than {{character}} characters",

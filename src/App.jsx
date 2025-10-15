@@ -5,6 +5,7 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { useTranslation } from "react-i18next";
 //COMPONENT
 import PushNotification from "./components/push-notification/PushNotification";
+import UpdateBanner from "./components/shared/update-banner/UpdateBanner";
 import AppRouter from "./core/routes/AppRouter";
 import { fetchUserInfo, SignOut } from "./redux/reducers/authReducer";
 import { fetchCurrencyInfo } from "./redux/reducers/currencyReducer";
@@ -50,6 +51,7 @@ function App() {
     <div className="min-h-screen flex flex-col">
       <AppRouter />
       <PushNotification />
+      <UpdateBanner />
       {whatsapp_number?.trim() !== "" && (
         <a
           href={`https://wa.me/${whatsapp_number.replace(/[^+\d]/g, "")}`}

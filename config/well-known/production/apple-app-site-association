@@ -8,18 +8,12 @@
     },
     "applinks":
     {
-        "apps":
-        [
-            "5DR38G7748.zaheen.esim.chillsim"
-        ],
+        "apps": [],
         "details":
         [
             {
                 "appID": "5DR38G7748.zaheen.esim.chillsim",
-                "paths":
-                [
-                    "*"
-                ]
+                "paths": ["*"]
             }
         ]
     }

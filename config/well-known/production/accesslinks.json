@@ -1,18 +1,14 @@
 [
-    {
-        "relation":
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "zaheen.esim.chillsim",
+      "sha256_cert_fingerprints":
         [
-            "delegate_permission/common.handle_all_urls"
-        ],
-        "target":
-        {
-            "namespace": "android_app",
-            "package_name": "zaheen.esim.chillsim",
-            "sha256_cert_fingerprints":
-            [
-                "C8:E9:F0:1F:A0:8D:A5:BB:8C:CB:63:55:AE:F7:9C:41:99:BA:3E:31:B6:C5:52:9A:1A:CE:03:3F:A7:8A:35:06",
-                "E8:A6:55:AB:29:E9:20:03:17:C2:96:FA:C4:21:50:44:A8:BE:9B:00:65:E5:FE:F6:A3:41:A9:6E:A7:C7:31:2C"
-            ]
-        }
+            "C8:E9:F0:1F:A0:8D:A5:BB:8C:CB:63:55:AE:F7:9C:41:99:BA:3E:31:B6:C5:52:9A:1A:CE:03:3F:A7:8A:35:06",
+            "3C:CC:5D:7C:7F:B8:2F:B1:7A:73:03:40:BA:64:C1:C4:A8:EA:68:06:E6:FE:5B:91:34:29:13:71:E5:F2:51:FA"
+        ]
     }
+  }
 ]

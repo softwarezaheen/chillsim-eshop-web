@@ -373,6 +373,10 @@
   "cookiePolicy": {
     "failedToLoadCookiePolicyData": "Nu s-au putut încărca informațiile despre Politica de cookies"
   },
+  "update": {
+    "updateAvailable": "Actualizare pagina disponibilă",
+    "refresh": "Reîncarcă"
+  },
 
   "errors": {
     "maxCharacter": "{{field}} Nu trebuie să conțină mai mult de {{character}} caractere",
