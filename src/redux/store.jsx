@@ -15,6 +15,7 @@ import directionReducer from "./reducers/directionSlice.jsx";
 import ReferralSlice from "./reducers/referralReducer.jsx";
 import hardSet from "redux-persist/es/stateReconciler/hardSet";
 import { thunk } from "redux-thunk";
+import { createMigrate } from "redux-persist";
 
 const rootReducer = combineReducers({
   authentication: AuthSlice,
@@ -26,9 +27,31 @@ const rootReducer = combineReducers({
   referral: ReferralSlice,
 });
 
+// Migration to add referral state to existing persisted storage
+const migrations = {
+  0: (state) => {
+    // Add referral state if it doesn't exist
+    return {
+      ...state,
+      referral: state.referral || {
+        referralCode: localStorage.getItem("referred_by") || null,
+        discountPercentage: null,
+        discountType: null,
+        referrerName: null,
+        isEligible: false,
+        isValidating: false,
+        lastValidated: null,
+        error: null,
+      },
+    };
+  },
+};
+
 const persistConfig = {
   key: "root",
   storage,
+  version: 0,
+  migrate: createMigrate(migrations, { debug: false }),
   stateReconciler: hardSet,
   whitelist: ["authentication", "search", "device", "currency", "direction", "referral"],
   debug: true,
