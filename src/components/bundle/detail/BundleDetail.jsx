@@ -10,6 +10,7 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { checkBundleExist } from "../../../core/apis/userAPI";
@@ -36,6 +37,17 @@ const BundleDetail = ({
   const login_type = useSelector((state) => state.currency?.login_type);
   const [openRedirection, setOpenRedirection] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Get referral discount state
+  const { isEligible, discountPercentage } = useSelector((state) => state.referral);
+  
+  // Calculate discounted price if referral is eligible
+  const originalPrice = parseFloat(bundle?.price || 0);
+  const discountedPrice = isEligible && discountPercentage 
+    ? originalPrice * (1 - discountPercentage / 100)
+    : originalPrice;
+  
+  const shouldShowDiscount = isEligible && discountPercentage > 0 && !iccid; // Don't show for top-ups
 
   const handleCheckExist = () => {
     //order top-up
@@ -174,9 +186,27 @@ const BundleDetail = ({
           <TooltipComponent title={isSmall ? bundle?.gprs_limit_display : ""}>
             <p className={"truncate min-w-0"}>{bundle?.gprs_limit_display}</p>
           </TooltipComponent>
-          <p className={"flex flex-row justify-end whitespace-nowrap"}>
-            {bundle?.price_display}
-          </p>
+          <div className="flex flex-col items-end gap-1">
+            {shouldShowDiscount && (
+              <>
+                <Typography 
+                  variant="caption" 
+                  className="line-through text-gray-400"
+                  sx={{ fontSize: '0.75rem' }}
+                >
+                  {bundle?.price_display}
+                </Typography>
+                <p className={"flex flex-row justify-end whitespace-nowrap text-green-600"}>
+                  {discountedPrice.toFixed(2)} {bundle?.currency_code}
+                </p>
+              </>
+            )}
+            {!shouldShowDiscount && (
+              <p className={"flex flex-row justify-end whitespace-nowrap"}>
+                {bundle?.price_display}
+              </p>
+            )}
+          </div>
         </div>
         <div
           className={
@@ -299,6 +329,17 @@ const BundleDetail = ({
         </div>
       </DialogContent>
       <div className={"px-[24px] py-[20px]"}>
+        {/* Show discount savings message */}
+        {shouldShowDiscount && (
+          <Typography 
+            variant="caption" 
+            className="text-green-600 font-semibold block text-center mb-2"
+            sx={{ fontSize: '0.75rem' }}
+          >
+            {t("referral.youSave")}: {(originalPrice - discountedPrice).toFixed(2)} {bundle?.currency_code}
+          </Typography>
+        )}
+        
         <Button
           disabled={isSubmitting}
           variant={"contained"}
@@ -339,7 +380,9 @@ const BundleDetail = ({
           <p className={"font-bold !text-base truncate max-w-20px"}>
             {isSubmitting
               ? t("btn.checkingBundle")
-              : `${t("btn.buyNow")} - ${bundle?.price_display}`}
+              : shouldShowDiscount 
+                ? `${t("btn.buyNow")} - ${discountedPrice.toFixed(2)} ${bundle?.currency_code}`
+                : `${t("btn.buyNow")} - ${bundle?.price_display}`}
           </p>
         </Button>
       </div>

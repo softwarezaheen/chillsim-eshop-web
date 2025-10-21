@@ -25,6 +25,8 @@ import TmpLogin from "../../components/tmp-login/TmpLogin";
 import DownloadRedirect from "../../components/download/DownloadRedirect";
 import BillingPage from "../../pages/billing/BillingPage";
 import Wallet from "../../pages/wallet/Wallet";
+import ReferralProgram from "../../pages/referral/ReferralProgram";
+import ReferralLanding from "../../pages/referral/ReferralLanding";
 
 export const useAppRoutes = () => {
   const login_type = useSelector((state) => state.currency?.login_type);
@@ -146,6 +148,15 @@ export const useAppRoutes = () => {
       {
         path: "/wallet",
         element: <Wallet />,
+        isPrivate: true,
+      },
+      {
+        path: "/referral",
+        element: <ReferralLanding />,
+      },
+      {
+        path: "/referral-program",
+        element: <ReferralProgram />,
         isPrivate: true,
       },
     ],

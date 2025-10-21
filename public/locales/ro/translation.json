@@ -149,7 +149,83 @@
     "ordersHistory": "Istoricul comenzilor",
     "accountInfo": "Detalii cont",
     "deleteAccount": "Ștergere cont",
-    "logout": "Deconectare"
+    "logout": "Deconectare",
+    "referAndEarn": "Recomandă & Câștigă"
+  },
+  "referral": {
+    "discountActive": "🎉 Reducere de Recomandare Activă!",
+    "discountMessage": "Primești {{percentage}}% reducere mulțumită {{referrerName}}",
+    "youSave": "Economisești",
+    "mobileAppNotice": "📱 Cumperi din aplicația mobilă? Folosește codul",
+    "toGetDiscount": "pentru a primi reducerea",
+    "landing": {
+      "welcomeTitle": "Bun venit la ChillSIM!",
+      "referredByMessage": "Ai fost recomandat de {{referrerName}}",
+      "aFriend": "un prieten",
+      "yourBonus": "Bonus Special pentru Tine",
+      "bonusMessage": "Înregistrează-te acum și primești {{percentage}}% reducere la prima achiziție!",
+      "browsePlans": "Vezi Planurile",
+      "signUpNow": "Înregistrează-te Acum",
+      "termsApply": "Se aplică termeni și condiții",
+      "mobileAppTip": "💡 Sfat: Dacă folosești aplicația noastră mobilă, introdu codul",
+      "atCheckout": "la finalizarea comenzii pentru a primi reducerea"
+    },
+    "edge": {
+      "selfReferralTitle": "Nu Poți Folosi Propriul Cod de Recomandare",
+      "selfReferralMessage": "Nu te poți recomanda pe tine însuți. Distribuie codul tău de recomandare cu prietenii pentru a câștiga recompense!",
+      "overrideTitle": "Ai Deja un Cod de Recomandare",
+      "overrideMessage": "Ai dat clic anterior pe un link de recomandare. Dorești să folosești acest cod nou de recomandare în schimb?",
+      "overrideWarning": "Schimbarea codului de recomandare va înlocui pe cel anterior. Doar cea mai recentă recomandare va fi aplicată la prima achiziție.",
+      "keepExisting": "Păstrează Anterior",
+      "useNew": "Folosește Cod Nou"
+    },
+    "program": {
+      "earnRewards": "Câștigă Recompense Recomandând Prieteni",
+      "youGet": "Tu Primești",
+      "youGetDescription": "Câștigă {{amount}} {{currency}} în portofel pentru fiecare prieten care se înregistrează și face prima achiziție",
+      "friendGets": "Prietenul Tău Primește",
+      "friendGetsDescription": "{{percentage}}% reducere la prima achiziție de eSIM",
+      "yourReferralLink": "Linkul Tău de Recomandare",
+      "copyLink": "Copiază Linkul",
+      "copied": "Copiat!",
+      "linkCopied": "Link copiat în clipboard!",
+      "shareVia": "Distribuie via",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook",
+      "shareEmailSubject": "Primești {{percentage}}% reducere la prima achiziție ChillSIM!",
+      "shareEmailBody": "Bună! Am folosit ChillSIM pentru eSIM-urile mele de călătorie și m-am gândit că ți-ar putea plăcea și ție. Folosește linkul meu de recomandare pentru a te înregistra și primești {{percentage}}% reducere la prima achiziție: {{link}}",
+      "shareWhatsappMessage": "Bună! Alătură-te ChillSIM folosind linkul meu de recomandare și primești {{percentage}}% reducere la prima achiziție: {{link}}",
+      "shareTwitterMessage": "Primește {{percentage}}% reducere la primul tău eSIM ChillSIM! Folosește linkul meu de recomandare: {{link}}"
+    },
+    "rewardsHistory": "Istoricul Recompenselor",
+    "noRewardsYet": "Nicio recompensă încă",
+    "type": "Tip",
+    "amount": "Sumă",
+    "date": "Dată",
+    "description": "Descriere",
+    "appliedTo": "Aplicat La",
+    "appliedToWallet": "Adăugat în Portofel",
+    "appliedToOrder": "Aplicat ca Reducere la Comandă",
+    "referredUser": "Utilizator Recomandat",
+    "from": "De la",
+    "code": "Cod",
+    "bundle": "Pachet",
+    "reward": "Recompensă",
+    "startReferring": "Începe să recomanzi prieteni pentru a câștiga recompense!",
+    "referralBonus": "Bonus Recomandare",
+    "discount": "Reducere",
+    "cashback": "Cashback",
+    "promotion": "Promoție",
+    "loadingMore": "Se încarcă mai multe...",
+    "noMoreRewards": "Nu mai sunt recompense de afișat",
+    "rewardTypes": {
+      "referral_credit": "Credit Recomandare",
+      "promo_discount": "Reducere Promoțională",
+      "cashback": "Credit Portofel",
+      "discount_amount": "Reducere Sumă",
+      "discount_percentage": "Reducere %"
+    }
   },
   "userGuide": {
     "goto_settings": "Accesează Setările",
@@ -237,6 +313,7 @@
   "bundles": {
     "validity": "Valabilitate",
     "priceDetails": "Detalii Preț",
+    "originalPrice": "Preț Original",
     "noBundlesAvailable": "În prezent, nu există pachete disponibile",
     "noTopupsAvailable": "În prezent, nu există reîncărcări disponibile",
     "availableIn": "Disponibil în",
@@ -283,6 +360,9 @@
     "total": "Total",
     "tax": "TVA",
     "fee": "Cost Procesare",
+    "discount": "Reducere",
+    "referralDiscount": "Reducere de recomandare",
+    "from": "de la",
     "billingInformation": "Informații de facturare",
     "billingType": "Tip de facturare",
     "individual": "Persoana fizică",
@@ -465,5 +545,11 @@
     "transactionTypePurchase": "Cumpărare",
     "transactionTypeRefund": "Rambursare",
     "comingSoon": "În curând..."
+  },
+  "appBanner": {
+    "title": "Deschide în aplicația ChillSim",
+    "subtitle": "Experiență și mai bună în aplicație",
+    "openButton": "DESCHIDE",
+    "dismissButton": "Închide banner"
   }
 }

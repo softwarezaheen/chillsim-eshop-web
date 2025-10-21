@@ -12,6 +12,7 @@ import OrderSlice from "./reducers/orderReducer";
 import DeviceSlice from "./reducers/deviceReducer";
 import CurrencySlice from "./reducers/currencyReducer";
 import directionReducer from "./reducers/directionSlice.jsx";
+import ReferralSlice from "./reducers/referralReducer.jsx";
 import hardSet from "redux-persist/es/stateReconciler/hardSet";
 import { thunk } from "redux-thunk";
 
@@ -22,13 +23,14 @@ const rootReducer = combineReducers({
   device: DeviceSlice,
   currency: CurrencySlice,
   direction: directionReducer,
+  referral: ReferralSlice,
 });
 
 const persistConfig = {
   key: "root",
   storage,
   stateReconciler: hardSet,
-  whitelist: ["authentication", "search", "device", "currency", "direction"],
+  whitelist: ["authentication", "search", "device", "currency", "direction", "referral"],
   debug: true,
 };
 

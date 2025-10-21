@@ -6,9 +6,11 @@ import { useTranslation } from "react-i18next";
 //COMPONENT
 import PushNotification from "./components/push-notification/PushNotification";
 import UpdateBanner from "./components/shared/update-banner/UpdateBanner";
+import SmartAppBanner from "./components/shared/smart-app-banner/SmartAppBanner";
 import AppRouter from "./core/routes/AppRouter";
 import { fetchUserInfo, SignOut } from "./redux/reducers/authReducer";
 import { fetchCurrencyInfo } from "./redux/reducers/currencyReducer";
+import { loadReferralFromStorage } from "./redux/reducers/referralReducer";
 import { setDayjsLocale } from "./components/dayjsSetup.js";
 import { supportWhatsappPhone } from "./core/variables/ProjectVariables";
 
@@ -42,6 +44,9 @@ function App() {
       getDeviceId();
     }
     dispatch(fetchCurrencyInfo());
+    
+    // Load referral info from localStorage on app mount
+    dispatch(loadReferralFromStorage());
 
     document.documentElement.dir = "ltr";
   }, [i18n.language, dispatch]);
@@ -49,6 +54,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <SmartAppBanner />
       <AppRouter />
       <PushNotification />
       <UpdateBanner />

@@ -20,6 +20,7 @@ import { Button, Skeleton } from "@mui/material";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
 import { queryClient } from "../../main";
 import { LimitedSignOut } from "../../redux/reducers/authReducer";
+import { clearReferral } from "../../redux/reducers/referralReducer";
 import { useTranslation } from "react-i18next";
 
 const schema = yup.object().shape({
@@ -101,6 +102,9 @@ const InjectedCheckout = ({ orderDetail }) => {
 
             // Inform the customer that there was an error.
           } else {
+            // Clear referral code after successful payment
+            dispatch(clearReferral());
+            
             // Delay invalidation by 5 seconds
             setTimeout(() => {
               queryClient.invalidateQueries({ queryKey: ["my-esim"] });

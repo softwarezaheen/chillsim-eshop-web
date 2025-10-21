@@ -16,6 +16,7 @@ import {
 } from "../../redux/reducers/authReducer";
 //COMPONENT
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -31,6 +32,10 @@ import { gtmEvent, gtmBeginCheckoutEvent } from "../../core/utils/gtm.jsx";
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
   const { login_type } = useSelector((state) => state.currency);
+  
+  // Get referral discount state
+  const { discountPercentage, referrerName, isEligible } = useSelector((state) => state.referral);
+  
   const { id, iccid } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -87,6 +92,24 @@ const Checkout = () => {
     }
     // No conversion needed
     return parseFloat(amount).toFixed(2);
+  };
+
+  // Calculate original price from discounted amount (reverse calculation)
+  // Backend returns already-discounted original_amount, we need to show the actual original
+  const calculateOriginalPrice = (discountedAmount) => {
+    if (!isEligible || !discountPercentage || iccid) { // Only for first purchases (!iccid)
+      return discountedAmount;
+    }
+    // Reverse formula: actualOriginal = discounted / (1 - percentage/100)
+    return discountedAmount / (1 - discountPercentage / 100);
+  };
+
+  const calculateDiscountAmount = (discountedAmount) => {
+    if (!isEligible || !discountPercentage || iccid) {
+      return 0;
+    }
+    const originalAmount = calculateOriginalPrice(discountedAmount);
+    return originalAmount - discountedAmount;
   };
 
   const { data, isLoading, error } = useQuery({
@@ -259,10 +282,26 @@ const Checkout = () => {
                     className={`flex-1 font-bold text-right `}
                   >
                   {orderDetail?.original_amount
-                    ? getDisplayAmount(orderDetail.original_amount / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
+                    ? getDisplayAmount(calculateOriginalPrice(orderDetail.original_amount) / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
                     : "---"}
                   </p>
                 </div>
+              {isEligible && discountPercentage && !iccid && orderDetail?.original_amount && (
+                <div
+                  className={"flex flex-row justify-between items-center gap-[1rem]"}
+                  style={{ color: '#22c55e' }}
+                >
+                  <label className={"flex-1 font-semibold"}>
+                    {t("checkout.discount")} {discountPercentage}%{referrerName && ` ${t("checkout.from")} ${referrerName}`}
+                  </label>
+                  <p
+                    dir={"ltr"}
+                    className={`flex-1 font-bold text-right`}
+                  >
+                    - {getDisplayAmount(calculateDiscountAmount(orderDetail.original_amount) / 100)} {orderDetail.display_currency || orderDetail.currency}
+                  </p>
+                </div>
+              )}
               <div
                   className={
                     "flex flex-row justify-between items-start gap-[1rem]"
@@ -348,8 +387,8 @@ const Checkout = () => {
               }
               </>
             )}
-          {/* Promo Code Section - Only show for new purchases, not top-ups */}
-          {!iccid && (
+          {/* Promo Code Section - Only show for new purchases, not top-ups, and when no referral code exists */}
+          {!iccid && !localStorage.getItem("referred_by") && (
             <div className="flex flex-col gap-2 mt-4">
               <label className="font-semibold text-sm">{t("checkout.promoCode")}</label>
               <div className="flex flex-col sm:flex-row gap-2">

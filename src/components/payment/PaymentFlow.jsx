@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { StripePayment } from "../stripe-payment/StripePayment";
 import { toast } from "react-toastify";
 import OtpVerification from "../OtpVerification";
@@ -13,6 +13,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { assignBundle, assignTopupBundle } from "../../core/apis/userAPI";
 import { loadStripe } from "@stripe/stripe-js";
 import WalletPayment from "../wallet/WalletPayment";
@@ -23,8 +24,8 @@ import {
 import { useTranslation } from "react-i18next";
 import LoadingPayment from "./LoadingPayment";
 import { queryClient } from "../../main";
-import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "../../redux/reducers/authReducer";
+import { clearReferral } from "../../redux/reducers/referralReducer";
 
 const ComponentMap = {
   card: StripePayment,
@@ -48,6 +49,9 @@ const PaymentFlow = (props) => {
   const dispatch = useDispatch();
   const { related_search } = useSelector((state) => state.search);
   const { user_info } = useSelector((state) => state.authentication);
+  
+  // Get referral discount state
+  const { discountPercentage, referrerName, isEligible } = useSelector((state) => state.referral);
   const { login_type, system_currency, user_currency } = useSelector((state) => state.currency);
   const { allowed_payment_types } = useSelector((state) => state?.currency);
   const [clientSecret, setClientSecret] = useState(null);
@@ -114,6 +118,9 @@ const PaymentFlow = (props) => {
   const handleWalletPaymentSuccess = (orderData) => {
     toast.success(t("wallet.paymentSuccessful"));
     
+    // Clear referral code after successful wallet payment
+    dispatch(clearReferral());
+    
     // Update user info to refresh wallet balance
     dispatch(fetchUserInfo());
     
@@ -167,6 +174,9 @@ const PaymentFlow = (props) => {
       return;
     }
 
+    // Get referral code from localStorage if present
+    const referredBy = localStorage.getItem("referred_by");
+
     let handleAPI = iccid ? assignTopupBundle : assignBundle;
     //this api is for creating a  payment intent to get client secret
     /*|| "cc3d8d05-6bcc-453e-b6a5-3204489907f3"*/
@@ -175,7 +185,7 @@ const PaymentFlow = (props) => {
       payment_type: typeMap?.[selectedType.toLowerCase()],
       ...(!iccid ? { related_search: related_search } : { iccid: iccid }),
       promo_code: promoCode.toUpperCase(),
-      referral_code: "",
+      referral_code: referredBy || "",
       affiliate_code: "",
     })
       .then((res) => {

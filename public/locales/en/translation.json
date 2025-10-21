@@ -149,7 +149,83 @@
     "ordersHistory": "Orders History",
     "accountInfo": "Account Info",
     "deleteAccount": "Delete Account",
-    "logout": "Logout"
+    "logout": "Logout",
+    "referAndEarn": "Refer & Earn"
+  },
+  "referral": {
+    "discountActive": "🎉 Referral Discount Active!",
+    "discountMessage": "Get {{percentage}}% off thanks to {{referrerName}}",
+    "youSave": "You save",
+    "mobileAppNotice": "📱 Purchasing from the mobile app? Use code",
+    "toGetDiscount": "to get your discount",
+    "landing": {
+      "welcomeTitle": "Welcome to ChillSIM!",
+      "referredByMessage": "You've been referred by {{referrerName}}",
+      "aFriend": "a friend",
+      "yourBonus": "Special Bonus for You",
+      "bonusMessage": "Sign up now and get {{percentage}}% discount on your first purchase!",
+      "browsePlans": "Browse Plans",
+      "signUpNow": "Sign Up Now",
+      "termsApply": "Terms and conditions apply",
+      "mobileAppTip": "💡 Tip: If you're using our mobile app, enter the code",
+      "atCheckout": "at checkout to receive your discount"
+    },
+    "edge": {
+      "selfReferralTitle": "Cannot Use Your Own Referral Code",
+      "selfReferralMessage": "You cannot refer yourself. Share your referral code with friends to earn rewards!",
+      "overrideTitle": "Already Have a Referral Code",
+      "overrideMessage": "You previously clicked a referral link. Would you like to use this new referral code instead?",
+      "overrideWarning": "Changing your referral code will replace the previous one. Only the most recent referral will be applied to your first purchase.",
+      "keepExisting": "Keep Previous",
+      "useNew": "Use New Code"
+    },
+    "program": {
+      "earnRewards": "Earn Rewards by Referring Friends",
+      "youGet": "You Get",
+      "youGetDescription": "Earn {{amount}} {{currency}} in your wallet for every friend who signs up and makes their first purchase",
+      "friendGets": "Your Friend Gets",
+      "friendGetsDescription": "{{percentage}}% discount on their first eSIM purchase",
+      "yourReferralLink": "Your Referral Link",
+      "copyLink": "Copy Link",
+      "copied": "Copied!",
+      "linkCopied": "Link copied to clipboard!",
+      "shareVia": "Share via",
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook",
+      "shareEmailSubject": "Get {{percentage}}% off your first ChillSIM purchase!",
+      "shareEmailBody": "Hi! I've been using ChillSIM for my travel eSIMs and thought you might like it too. Use my referral link to sign up and get {{percentage}}% off your first purchase: {{link}}",
+      "shareWhatsappMessage": "Hi! Join ChillSIM using my referral link and get {{percentage}}% off your first purchase: {{link}}",
+      "shareTwitterMessage": "Get {{percentage}}% off your first ChillSIM eSIM! Use my referral link: {{link}}"
+    },
+    "rewardsHistory": "Rewards History",
+    "noRewardsYet": "No rewards yet",
+    "type": "Type",
+    "amount": "Amount",
+    "date": "Date",
+    "description": "Description",
+    "appliedTo": "Applied To",
+    "appliedToWallet": "Added to Wallet",
+    "appliedToOrder": "Applied as Order Discount",
+    "referredUser": "Referred User",
+    "from": "From",
+    "code": "Code",
+    "bundle": "Bundle",
+    "reward": "Reward",
+    "startReferring": "Start referring friends to earn rewards!",
+    "referralBonus": "Referral Bonus",
+    "discount": "Discount",
+    "cashback": "Cashback",
+    "promotion": "Promotion",
+    "loadingMore": "Loading more...",
+    "noMoreRewards": "No more rewards to show",
+    "rewardTypes": {
+      "referral_credit": "Referral Credit",
+      "promo_discount": "Promo Discount",
+      "cashback": "Wallet Credit",
+      "discount_amount": "Discount Amount",
+      "discount_percentage": "Discount %"
+    }
   },
   "userGuide": {
     "goto_settings": "Go to Settings",
@@ -243,6 +319,7 @@
   "bundles": {
     "validity": "Validity",
     "priceDetails": "Price Details",
+    "originalPrice": "Original Price",
     "noBundlesAvailable": "Currently, There no bundles available",
     "noTopupsAvailable": "Currently, There are no top-ups available",
     "availableIn": "Available in",
@@ -289,6 +366,9 @@
     "total": "Total",
     "tax": "Tax",
     "fee": "Processing Fee",
+    "discount": "Discount",
+    "referralDiscount": "Referral Discount",
+    "from": "from",
     "billingInformation": "Billing information",
     "billingType": "Billing type",
     "individual": "Individual",
@@ -471,5 +551,11 @@
     "transactionTypePurchase": "Purchase",
     "transactionTypeRefund": "Refund",
     "comingSoon": "Coming soon..."
+  },
+  "appBanner": {
+    "title": "Open in ChillSim App",
+    "subtitle": "Even better experience in our app",
+    "openButton": "OPEN",
+    "dismissButton": "Dismiss banner"
   }
 }

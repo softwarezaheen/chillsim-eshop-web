@@ -113,10 +113,15 @@ const SignIn = () => {
   const handleSubmitForm = (payload) => {
     setIsSubmitting(true);
     
+    // Get referral code from localStorage if visitor came from referral link
+    const referredBy = localStorage.getItem("referred_by");
+    
     userLogin({
       verify_by: payload?.verify_by,
       confirm: payload?.confirm,
       [login_type]: payload?.[login_type]?.toLowerCase(),
+      // Include referral code in signup payload if present
+      ...(referredBy && { referral_code: referredBy }),
     })
       .then((res) => {
         if (res?.data?.status === "success") {

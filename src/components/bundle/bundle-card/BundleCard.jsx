@@ -1,5 +1,6 @@
 //UTILITIES
 import React, { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 //COMPONENT
 import {
   Avatar,
@@ -8,6 +9,7 @@ import {
   Card,
   CardContent,
   Skeleton,
+  Typography,
 } from "@mui/material";
 import BundleDetail from "../detail/BundleDetail";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
@@ -26,6 +28,18 @@ const BundleCard = ({
 }) => {
   const { t } = useTranslation();
   const [openDetail, setOpenDetail] = useState(false);
+  
+  // Get referral discount state
+  const { isEligible, discountPercentage } = useSelector((state) => state.referral);
+  
+  // Calculate discounted price if referral is eligible
+  const originalPrice = parseFloat(bundle?.price || 0);
+  const discountedPrice = isEligible && discountPercentage 
+    ? originalPrice * (1 - discountPercentage / 100)
+    : originalPrice;
+  
+  const shouldShowDiscount = isEligible && discountPercentage > 0 && !iccid; // Don't show for top-ups
+  
   const handleDetail = () => {
     // Send GA4 view_item event
     gtmViewItemEvent({
@@ -78,7 +92,7 @@ const BundleCard = ({
   return (
     <>
       <Card 
-        className="!rounded-lg cursor-pointer hover:shadow-lg transition-shadow"
+        className="!rounded-lg cursor-pointer hover:shadow-lg transition-shadow relative"
         onClick={handleDetail}
       >
         <CardContent className="flex flex-col gap-4">
@@ -209,27 +223,61 @@ const BundleCard = ({
               className="mt-4"
             />
           ) : (
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent card click
-                
-                // Fire view_item event since button click prevents card click
-                // This is especially important for topup scenarios
-                gtmViewItemEvent({
-                  ...bundle,
-                  currency: bundle?.currency_code
-                }, !!iccid);
-                
-                // Open the detail modal - add_to_cart will be fired from within
-                setOpenDetail(true);
-              }}
-            >
-              <p className="font-bold text-base max-w-24px">
-                {t("btn.buyNow")} - {(bundle?.price_display)} 
-              </p>
-            </Button>
+            <div className="flex flex-col gap-2">
+              {/* Show discount price breakdown if applicable */}
+              {shouldShowDiscount && (
+                <div className="flex items-center justify-between gap-2 px-2">
+                  <Typography 
+                    variant="caption" 
+                    className="line-through text-gray-400"
+                    sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
+                  >
+                    {t("bundles.originalPrice")}: {bundle?.price_display}
+                  </Typography>
+                  <Typography 
+                    variant="caption" 
+                    className="text-green-600 font-semibold"
+                    sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
+                  >
+                    {t("referral.youSave")}: {(originalPrice - discountedPrice).toFixed(2)} {bundle?.currency_code}
+                  </Typography>
+                </div>
+              )}
+              
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent card click
+                  
+                  // Fire view_item event since button click prevents card click
+                  // This is especially important for topup scenarios
+                  gtmViewItemEvent({
+                    ...bundle,
+                    currency: bundle?.currency_code
+                  }, !!iccid);
+                  
+                  // Open the detail modal - add_to_cart will be fired from within
+                  setOpenDetail(true);
+                }}
+              >
+                <p className="font-bold text-base">
+                  {t("btn.buyNow")} - 
+                  {shouldShowDiscount ? (
+                    <span className="ml-1">
+                      <span className="line-through text-white/60 text-sm mr-1">
+                        {bundle?.price_display}
+                      </span>
+                      <span className="text-white font-bold">
+                        {discountedPrice.toFixed(2)} {bundle?.currency_code}
+                      </span>
+                    </span>
+                  ) : (
+                    <span className="ml-1">{bundle?.price_display}</span>
+                  )}
+                </p>
+              </Button>
+            </div>
           )}
         </CardContent>
       </Card>

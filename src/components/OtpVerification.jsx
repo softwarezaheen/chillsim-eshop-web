@@ -14,6 +14,7 @@ import { verifyOrderOTP } from "../core/apis/userAPI";
 import { dcbMessage } from "../core/variables/ProjectVariables";
 import { queryClient } from "../main";
 import { SignIn } from "../redux/reducers/authReducer";
+import { validateReferralEligibility } from "../redux/reducers/referralReducer";
 
 const schema = ({ t }) =>
   yup.object().shape({
@@ -142,6 +143,16 @@ const OtpVerification = ({
                 ...res?.data?.data,
               })
             );
+            
+            // Check if user has a referral code to validate
+            const referredBy = localStorage.getItem("referred_by");
+            if (referredBy) {
+              // Validate referral eligibility (async, don't block navigation)
+              dispatch(validateReferralEligibility(referredBy)).catch(() => {
+                // If validation fails (404), code will be auto-cleared by reducer
+                // Silent fail - user can still proceed
+              });
+            }
             
             // Check for next parameter to continue the purchasing flow
             const params = new URLSearchParams(location.search);

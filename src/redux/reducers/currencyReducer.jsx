@@ -12,6 +12,8 @@ const initialState = {
   allowed_payment_types: ["dcb"],
   whatsapp_number: supportWhatsappPhone,
   bundles_version: null,
+  referral_amount: "10",
+  referred_discount_percentage: "10",
 };
 
 //EXPLANATION: I moved the api to authServices to prevent circular dependency
@@ -39,21 +41,26 @@ const CurrencySlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchCurrencyInfo.fulfilled, (state, action) => {
-        let currency = action.payload?.data?.data?.find(
-          (el) => el?.key === "default_currency"
-        );
-        let paymentTypes = action.payload?.data?.data?.find(
-          (el) => el?.key === "allowed_payment_types"
-        );
-        let loginType = action.payload?.data?.data?.find(
-          (el) => el?.key === "login_type"
-        );
-        let versionId = action.payload?.data?.data?.find(
-          (el) => el?.key === "CATALOG.BUNDLES_CACHE_VERSION"
-        );
+        const configData = action.payload?.data?.data || [];
+        
+        // Store full configurations in sessionStorage for easy access
+        const configurationsObj = {};
+        configData.forEach((config) => {
+          configurationsObj[config.key] = config.value;
+        });
+        sessionStorage.setItem("configurations", JSON.stringify(configurationsObj));
+
+        let currency = configData.find((el) => el?.key === "default_currency");
+        let paymentTypes = configData.find((el) => el?.key === "allowed_payment_types");
+        let loginType = configData.find((el) => el?.key === "login_type");
+        let versionId = configData.find((el) => el?.key === "CATALOG.BUNDLES_CACHE_VERSION");
+        let referralAmount = configData.find((el) => el?.key === "REFERRAL_CODE_AMOUNT");
+        let referredDiscount = configData.find((el) => el?.key === "REFERRED_DISCOUNT_PERCENTAGE");
 
         state.bundles_version = versionId?.value || null;
         state.login_type = loginType?.value || "email";
+        state.referral_amount = referralAmount?.value || "10";
+        state.referred_discount_percentage = referredDiscount?.value || "10";
         state.otp_channel = import.meta.env.VITE_APP_OTP_CHANNEL
           ? import.meta.env.VITE_APP_OTP_CHANNEL.split(",")
           : ["email"];
@@ -68,15 +75,11 @@ const CurrencySlice = createSlice({
             : false
           : true;
 
-        let whatsappNumber = action.payload?.data?.data?.find(
-          (el) => el?.key === "WHATSAPP_NUMBER"
-        );
+        let whatsappNumber = configData.find((el) => el?.key === "WHATSAPP_NUMBER");
 
         state.whatsapp_number = whatsappNumber?.value || supportWhatsappPhone;
         state.system_currency = currency?.value || system_currency;
-        state.allowed_payment_types = paymentTypes?.value.split(",") || [
-          "wallet",
-        ];
+        state.allowed_payment_types = paymentTypes?.value.split(",") || ["wallet"];
         state.isLoading = false;
       })
       .addCase(fetchCurrencyInfo.rejected, (state, action) => {

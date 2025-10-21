@@ -12,6 +12,7 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import SimCardOutlinedIcon from "@mui/icons-material/SimCardOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import WalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { useAuth } from "../core/context/AuthContext";
 
 const UserMenu = () => {
@@ -98,6 +99,21 @@ const UserMenu = () => {
                 color="primary"
               />
               <span className={"font-semibold"}>{t("nav.myWallet")}</span>
+            </Link>
+            <Link
+              to="/referral-program"
+              className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+              onClick={onClose}
+            >
+              <CardGiftcardIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginLeft: "8px" }
+                    : {}
+                }
+                color="primary"
+              />
+              <span className={"font-semibold"}>{t("nav.referAndEarn")}</span>
             </Link>
             <div className="my-2 border-t border-gray-100" />
             <Link

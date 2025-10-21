@@ -2,11 +2,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 //REDUCER
 import { LimitedSignOut } from "../../redux/reducers/authReducer";
 import { AttachSearch, DetachSearch } from "../../redux/reducers/searchReducer";
+import { validateReferralEligibility, loadReferralFromStorage } from "../../redux/reducers/referralReducer";
 //API
 import { useHomeCountries } from "../../core/custom-hook/useHomeCountries";
 //COMPONENT
@@ -16,6 +17,7 @@ import { CountriesSkeletons } from "../../components/shared/skeletons/HomePageSk
 import BundleCard from "../../components/bundle/bundle-card/BundleCard";
 import {
   Autocomplete,
+  Alert,
   Badge,
   Chip,
   FormControlLabel,
@@ -26,6 +28,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { Search } from "@mui/icons-material";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { StyledTextField } from "../../assets/CustomComponents";
 import BundleList from "../../components/bundle/BundleList";
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
@@ -52,6 +55,17 @@ const Plans = (props) => {
   const isSmall = useMediaQuery("(max-width: 639px)");
   const pathSegments = location.pathname.split("/").filter(Boolean);
   const mainPath = pathSegments[1] || ""; // "cruises" or "" (land) //now : "land" or
+
+  // Get referral state from Redux
+  const { 
+    referralCode, 
+    isEligible, 
+    discountPercentage,
+    referrerName,
+    isValidating 
+  } = useSelector((state) => state.referral);
+  
+  const { isAuthenticated } = useSelector((state) => state.authentication);
 
   const [activeRadio, setActiveRadio] = useState(mainPath || defaultOption);
   const [activeTab, setActiveTab] = useState(
@@ -125,6 +139,17 @@ const Plans = (props) => {
     dispatch(DetachSearch());
   }, []);
 
+  // Validate referral on mount if needed
+  useEffect(() => {
+    // Load cached referral first
+    dispatch(loadReferralFromStorage());
+    
+    // If has code + not validated yet, validate now (works for both authenticated and unauthenticated)
+    if (referralCode && !isEligible && !isValidating) {
+      dispatch(validateReferralEligibility(referralCode));
+    }
+  }, [referralCode, isEligible, isValidating, dispatch]);
+
   useEffect(() => {
     if (isSmall) {
       setIsSearching(true);
@@ -136,6 +161,62 @@ const Plans = (props) => {
 
   return (
     <>
+      {/* Referral Discount Banner */}
+      {isEligible && discountPercentage && (
+        <div className="max-w-2xl mx-auto mb-4 sm:mb-6 px-4">
+          <Alert 
+            severity="success" 
+            icon={<CardGiftcardIcon />}
+            className="shadow-md"
+            sx={{ 
+              '& .MuiAlert-message': { width: '100%' },
+              backgroundColor: '#f0fdf4',
+              borderLeft: '4px solid #22c55e',
+            }}
+          >
+            {/* Main Content Container */}
+            <div className="flex flex-col gap-3">
+              {/* Top Section: Discount Message + Badge */}
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                <div className="flex-1">
+                  <strong className="block text-sm sm:text-base font-bold text-green-800">
+                    {t("referral.discountActive")}
+                  </strong>
+                  <p className="text-xs sm:text-sm mt-1 text-green-700">
+                    {t("referral.discountMessage", {
+                      percentage: discountPercentage,
+                      referrerName: referrerName,
+                    })}
+                  </p>
+                </div>
+                <Chip
+                  label={`${discountPercentage}% OFF`}
+                  color="success"
+                  size="small"
+                  className="font-bold self-start sm:self-center"
+                  sx={{ 
+                    fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                    fontWeight: 'bold',
+                  }}
+                />
+              </div>
+              
+              {/* Divider */}
+              <div className="border-t border-green-200" />
+              
+              {/* Mobile App Tip - Integrated Design */}
+              <p className="text-xs sm:text-sm text-green-700 leading-relaxed">
+                {t("referral.mobileAppNotice")}{" "}
+                <span className="inline-flex items-center bg-white px-2 py-0.5 rounded border border-green-300 font-mono font-bold text-green-900 text-xs sm:text-sm mx-1">
+                  {referralCode}
+                </span>{" "}
+                {t("referral.toGetDiscount")}
+              </p>
+            </div>
+          </Alert>
+        </div>
+      )}
+
       <div className="flex flex-col gap-[2rem] max-w-2xl mx-auto mb-12">
         {activeRadio !== "cruises" && (
           <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-center sm:items-center gap-4 relative w-full">

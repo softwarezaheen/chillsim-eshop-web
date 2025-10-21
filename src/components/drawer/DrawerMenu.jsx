@@ -51,31 +51,59 @@ const DrawerMenu = ({ toggleMenu, setToggleMenu }) => {
         <Close />
       </IconButton>
 
-      {menuElements.map((item) => (
-        <Link
-          key={item.path}
-          onClick={() => {
-            window.scrollTo(0, 0);
-            setToggleMenu(false);
-          }}
-          to={item.path}
-          className={`text-sm font-medium transition-colors flex  flex-row justify-between items-center ${
-            isActive(item.path)
-              ? "text-secondary"
-              : "text-primary hover:text-secondary"
-          }`}
-        >
-          {t(`nav.${item?.label}`)}
-          <ArrowForwardIosIcon
-            style={
-              localStorage.getItem("i18nextLng") === "ar"
-                ? { transform: "scale(-1,1)" }
-                : {}
-            }
-            fontSize="small"
-          />
-        </Link>
+      {menuElements.map((item, index) => (
+        <React.Fragment key={item.path}>
+          <Link
+            onClick={() => {
+              window.scrollTo(0, 0);
+              setToggleMenu(false);
+            }}
+            to={item.path}
+            className={`text-sm font-medium transition-colors flex  flex-row justify-between items-center ${
+              isActive(item.path)
+                ? "text-secondary"
+                : "text-primary hover:text-secondary"
+            }`}
+          >
+            {t(`nav.${item?.label}`)}
+            <ArrowForwardIosIcon
+              style={
+                localStorage.getItem("i18nextLng") === "ar"
+                  ? { transform: "scale(-1,1)" }
+                  : {}
+              }
+              fontSize="small"
+            />
+          </Link>
+          
+          {/* Insert Refer & Earn after My Wallet (index 2 in authResponsiveMenuItems) */}
+          {isAuthenticated && item.path === "/wallet" && (
+            <Link
+              onClick={() => {
+                window.scrollTo(0, 0);
+                setToggleMenu(false);
+              }}
+              to="/referral-program"
+              className={`text-sm font-medium transition-colors flex flex-row justify-between items-center ${
+                isActive("/referral-program")
+                  ? "text-secondary"
+                  : "text-primary hover:text-secondary"
+              }`}
+            >
+              {t("nav.referAndEarn")}
+              <ArrowForwardIosIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { transform: "scale(-1,1)" }
+                    : {}
+                }
+                fontSize="small"
+              />
+            </Link>
+          )}
+        </React.Fragment>
       ))}
+      
       <div className="my-2 border-t border-gray-100" />
       
       {/* Language Switcher for mobile */}
