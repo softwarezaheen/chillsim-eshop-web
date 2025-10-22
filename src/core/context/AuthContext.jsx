@@ -114,7 +114,7 @@ export const AuthProvider = ({ children }) => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "facebook",
         options: {
-          redirectTo: `${window.location.origin}/signin?social=true`,
+          redirectTo: `${import.meta.env.VITE_APP_URL}/signin?social=true`,
         },
       });
       if (error) {
@@ -176,7 +176,7 @@ export const AuthProvider = ({ children }) => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "apple",
         options: {
-          redirectTo: `${window.location.origin}/signin?social=true`,
+          redirectTo: `${import.meta.env.VITE_APP_URL}/signin?social=true`,
           // Request name and email from Apple
           scopes: "name email",
         },
