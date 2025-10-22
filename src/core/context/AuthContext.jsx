@@ -66,12 +66,24 @@ export const AuthProvider = ({ children }) => {
         })
         .then((res) => {
           if (res?.data?.status === "success") {
+            const userInfo = res?.data?.data?.user_info;
+            
+            // Edge case: Apple Private Relay email
+            if (userInfo?.email?.includes('@privaterelay.appleid.com')) {
+              console.log("User is using Apple Private Relay email");
+            }
+            
+            // Edge case: Missing email/name from Apple
+            if (!userInfo?.email) {
+              toast.warning("Apple did not share your email. You may need to complete your profile.");
+            }
+
             dispatch(
               SignIn({
                 user_token: res?.data?.data?.user_token,
                 access_token: data?.session?.access_token,
                 refresh_token: data?.session?.refresh_token,
-                user_info: res?.data?.data?.user_info,
+                user_info: userInfo,
               })
             );
           }
@@ -150,6 +162,44 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const signinWithApple = async () => {
+    // Prevent duplicate clicks during redirect
+    if (loadingSocial) {
+      console.log("Apple login already in progress, ignoring duplicate click");
+      return;
+    }
+
+    console.log("Apple login initiated");
+    setLoadingSocial(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "apple",
+        options: {
+          redirectTo: `${window.location.origin}/signin?social=true`,
+          // Request name and email from Apple
+          scopes: "name email",
+        },
+      });
+
+      if (error) {
+        setLoadingSocial(false);
+        toast.error(
+          error?.message ||
+            "Failed to sign in with Apple. Please try again later"
+        );
+        return;
+      }
+
+      // Note: Don't set loadingSocial to false here
+      // The redirect happens, and when user comes back,
+      // onAuthStateChange will handle the rest
+    } catch (error) {
+      setLoadingSocial(false);
+      handleError(error, "Apple");
+    }
+  };
+
   const handleLogout = () => {
     const auth = getAuth();
     userLogout()
@@ -185,11 +235,14 @@ export const AuthProvider = ({ children }) => {
         `An account already exists with the same email address but different sign-in credentials for ${provider}`
       );
     } else if (error?.code === "auth/cancelled-popup-request") {
-      toast.error(`You click the login button twice quickly`);
+      toast.error(`You clicked the login button twice quickly`);
     } else if (error?.code === "auth/unauthorized-domain") {
       toast.error(
         `Your app is running on a domain not whitelisted in Firebase Authentication settings`
       );
+    } else if (error?.message?.includes("redirect")) {
+      // Handle redirect-specific errors (Apple, Facebook)
+      toast.error(`Redirect authentication failed for ${provider}. Please try again.`);
     } else {
       toast.error(error?.message || `Failed to login with ${provider}`);
     }
@@ -231,6 +284,7 @@ export const AuthProvider = ({ children }) => {
         signinWithGoogle,
         loadingSocial,
         signinWithFacebook,
+        signinWithApple,
         displayUserInfo,
       }}
     >

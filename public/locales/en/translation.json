@@ -259,6 +259,7 @@
     "orContinueWith": "Or",
     "signInWithGoogle": "Sign in with Google",
     "signInWithFacebook": "Sign in with Facebook",
+    "signInWithApple": "Sign in with Apple",
     "verifyEmail": "Please verify your {{verifyBy}}!",
     "sms": "SMS",
     "whatsapp": "Whatsapp",

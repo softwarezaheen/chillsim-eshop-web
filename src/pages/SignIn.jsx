@@ -34,7 +34,7 @@ import { supportedPrefix } from "../core/variables/ProjectVariables";
 const SignIn = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { signinWithGoogle, loadingSocial, signinWithFacebook } = useAuth();
+  const { signinWithGoogle, loadingSocial, signinWithFacebook, signinWithApple } = useAuth();
   const [showOtpVerification, setShowOtpVerification] = useState(false);
   const [showEmailSent, setShowEmailSent] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -330,7 +330,8 @@ const SignIn = () => {
             <div className="flex flex-col gap-[1rem]">
               <button
                 onClick={signinWithGoogle}
-                className="flex items-center justify-center gap-[0.5rem] w-full py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium text-primary hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1877F2]"
+                disabled={loadingSocial}
+                className="flex items-center justify-center gap-[0.5rem] w-full py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium text-primary hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1877F2] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <img src={"/media/google.svg"} className="h-5 w-5" />
                 {t("auth.signInWithGoogle")}
@@ -338,10 +339,20 @@ const SignIn = () => {
 
               <button
                 onClick={signinWithFacebook}
-                className="flex items-center justify-center gap-[0.5rem] w-full py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1877F2]"
+                disabled={loadingSocial}
+                className="flex items-center justify-center gap-[0.5rem] w-full py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1877F2] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <img src={"/media/facebook.svg"} className="h-5 w-5" />
                 {t("auth.signInWithFacebook")}
+              </button>
+
+              <button
+                onClick={signinWithApple}
+                disabled={loadingSocial}
+                className="flex items-center justify-center gap-[0.5rem] w-full py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <img src={"/media/apple.svg"} className="h-5 w-5" />
+                {t("auth.signInWithApple")}
               </button>
             </div>
           </>

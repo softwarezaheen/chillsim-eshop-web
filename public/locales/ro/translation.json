@@ -259,6 +259,7 @@
     "orContinueWith": "Sau",
     "signInWithGoogle": "Autentifică-te cu Google",
     "signInWithFacebook": "Autentifică-te cu Facebook",
+    "signInWithApple": "Autentifică-te cu Apple",
     "verifyEmail": "Te rugăm să îți verifici {{verifyBy}}!",
     "sms": "SMS",
     "whatsapp": "Whatsapp",
