@@ -8,3 +8,14 @@ export const getBundleById = async (payload) => {
     return error;
   }
 };
+
+export const getBundlesVersion = async () => {
+  try {
+    const res = await api.get("api/v1/bundles/version", {
+      headers: { "Cache-Control": "no-cache" },
+    });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};

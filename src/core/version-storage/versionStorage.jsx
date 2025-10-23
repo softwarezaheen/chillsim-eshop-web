@@ -23,7 +23,15 @@ export const clearCacheIfVersionChanged = (newVersion) => {
 
   if (storedVersion !== newVersion) {
     try {
+      // Clear old cache key (legacy)
       localStorage.removeItem(API_CACHE_KEY);
+      
+      // Clear language-specific cache keys
+      const languages = ['en', 'ro', 'es', 'fr'];
+      languages.forEach(lang => {
+        localStorage.removeItem(`home_countries_cache_${lang}`);
+      });
+      
       setStoredVersion(newVersion);
       return true;
     } catch (error) {

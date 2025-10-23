@@ -2,11 +2,31 @@ import React from "react";
 import { Box, Button, Snackbar, IconButton } from "@mui/material";
 import { Refresh as RefreshIcon, Close as CloseIcon } from "@mui/icons-material";
 import { useVersionChecker } from "../../../core/custom-hook/useVersionChecker";
+import { useBundlesVersionChecker } from "../../../core/custom-hook/useBundlesVersionChecker";
 import { useTranslation } from "react-i18next";
 
 const UpdateBanner = () => {
   const { t } = useTranslation();
-  const { updateAvailable, reloadApp, dismissUpdate } = useVersionChecker();
+  const appVersion = useVersionChecker();
+  const bundlesVersion = useBundlesVersionChecker();
+  
+  // Show banner if either version has an update
+  const updateAvailable = appVersion.updateAvailable || bundlesVersion.updateAvailable;
+  
+  // Reload function - call the appropriate one based on which update is available
+  const reloadApp = () => {
+    if (bundlesVersion.updateAvailable) {
+      bundlesVersion.reloadApp();
+    } else if (appVersion.updateAvailable) {
+      appVersion.reloadApp();
+    }
+  };
+  
+  // Dismiss function - dismiss both
+  const dismissUpdate = () => {
+    appVersion.dismissUpdate();
+    bundlesVersion.dismissUpdate();
+  };
 
   return (
     <Snackbar
