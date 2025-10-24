@@ -1,3 +1,23 @@
+/**
+ * Dual-Provider Analytics Integration
+ * Sends events to both Google Analytics 4 (via GTM) and Facebook Pixel
+ */
+
+import {
+  PurchaseEvent,
+  AddToCartEvent,
+  ViewItemEvent,
+  ViewItemListEvent,
+  BeginCheckoutEvent,
+  EcommerceItem,
+} from '../analytics/eventModels';
+import {
+  sendFacebookPurchase,
+  sendFacebookAddToCart,
+  sendFacebookViewContent,
+  sendFacebookInitiateCheckout,
+} from '../analytics/facebookPixel';
+
 // Base dataLayer helper with cleanup
 const pushToDataLayer = (eventData) => {
   if (window.dataLayer) {
@@ -38,7 +58,7 @@ const formatCentsToValue = (amountInCents) => parseFloat(((amountInCents || 0) /
 // Helper to format currency values (for bundle prices - already in currency units)
 const formatCurrencyValue = (amount) => parseFloat((amount || 0).toFixed(2));
 
-// GA4 ecommerce purchase event
+// GA4 ecommerce purchase event (DUAL-PROVIDER: GA4 + Facebook)
 export const gtmPurchaseEvent = (eventName, orderData) => {
   if (!orderData) return;
 
@@ -56,87 +76,90 @@ export const gtmPurchaseEvent = (eventName, orderData) => {
     iccid
   } = orderData;
 
-  // Detect if values are already in currency format or cents
-  // If order_amount is less than 10 but the order seems reasonable, it's likely already in currency format
-  const isAlreadyCurrencyFormat = (order_amount < 10 && order_amount > 0.01);
-  
-  console.log('🔍 Currency format detection:', {
-    order_amount,
-    isAlreadyCurrencyFormat,
-    raw_amounts: { order_amount, order_fee, order_vat, discount, total_amount }
+  // ✅ Backend sends amounts in ACTUAL CURRENCY (not cents)
+  // Use values directly per implementation guide
+  const totalValue = parseFloat((total_amount || (order_amount + order_fee + order_vat)).toFixed(2));
+  const itemPrice = parseFloat((order_amount || 0).toFixed(2));
+  const feeAmount = parseFloat((order_fee || 0).toFixed(2));
+  const taxAmount = parseFloat((order_vat || 0).toFixed(2));
+  const discountAmount = parseFloat((discount || 0).toFixed(2));
+
+  console.log('💰 Purchase event amounts (currency format):', {
+    totalValue,
+    itemPrice,
+    feeAmount,
+    taxAmount,
+    discountAmount
   });
 
-  // Format amounts based on detection
-  const totalValue = isAlreadyCurrencyFormat 
-    ? parseFloat((total_amount || (order_amount + order_fee + order_vat)).toFixed(2))
-    : formatCentsToValue(total_amount || (order_amount + order_fee + order_vat));
-  const itemPrice = isAlreadyCurrencyFormat 
-    ? parseFloat((order_amount || 0).toFixed(2))
-    : formatCentsToValue(order_amount);
-  const feeAmount = isAlreadyCurrencyFormat 
-    ? parseFloat((order_fee || 0).toFixed(2))
-    : formatCentsToValue(order_fee);
-  const taxAmount = isAlreadyCurrencyFormat 
-    ? parseFloat((order_vat || 0).toFixed(2))
-    : formatCentsToValue(order_vat);
-  const discountAmount = isAlreadyCurrencyFormat 
-    ? parseFloat((discount || 0).toFixed(2))
-    : formatCentsToValue(discount);
-
-  console.log('💰 Purchase event amounts:', {
-    format: isAlreadyCurrencyFormat ? 'currency' : 'cents',
-    converted_amounts: { totalValue, itemPrice, feeAmount, taxAmount, discountAmount }
+  // Create event model for dual-provider tracking
+  const purchaseEvent = new PurchaseEvent({
+    items: [{
+      id: bundle_details?.bundle_code || 'unknown',
+      name: bundle_details?.display_title || bundle_details?.name || 'Bundle',
+      category: iccid ? 'topup' : 'esim',
+      price: itemPrice,
+      quantity: 1,
+    }],
+    currency: currency || 'EUR',
+    transactionId: order_id,
+    shipping: feeAmount,
+    tax: taxAmount,
+    discount: discountAmount,
+    coupon: promo_code || null,
+    paymentType: payment_type || null,
   });
 
+  // Send to GA4 via GTM dataLayer
   pushToDataLayer({
     event: eventName,
-    ecommerce: {
-      currency: currency || 'EUR',
-      value: totalValue,
-      transaction_id: order_id,
-      shipping: feeAmount, // GA4 standard field for shipping/fees
-      tax: taxAmount,     // GA4 standard field for tax
-      items: [{
-        item_id: bundle_details?.bundle_code || 'unknown',
-        item_name: bundle_details?.display_title || bundle_details?.name || 'Bundle',
-        item_brand: 'ChillSim',
-        item_category: 'esim',
-        price: itemPrice,
-        quantity: 1
-      }]
-    },
+    ...purchaseEvent.ga4Parameters,
     // Additional parameters
-    payment_type: payment_type || '',
-    ...(promo_code && { coupon: promo_code }),
-    ...(discount && discountAmount > 0 && { discount_amount: discountAmount }),
-    ...(iccid && { iccid })
+    ...(iccid && { iccid }),
+  });
+
+  // Send to Facebook Pixel
+  sendFacebookPurchase(purchaseEvent.facebookParameters, order_id);
+
+  console.log('✅ Purchase event sent to both GA4 and Facebook', {
+    ga4: purchaseEvent.ga4Parameters,
+    facebook: purchaseEvent.facebookParameters,
   });
 };
 
-// GA4 view_item event
+// GA4 view_item event (DUAL-PROVIDER: GA4 + Facebook)
 export const gtmViewItemEvent = (bundleData, isTopup = false) => {
   if (!bundleData) return;
 
-  const value = formatCurrencyValue(bundleData.price);
-
-  pushToDataLayer({
-    event: 'view_item',
-    ecommerce: {
-      currency: bundleData.currency || 'EUR',
-      value: value,
-      items: [createEcommerceItem(bundleData, 0, isTopup)]
-    }
+  // Create event model
+  const viewItemEvent = new ViewItemEvent({
+    item: {
+      id: bundleData.bundle_code || bundleData.id || 'unknown',
+      name: bundleData.display_title || bundleData.title || bundleData.name || 'Bundle',
+      category: isTopup ? 'topup' : 'esim_bundle',
+      price: bundleData.price || 0,
+      quantity: 1,
+    },
+    currency: bundleData.currency || 'EUR',
   });
+
+  // Send to GA4 via GTM
+  pushToDataLayer(viewItemEvent.ga4Parameters);
+
+  // Send to Facebook Pixel (ViewContent)
+  sendFacebookViewContent(viewItemEvent.facebookParameters);
+
+  console.log('✅ ViewItem event sent to both GA4 and Facebook');
 };
 
-// GA4 view_item_list event
+// GA4 view_item_list event (DUAL-PROVIDER: GA4 + Facebook)
 export const gtmViewItemListEvent = (items, listName, listId, listType = 'country') => {
   if (!items || items.length === 0) return;
 
   // Determine if this is a topup list based on listType
   const isTopupList = listType === 'topup';
 
-  // Limit to 10 items for performance and create ecommerce items
+  // Map items to EcommerceItem format
   const ecommerceItems = items.slice(0, 10).map((item, index) => {
     let itemCategory;
     if (isTopupList) {
@@ -148,38 +171,63 @@ export const gtmViewItemListEvent = (items, listName, listId, listType = 'countr
     }
 
     return {
-      ...createEcommerceItem(item, index, isTopupList),
-      item_category: itemCategory
+      id: item.bundle_code || item.id || `item_${index}`,
+      name: item.display_title || item.title || item.name || item.country || 'Bundle',
+      category: itemCategory,
+      price: item.price || 0,
+      quantity: 1,
     };
   });
 
-  pushToDataLayer({
-    event: 'view_item_list',
-    ecommerce: {
-      item_list_name: listName,
-      item_list_id: listId,
-      items: ecommerceItems
-    }
+  // Assume first item's currency for the list (or default to EUR)
+  const currency = items[0]?.currency_code || items[0]?.currency || 'EUR';
+
+  // Create event model
+  const viewListEvent = new ViewItemListEvent({
+    items: ecommerceItems,
+    listName: listName,
+    listId: listId,
+    currency: currency,
   });
+
+  // Send to GA4 via GTM
+  pushToDataLayer(viewListEvent.ga4Parameters);
+
+  // Send to Facebook Pixel (ViewContent with multiple items)
+  sendFacebookViewContent(viewListEvent.facebookParameters);
+
+  console.log('✅ ViewItemList event sent to both GA4 and Facebook');
 };
 
-// GA4 add_to_cart event
+// GA4 add_to_cart event (DUAL-PROVIDER: GA4 + Facebook)
 export const gtmAddToCartEvent = (bundleData, isTopup = false, iccid = null) => {
   if (!bundleData) return;
 
-  const value = formatCurrencyValue(bundleData.price);
-
-  pushToDataLayer({
-    event: 'add_to_cart',
-    ecommerce: {
-      currency: bundleData.currency || 'EUR',
-      value: value,
-      items: [createEcommerceItem(bundleData, 0, isTopup)]
-    }
+  // Create event model
+  const addToCartEvent = new AddToCartEvent({
+    item: {
+      id: bundleData.bundle_code || bundleData.id || 'unknown',
+      name: bundleData.display_title || bundleData.title || bundleData.name || 'Bundle',
+      category: isTopup ? 'topup' : 'esim_bundle',
+      price: bundleData.price || 0,
+      quantity: 1,
+    },
+    currency: bundleData.currency || 'EUR',
   });
+
+  // Send to GA4 via GTM
+  pushToDataLayer({
+    ...addToCartEvent.ga4Parameters,
+    ...(iccid && { iccid }), // Add iccid if present
+  });
+
+  // Send to Facebook Pixel
+  sendFacebookAddToCart(addToCartEvent.facebookParameters);
+
+  console.log('✅ AddToCart event sent to both GA4 and Facebook');
 };
 
-// GA4 begin_checkout event
+// GA4 begin_checkout event (DUAL-PROVIDER: GA4 + Facebook)
 export const gtmBeginCheckoutEvent = (orderData) => {
   if (!orderData) return;
 
@@ -194,30 +242,35 @@ export const gtmBeginCheckoutEvent = (orderData) => {
     coupon
   } = orderData;
 
-  const totalValue = formatCentsToValue(order_amount + order_fee + order_vat);
+  // ⚠️ NOTE: begin_checkout uses order amounts in CENTS
+  // Convert to currency format
+  const itemPrice = formatCentsToValue(order_amount);
+  const feeAmount = formatCentsToValue(order_fee);
+  const taxAmount = formatCentsToValue(order_vat);
+
   const isTopup = !!iccid;
-
-  const ecommerceData = {
-    currency: currency || 'EUR',
-    value: totalValue,
-    items: [{
-      item_id: bundle_details?.bundle_code || 'unknown',
-      item_name: bundle_details?.display_title || bundle_details?.name || 'Bundle',
-      item_brand: 'ChillSim',
-      item_category: isTopup ? 'topup' : 'esim_bundle',
-      price: formatCentsToValue(order_amount),
-      quantity: 1
-    }]
-  };
-
-  // Add coupon information if available
   const couponCode = promo_code || coupon;
-  if (couponCode) {
-    ecommerceData.coupon = couponCode;
-  }
 
-  pushToDataLayer({
-    event: 'begin_checkout',
-    ecommerce: ecommerceData
+  // Create event model
+  const beginCheckoutEvent = new BeginCheckoutEvent({
+    items: [{
+      id: bundle_details?.bundle_code || 'unknown',
+      name: bundle_details?.display_title || bundle_details?.name || 'Bundle',
+      category: isTopup ? 'topup' : 'esim_bundle',
+      price: itemPrice,
+      quantity: 1,
+    }],
+    currency: currency || 'EUR',
+    shipping: feeAmount,
+    tax: taxAmount,
+    coupon: couponCode || null,
   });
+
+  // Send to GA4 via GTM
+  pushToDataLayer(beginCheckoutEvent.ga4Parameters);
+
+  // Send to Facebook Pixel (InitiateCheckout)
+  sendFacebookInitiateCheckout(beginCheckoutEvent.facebookParameters);
+
+  console.log('✅ BeginCheckout event sent to both GA4 and Facebook');
 };
