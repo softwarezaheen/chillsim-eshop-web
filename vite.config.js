@@ -37,6 +37,10 @@ export default defineConfig(({ mode }) => {
     `./config/well-known/${currentMode}/apple-app-site-association`,
     "./public/.well-known/apple-app-site-association",
   );
+  copyFile(
+    `./config/well-known/${currentMode}/apple-developer-merchantid-domain-association.txt`,
+    "./public/.well-known/apple-developer-merchantid-domain-association.txt",
+  );
 
   return {
     base: "/",
