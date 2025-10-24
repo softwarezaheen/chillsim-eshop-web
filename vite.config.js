@@ -37,9 +37,10 @@ export default defineConfig(({ mode }) => {
     `./config/well-known/${currentMode}/apple-app-site-association`,
     "./public/.well-known/apple-app-site-association",
   );
+  // ⚠️ CRITICAL: Apple Pay domain verification file must NOT have .txt extension
   copyFile(
-    `./config/well-known/${currentMode}/apple-developer-merchantid-domain-association.txt`,
-    "./public/.well-known/apple-developer-merchantid-domain-association.txt",
+    `./config/well-known/${currentMode}/apple-developer-merchantid-domain-association`,
+    "./public/.well-known/apple-developer-merchantid-domain-association",
   );
 
   return {

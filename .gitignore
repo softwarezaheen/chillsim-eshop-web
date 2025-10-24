@@ -11,7 +11,12 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+build
 *.local
+
+# Build-generated files (created during Vite build)
+public/.well-known/
+public/version.json
 
 # Editor directories and files
 .vscode/*
