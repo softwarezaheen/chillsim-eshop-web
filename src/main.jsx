@@ -64,7 +64,7 @@ window.addEventListener("unhandledrejection", (event) => {
   }
 });
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 180000, // 3 minutes
