@@ -39,37 +39,6 @@
 
   <div id="root"></div>
   
-  <!-- 🔍 VISUAL DEBUG INDICATOR - Shows loading progress -->
-  <div id="debug-indicator" style="position: fixed; top: 0; left: 0; right: 0; background: #4CAF50; color: white; padding: 10px; text-align: center; z-index: 99999; font-family: monospace; font-size: 12px;">
-    ⏳ Loading ChillSIM... (HTML loaded)
-  </div>
-  
-  <script>
-    // Visual debugging - update indicator as modules load
-    const updateDebug = (msg, color = '#4CAF50') => {
-      const el = document.getElementById('debug-indicator');
-      if (el) {
-        el.textContent = msg;
-        el.style.background = color;
-      }
-    };
-    
-    // Track if React ever renders
-    window.__REACT_RENDERED__ = false;
-    
-    // Show error visually
-    window.addEventListener('error', (e) => {
-      updateDebug('❌ ERROR: ' + (e.message || e.error?.message || 'Unknown error'), '#f44336');
-    });
-    
-    window.addEventListener('unhandledrejection', (e) => {
-      updateDebug('❌ PROMISE ERROR: ' + (e.reason?.message || e.reason?.toString() || 'Unknown'), '#f44336');
-    });
-    
-    // Update when JS starts loading
-    updateDebug('⏳ Loading JavaScript modules...', '#2196F3');
-  </script>
-  
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

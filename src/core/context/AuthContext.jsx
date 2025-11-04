@@ -211,7 +211,10 @@ export const AuthProvider = ({ children }) => {
           dispatch(SignOut());
           dispatch(DetachDevice());
           queryClient.clear();
-          deleteToken(messaging);
+          // Only delete messaging token if messaging is available
+          if (messaging) {
+            deleteToken(messaging);
+          }
           supabaseSignout();
         }
       })

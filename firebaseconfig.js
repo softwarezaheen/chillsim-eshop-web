@@ -19,11 +19,32 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-//for safari because it doesn't support fcm
-export const messaging = isSupported() ? getMessaging(app) : null;
+// ========================================
+// 🛡️ CRITICAL FIX: Safe Firebase Messaging initialization
+// ========================================
+// iOS in-app browsers (FB, IG, etc.) don't support Firebase Messaging
+// Even though isSupported() may return true, getMessaging() will throw
+// We need to wrap this in a try/catch to prevent app crash
+
+let messaging = null;
+
+try {
+  messaging = getMessaging(app);
+  console.log("✅ Firebase Messaging initialized");
+} catch (error) {
+  console.warn("⚠️ Firebase Messaging failed to initialize:", error.message);
+  // messaging remains null - app will continue without push notifications
+}
+
+export { messaging };
 
 export const onMessageListener = () =>
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
+    if (!messaging) {
+      console.warn("⚠️ Firebase Messaging not available - cannot listen for messages");
+      reject(new Error("Firebase Messaging not supported in this browser"));
+      return;
+    }
     onMessage(messaging, (payload) => {
       resolve(payload);
     });
@@ -33,6 +54,12 @@ const auth = getAuth();
 const googleProvider = new GoogleAuthProvider();
 
 const requestPermission = async () => {
+  // Check if messaging is available
+  if (!messaging) {
+    console.warn("⚠️ Firebase Messaging not available - cannot request permission");
+    return null;
+  }
+
   //requesting permission using Notification API
   const permission = await Notification.requestPermission();
 

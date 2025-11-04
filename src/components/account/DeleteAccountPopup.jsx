@@ -41,7 +41,9 @@ const DeleteAccountPopup = ({ onClose }) => {
           toast.success("Account Deleted Successfully");
           dispatch(SignOut());
           queryClient.clear();
-          deleteToken(messaging);
+          if (messaging) {
+            deleteToken(messaging);
+          }
         } else {
           toast.error(res?.message);
         }

@@ -125,7 +125,9 @@ api.interceptors.response.use(
         store.dispatch(SignOut());
         store.dispatch(DetachDevice());
         queryClient.clear();
-        deleteToken(messaging);
+        if (messaging) {
+          deleteToken(messaging);
+        }
         supabaseSignout();
         return Promise.reject(error);
       }
@@ -188,7 +190,9 @@ api.interceptors.response.use(
         store.dispatch(SignOut());
         store.dispatch(DetachDevice());
         queryClient.clear();
-        deleteToken(messaging);
+        if (messaging) {
+          deleteToken(messaging);
+        }
         supabaseSignout();
 
         return Promise.reject(refreshError);
@@ -197,7 +201,9 @@ api.interceptors.response.use(
       store.dispatch(SignOut());
       store.dispatch(DetachDevice());
       queryClient.clear();
-      deleteToken(messaging);
+      if (messaging) {
+        deleteToken(messaging);
+      }
       supabaseSignout();
     } else {
       console.log(error, "error");
