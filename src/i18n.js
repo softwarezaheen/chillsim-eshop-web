@@ -3,12 +3,37 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import Backend from "i18next-http-backend";
 
-//NOTE: AS PER I18N Default language is by language detector :en so we added this to make it by env
-if (!localStorage.getItem("i18nextLng")) {
-  localStorage.setItem(
-    "i18nextLng",
-    import.meta.env.VITE_DEFAULT_LANGUAGE || "en"
-  );
+// ========================================
+// 🛡️ CRITICAL FIX: Safe localStorage access for iOS in-app browsers
+// ========================================
+// This code runs on module load BEFORE any error handlers exist
+// If localStorage is blocked (iOS FB/IG browsers), this would crash the entire app
+
+const isStorageAvailable = () => {
+  try {
+    const testKey = "__i18n_test__";
+    localStorage.setItem(testKey, "test");
+    localStorage.removeItem(testKey);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const storageAvailable = isStorageAvailable();
+
+// Only set default language if localStorage is available
+if (storageAvailable) {
+  try {
+    if (!localStorage.getItem("i18nextLng")) {
+      localStorage.setItem(
+        "i18nextLng",
+        import.meta.env.VITE_DEFAULT_LANGUAGE || "en"
+      );
+    }
+  } catch (error) {
+    console.warn("⚠️ Could not set default i18n language in localStorage:", error);
+  }
 }
 
 i18n
@@ -22,8 +47,12 @@ i18n
       escapeValue: false,
     },
     detection: {
-      order: ["localStorage", "navigator", "htmlTag", "path", "subdomain"], // common detection order
-      caches: ["localStorage"], // cache detected language in localStorage automatically
+      // If localStorage is blocked, fall back to navigator/htmlTag
+      order: storageAvailable 
+        ? ["localStorage", "navigator", "htmlTag", "path", "subdomain"]
+        : ["navigator", "htmlTag", "path", "subdomain"],
+      // Only cache to localStorage if available
+      caches: storageAvailable ? ["localStorage"] : [],
       lookupLocalStorage: "i18nextLng",
     },
     supportedLngs: ["en", "ro", "es", "fr"],
@@ -31,7 +60,8 @@ i18n
       loadPath: "/locales/{{lng}}/translation.json",
     },
     react: {
-      useSuspense: true,
+      // Disable Suspense for better iOS in-app browser compatibility
+      useSuspense: false,
     },
   });
 

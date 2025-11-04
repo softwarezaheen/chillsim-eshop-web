@@ -34,20 +34,32 @@ function App() {
       if (isIOSInAppBrowser()) {
         console.log("🍎 iOS in-app browser detected - skipping FingerprintJS");
         const fallbackId = `ios-inapp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        sessionStorage.setItem("x-device-id", fallbackId);
+        try {
+          sessionStorage.setItem("x-device-id", fallbackId);
+        } catch (storageError) {
+          console.warn("⚠️ sessionStorage blocked, device ID not persisted:", storageError);
+        }
         return;
       }
 
       const fp = await FingerprintJS.load();
       const result = await fp.get();
       console.log(result, "fingerprint result");
-      sessionStorage.setItem("x-device-id", result?.visitorId);
+      try {
+        sessionStorage.setItem("x-device-id", result?.visitorId);
+      } catch (storageError) {
+        console.warn("⚠️ sessionStorage blocked, device ID not persisted:", storageError);
+      }
     } catch (error) {
       console.error("❌ FingerprintJS failed:", error);
       // Fallback: Generate a simple random ID
       const fallbackId = `fallback-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      sessionStorage.setItem("x-device-id", fallbackId);
-      console.log("✅ Using fallback device ID:", fallbackId);
+      try {
+        sessionStorage.setItem("x-device-id", fallbackId);
+        console.log("✅ Using fallback device ID:", fallbackId);
+      } catch (storageError) {
+        console.warn("⚠️ sessionStorage blocked, device ID not persisted:", storageError);
+      }
     }
   };
 
@@ -62,7 +74,15 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!sessionStorage.getItem("x-device-id")) {
+    // Safely check sessionStorage
+    let hasDeviceId = false;
+    try {
+      hasDeviceId = !!sessionStorage.getItem("x-device-id");
+    } catch (error) {
+      console.warn("⚠️ sessionStorage blocked, will generate device ID anyway:", error);
+    }
+    
+    if (!hasDeviceId) {
       getDeviceId();
     }
     dispatch(fetchCurrencyInfo());
