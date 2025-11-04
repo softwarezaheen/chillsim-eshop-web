@@ -14,6 +14,12 @@ import { loadReferralFromStorage } from "./redux/reducers/referralReducer";
 import { setDayjsLocale } from "./components/dayjsSetup.js";
 import { supportWhatsappPhone } from "./core/variables/ProjectVariables";
 
+// iOS in-app browser detection
+const isIOSInAppBrowser = () => {
+  const ua = navigator.userAgent || '';
+  return /iPhone|iPad|iPod/.test(ua) && /FBAN|FBAV|Instagram|Twitter|Line|KAKAOTALK/i.test(ua);
+};
+
 function App() {
   const dispatch = useDispatch();
   const whatsapp_number = useSelector(
@@ -23,10 +29,26 @@ function App() {
   const { i18n } = useTranslation();
 
   const getDeviceId = async () => {
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    console.log(result, "fingerprint result");
-    sessionStorage.setItem("x-device-id", result?.visitorId);
+    try {
+      // Skip FingerprintJS entirely on iOS in-app browsers
+      if (isIOSInAppBrowser()) {
+        console.log("🍎 iOS in-app browser detected - skipping FingerprintJS");
+        const fallbackId = `ios-inapp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        sessionStorage.setItem("x-device-id", fallbackId);
+        return;
+      }
+
+      const fp = await FingerprintJS.load();
+      const result = await fp.get();
+      console.log(result, "fingerprint result");
+      sessionStorage.setItem("x-device-id", result?.visitorId);
+    } catch (error) {
+      console.error("❌ FingerprintJS failed:", error);
+      // Fallback: Generate a simple random ID
+      const fallbackId = `fallback-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      sessionStorage.setItem("x-device-id", fallbackId);
+      console.log("✅ Using fallback device ID:", fallbackId);
+    }
   };
 
   useEffect(() => {

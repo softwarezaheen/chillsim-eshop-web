@@ -25,6 +25,62 @@ dayjs.extend(advancedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
+// ========================================
+// 🛡️ GLOBAL ERROR HANDLERS FOR iOS
+// ========================================
+// Prevents app crashes from unhandled errors in iOS in-app browsers
+
+// Catch synchronous errors
+window.addEventListener("error", (event) => {
+  console.error("🚨 Global error caught:", event.error);
+  
+  // Check if it's a FingerprintJS or storage-related error
+  const errorMessage = event.message || event.error?.message || "";
+  if (
+    errorMessage.includes("FingerprintJS") ||
+    errorMessage.includes("localStorage") ||
+    errorMessage.includes("sessionStorage") ||
+    errorMessage.includes("indexedDB")
+  ) {
+    console.warn("⚠️ Storage/fingerprint error detected - likely iOS in-app browser restriction");
+    event.preventDefault(); // Prevent default error handling
+  }
+});
+
+// Catch unhandled promise rejections
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("🚨 Unhandled promise rejection:", event.reason);
+  
+  // Check if it's a FingerprintJS error
+  const reason = event.reason?.message || event.reason?.toString() || "";
+  if (
+    reason.includes("FingerprintJS") ||
+    reason.includes("load") ||
+    reason.includes("fingerprint")
+  ) {
+    console.warn("⚠️ FingerprintJS promise rejection - iOS in-app browser likely");
+    event.preventDefault(); // Prevent unhandled rejection
+  }
+});
+
+// Log environment info for debugging
+console.log("🌐 Environment:", {
+  userAgent: navigator.userAgent,
+  isIOS: /iPhone|iPad|iPod/.test(navigator.userAgent),
+  isInAppBrowser: /FBAN|FBAV|Instagram|Twitter/i.test(navigator.userAgent),
+  storageAvailable: (() => {
+    try {
+      localStorage.setItem("test", "test");
+      localStorage.removeItem("test");
+      return true;
+    } catch {
+      return false;
+    }
+  })(),
+});
+
+// ========================================
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

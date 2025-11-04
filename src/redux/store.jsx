@@ -17,6 +17,37 @@ import hardSet from "redux-persist/es/stateReconciler/hardSet";
 import { thunk } from "redux-thunk";
 import { createMigrate } from "redux-persist";
 
+// ========================================
+// 🛡️ STORAGE WRAPPER FOR iOS IN-APP BROWSERS
+// ========================================
+// Fallback to in-memory storage if localStorage is blocked
+
+const createNoopStorage = () => {
+  const noopStorage = {
+    getItem: () => Promise.resolve(null),
+    setItem: () => Promise.resolve(),
+    removeItem: () => Promise.resolve(),
+  };
+  return noopStorage;
+};
+
+const isStorageAvailable = () => {
+  try {
+    const testKey = "__storage_test__";
+    localStorage.setItem(testKey, "test");
+    localStorage.removeItem(testKey);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const safeStorage = isStorageAvailable() ? storage : createNoopStorage();
+
+console.log("📦 Redux Persist Storage:", isStorageAvailable() ? "localStorage" : "in-memory fallback");
+
+// ========================================
+
 const rootReducer = combineReducers({
   authentication: AuthSlice,
   search: SearchSlice,
@@ -31,10 +62,18 @@ const rootReducer = combineReducers({
 const migrations = {
   0: (state) => {
     // Add referral state if it doesn't exist
+    // Safely access localStorage with fallback
+    let referredBy = null;
+    try {
+      referredBy = localStorage.getItem("referred_by");
+    } catch {
+      console.warn("⚠️ localStorage blocked - migration skipped");
+    }
+    
     return {
       ...state,
       referral: state.referral || {
-        referralCode: localStorage.getItem("referred_by") || null,
+        referralCode: referredBy || null,
         discountPercentage: null,
         discountType: null,
         referrerName: null,
@@ -49,12 +88,12 @@ const migrations = {
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: safeStorage, // Use safe storage wrapper
   version: 0,
   migrate: createMigrate(migrations, { debug: false }),
   stateReconciler: hardSet,
   whitelist: ["authentication", "search", "device", "currency", "direction", "referral"],
-  debug: true,
+  debug: false, // Disable debug logs in production
 };
 
 // Persisted reducer
