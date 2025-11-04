@@ -21,9 +21,22 @@ import SuspenseLoading from "./pages/SuspenseLoading";
 import { AuthProvider } from "./core/context/AuthContext";
 import { NotificationProvider } from "./core/context/NotificationContext";
 
+// 🔍 Visual debug helper
+const updateDebug = (msg, color) => {
+  const el = document.getElementById('debug-indicator');
+  if (el) {
+    el.textContent = msg;
+    if (color) el.style.background = color;
+  }
+};
+
+updateDebug('✅ main.jsx loaded successfully', '#4CAF50');
+
 dayjs.extend(advancedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
+
+updateDebug('⏳ Setting up error handlers...', '#2196F3');
 
 // ========================================
 // 🛡️ GLOBAL ERROR HANDLERS FOR iOS
@@ -33,6 +46,7 @@ dayjs.extend(localizedFormat);
 // Catch synchronous errors
 window.addEventListener("error", (event) => {
   console.error("🚨 Global error caught:", event.error);
+  updateDebug('❌ ERROR: ' + (event.message || 'Unknown'), '#f44336');
   
   // Check if it's a FingerprintJS or storage-related error
   const errorMessage = event.message || event.error?.message || "";
@@ -50,6 +64,7 @@ window.addEventListener("error", (event) => {
 // Catch unhandled promise rejections
 window.addEventListener("unhandledrejection", (event) => {
   console.error("🚨 Unhandled promise rejection:", event.reason);
+  updateDebug('❌ PROMISE REJECTED: ' + (event.reason?.message || event.reason?.toString() || 'Unknown'), '#f44336');
   
   // Check if it's a FingerprintJS error
   const reason = event.reason?.message || event.reason?.toString() || "";
@@ -62,6 +77,8 @@ window.addEventListener("unhandledrejection", (event) => {
     event.preventDefault(); // Prevent unhandled rejection
   }
 });
+
+updateDebug('⏳ Checking environment...', '#2196F3');
 
 // Log environment info for debugging
 console.log("🌐 Environment:", {
@@ -79,7 +96,11 @@ console.log("🌐 Environment:", {
   })(),
 });
 
+updateDebug('✅ Environment checked', '#4CAF50');
+
 // ========================================
+
+updateDebug('⏳ Creating QueryClient...', '#2196F3');
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -92,7 +113,20 @@ export const queryClient = new QueryClient({
   },
 });
 
-const root = createRoot(document.getElementById("root"));
+updateDebug('✅ QueryClient created', '#4CAF50');
+updateDebug('⏳ Getting root element...', '#2196F3');
+
+const rootElement = document.getElementById("root");
+if (!rootElement) {
+  updateDebug('❌ FATAL: #root element not found!', '#f44336');
+  throw new Error("Root element not found");
+}
+
+updateDebug('✅ Root element found, creating React root...', '#4CAF50');
+
+const root = createRoot(rootElement);
+
+updateDebug('⏳ Rendering React app...', '#2196F3');
 
 root.render(
   // <React.StrictMode>
@@ -128,3 +162,15 @@ root.render(
   </BrowserRouter>
   // </React.StrictMode>
 );
+
+// Mark that React has successfully rendered
+updateDebug('✅ React app rendered! Removing debug in 3s...', '#4CAF50');
+window.__REACT_RENDERED__ = true;
+
+// Hide debug indicator after 3 seconds if app loaded successfully
+setTimeout(() => {
+  const el = document.getElementById('debug-indicator');
+  if (el && window.__REACT_RENDERED__) {
+    el.style.display = 'none';
+  }
+}, 3000);

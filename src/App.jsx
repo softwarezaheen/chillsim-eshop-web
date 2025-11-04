@@ -20,7 +20,18 @@ const isIOSInAppBrowser = () => {
   return /iPhone|iPad|iPod/.test(ua) && /FBAN|FBAV|Instagram|Twitter|Line|KAKAOTALK/i.test(ua);
 };
 
+// Visual debug helper
+const updateDebug = (msg, color) => {
+  const el = document.getElementById('debug-indicator');
+  if (el) {
+    el.textContent = msg;
+    if (color) el.style.background = color;
+  }
+};
+
 function App() {
+  updateDebug('✅ App component mounted!', '#4CAF50');
+  
   const dispatch = useDispatch();
   const whatsapp_number = useSelector(
     (state) => state.currency?.whatsapp_number || supportWhatsappPhone,
