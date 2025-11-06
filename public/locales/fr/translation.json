@@ -139,6 +139,7 @@
   "nav": {
     "home": "Accueil",
     "plans": "Forfaits",
+    "benefits": "Avantages",
     "howItWorks": "Comment ça Marche",
     "partnership": "Partenariats",
     "aboutUs": "À Propos",
@@ -560,5 +561,65 @@
     "subtitle": "Meilleure expérience dans notre app",
     "openButton": "OUVRIR",
     "dismissButton": "Fermer la bannière"
+  },
+  "benefits": {
+    "exclusiveRewards": "Récompenses Exclusives",
+    "heroTitle": "Plus Qu'une Simple Connectivité",
+    "heroSubtitle": "Rejoignez des milliers de voyageurs heureux qui économisent plus, gagnent plus et restent connectés pour moins avec ChillSIM.",
+    "joinNow": "Rejoignez Maintenant et Commencez à Économiser",
+    "signInToManagePreferences": "Veuillez vous connecter pour gérer vos préférences de notification",
+    "promotionsEnabled": "Vous recevrez maintenant des offres et promotions exclusives !",
+    "promotionsDisabled": "Les notifications de promotions ont été désactivées",
+    "failedToUpdatePreferences": "Échec de la mise à jour des préférences. Veuillez réessayer.",
+    "signUpToRefer": "Commencer à Parrainer",
+    "signUpToSave": "Commencer à Économiser",
+    "signUpForOffers": "Obtenir des Offres",
+    "referralProgram": {
+      "title": "Parrainez des Amis, Gagnez des Récompenses",
+      "description": "Partagez l'amour et soyez récompensé ! Chaque ami que vous parrainez qui effectue son premier achat vous rapporte des crédits instantanés dans votre portefeuille.",
+      "yourReward": "Vous Gagnez",
+      "friendReward": "Votre Ami Reçoit",
+      "off": "RÉDUC",
+      "benefit1": "Crédits instantanés dans le portefeuille lorsque vos amis effectuent leur premier achat",
+      "benefit2": "Vos amis obtiennent une réduction exclusive sur leur première commande",
+      "benefit3": "Aucune limite sur le nombre d'amis que vous pouvez parrainer",
+      "cta": "Obtenir Mon Lien"
+    },
+    "cashback": {
+      "title": "Cashback sur Commandes Récurrentes",
+      "description": "Une fidélité qui paie ! Plus vous voyagez et restez connecté avec nous, plus vous économisez. Profitez d'un cashback automatique sur les achats récurrents.",
+      "earnBack": "Vous Récupérez",
+      "savingsGoal": "Des économies intelligentes à chaque voyage",
+      "benefit1": "Cashback automatique appliqué après les achats éligibles",
+      "benefit2": "Crédits déposés directement dans votre portefeuille",
+      "benefit3": "Cumulez avec d'autres promotions pour des économies maximales",
+      "cta": "Voir Portefeuille"
+    },
+    "promotions": {
+      "title": "Promotions et Offres Exclusives",
+      "description": "Soyez le premier informé des ventes flash, offres saisonnières et offres à durée limitée. Nous sélectionnons les meilleures offres rien que pour vous.",
+      "benefit1": "Accès anticipé aux ventes saisonnières et offres flash",
+      "benefit2": "Offres personnalisées selon vos destinations de voyage",
+      "benefit3": "Surprises spéciales d'anniversaire et bonus de fidélité",
+      "receiving": "Vous recevez les offres promotionnelles",
+      "notReceiving": "Activez pour recevoir des offres exclusives"
+    },
+    "howItWorks": {
+      "title": "Comment Ça Marche",
+      "step1Title": "1. Créez Votre Compte",
+      "step1Description": "Inscrivez-vous en quelques secondes et débloquez un accès instantané à tous les avantages et récompenses pour membres.",
+      "step2Title": "2. Effectuez des Achats",
+      "step2Description": "Parcourez nos forfaits eSIM mondiaux, parrainez des amis et profitez d'une connectivité transparente dans le monde entier.",
+      "step3Title": "3. Gagnez et Économisez",
+      "step3Description": "Regardez votre portefeuille grandir avec des bonus de parrainage, des récompenses de cashback et des promotions exclusives."
+    },
+    "cta": {
+      "title": "Prêt à Commencer à Économiser ?",
+      "subtitle": "Rejoignez notre communauté de voyageurs intelligents et débloquez des avantages exclusifs dès aujourd'hui.",
+      "browsePlans": "Voir les Forfaits",
+      "manageAccount": "Mon Compte",
+      "getStarted": "Commencer"
+    }
   }
 }
+

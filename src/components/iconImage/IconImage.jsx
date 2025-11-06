@@ -7,7 +7,7 @@ const IconImage = ({ handleLogoClick, isHomePage, showMenu }) => {
       <LazyLoadImage
         alt={import.meta.env.VITE_APP_PROJECT_TITLE}
         src={
-          !isHomePage || showMenu ? "/logo/logo.png" : "/logo/logo-white.png"
+          !isHomePage || showMenu ? "/logo/logo.png" : "/logo/logo.png"
         }
         width={150}
         height={32}

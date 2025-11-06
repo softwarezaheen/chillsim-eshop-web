@@ -4,15 +4,15 @@ import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutli
 import AirplanemodeActiveOutlinedIcon from "@mui/icons-material/AirplanemodeActiveOutlined";
 export const menuItems = [
   { path: "/plans/land", label: "plans" },
+  { path: "/benefits", label: "benefits" },
   { path: "/how-it-works", label: "howItWorks" },
   { path: "/about-us", label: "aboutUs" },
-  { path: "/contact-us", label: "contactUs" },
 ];
 
 export const menuItemsSigned = [
   { path: "/plans/land", label: "plans" },
+  { path: "/benefits", label: "benefits" },
   { path: "/how-it-works", label: "howItWorks" },
-  { path: "/contact-us", label: "contactUs" },
 ];
 
 export const authMenuItems = [

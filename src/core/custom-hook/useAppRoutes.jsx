@@ -27,6 +27,7 @@ import BillingPage from "../../pages/billing/BillingPage";
 import Wallet from "../../pages/wallet/Wallet";
 import ReferralProgram from "../../pages/referral/ReferralProgram";
 import ReferralLanding from "../../pages/referral/ReferralLanding";
+import Benefits from "../../pages/benefits/Benefits";
 
 export const useAppRoutes = () => {
   const login_type = useSelector((state) => state.currency?.login_type);
@@ -79,6 +80,10 @@ export const useAppRoutes = () => {
       {
         path: "/contact-us",
         element: <ContactUs />,
+      },
+      {
+        path: "/benefits",
+        element: <Benefits />,
       },
       {
         path: "/terms",

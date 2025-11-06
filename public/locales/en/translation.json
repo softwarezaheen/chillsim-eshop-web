@@ -139,6 +139,7 @@
   "nav": {
     "home": "Home",
     "plans": "Plans",
+    "benefits": "Benefits",
     "howItWorks": "How It Works",
     "partnership": "Partnership",
     "aboutUs": "About Us",
@@ -561,5 +562,65 @@
     "subtitle": "Even better experience in our app",
     "openButton": "OPEN",
     "dismissButton": "Dismiss banner"
+  },
+  "benefits": {
+    "exclusiveRewards": "Exclusive Rewards",
+    "heroTitle": "More Than Just Connectivity",
+    "heroSubtitle": "Join thousands of happy travelers who save more, earn more, and stay connected for less with ChillSIM.",
+    "joinNow": "Join Now & Start Saving",
+    "signInToManagePreferences": "Please sign in to manage your notification preferences",
+    "promotionsEnabled": "You'll now receive exclusive offers and promotions!",
+    "promotionsDisabled": "Promotions notifications have been turned off",
+    "failedToUpdatePreferences": "Failed to update preferences. Please try again.",
+    "signUpToRefer": "Start Referring",
+    "signUpToSave": "Start Saving",
+    "signUpForOffers": "Get Exclusive Offers",
+    "referralProgram": {
+      "title": "Refer Friends, Earn Rewards",
+      "description": "Share the love and get rewarded! Every friend you refer who makes their first purchase earns you instant credits to your wallet.",
+      "yourReward": "You Earn",
+      "friendReward": "Your Friend Gets",
+      "off": "OFF",
+      "benefit1": "Instant wallet credits when friends complete their first purchase",
+      "benefit2": "Your friends get an exclusive discount on their first order",
+      "benefit3": "No limit on how many friends you can refer",
+      "cta": "Get Referral Link"
+    },
+    "cashback": {
+      "title": "Recurring Orders Cashback",
+      "description": "Loyalty that pays! The more you travel and stay connected with us, the more you save. Enjoy automatic cashback on recurring purchases.",
+      "earnBack": "Earn Back",
+      "savingsGoal": "Smart savings on every trip",
+      "benefit1": "Automatic cashback applied after qualifying purchases",
+      "benefit2": "Credits deposited directly to your wallet",
+      "benefit3": "Stack with other promotions for maximum savings",
+      "cta": "View Wallet"
+    },
+    "promotions": {
+      "title": "Exclusive Promotions & Deals",
+      "description": "Be first in line for flash sales, seasonal deals, and limited-time offers. We curate the best deals just for you.",
+      "benefit1": "Early access to seasonal sales and flash deals",
+      "benefit2": "Personalized offers based on your travel destinations",
+      "benefit3": "Special birthday month surprises and loyalty bonuses",
+      "receiving": "You're receiving promotional offers",
+      "notReceiving": "Turn on to receive exclusive offers"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1Title": "1. Create Your Account",
+      "step1Description": "Sign up in seconds and unlock instant access to all member benefits and rewards.",
+      "step2Title": "2. Make Purchases",
+      "step2Description": "Browse our global eSIM plans, refer friends, and enjoy seamless connectivity worldwide.",
+      "step3Title": "3. Earn & Save",
+      "step3Description": "Watch your wallet grow with referral bonuses, cashback rewards, and exclusive promotions."
+    },
+    "cta": {
+      "title": "Ready to Start Saving?",
+      "subtitle": "Join our community of smart travelers and unlock exclusive benefits today.",
+      "browsePlans": "Browse Plans",
+      "manageAccount": "My Account",
+      "getStarted": "Get Started"
+    }
   }
 }
+

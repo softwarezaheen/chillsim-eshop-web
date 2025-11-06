@@ -21,6 +21,7 @@ import EsimDetail from "../../pages/my-esim/esim-detail/EsimDetail";
 import PrivacyPolicy from "../../pages/privacy-policy/PrivacyPolicy";
 import CookiePolicy from "../../pages/CookiePolicy";
 import Wallet from "../../pages/wallet/Wallet";
+import Benefits from "../../pages/benefits/Benefits";
 
 export const allRoutes = [
   {
@@ -69,6 +70,10 @@ export const allRoutes = [
   {
     path: "/contact-us",
     element: <ContactUs />,
+  },
+  {
+    path: "/benefits",
+    element: <Benefits />,
   },
   {
     path: "/download-theme",

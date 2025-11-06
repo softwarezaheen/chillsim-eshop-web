@@ -139,6 +139,7 @@
   "nav": {
     "home": "Inicio",
     "plans": "Planes",
+    "benefits": "Beneficios",
     "howItWorks": "Cómo Funciona",
     "partnership": "Asociaciones",
     "aboutUs": "Nosotros",
@@ -560,5 +561,65 @@
     "subtitle": "Mejor experiencia en nuestra app",
     "openButton": "ABRIR",
     "dismissButton": "Cerrar banner"
+  },
+  "benefits": {
+    "exclusiveRewards": "Recompensas Exclusivas",
+    "heroTitle": "Más Que Solo Conectividad",
+    "heroSubtitle": "Únete a miles de viajeros felices que ahorran más, ganan más y se mantienen conectados por menos con ChillSIM.",
+    "joinNow": "Únete Ahora y Comienza a Ahorrar",
+    "signInToManagePreferences": "Por favor inicia sesión para gestionar tus preferencias de notificación",
+    "promotionsEnabled": "¡Ahora recibirás ofertas y promociones exclusivas!",
+    "promotionsDisabled": "Las notificaciones de promociones han sido desactivadas",
+    "failedToUpdatePreferences": "Error al actualizar preferencias. Por favor intenta de nuevo.",
+    "signUpToRefer": "Comienza a Referir",
+    "signUpToSave": "Comienza a Ahorrar",
+    "signUpForOffers": "Obtener Ofertas",
+    "referralProgram": {
+      "title": "Refiere Amigos, Gana Recompensas",
+      "description": "¡Comparte el amor y recibe recompensas! Cada amigo que refieras que haga su primera compra te gana créditos instantáneos en tu billetera.",
+      "yourReward": "Tú Ganas",
+      "friendReward": "Tu Amigo Recibe",
+      "off": "DESC",
+      "benefit1": "Créditos instantáneos en la billetera cuando tus amigos completen su primera compra",
+      "benefit2": "Tus amigos obtienen un descuento exclusivo en su primer pedido",
+      "benefit3": "Sin límite en la cantidad de amigos que puedes referir",
+      "cta": "Obtener Link de Referido"
+    },
+    "cashback": {
+      "title": "Cashback en Pedidos Recurrentes",
+      "description": "¡Lealtad que paga! Cuanto más viajas y te mantienes conectado con nosotros, más ahorras. Disfruta de cashback automático en compras recurrentes.",
+      "earnBack": "Ganas de Vuelta",
+      "savingsGoal": "Ahorros inteligentes en cada viaje",
+      "benefit1": "Cashback automático aplicado después de compras calificadas",
+      "benefit2": "Créditos depositados directamente en tu billetera",
+      "benefit3": "Acumula con otras promociones para máximo ahorro",
+      "cta": "Ver Billetera"
+    },
+    "promotions": {
+      "title": "Promociones y Ofertas Exclusivas",
+      "description": "Sé el primero en la fila para ventas flash, ofertas de temporada y ofertas por tiempo limitado. Seleccionamos las mejores ofertas solo para ti.",
+      "benefit1": "Acceso anticipado a ventas de temporada y ofertas flash",
+      "benefit2": "Ofertas personalizadas según tus destinos de viaje",
+      "benefit3": "Sorpresas especiales de cumpleaños y bonos de lealtad",
+      "receiving": "Estás recibiendo ofertas promocionales",
+      "notReceiving": "Activa para recibir ofertas exclusivas"
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona",
+      "step1Title": "1. Crea Tu Cuenta",
+      "step1Description": "Regístrate en segundos y desbloquea acceso instantáneo a todos los beneficios y recompensas de miembros.",
+      "step2Title": "2. Realiza Compras",
+      "step2Description": "Explora nuestros planes eSIM globales, refiere amigos y disfruta de conectividad perfecta en todo el mundo.",
+      "step3Title": "3. Gana y Ahorra",
+      "step3Description": "Observa cómo crece tu billetera con bonos de referidos, recompensas de cashback y promociones exclusivas."
+    },
+    "cta": {
+      "title": "¿Listo para Comenzar a Ahorrar?",
+      "subtitle": "Únete a nuestra comunidad de viajeros inteligentes y desbloquea beneficios exclusivos hoy.",
+      "browsePlans": "Ver Planes",
+      "manageAccount": "Mi Cuenta",
+      "getStarted": "Comenzar"
+    }
   }
 }
+

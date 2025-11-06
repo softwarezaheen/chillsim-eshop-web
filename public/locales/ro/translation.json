@@ -139,6 +139,7 @@
   "nav": {
     "home": "Acasă",
     "plans": "Planuri",
+    "benefits": "Beneficii",
     "howItWorks": "Cum funcționează",
     "partnership": "Parteneriat",
     "aboutUs": "Despre noi",
@@ -555,5 +556,65 @@
     "subtitle": "Experiență și mai bună în aplicație",
     "openButton": "DESCHIDE",
     "dismissButton": "Închide banner"
+  },
+  "benefits": {
+    "exclusiveRewards": "Recompense Exclusive",
+    "heroTitle": "Mai Mult Decât Conectivitate",
+    "heroSubtitle": "Alătură-te miilor de călători fericiți care economisesc mai mult, câștigă mai mult și rămân conectați cu ChillSIM.",
+    "joinNow": "Alătură-te Acum și Începe să Economisești",
+    "signInToManagePreferences": "Te rugăm să te autentifici pentru a gestiona preferințele de notificare",
+    "promotionsEnabled": "Vei primi acum oferte și promoții exclusive!",
+    "promotionsDisabled": "Notificările de promoții au fost dezactivate",
+    "failedToUpdatePreferences": "Actualizarea preferințelor a eșuat. Te rugăm să încerci din nou.",
+    "signUpToRefer": "Începe să Recomanzi",
+    "signUpToSave": "Începe să Economisești",
+    "signUpForOffers": "Obține Oferte",
+    "referralProgram": {
+      "title": "Recomandă Prieteni, Câștigă Recompense",
+      "description": "Împărtășește experiența și primește recompense! Fiecare prieten recomandat care face prima achiziție îți aduce credite instant în portofel.",
+      "yourReward": "Tu Câștigi",
+      "friendReward": "Prietenul Tău Primește",
+      "off": "REDUCERE",
+      "benefit1": "Credite instant în portofel când prietenii completează prima achiziție",
+      "benefit2": "Prietenii tăi primesc o reducere exclusivă la prima comandă",
+      "benefit3": "Fără limită la numărul de prieteni pe care îi poți recomanda",
+      "cta": "Obține Link"
+    },
+    "cashback": {
+      "title": "Cashback la Comenzi Recurente",
+      "description": "Loialitate care plătește! Cu cât călătorești și rămâi conectat mai mult cu noi, cu atât economisești mai mult. Bucură-te de cashback automat la achizițiile recurente.",
+      "earnBack": "Câștigi Înapoi",
+      "savingsGoal": "Economii inteligente la fiecare călătorie",
+      "benefit1": "Cashback automat aplicat după achizițiile eligibile",
+      "benefit2": "Credite depuse direct în portofel",
+      "benefit3": "Combină cu alte promoții pentru economii maxime",
+      "cta": "Vezi Portofel"
+    },
+    "promotions": {
+      "title": "Promoții și Oferte Exclusive",
+      "description": "Fii primul care află de reducerile flash, ofertele sezoniere și ofertele cu durată limitată. Selectăm cele mai bune oferte special pentru tine.",
+      "benefit1": "Acces anticipat la reducerile sezoniere și ofertele flash",
+      "benefit2": "Oferte personalizate în funcție de destinațiile tale de călătorie",
+      "benefit3": "Surprize speciale de ziua ta și bonusuri de loialitate",
+      "receiving": "Primești oferte promoționale",
+      "notReceiving": "Activează pentru a primi oferte exclusive"
+    },
+    "howItWorks": {
+      "title": "Cum Funcționează",
+      "step1Title": "1. Creează-ți Contul",
+      "step1Description": "Înregistrează-te în câteva secunde și deblochează acces instant la toate beneficiile și recompensele pentru membri.",
+      "step2Title": "2. Fă Achiziții",
+      "step2Description": "Explorează planurile noastre eSIM globale, recomandă prieteni și bucură-te de conectivitate perfectă în toată lumea.",
+      "step3Title": "3. Câștigă și Economisește",
+      "step3Description": "Urmărește cum crește portofelul tău cu bonusuri de recomandare, recompense cashback și promoții exclusive."
+    },
+    "cta": {
+      "title": "Gata să Începi să Economisești?",
+      "subtitle": "Alătură-te comunității noastre de călători inteligenți și deblochează beneficii exclusive astăzi.",
+      "browsePlans": "Vezi Planurile",
+      "manageAccount": "Contul Meu",
+      "getStarted": "Începe"
+    }
   }
 }
+
