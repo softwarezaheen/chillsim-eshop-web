@@ -545,7 +545,10 @@
     "transactionTypeCashback": "Cashback",
     "transactionTypePurchase": "Cumpărare",
     "transactionTypeRefund": "Rambursare",
-    "comingSoon": "În curând..."
+    "comingSoon": "În curând...",
+    "cashbackRewards": "Recompense Cashback",
+    "cashbackDescription": "După {{threshold}} achiziții reușite, veți primi automat {{percentage}}% cashback în portofel, la fiecare achiziție eligibilă ulterioară!",
+    "cashbackNote": "Cashback-ul se aplică doar valorii produselor (după reducerile promoționale). Exclude TVA-ul și taxele de procesare."
   },
   "appBanner": {
     "title": "Deschide în aplicația ChillSim",

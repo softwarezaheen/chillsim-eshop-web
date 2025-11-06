@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 //COMPONENTS
 import WalletCard from "../../components/wallet/WalletCard";
 import VoucherCard from "../../components/wallet/VoucherCard";
+import CashbackInfoCard from "../../components/wallet/CashbackInfoCard";
 import WalletTransactions from "../../components/wallet/WalletTransactions";
 import { Skeleton } from "@mui/material";
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
@@ -17,6 +18,11 @@ const Wallet = () => {
   const dispatch = useDispatch();
   const { user_info, isLoading } = useSelector((state) => state.authentication);
   const { user_currency } = useSelector((state) => state.currency);
+
+  // Fetch user info on mount to get fresh wallet balance
+  useEffect(() => {
+    dispatch(fetchUserInfo());
+  }, [dispatch]);
 
   // Refetch user info when currency changes
   useEffect(() => {
@@ -33,6 +39,7 @@ const Wallet = () => {
           <Skeleton variant="text" width={200} height={40} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+          <Skeleton variant="rectangular" height={200} className="rounded-md" />
           <Skeleton variant="rectangular" height={200} className="rounded-md" />
           <Skeleton variant="rectangular" height={200} className="rounded-md" />
         </div>
@@ -64,6 +71,7 @@ const Wallet = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
         <WalletCard userInfo={user_info} />
         <VoucherCard />
+        <CashbackInfoCard />
       </div>
 
       <WalletTransactions />

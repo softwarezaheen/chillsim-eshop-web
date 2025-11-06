@@ -550,7 +550,10 @@
     "transactionTypeCashback": "Remboursement",
     "transactionTypePurchase": "Achat",
     "transactionTypeRefund": "Remboursement",
-    "comingSoon": "Prochainement..."
+    "comingSoon": "Prochainement...",
+    "cashbackRewards": "Récompenses Cashback",
+    "cashbackDescription": "Après {{threshold}} achats réussis, vous recevrez automatiquement {{percentage}}% de cashback dans votre portefeuille, sur chaque achat éligible par la suite !",
+    "cashbackNote": "Le pourcentage de cashback s'applique uniquement à la valeur des produits (après réductions promotionnelles). Exclut la TVA et les frais de traitement."
   },
   "appBanner": {
     "title": "Ouvrir dans l'App ChillSim",
