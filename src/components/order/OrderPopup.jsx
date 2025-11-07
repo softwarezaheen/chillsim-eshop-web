@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 //API
 import { getOrderByID, getOrderHistoryById } from "../../core/apis/userAPI";
 import { gtmEvent, gtmPurchaseEvent } from "../../core/utils/gtm.jsx";
+import { isUserAuthenticated } from "../../core/utils/authHelpers";
 //COMPONENT
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import NoDataFound from "../shared/no-data-found/NoDataFound";
@@ -22,13 +23,14 @@ import {
   Skeleton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import PromotionsInline from "../promotions/PromotionsInline";
 
 const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false }) => {
   const { t } = useTranslation();
   const { iccid } = useParams(); // Get iccid from URL to detect topup
-  const { isAuthenticated, user_info, tmp } = useSelector(
-    (state) => state.authentication
-  );
+  const authState = useSelector((state) => state.authentication);
+  const { user_info } = authState;
+  const isAuth = isUserAuthenticated(authState);
 
   const { data, isLoading, error } = useQuery({
     queryKey: [`${user_info?.id}-order-${id}`],
@@ -45,7 +47,7 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
 
   useEffect(() => {
     //   //close popup if 401
-    if (!isAuthenticated && !tmp?.isAuthenticated) {
+    if (!isAuth) {
       onClose();
     }
   }, []);
@@ -235,6 +237,13 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
               </div>
             </div>{" "}
             
+            {/* Promotions Inline Component - Show if user is authenticated and doesn't have notifications enabled */}
+            {isAuth && !user_info?.should_notify && (
+              <div className="mt-4">
+                <PromotionsInline />
+              </div>
+            )}
+            
             {/* Download Invoice Button */}
             {orderHistoryData?.pdf_url && (
               <div className="flex flex-col gap-[0.5rem] mt-4">
@@ -293,11 +302,11 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
         {!isLoading && !data && !orderData && (
           <NoDataFound
             text={`${t("orders.failedToLoad")}${
-              !isAuthenticated ? ` ${t("orders.pleaseSignIn")}` : ""
+              !isAuth ? ` ${t("orders.pleaseSignIn")}` : ""
             } `}
           />
         )}
-        {!isAuthenticated && (
+        {!isAuth && (
           <Button
             variant="contained"
             color="primary"

@@ -621,6 +621,35 @@
       "manageAccount": "My Account",
       "getStarted": "Get Started"
     }
+  },
+  "promotions": {
+    "signInRequired": "Please sign in to manage your notification preferences",
+    "enabledSuccess": "You'll now receive exclusive offers and promotions!",
+    "disabledSuccess": "Promotions notifications have been turned off",
+    "updateFailed": "Failed to update preferences. Please try again.",
+    "modal": {
+      "title": "Never Miss a Great Deal!",
+      "subtitle": "Stay in the loop with exclusive promotions, flash sales, and personalized offers designed to save you money on every journey.",
+      "benefit1Title": "Flash Sales & Limited Offers",
+      "benefit1Description": "Be the first to know about time-sensitive deals and exclusive discounts before they're gone.",
+      "benefit2Title": "Destination-Specific Promotions",
+      "benefit2Description": "Get tailored offers for the countries you travel to most, plus seasonal deals for your next adventure.",
+      "benefit3Title": "Save on Every Purchase",
+      "benefit3Description": "Combine promotional discounts with cashback and referral rewards for maximum savings.",
+      "toggleEnabled": "You're getting exclusive deals",
+      "toggleDisabled": "Yes, send me exclusive deals!",
+      "toggleHint": "Get notified via email and push notifications",
+      "disclaimer": "We respect your privacy. You may receive promotional messages via email and/or push notifications. You can change your preferences anytime in Account Information. We won't spam you—only valuable offers and deals.",
+      "remindLater": "Remind me later",
+      "dontShowAgain": "Don't show this again"
+    },
+    "inline": {
+      "title": "🎉 Want to save even more?",
+      "description": "Turn on promotional notifications to receive exclusive deals, flash sales, and personalized offers tailored to your travel destinations.",
+      "toggleEnabled": "You're getting exclusive deals",
+      "toggleDisabled": "Yes, send me exclusive deals!",
+      "disclaimer": "You can change your preferences anytime in Account Information. We only send valuable offers—no spam!"
+    }
   }
 }
 

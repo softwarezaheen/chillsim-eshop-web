@@ -615,6 +615,35 @@
       "manageAccount": "Contul Meu",
       "getStarted": "Începe"
     }
+  },
+  "promotions": {
+    "signInRequired": "Te rugăm să te autentifici pentru a gestiona preferințele de notificare",
+    "enabledSuccess": "Vei primi acum oferte și promoții exclusive!",
+    "disabledSuccess": "Notificările promoționale au fost dezactivate",
+    "updateFailed": "Actualizarea preferințelor a eșuat. Te rugăm să încerci din nou.",
+    "modal": {
+      "title": "Nu Rata o Ofertă Grozavă!",
+      "subtitle": "Rămâi la curent cu promoții exclusive, vânzări flash și oferte personalizate concepute pentru a-ți economisi bani la fiecare călătorie.",
+      "benefit1Title": "Vânzări Flash și Oferte Limitate",
+      "benefit1Description": "Fii primul care află despre ofertele cu durată limitată și reducerile exclusive înainte să dispară.",
+      "benefit2Title": "Promoții Specifice Destinației",
+      "benefit2Description": "Primește oferte personalizate pentru țările pe care le vizitezi cel mai mult, plus oferte sezoniere pentru următoarea ta aventură.",
+      "benefit3Title": "Economisește la Fiecare Achiziție",
+      "benefit3Description": "Combină reducerile promoționale cu cashback-ul și recompensele de recomandare pentru economii maxime.",
+      "toggleEnabled": "Primești oferte exclusive",
+      "toggleDisabled": "Da, trimite-mi oferte exclusive!",
+      "toggleHint": "Primește notificări prin e-mail și push",
+      "disclaimer": "Respectăm confidențialitatea ta. Poți primi mesaje promoționale prin e-mail și/sau notificări push. Poți modifica preferințele oricând din Informații Cont. Nu vom trimite spam—doar oferte și promoții valoroase.",
+      "remindLater": "Amintește-mi mai târziu",
+      "dontShowAgain": "Nu mai afișa aceasta"
+    },
+    "inline": {
+      "title": "🎉 Vrei să economisești și mai mult?",
+      "description": "Activează notificările promoționale pentru a primi oferte exclusive, vânzări flash și promoții personalizate adaptate destinațiilor tale de călătorie.",
+      "toggleEnabled": "Primești oferte exclusive",
+      "toggleDisabled": "Da, trimite-mi oferte exclusive!",
+      "disclaimer": "Poți modifica preferințele oricând din Informații Cont. Trimitem doar oferte valoroase—fără spam!"
+    }
   }
 }
 

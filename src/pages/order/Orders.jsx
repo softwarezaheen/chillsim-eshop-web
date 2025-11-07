@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { useInfiniteQuery } from "react-query";
 //COMPONENT
 import Container from "../../components/Container";
@@ -10,10 +11,28 @@ import { getOrdersHistory } from "../../core/apis/userAPI";
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
 import { NoDataFoundSVG } from "../../assets/icons/Common";
 import OrderCard from "../../components/order/OrderCard";
+import PromotionsModal from "../../components/promotions/PromotionsModal";
+import { usePromotionsPopup } from "../../core/custom-hook/usePromotionsPopup";
+import { shouldShowPromotionsPopup } from "../../core/utils/authHelpers";
 
 const Orders = () => {
   const { t } = useTranslation();
   const { ref, inView } = useInView();
+  const authState = useSelector((state) => state.authentication);
+
+  // Promotions popup hook - Smart height detection
+  const {
+    shouldShow: shouldShowPromotionsModal,
+    dismissPopup: dismissPromotionsModal,
+    remindLater: remindPromotionsLater,
+    dontShowAgain: dontShowPromotionsAgain,
+  } = usePromotionsPopup({
+    enabled: shouldShowPromotionsPopup(authState),
+    delaySeconds: 30,
+    scrollThreshold: null, // Auto-detect based on page height
+    useScrollTrigger: true,
+    minTimeSeconds: 15, // Half of default delay
+  });
 
   const fetchOrders = async ({ pageParam = 1 }) => {
     const { data } = await getOrdersHistory({
@@ -97,6 +116,17 @@ const Orders = () => {
           </>
         )}
       </div>
+
+      {/* Promotions Modal */}
+      {shouldShowPromotionsModal && (
+        <PromotionsModal
+          open={shouldShowPromotionsModal}
+          onClose={dismissPromotionsModal}
+          onDismiss={dismissPromotionsModal}
+          onRemindLater={remindPromotionsLater}
+          onDontShowAgain={dontShowPromotionsAgain}
+        />
+      )}
     </div>
   );
 };

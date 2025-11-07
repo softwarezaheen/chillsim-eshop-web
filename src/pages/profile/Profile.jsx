@@ -12,7 +12,7 @@ import {
   FormPhoneInput,
   FormSwitch,
 } from "../../components/shared/form-components/FormComponents";
-import { Button, Card, CardContent, Tooltip } from "@mui/material";
+import { Button, Card, CardContent, Tooltip, Switch, FormControlLabel } from "@mui/material";
 import { updateUserInfo } from "../../core/apis/authAPI";
 import { UpdateAuthInfo } from "../../redux/reducers/authReducer";
 import { getActiveCurrencies } from "../../core/apis/configurationsAPI";
@@ -302,24 +302,43 @@ const Profile = () => {
               </div>
             </div>
             {login_type != "phone" && (
-              <div className={"flex flex-row"}>
-                <Controller
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
-                    <FormSwitch
-                      label={t("profile.receiveUpdatesByEmail")}
-                      disabled
-                      placeholder={"Enter email"}
-                      value={value}
-                      helperText={error?.message}
-                      onChange={(value) => onChange(value)}
-                    />
-                  )}
-                  name="should_notify"
-                  control={control}
-                />
+              <div className="space-y-2">
+                <div className="bg-gradient-to-r from-warning-50 to-primary-50 p-4 rounded-xl border-2 border-warning-200">
+                  <Controller
+                    render={({
+                      field: { onChange, value },
+                      fieldState: { error },
+                    }) => (
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={value}
+                            onChange={(e) => onChange(e.target.checked)}
+                            color="warning"
+                          />
+                        }
+                        label={
+                          <div>
+                            <div className="text-sm font-semibold text-content-900">
+                              {value
+                                ? t("promotions.modal.toggleEnabled")
+                                : t("promotions.modal.toggleDisabled")}
+                            </div>
+                            <div className="text-xs text-content-600 mt-0.5">
+                              {t("promotions.modal.toggleHint")}
+                            </div>
+                          </div>
+                        }
+                        className="m-0"
+                      />
+                    )}
+                    name="should_notify"
+                    control={control}
+                  />
+                </div>
+                <p className="text-xs text-content-500 leading-relaxed px-1">
+                  {t("promotions.modal.disclaimer")}
+                </p>
               </div>
             )}
             <div className={"flex flex-row gap-[1rem] items-end justify-end "}>

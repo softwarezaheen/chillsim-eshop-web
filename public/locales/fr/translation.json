@@ -620,6 +620,35 @@
       "manageAccount": "Mon Compte",
       "getStarted": "Commencer"
     }
+  },
+  "promotions": {
+    "signInRequired": "Veuillez vous connecter pour gérer vos préférences de notification",
+    "enabledSuccess": "Vous recevrez désormais des offres et promotions exclusives !",
+    "disabledSuccess": "Les notifications de promotions ont été désactivées",
+    "updateFailed": "Échec de la mise à jour des préférences. Veuillez réessayer.",
+    "modal": {
+      "title": "Ne Manquez Jamais une Bonne Affaire !",
+      "subtitle": "Restez informé avec des promotions exclusives, des ventes flash et des offres personnalisées conçues pour vous faire économiser de l'argent à chaque voyage.",
+      "benefit1Title": "Ventes Flash et Offres Limitées",
+      "benefit1Description": "Soyez le premier informé des offres à durée limitée et des réductions exclusives avant qu'elles ne disparaissent.",
+      "benefit2Title": "Promotions Spécifiques par Destination",
+      "benefit2Description": "Recevez des offres sur mesure pour les pays que vous visitez le plus, ainsi que des offres saisonnières pour votre prochaine aventure.",
+      "benefit3Title": "Économisez sur Chaque Achat",
+      "benefit3Description": "Combinez les réductions promotionnelles avec le cashback et les récompenses de parrainage pour des économies maximales.",
+      "toggleEnabled": "Vous recevez des offres exclusives",
+      "toggleDisabled": "Oui, envoyez-moi des offres exclusives !",
+      "toggleHint": "Recevoir des notifications par e-mail et push",
+      "disclaimer": "Nous respectons votre vie privée. Vous pouvez recevoir des messages promotionnels par e-mail et/ou notifications push. Vous pouvez modifier vos préférences à tout moment dans Informations du Compte. Nous n'envoyons pas de spam, seulement des offres et des promotions précieuses.",
+      "remindLater": "Me rappeler plus tard",
+      "dontShowAgain": "Ne plus afficher ceci"
+    },
+    "inline": {
+      "title": "🎉 Envie d'économiser encore plus ?",
+      "description": "Activez les notifications promotionnelles pour recevoir des offres exclusives, des ventes flash et des promotions personnalisées adaptées à vos destinations de voyage.",
+      "toggleEnabled": "Vous recevez des offres exclusives",
+      "toggleDisabled": "Oui, envoyez-moi des offres exclusives !",
+      "disclaimer": "Vous pouvez modifier vos préférences à tout moment dans Informations du Compte. Nous n'envoyons que des offres précieuses, pas de spam !"
+    }
   }
 }
 

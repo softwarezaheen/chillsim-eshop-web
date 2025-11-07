@@ -351,27 +351,38 @@ const Benefits = () => {
                 </ul>
 
                 {isAuthenticated && (
-                  <Box className="bg-gradient-to-r from-warning-50 to-primary-50 p-4 rounded-xl">
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={shouldNotify}
-                          onChange={(e) =>
-                            handleToggleNotifications(e.target.checked)
-                          }
-                          disabled={isUpdating}
-                          color="warning"
-                        />
-                      }
-                      label={
-                        <span className="text-sm font-medium text-content-800">
-                          {shouldNotify
-                            ? t("benefits.promotions.receiving")
-                            : t("benefits.promotions.notReceiving")}
-                        </span>
-                      }
-                    />
-                  </Box>
+                  <div className="space-y-3">
+                    <Box className="bg-gradient-to-r from-warning-50 to-primary-50 p-4 rounded-xl border-2 border-warning-200">
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={shouldNotify}
+                            onChange={(e) =>
+                              handleToggleNotifications(e.target.checked)
+                            }
+                            disabled={isUpdating}
+                            color="warning"
+                          />
+                        }
+                        label={
+                          <div>
+                            <div className="text-sm font-semibold text-content-900">
+                              {shouldNotify
+                                ? t("promotions.modal.toggleEnabled")
+                                : t("promotions.modal.toggleDisabled")}
+                            </div>
+                            <div className="text-xs text-content-600 mt-0.5">
+                              {t("promotions.modal.toggleHint")}
+                            </div>
+                          </div>
+                        }
+                        className="m-0"
+                      />
+                    </Box>
+                    <p className="text-xs text-content-500 leading-relaxed">
+                      {t("promotions.modal.disclaimer")}
+                    </p>
+                  </div>
                 )}
               </div>
 

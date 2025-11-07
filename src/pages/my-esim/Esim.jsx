@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import Container from "../../components/Container";
 import { getMyEsim } from "../../core/apis/userAPI";
 import { useQuery } from "react-query";
@@ -13,10 +14,15 @@ import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
 import { NoDataFoundSVG } from "../../assets/icons/Common";
 import { Button, Skeleton } from "@mui/material";
 import OrderCard from "../../components/order/OrderCard";
+import PromotionsModal from "../../components/promotions/PromotionsModal";
+import { usePromotionsPopup } from "../../core/custom-hook/usePromotionsPopup";
+import { shouldShowPromotionsPopup } from "../../core/utils/authHelpers";
 
 const Esim = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
+  const authState = useSelector((state) => state.authentication);
+
   const [filters, setFilters] = useState({
     expired: searchParams.get("expired") || "false",
   });
@@ -24,6 +30,20 @@ const Esim = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["my-esim"],
     queryFn: () => getMyEsim().then((res) => res?.data?.data),
+  });
+
+  // Promotions popup hook - Smart height detection
+  const {
+    shouldShow: shouldShowPromotionsModal,
+    dismissPopup: dismissPromotionsModal,
+    remindLater: remindPromotionsLater,
+    dontShowAgain: dontShowPromotionsAgain,
+  } = usePromotionsPopup({
+    enabled: shouldShowPromotionsPopup(authState),
+    delaySeconds: 30,
+    scrollThreshold: null, // Auto-detect based on page height
+    useScrollTrigger: true,
+    minTimeSeconds: 15, // Half of default delay
   });
 
   const handleQueryParams = useQueryParams(filters);
@@ -98,6 +118,17 @@ const Esim = () => {
             refetchData={refetch}
           />
         ))
+      )}
+
+      {/* Promotions Modal */}
+      {shouldShowPromotionsModal && (
+        <PromotionsModal
+          open={shouldShowPromotionsModal}
+          onClose={dismissPromotionsModal}
+          onDismiss={dismissPromotionsModal}
+          onRemindLater={remindPromotionsLater}
+          onDontShowAgain={dontShowPromotionsAgain}
+        />
       )}
     </div>
   );

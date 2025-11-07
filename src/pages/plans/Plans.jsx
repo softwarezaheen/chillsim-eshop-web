@@ -39,6 +39,9 @@ import DirectionsBoatFilledOutlinedIcon from "@mui/icons-material/DirectionsBoat
 import TerrainOutlinedIcon from "@mui/icons-material/TerrainOutlined";
 import { useTranslation } from "react-i18next";
 import { gtmEvent } from "../../core/utils/gtm.jsx";
+import PromotionsModal from "../../components/promotions/PromotionsModal";
+import { usePromotionsPopup } from "../../core/custom-hook/usePromotionsPopup";
+import { shouldShowPromotionsPopup } from "../../core/utils/authHelpers";
 
 const Plans = (props) => {
   const { t } = useTranslation();
@@ -65,7 +68,20 @@ const Plans = (props) => {
     isValidating 
   } = useSelector((state) => state.referral);
   
-  const { isAuthenticated } = useSelector((state) => state.authentication);
+  const authState = useSelector((state) => state.authentication);
+
+  // Promotions popup hook - NO SCROLL TRIGGER for Plans page
+  const {
+    shouldShow: shouldShowPromotionsModal,
+    dismissPopup: dismissPromotionsModal,
+    remindLater: remindPromotionsLater,
+    dontShowAgain: dontShowPromotionsAgain,
+  } = usePromotionsPopup({
+    enabled: shouldShowPromotionsPopup(authState),
+    delaySeconds: 30,
+    useScrollTrigger: false, // Plans page: time-only trigger
+    minTimeSeconds: 15,
+  });
 
   const [activeRadio, setActiveRadio] = useState(mainPath || defaultOption);
   const [activeTab, setActiveTab] = useState(
@@ -443,6 +459,17 @@ const Plans = (props) => {
             setFilters({ ...filters, order_id: null });
             dispatch(LimitedSignOut());
           }}
+        />
+      )}
+
+      {/* Promotions Modal */}
+      {shouldShowPromotionsModal && (
+        <PromotionsModal
+          open={shouldShowPromotionsModal}
+          onClose={dismissPromotionsModal}
+          onDismiss={dismissPromotionsModal}
+          onRemindLater={remindPromotionsLater}
+          onDontShowAgain={dontShowPromotionsAgain}
         />
       )}
     </>

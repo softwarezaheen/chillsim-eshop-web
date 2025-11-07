@@ -620,6 +620,35 @@
       "manageAccount": "Mi Cuenta",
       "getStarted": "Comenzar"
     }
+  },
+  "promotions": {
+    "signInRequired": "Por favor inicia sesión para gestionar tus preferencias de notificación",
+    "enabledSuccess": "¡Ahora recibirás ofertas y promociones exclusivas!",
+    "disabledSuccess": "Las notificaciones de promociones han sido desactivadas",
+    "updateFailed": "Error al actualizar preferencias. Por favor intenta de nuevo.",
+    "modal": {
+      "title": "¡No Te Pierdas una Gran Oferta!",
+      "subtitle": "Mantente informado con promociones exclusivas, ventas flash y ofertas personalizadas diseñadas para ahorrarte dinero en cada viaje.",
+      "benefit1Title": "Ventas Flash y Ofertas Limitadas",
+      "benefit1Description": "Sé el primero en conocer ofertas por tiempo limitado y descuentos exclusivos antes de que se agoten.",
+      "benefit2Title": "Promociones Específicas por Destino",
+      "benefit2Description": "Recibe ofertas personalizadas para los países que más visitas, además de ofertas de temporada para tu próxima aventura.",
+      "benefit3Title": "Ahorra en Cada Compra",
+      "benefit3Description": "Combina descuentos promocionales con cashback y recompensas de referidos para maximizar tus ahorros.",
+      "toggleEnabled": "Estás recibiendo ofertas exclusivas",
+      "toggleDisabled": "¡Sí, envíenme ofertas exclusivas!",
+      "toggleHint": "Recibe notificaciones por correo y push",
+      "disclaimer": "Respetamos tu privacidad. Puedes recibir mensajes promocionales por correo electrónico y/o notificaciones push. Puedes cambiar tus preferencias en cualquier momento desde Información de Cuenta. No enviaremos spam, solo ofertas y ofertas valiosas.",
+      "remindLater": "Recordármelo más tarde",
+      "dontShowAgain": "No mostrar esto de nuevo"
+    },
+    "inline": {
+      "title": "🎉 ¿Quieres ahorrar aún más?",
+      "description": "Activa las notificaciones promocionales para recibir ofertas exclusivas, ventas flash y ofertas personalizadas adaptadas a tus destinos de viaje.",
+      "toggleEnabled": "Estás recibiendo ofertas exclusivas",
+      "toggleDisabled": "¡Sí, envíenme ofertas exclusivas!",
+      "disclaimer": "Puedes cambiar tus preferencias en cualquier momento desde Información de Cuenta. Solo enviamos ofertas valiosas, ¡sin spam!"
+    }
   }
 }
 
