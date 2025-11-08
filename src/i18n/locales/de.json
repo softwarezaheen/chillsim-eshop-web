@@ -1,0 +1,46 @@
+{
+  "translations": {
+    "common": {
+      "hooray": "Hurra!"
+    },
+    "order": {
+      "payment_successfull": "Ihre Zahlung war erfolgreich"
+    },
+    "nav": {
+      "home": "Startseite",
+      "plans": "Tarife",
+      "howItWorks": "So funktioniert's",
+      "partnership": "Partnerschaft",
+      "aboutUs": "Über uns",
+      "contactUs": "Kontakt",
+      "signIn": "Anmelden",
+      "myWallet": "Mein Guthaben",
+      "myEsim": "Meine eSIM",
+      "ordersHistory": "Bestellverlauf",
+      "accountInfo": "Kontoinformationen",
+      "deleteAccount": "Konto löschen",
+      "logout": "Abmelden"
+    },
+    "auth": {
+      "signInTitle": "Anmelden / Registrieren",
+      "newUser": "Neuer Nutzer?",
+      "createAccount": "Konto erstellen",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "acceptTerms": "Ich akzeptiere die",
+      "termsAndConditions": "AGB",
+      "signIn": "Anmelden",
+      "signingIn": "Melde an...",
+      "loginSuccess": "Erfolgreich angemeldet!",
+      "orContinueWith": "Oder",
+      "signInWithGoogle": "Mit Google anmelden",
+      "signInWithFacebook": "Mit Facebook anmelden",
+      "verifyEmail": "Bitte E-Mail verifizieren!",
+      "verificationCodeSent": "Fast geschafft! Ein Bestätigungscode wurde an Ihre E-Mail gesendet",
+      "verify": "Verifizieren",
+      "verifying": "Verifiziere...",
+      "didntReceiveCode": "Keinen Code erhalten?",
+      "resendNow": "Jetzt erneut senden"
+    }
+  }
+}

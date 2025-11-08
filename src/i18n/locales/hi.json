@@ -1,0 +1,46 @@
+{
+  "translations": {
+    "common": {
+      "hooray": "वाह!"
+    },
+    "order": {
+      "payment_successfull": "आपका भुगतान सफलतापूर्वक हो गया"
+    },
+    "nav": {
+      "home": "होम",
+      "plans": "प्लान",
+      "howItWorks": "यह कैसे काम करता है",
+      "partnership": "साझेदारी",
+      "aboutUs": "हमारे बारे में",
+      "contactUs": "संपर्क करें",
+      "signIn": "साइन इन",
+      "myWallet": "मेरा वॉलेट",
+      "myEsim": "मेरा eSIM",
+      "ordersHistory": "ऑर्डर इतिहास",
+      "accountInfo": "खाता जानकारी",
+      "deleteAccount": "खाता हटाएं",
+      "logout": "लॉग आउट"
+    },
+    "auth": {
+      "signInTitle": "साइन इन / साइन अप",
+      "newUser": "नए उपयोगकर्ता?",
+      "createAccount": "खाता बनाएं",
+      "email": "ईमेल",
+      "password": "पासवर्ड",
+      "acceptTerms": "मैं स्वीकार करता हूं",
+      "termsAndConditions": "नियम और शर्तें",
+      "signIn": "साइन इन",
+      "signingIn": "साइन इन हो रहा है...",
+      "loginSuccess": "सफलतापूर्वक साइन इन किया गया!",
+      "orContinueWith": "या",
+      "signInWithGoogle": "Google से साइन इन",
+      "signInWithFacebook": "Facebook से साइन इन",
+      "verifyEmail": "कृपया अपना ईमेल सत्यापित करें!",
+      "verificationCodeSent": "आप लगभग पहुंच गए! आपके ईमेल पर सत्यापन कोड भेजा गया था",
+      "verify": "सत्यापित करें",
+      "verifying": "सत्यापित हो रहा है...",
+      "didntReceiveCode": "कोड प्राप्त नहीं हुआ?",
+      "resendNow": "अभी फिर भेजें"
+    }
+  }
+}

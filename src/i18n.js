@@ -55,7 +55,7 @@ i18n
       caches: storageAvailable ? ["localStorage"] : [],
       lookupLocalStorage: "i18nextLng",
     },
-    supportedLngs: ["en", "ro", "es", "fr"],
+    supportedLngs: ["en", "ro", "es", "fr", "de", "hi"],
     backend: {
       loadPath: "/locales/{{lng}}/translation.json",
     },

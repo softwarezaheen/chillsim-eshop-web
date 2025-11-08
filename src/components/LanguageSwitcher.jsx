@@ -15,6 +15,8 @@ const LanguageSwitcher = ({ isHomePage, showMenu }) => {
     { code: "ro", name: "Română", flag: "RO" },
     { code: "es", name: "Español", flag: "ES" },
     { code: "fr", name: "Français", flag: "FR" },
+    { code: "de", name: "Deutsch", flag: "DE" },
+    { code: "hi", name: "हिंदी", flag: "HI" },
   ];
   const modalRef = useRef(null);
 
