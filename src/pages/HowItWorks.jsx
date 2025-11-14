@@ -46,7 +46,7 @@ const HowItWorks = () => {
           </p>
         </div>
         <h1 className="text-5xl font-bold text-center">
-          {t("howItWorks.howToSetUpMontyEsim")}
+          {t("howItWorks.howToSetUpEsim")}
         </h1>
 
         {/* Platform Selection */}

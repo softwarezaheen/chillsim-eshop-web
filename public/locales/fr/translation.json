@@ -9,7 +9,7 @@
   },
   "account": {
     "delete_account": "Supprimer le Compte",
-    "delete_account_paragraph": "Cela supprimera votre compte de l'application monty esim. Vous pourrez toujours accéder à votre eSIM achetée et à votre profil activé depuis votre téléphone",
+    "delete_account_paragraph": "Cela supprimera votre compte de l'application ChillSIM. Vous pourrez toujours accéder à votre eSIM achetée et à votre profil activé depuis votre téléphone",
     "delete_account_confirmation": "Veuillez saisir votre email pour confirmer la suppression de votre compte"
   },
   "notifications": {
@@ -399,7 +399,7 @@
   },
   "howItWorks": {
     "easyAndFast": "Simple et rapide",
-    "howToSetUpMontyEsim": "Comment configurer votre eSIM",
+    "howToSetUpEsim": "Comment configurer votre eSIM",
     "step": "Étape",
     "of": "sur"
   },

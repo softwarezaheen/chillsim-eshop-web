@@ -9,7 +9,7 @@
   },
   "account": {
     "delete_account": "खाता हटाएं",
-    "delete_account_paragraph": "यह Monty eSIM ऐप से आपका खाता हटा देगा। आप अपने फोन के जरिए अपने खरीदे eSIM और सक्रिय प्रोफाइल को हमेशा एक्सेस कर सकते हैं",
+    "delete_account_paragraph": "यह ChillSIM ऐप से आपका खाता हटा देगा। आप अपने फोन के जरिए अपने खरीदे eSIM और सक्रिय प्रोफाइल को हमेशा एक्सेस कर सकते हैं",
     "delete_account_confirmation": "अपना खाता हटाने की पुष्टि के लिए कृपया अपना ईमेल दर्ज करें"
   },
   "notifications": {
@@ -399,7 +399,7 @@
   },
   "howItWorks": {
     "easyAndFast": "आसान और तेज़",
-    "howToSetUpMontyEsim": "अपना eSIM कैसे सेट करें",
+    "howToSetUpEsim": "अपना eSIM कैसे सेट करें",
     "step": "चरण",
     "of": "का"
   },

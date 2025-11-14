@@ -118,7 +118,7 @@ export const notifications = [
   {
     id: 1,
     message:
-      "Dear marrielle.aboujaoude@montymobile.com, you have reached a significant level of consumption, please check available top-ups",
+      "Dear support@chillsim.net, you have reached a significant level of consumption, please check available top-ups",
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
   },
   {

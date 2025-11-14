@@ -9,7 +9,7 @@
   },
   "account": {
     "delete_account": "Konto löschen",
-    "delete_account_paragraph": "Dies löscht Ihr Konto aus der Monty eSIM App. Sie können weiterhin auf Ihre gekauften eSIMs und aktivierten Profile über Ihr Telefon zugreifen",
+    "delete_account_paragraph": "Dies löscht Ihr Konto aus der ChillSIM App. Sie können weiterhin auf Ihre gekauften eSIMs und aktivierten Profile über Ihr Telefon zugreifen",
     "delete_account_confirmation": "Bitte geben Sie Ihre E-Mail ein, um die Löschung Ihres Kontos zu bestätigen"
   },
   "notifications": {
@@ -399,7 +399,7 @@
   },
   "howItWorks": {
     "easyAndFast": "Einfach und schnell",
-    "howToSetUpMontyEsim": "So richten Sie Ihre eSIM ein",
+    "howToSetUpEsim": "So richten Sie Ihre eSIM ein",
     "step": "Schritt",
     "of": "von"
   },

@@ -1,4 +1,4 @@
-# Monty eSim EShop Web
+# ChillSIM EShop Web
 
 ## **Introduction**
 
@@ -26,7 +26,7 @@ Before you begin, ensure you have the following software installed on your syste
 1. Clone the repo:
 
 ```bash
-   git clone https://github.com/montymobile1/montyesim-eshop-web
+   git clone https://github.com/softwarezaheen/chillsim-eshop-web
 ```
 
 2.Navigate into the project directory:
