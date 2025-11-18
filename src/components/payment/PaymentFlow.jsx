@@ -191,11 +191,11 @@ const PaymentFlow = (props) => {
       .then((res) => {
         setOrderDetail(res?.data?.data);
         
-        // Handle wallet payment completion
-        if (selectedType === "wallet" && res?.data?.data?.payment_status === "COMPLETED") {
+        // Handle completed payment (100% discount or wallet payment)
+        if (res?.data?.data?.payment_status === "COMPLETED") {
           handleWalletPaymentSuccess(res?.data?.data);
         } else if (selectedType !== "wallet") {
-          // For non-wallet payments, set up stripe
+          // For non-wallet payments that require Stripe, set up stripe
           setClientSecret(res?.data?.data?.payment_intent_client_secret);
           setStripePromise(loadStripe(res?.data?.data?.publishable_key));
         }
