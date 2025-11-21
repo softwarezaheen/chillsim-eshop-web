@@ -7,6 +7,26 @@ const ATTRIBUTION_WINDOW_DAYS = parseInt(import.meta.env.VITE_AFFILIATES_ATTRIBU
 const ATTRIBUTION_WINDOW_MS = ATTRIBUTION_WINDOW_DAYS * 24 * 60 * 60 * 1000;
 
 /**
+ * Validate click identifier format (security: prevent XSS, injection)
+ * @param {string} clickId - The click identifier to validate
+ * @returns {boolean} - True if valid, false otherwise
+ */
+const validateClickIdentifier = (clickId) => {
+  if (!clickId || typeof clickId !== 'string') {
+    return false;
+  }
+  
+  // Must be 1-100 characters
+  if (clickId.length < 1 || clickId.length > 100) {
+    return false;
+  }
+  
+  // Only alphanumeric, hyphens, and underscores allowed
+  const validPattern = /^[a-zA-Z0-9_-]+$/;
+  return validPattern.test(clickId);
+};
+
+/**
  * Custom hook to handle affiliate tracking from URL parameters
  * Tracks the im_ref parameter and stores it in localStorage with 30-day expiry
  * 
@@ -20,6 +40,17 @@ export const useAffiliateTracking = () => {
     const imRef = searchParams.get("im_ref");
 
     if (imRef) {
+      // Validate click identifier format (security check)
+      if (!validateClickIdentifier(imRef)) {
+        console.warn("⚠️ Invalid affiliate click identifier format, ignoring:", imRef.substring(0, 50));
+        // Clean URL even if invalid
+        searchParams.delete("im_ref");
+        const newSearch = searchParams.toString();
+        const newUrl = `${location.pathname}${newSearch ? `?${newSearch}` : ""}${location.hash}`;
+        window.history.replaceState({}, "", newUrl);
+        return;
+      }
+
       console.log("🔗 Affiliate click detected:", imRef);
 
       // Store in localStorage with 30-day attribution window
