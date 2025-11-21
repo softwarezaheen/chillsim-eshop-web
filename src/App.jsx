@@ -13,6 +13,7 @@ import { fetchCurrencyInfo } from "./redux/reducers/currencyReducer";
 import { loadReferralFromStorage } from "./redux/reducers/referralReducer";
 import { setDayjsLocale } from "./components/dayjsSetup.js";
 import { supportWhatsappPhone } from "./core/variables/ProjectVariables";
+import { useAffiliateTracking } from "./core/custom-hook/useAffiliateTracking";
 
 // iOS in-app browser detection
 const isIOSInAppBrowser = () => {
@@ -27,6 +28,9 @@ function App() {
   );
   
   const { i18n } = useTranslation();
+  
+  // Track affiliate visits from URL parameters
+  useAffiliateTracking();
 
   const getDeviceId = async () => {
     try {

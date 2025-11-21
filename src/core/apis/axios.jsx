@@ -13,6 +13,10 @@ import { supabaseSignout } from "./authAPI";
 import { backendMessagesTranslations } from "../variables/BackendMessages";
 import i18n from "../../i18n";
 
+// Attribution window: configurable via environment, defaults to 30 days
+const ATTRIBUTION_WINDOW_DAYS = parseInt(import.meta.env.VITE_AFFILIATES_ATTRIBUTION_WINDOW_DAYS || "30", 10);
+const ATTRIBUTION_WINDOW_MS = ATTRIBUTION_WINDOW_DAYS * 24 * 60 * 60 * 1000;
+
 export const api = axios.create({
   headers: {
     "X-Timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -66,6 +70,29 @@ api.interceptors.request.use(
     // Always set these headers
     config.headers["x-device-id"] = xDeviceId;
     config.headers["x-currency"] = defaultCunrency || "EUR";
+    
+    // Add affiliate click ID header if available and not expired
+    try {
+      const clickId = localStorage.getItem("affiliate_click_id");
+      const timestamp = localStorage.getItem("affiliate_click_timestamp");
+      
+      if (clickId && timestamp) {
+        const clickTimestamp = parseInt(timestamp);
+        const now = Date.now();
+        const isExpired = now - clickTimestamp > ATTRIBUTION_WINDOW_MS;
+
+        if (!isExpired) {
+          config.headers["X-Affiliate-Click-Id"] = clickId;
+        } else {
+          // Clean up expired data
+          localStorage.removeItem("affiliate_click_id");
+          localStorage.removeItem("affiliate_click_timestamp");
+        }
+      }
+    } catch (error) {
+      // Fail silently - affiliate tracking is optional
+      console.debug("Could not read affiliate data from localStorage:", error);
+    }
     
     return config;
   },
