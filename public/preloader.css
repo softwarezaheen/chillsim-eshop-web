@@ -1,0 +1,58 @@
+/* App Preloader - Shows before React loads */
+#app-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  transition: opacity 0.3s ease-out;
+}
+
+#app-preloader.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#app-preloader.loaded .preloader-spinner,
+#app-preloader.loaded .preloader-logo {
+  animation: none;
+}
+
+.preloader-content {
+  text-align: center;
+}
+
+/* Spinner */
+.preloader-spinner {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid #8b5cf6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.preloader-logo {
+  width: 50px;
+  height: auto;
+  opacity: 0.9;
+  animation: spin 1s linear infinite reverse;
+}
+
+.preloader-text {
+  font-size: 14px;
+  color: #6b7280;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

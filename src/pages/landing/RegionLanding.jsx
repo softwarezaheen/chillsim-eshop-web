@@ -37,7 +37,7 @@ const REGION_URL_TO_TAG = {
   oceania: "OCEANIA",
 };
 
-// Country URL to ISO country code mapping
+// Country URL to ISO code mapping
 const COUNTRY_URL_TO_CODE = {
   turkey: "TR",
   usa: "US",
@@ -45,6 +45,16 @@ const COUNTRY_URL_TO_CODE = {
   thailand: "TH",
   uae: "AE",
   japan: "JP",
+};
+
+// Country URL to ISO3 code mapping (what's in the database)
+const COUNTRY_URL_TO_ISO3 = {
+  turkey: "TUR",
+  usa: "USA",
+  canada: "CAN",
+  thailand: "THA",
+  uae: "ARE",
+  japan: "JPN",
 };
 
 // Helper to extract type from URL (handles /esim-destination/europe format)
@@ -111,8 +121,11 @@ const RegionLanding = () => {
     ? (COUNTRY_URL_TO_CODE[typeSlug?.toLowerCase()] || typeSlug?.toUpperCase())
     : null;
 
+  // Get ISO3 code for API lookup (only if it's a country)
+  const iso3Code = isCountry ? COUNTRY_URL_TO_ISO3[typeSlug?.toLowerCase()] : null;
+
   // Fetch all regions from home data to get the correct icon
-  const { data: homeData } = useHomeCountries();
+  const { data: homeData, isLoading: isLoadingHomeData } = useHomeCountries();
 
   // Find the matching region data from backend
   const regionData = useMemo(() => {
@@ -120,17 +133,24 @@ const RegionLanding = () => {
     return homeData.regions.find((r) => r.region_code === regionTag);
   }, [homeData, regionTag]);
 
+  // Convert ISO3 code to UUID for API call (language-independent lookup)
+  const countryUUID = useMemo(() => {
+    if (!isCountry || !homeData?.countries || !iso3Code) return null;
+    const country = homeData.countries.find((c) => c.iso3_code === iso3Code);
+    return country?.id || null;
+  }, [homeData, iso3Code, isCountry]);
+
   // Fetch bundles for this region or country
   const { data: bundles, isLoading } = useQuery({
-    queryKey: [`landing-${typeSlug}`, regionTag, countryCode, isCountry],
+    queryKey: [`landing-${typeSlug}`, regionTag, countryCode, countryUUID, isCountry],
     queryFn: () => {
       if (isCountry) {
-        return getBundlesByCountry(countryCode).then((res) => res?.data?.data);
+        return getBundlesByCountry(countryUUID).then((res) => res?.data?.data);
       } else {
         return getBundlesByRegion(regionTag).then((res) => res?.data?.data);
       }
     },
-    enabled: !!(isCountry ? countryCode : regionTag),
+    enabled: !!(isCountry ? countryUUID : regionTag),
     onSuccess: (data) => {
       if (data && data.length > 0 && regionData) {
         gtmViewItemListEvent(
@@ -146,10 +166,6 @@ const RegionLanding = () => {
   // Sort bundles by data amount (descending), then by price (ascending)
   const sortedBundles = useMemo(() => {
     if (!bundles) return [];
-
-    console.log("📦 Raw bundles before filtering:", bundles);
-    console.log("📦 Bundle count:", bundles.length);
-    console.log("📦 Sample bundle structure:", bundles[0]);
 
     // Helper to convert data to MB for comparison
     const getDataInMB = (bundle) => {
@@ -172,11 +188,10 @@ const RegionLanding = () => {
       return parseFloat(bundle.price || bundle.original_price || 0);
     };
 
-    // Group bundles by data + validity
+    // Group bundles by data amount only (not validity)
     const grouped = bundles.reduce((acc, bundle) => {
       const dataInMB = getDataInMB(bundle);
-      const validity = bundle.validity_days || bundle.validity;
-      const key = `${dataInMB}-${validity}`;
+      const key = `${dataInMB}`;
       
       if (!acc[key]) {
         acc[key] = [];
@@ -185,24 +200,35 @@ const RegionLanding = () => {
       return acc;
     }, {});
 
-    console.log("📦 Grouped bundles:", grouped);
-    console.log("📦 Group keys:", Object.keys(grouped));
-
-    // For each group, pick the bundle with best value:
-    // 1. Most countries coverage
-    // 2. If same coverage, lowest price
+    // For each data amount group, pick the bundle with best value
     const bestBundles = Object.values(grouped).map((group) => {
-      // Sort group by countries (desc) then price (asc)
       const sorted = group.sort((a, b) => {
-        const countriesDiff = (b.count_countries || 0) - (a.count_countries || 0);
-        if (countriesDiff !== 0) return countriesDiff;
-        return getPrice(a) - getPrice(b); // Lower price wins
+        if (isCountry) {
+          // Country landing: prefer single-country bundles first
+          const countriesDiff = (a.count_countries || 0) - (b.count_countries || 0);
+          if (countriesDiff !== 0) return countriesDiff;
+          
+          // Then prefer longer validity (better value)
+          const validityDiff = (b.validity_days || b.validity || 0) - (a.validity_days || a.validity || 0);
+          if (validityDiff !== 0) return validityDiff;
+          
+          // Finally, lowest price
+          return getPrice(a) - getPrice(b);
+        } else {
+          // Region landing: prefer multi-country coverage first
+          const countriesDiff = (b.count_countries || 0) - (a.count_countries || 0);
+          if (countriesDiff !== 0) return countriesDiff;
+          
+          // Then prefer longer validity (better value)
+          const validityDiff = (b.validity_days || b.validity || 0) - (a.validity_days || a.validity || 0);
+          if (validityDiff !== 0) return validityDiff;
+          
+          // Finally, lowest price
+          return getPrice(a) - getPrice(b);
+        }
       });
-      return sorted[0]; // Return best bundle
+      return sorted[0]; // Return best bundle from this data amount group
     });
-
-    console.log("📦 Best bundles after grouping:", bestBundles);
-    console.log("📦 Best bundle count:", bestBundles.length);
 
     // Sort by data amount (ascending: 1GB → 50GB), then by price (ascending)
     const sorted = bestBundles
@@ -222,26 +248,32 @@ const RegionLanding = () => {
         if (dataDiff !== 0) return dataDiff;
         
         // If same data, sort by price (ascending - cheapest first)
-        const priceDiff = getPrice(a) - getPrice(b);
-        console.log(`📦 Comparing: ${a.display_title} (${aData}MB, ${getPrice(a)}) vs ${b.display_title} (${bData}MB, ${getPrice(b)}) = ${priceDiff}`);
-        return priceDiff;
+        return getPrice(a) - getPrice(b);
       })
       .slice(0, 6); // Show top 6 bundles
     
-    console.log("📦 Final sorted bundles:", sorted);
     return sorted;
   }, [bundles]);
 
   useEffect(() => {
+    // Don't validate while home data is still loading
+    if (isLoadingHomeData) return;
+    
     if (!isCountry && !regionTag) {
-      navigate("/plans");
+      navigate("/plans/land");
     }
-    if (isCountry && !countryCode) {
-      navigate("/plans");
+    // Only redirect if homeData has loaded AND we can't find the UUID for a valid ISO3 code
+    if (isCountry && iso3Code && homeData?.countries && !countryUUID) {
+      navigate("/plans/land");
     }
-  }, [isCountry, regionTag, countryCode, navigate]);
+  }, [isCountry, regionTag, iso3Code, countryUUID, homeData, isLoadingHomeData, navigate]);
 
   if ((!isCountry && !regionTag) || (isCountry && !countryCode)) {
+    return null;
+  }
+
+  // Show nothing while loading - preloader in index.html handles this
+  if (isLoadingHomeData || isLoading) {
     return null;
   }
 
@@ -353,7 +385,16 @@ const RegionLanding = () => {
               variant="outlined"
               size="large"
               onClick={() => {
-                navigate(`/plans/land`);
+                if (isCountry && countryUUID) {
+                  // Country landing: filter by country UUID
+                  navigate(`/plans/land?country_codes=${countryUUID}`);
+                } else if (!isCountry && regionTag) {
+                  // Region landing: show regions type
+                  navigate(`/plans/land?type=regions`);
+                } else {
+                  // Fallback
+                  navigate(`/plans/land`);
+                }
               }}
               sx={{ textTransform: "none" }}
             >

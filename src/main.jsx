@@ -116,3 +116,15 @@ root.render(
   </BrowserRouter>
   // </React.StrictMode>
 );
+
+// Hide the preloader once React has rendered
+setTimeout(() => {
+  const preloader = document.getElementById("app-preloader");
+  if (preloader) {
+    preloader.classList.add("loaded");
+    // Remove from DOM after fade animation completes
+    setTimeout(() => {
+      preloader.remove();
+    }, 300);
+  }
+}, 100);

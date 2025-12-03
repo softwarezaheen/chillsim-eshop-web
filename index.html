@@ -17,6 +17,9 @@
   <meta name="format-detection" content="telephone=no" />
   
   <title>Chill SIM</title>
+  
+  <!-- Preloader styles (loaded before React) -->
+  <link rel="stylesheet" href="/preloader.css" />
 
   <!-- Google Tag Manager -->
   <script>
@@ -34,6 +37,16 @@
 </head>
 
 <body>
+  <!-- App Preloader (shows immediately, hides when React loads) -->
+  <div id="app-preloader">
+    <div class="preloader-content">
+      <div class="preloader-spinner">
+        <img src="/logo/logo2.png" alt="ChillSIM" class="preloader-logo" />
+      </div>
+      <p class="preloader-text">Loading...</p>
+    </div>
+  </div>
+
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MC2C3TBC" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
