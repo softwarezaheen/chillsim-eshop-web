@@ -28,11 +28,12 @@ import Wallet from "../../pages/wallet/Wallet";
 import ReferralProgram from "../../pages/referral/ReferralProgram";
 import ReferralLanding from "../../pages/referral/ReferralLanding";
 import Benefits from "../../pages/benefits/Benefits";
+import RegionLanding from "../../pages/landing/RegionLanding";
 
 export const useAppRoutes = () => {
   const login_type = useSelector((state) => state.currency?.login_type);
 
-  return useMemo(
+  const routes = useMemo(
     () => [
       {
         path: "",
@@ -86,6 +87,10 @@ export const useAppRoutes = () => {
         element: <Benefits />,
       },
       {
+        path: "/esim-destination/:type",
+        element: <RegionLanding />,
+      },
+      {
         path: "/terms",
         element: <Terms />,
       },
@@ -132,11 +137,6 @@ export const useAppRoutes = () => {
         isPrivate: true,
       },
 
-      {
-        path: "*",
-        element: <PageNotFound />,
-      },
-
       { path: "/esim", element: <Esim />, isPrivate: true },
       { path: "/esim/:iccid", element: <EsimDetail />, isPrivate: true },
       { path: "/orders", element: <Orders />, isPrivate: true },
@@ -164,7 +164,14 @@ export const useAppRoutes = () => {
         element: <ReferralProgram />,
         isPrivate: true,
       },
+
+      {
+        path: "*",
+        element: <PageNotFound />,
+      },
     ],
     [login_type]
   );
+
+  return routes;
 };

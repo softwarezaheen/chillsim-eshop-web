@@ -649,6 +649,423 @@
       "toggleDisabled": "Oui, envoyez-moi des offres exclusives !",
       "disclaimer": "Vous pouvez modifier vos préférences à tout moment dans Informations du Compte. Nous n'envoyons que des offres précieuses, pas de spam !"
     }
+  },
+  "landing": {
+    "cta": {
+      "viewPlans": "Voir les forfaits",
+      "howItWorks": "Comment ça marche",
+      "viewAllPlans": "Voir tous les forfaits",
+      "final": {
+        "title": "Prêt à rester connecté ?",
+        "subtitle": "Obtenez votre eSIM dès aujourd'hui et voyagez l'esprit tranquille",
+        "button": "Choisir mon forfait"
+      }
+    },
+    "howItWorks": {
+      "title": "Comment obtenir une eSIM",
+      "step1": {
+        "title": "Choisissez un forfait data",
+        "description": "Sélectionnez la quantité de données dont vous avez besoin, achetez le forfait et attendez l'email de confirmation contenant un code QR."
+      },
+      "step2": {
+        "title": "Installez votre eSIM",
+        "description": "Scannez le code QR reçu par email et suivez les instructions simples sur votre appareil."
+      },
+      "step3": {
+        "title": "Profitez de votre forfait",
+        "description": "Votre forfait data s'activera automatiquement à votre arrivée dans la destination !"
+      }
+    },
+    "features": {
+      "instantConnectivity": {
+        "title": "Connectivité instantanée",
+        "description": "Soyez connecté dès votre arrivée. Pas d'attente, pas de tracas, pas de changement de carte SIM."
+      },
+      "wideCoverage": {
+        "title": "Large couverture",
+        "description": "Restez connecté dans plusieurs pays avec une seule eSIM. Parfait pour les voyages multi-pays."
+      },
+      "affordablePlans": {
+        "title": "Forfaits abordables",
+        "description": "Tarifs compétitifs avec coûts transparents. Pas de frais cachés ni de surprises."
+      },
+      "easyToUse": {
+        "title": "Facile à utiliser",
+        "description": "Configuration simple en quelques minutes. Scannez un code QR et vous êtes prêt."
+      },
+      "secureConnection": {
+        "title": "Connexion sécurisée",
+        "description": "Vos données sont protégées avec une sécurité de niveau entreprise sur des réseaux fiables."
+      },
+      "support": {
+        "title": "Assistance 24/7",
+        "description": "Recevez de l'aide quand vous en avez besoin. Notre équipe de support est toujours prête à vous assister."
+      }
+    },
+    "disclaimers": {
+      "title": "Informations importantes",
+      "deviceCompatibility": "Assurez-vous que votre appareil prend en charge la technologie eSIM avant d'acheter.",
+      "activation": "Votre eSIM s'activera automatiquement lorsque vous vous connecterez à un réseau pris en charge dans votre destination.",
+      "installation": "Installez votre eSIM avant de voyager. Vous aurez besoin d'une connexion Internet pour finaliser l'installation.",
+      "validity": "Les forfaits data sont valables pour la durée spécifiée à partir de l'activation."
+    },
+    "faq": {
+      "title": "Questions fréquemment posées",
+      "q2": {
+        "question": "Comment installer une eSIM ?",
+        "answer": "Après l'achat, vous recevrez un code QR par email. Scannez simplement ce code avec la caméra de votre appareil dans les réglages eSIM et suivez les instructions à l'écran. L'ensemble du processus prend seulement quelques minutes."
+      },
+      "q3": {
+        "question": "Quand ma eSIM s'active-t-elle ?",
+        "answer": "Votre eSIM s'active automatiquement lorsque vous vous connectez à un réseau pris en charge dans votre destination. La période de validité commence au moment de l'activation."
+      },
+      "q4": {
+        "question": "Puis-je utiliser mon eSIM dans plusieurs pays ?",
+        "answer": "Oui ! Nos forfaits régionaux eSIM fonctionnent dans plusieurs pays de la région. Vous pouvez voyager librement sans acheter de cartes SIM séparées."
+      },
+      "q5": {
+        "question": "Que faire si j'ai besoin de plus de données ?",
+        "answer": "Vous pouvez facilement recharger votre eSIM avec des données supplémentaires via notre application ou notre site web. Les recharges sont disponibles à tout moment pendant votre voyage."
+      }
+    },
+    "europe": {
+      "hero": {
+        "title": "eSIM pour l'Europe",
+        "subtitle": "Restez connecté à travers l'Europe avec des forfaits eSIM abordables et fiables"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour l'Europe",
+        "subtitle": "Forfaits abordables avec une large couverture dans les pays européens"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour vos voyages en Europe ?"
+      },
+      "seo": {
+        "title": "Découvrez l'Europe avec l'eSIM ChillSIM",
+        "content": "<p>Vous planifiez un voyage en Europe ? Restez connecté facilement avec le service eSIM fiable de ChillSIM. Nos cartes SIM numériques offrent une connectivité transparente sur tout le continent, vous permettant d'explorer des rues romantiques de Paris aux monuments historiques de Rome sans vous soucier des frais d'itinérance élevés.</p><p>Avec ChillSIM, accédez à Internet haut débit dès votre atterrissage. Que vous exploriez des villes animées, des châteaux anciens ou des côtes magnifiques, notre eSIM vous permet de partager vos aventures, de vous orienter et de rester en contact avec vos proches.</p><h3>Pourquoi choisir ChillSIM pour votre aventure européenne ?</h3><p>Notre solution eSIM est conçue pour les voyageurs modernes qui exigent fiabilité, économie et simplicité. Contrairement aux cartes SIM traditionnelles, notre eSIM s'installe numériquement en quelques minutes. Scannez simplement un code QR avant ou pendant votre voyage et vous êtes prêt.</p><p>ChillSIM s'associe à des opérateurs mobiles de premier plan en Europe, y compris des acteurs majeurs en France, Allemagne, Italie, Espagne, Royaume‑Uni et plus encore. Cela garantit la meilleure couverture et des débits fiables où que vous alliez.</p><h3>Adaptée à tous les voyageurs</h3><p>Que vous soyez un voyageur d'affaires ayant besoin de connexions stables pour des visioconférences, un routard visitant plusieurs pays ou une famille en vacances souhaitant partager des souvenirs en temps réel, ChillSIM a le forfait adapté. Notre eSIM Europe fonctionne dans plus de 35 pays, idéale pour les voyages multi‑pays.</p><p>Rejoignez des milliers de voyageurs satisfaits qui font confiance à ChillSIM pour rester connectés en Europe. Obtenez votre eSIM dès aujourd'hui et découvrez la liberté d'une connectivité sans frontières !</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour l'Europe ?",
+          "answer": "ChillSIM propose des forfaits eSIM fiables et abordables, conçus pour les voyageurs en Europe. Avec une couverture dans plus de 35 pays européens, des tarifs compétitifs et une activation instantanée, c'est le choix idéal pour votre voyage en Europe."
+        },
+        "q4": {
+          "answer": "Oui ! Nos forfaits eSIM Europe fonctionnent dans plus de 35 pays. Voyagez librement du Portugal à la Pologne, de la Norvège à la Grèce sans acheter de cartes SIM séparées."
+        }
+      }
+    },
+    "africa": {
+      "hero": {
+        "title": "eSIM pour l'Afrique",
+        "subtitle": "Découvrez les merveilles de l'Afrique tout en restant connecté avec une couverture eSIM fiable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour l'Afrique",
+        "subtitle": "Restez connecté à travers diverses destinations africaines"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour vos voyages en Afrique ?"
+      },
+      "seo": {
+        "title": "Explorez l'Afrique avec l'eSIM ChillSIM",
+        "content": "<p>En route pour une aventure en Afrique ? Des pyramides d'Égypte aux safaris du Kenya en passant par les villes vibrantes d'Afrique du Sud, restez connecté tout au long de votre voyage avec la solution eSIM fiable de ChillSIM.</p><p>Notre eSIM Afrique offre une connectivité transparente sur le continent. Que vous assistiez à la Grande Migration, exploriez des civilisations anciennes ou profitiez de plages paradisiaques, ChillSIM vous permet de partager chaque moment inoubliable.</p><h3>Pourquoi choisir ChillSIM pour votre safari africain ?</h3><p>Voyager en Afrique demande une connectivité fiable, et ChillSIM répond à ce besoin. Notre technologie eSIM élimine la recherche de cartes SIM locales dans chaque pays, vous faisant gagner du temps pour profiter de votre aventure.</p><p>Grâce à des partenariats avec des opérateurs mobiles majeurs en Afrique, nous assurons une bonne couverture dans les grandes villes et les destinations touristiques populaires. De Le Cap au Caire, de Nairobi à Marrakech, restez connecté facilement.</p><h3>Conçu pour les explorateurs africains</h3><p>Que vous soyez en safari, en exploration historique ou en voyage d'affaires entre capitales africaines, ChillSIM fournit la connectivité fiable dont vous avez besoin. Nos forfaits flexibles correspondent à vos usages, que vous partagiez des photos ou naviguiez dans des zones inconnues.</p><p>Rejoignez les voyageurs qui font confiance à ChillSIM pour leurs aventures africaines. Obtenez votre eSIM Afrique dès aujourd'hui et partez explorer ce continent magnifique en toute sérénité !</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour l'Afrique ?",
+          "answer": "ChillSIM propose des forfaits eSIM fiables et adaptés aux voyageurs en Afrique. Avec une couverture dans les principales destinations, des tarifs abordables et une activation facile, c'est l'option idéale pour votre voyage."
+        },
+        "q4": {
+          "answer": "Oui ! Nos forfaits eSIM Afrique fonctionnent dans plusieurs pays africains. Voyagez sans tracas de l'Égypte à l'Afrique du Sud, du Kenya au Maroc sans changer de carte SIM."
+        }
+      }
+    },
+    "middle-east": {
+      "hero": {
+        "title": "eSIM pour le Moyen‑Orient",
+        "subtitle": "Restez connecté au Moyen‑Orient avec des forfaits eSIM rapides et fiables"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour le Moyen‑Orient",
+        "subtitle": "Connectivité abordable dans les destinations du Moyen‑Orient"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour le Moyen‑Orient ?"
+      },
+      "seo": {
+        "title": "Découvrez le Moyen‑Orient avec l'eSIM ChillSIM",
+        "content": "<p>Voyagez au Moyen‑Orient ? Que vous visitiez la skyline futuriste de Dubaï, les merveilles anciennes de Jordanie ou la richesse culturelle de l'Arabie saoudite, l'eSIM ChillSIM vous garde connecté tout au long de votre parcours.</p><p>Notre eSIM Moyen‑Orient offre un accès instantané à Internet haut débit dans la région. Des réunions d'affaires aux explorations historiques, restez connecté pour naviguer, communiquer et partager facilement.</p><h3>Pourquoi choisir ChillSIM pour votre voyage au Moyen‑Orient ?</h3><p>Le Moyen‑Orient allie histoire et modernité, et votre connectivité doit suivre. La technologie eSIM de ChillSIM offre la commodité recherchée par les voyageurs modernes : pas de carte SIM physique, activation instantanée et itinérance fluide entre pays.</p><p>Nous nous associons à des opérateurs de premier plan dans la région, assurant une excellente couverture dans des villes comme Dubaï, Abou Dhabi, Riyad ou Doha. Profitez d'une connexion fiable que vous soyez dans un souk animé ou dans le désert.</p><h3>Parfait pour les voyages d'affaires et de loisirs</h3><p>Que vous voyagiez pour le travail ou pour le plaisir, ChillSIM propose des forfaits flexibles adaptés aux courts et longs séjours. Rejoignez les voyageurs avisés qui choisissent ChillSIM pour leur connectivité au Moyen‑Orient.</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour le Moyen‑Orient ?",
+          "answer": "ChillSIM offre une connectivité eSIM fiable et rapide dans la région. Avec une excellente couverture aux Émirats arabes unis, en Arabie saoudite, au Qatar et ailleurs, des tarifs compétitifs et une activation instantanée, c'est un excellent choix pour votre voyage."
+        },
+        "q4": {
+          "answer": "Oui ! Nos forfaits eSIM pour le Moyen‑Orient fonctionnent dans plusieurs pays de la région. Voyagez de l'UAE à l'Arabie saoudite, du Qatar à la Jordanie sans changer de carte SIM."
+        }
+      }
+    },
+    "asia": {
+      "hero": {
+        "title": "eSIM pour l'Asie",
+        "subtitle": "Explorez l'Asie avec une connectivité eSIM fluide et abordable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour l'Asie",
+        "subtitle": "Restez connecté de Tokyo à Bangkok, de Singapour à Séoul"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour l'Asie ?"
+      },
+      "seo": {
+        "title": "Explorez l'Asie avec l'eSIM ChillSIM",
+        "content": "<p>Vous planifiez une aventure asiatique ? Des rues néon de Tokyo aux plages tropicales de Thaïlande, en passant par les marchés animés de Bangkok et la modernité de Singapour, l'eSIM ChillSIM vous suit partout en Asie.</p><p>Notre eSIM Asie offre une connectivité transparente sur le continent. Que vous fassiez de l'île en île en Indonésie, visitiez des temples au Cambodge ou travailliez depuis Hong Kong, restez connecté pour naviguer, traduire et partager en temps réel.</p><h3>Pourquoi choisir ChillSIM pour votre voyage en Asie ?</h3><p>L'Asie est vaste et diversifiée ; ChillSIM assure une connectivité fiable. Notre technologie eSIM vous évite d'acheter des cartes SIM locales dans chaque pays, vous laissant plus de temps pour explorer.</p><p>Grâce à des partenariats avec des opérateurs majeurs, nous garantissons une bonne couverture des mégapoles aux destinations plus reculées. Profitez d'Internet haute vitesse que vous soyez à Séoul ou à Bali.</p><h3>Conçu pour les explorateurs asiatiques</h3><p>Que vous soyez nomade digital, gourmet à Tokyo ou routard en Asie du Sud‑Est, ChillSIM propose des forfaits flexibles adaptés à tous les styles de voyage. Restez connecté lorsque vous passez d'un pays à l'autre.</p><p>Rejoignez les milliers de voyageurs qui font confiance à ChillSIM pour leur connectivité en Asie. Obtenez votre eSIM Asie dès aujourd'hui et partez l'esprit serein !</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour l'Asie ?",
+          "answer": "ChillSIM propose une couverture complète en Asie avec une connectivité fiable dans des destinations majeures comme le Japon, la Thaïlande, Singapour, la Corée du Sud et plus encore. Tarifs compétitifs et activation instantanée."
+        },
+        "q4": {
+          "answer": "Oui ! Nos forfaits eSIM Asie fonctionnent dans plusieurs pays asiatiques. Voyagez de manière fluide du Japon à la Thaïlande, de Singapour au Vietnam sans changer de carte SIM."
+        }
+      }
+    },
+    "north-america": {
+      "hero": {
+        "title": "eSIM pour l'Amérique du Nord",
+        "subtitle": "Restez connecté aux États‑Unis, au Canada et au Mexique avec une couverture eSIM fiable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour l'Amérique du Nord",
+        "subtitle": "Connectivité transparente à travers l'Amérique du Nord"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour l'Amérique du Nord ?"
+      },
+      "seo": {
+        "title": "Découvrez l'Amérique du Nord avec l'eSIM ChillSIM",
+        "content": "<p>Voyagez en Amérique du Nord ? Des grandes villes des États‑Unis aux espaces sauvages du Canada et à la richesse culturelle du Mexique, l'eSIM ChillSIM vous garde connecté lors de votre aventure nord‑américaine.</p><p>Notre eSIM Amérique du Nord offre une connectivité fiable dans la région. Que vous fassiez un road trip aux États‑Unis, exploriez des parcs canadiens ou découvriez le Mexique, restez connecté pour naviguer et partager facilement.</p><h3>Pourquoi choisir ChillSIM pour votre voyage en Amérique du Nord ?</h3><p>Les vastes territoires d'Amérique du Nord exigent une connectivité fiable ; ChillSIM répond à ce besoin. Notre eSIM évite la recherche de cartes SIM locales et offre une connexion instantanée dès votre arrivée.</p><p>Nous nous associons à des opérateurs majeurs pour assurer une bonne couverture de New‑York à Vancouver, de Los Angeles à Mexico. Profitez d'Internet haute vitesse en ville comme en zone naturelle.</p><h3>Adaptée à tous les types de voyages en Amérique du Nord</h3><p>Que vous voyagiez pour affaires, en road trip ou pour le loisir, ChillSIM propose des forfaits flexibles adaptés à chaque itinéraire. Restez connecté à travers les frontières nord‑américaines.</p><p>Rejoignez les voyageurs qui choisissent ChillSIM pour l'Amérique du Nord. Obtenez votre eSIM dès aujourd'hui et partez sereinement !</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour l'Amérique du Nord ?",
+          "answer": "ChillSIM propose une couverture eSIM fiable en Amérique du Nord, incluant les USA, le Canada et le Mexique. Couverture étendue, tarifs compétitifs et activation instantanée."
+        },
+        "q4": {
+          "answer": "Oui ! Nos forfaits Amérique du Nord fonctionnent aux États‑Unis, au Canada et au Mexique. Voyagez sans changer de carte SIM."
+        }
+      }
+    },
+    "south-america": {
+      "hero": {
+        "title": "eSIM pour l'Amérique du Sud",
+        "subtitle": "Explorez l'Amérique du Sud de l'Amazonie à la Patagonie avec une eSIM fiable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour l'Amérique du Sud",
+        "subtitle": "Restez connecté à travers les destinations sud‑américaines"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour l'Amérique du Sud ?"
+      },
+      "seo": {
+        "title": "Découvrez l'Amérique du Sud avec l'eSIM ChillSIM",
+        "content": "<p>Planifiez une aventure en Amérique du Sud ? Des ruines de Machu Picchu aux plages du Brésil, des bals de tango de Buenos‑Aires à l'Amazonie, l'eSIM ChillSIM vous garde connecté tout au long de votre voyage.</p><p>Notre eSIM Amérique du Sud offre une connectivité transparente dans la région. Que vous randonniez dans les Andes ou profitiez du Carnaval, restez connecté pour naviguer et partager vos expériences.</p><h3>Pourquoi choisir ChillSIM pour votre voyage sud‑américain ?</h3><p>Nous travaillons avec des opérateurs locaux pour assurer une bonne couverture de Lima à São Paulo, Buenos‑Aires à Bogotá. Profitez d'Internet fiable en ville comme en zone plus isolée.</p><p>Que vous soyez routard multination, amateur de nature ou en voyage culturel, ChillSIM propose des forfaits flexibles adaptés à vos besoins.</p><p>Rejoignez les voyageurs qui nous font confiance et obtenez votre eSIM Amérique du Sud dès aujourd'hui !</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour l'Amérique du Sud ?",
+          "answer": "ChillSIM offre une couverture eSIM fiable en Amérique du Sud, incluant le Brésil, l'Argentine, le Chili, le Pérou, la Colombie et plus encore. Tarifs compétitifs et activation instantanée."
+        },
+        "q4": {
+          "answer": "Oui ! Nos forfaits Amérique du Sud fonctionnent dans plusieurs pays, y compris le Brésil, l'Argentine, le Chili et le Pérou. Voyagez sans changer de carte SIM."
+        }
+      }
+    },
+    "oceania": {
+      "hero": {
+        "title": "eSIM pour l'Océanie",
+        "subtitle": "Découvrez l'Australie, la Nouvelle‑Zélande et les îles du Pacifique avec une eSIM fiable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour l'Océanie",
+        "subtitle": "Restez connecté à travers les magnifiques destinations d'Océanie"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour l'Océanie ?"
+      },
+      "seo": {
+        "title": "Découvrez l'Océanie avec l'eSIM ChillSIM",
+        "content": "<p>Préparez un voyage en Océanie ? Des sites emblématiques d'Australie aux paysages époustouflants de Nouvelle‑Zélande en passant par les îles du Pacifique, l'eSIM ChillSIM vous garde connecté tout au long de votre parcours.</p><p>Notre eSIM Océanie offre une connectivité fluide dans la région. Que vous exploriez Sydney, randonniez en Nouvelle‑Zélande ou vous détendiez sur une plage du Pacifique, restez connecté pour naviguer et partager vos moments.</p><h3>Pourquoi choisir ChillSIM pour l'Océanie ?</h3><p>Les longues distances en Océanie demandent une connectivité fiable. ChillSIM s'associe à des opérateurs premium pour garantir une bonne couverture, de l'outback australien aux stations balnéaires du Pacifique.</p><p>Que vous voyagiez pour le travail ou pour les loisirs, nos forfaits flexibles vous accompagnent partout. Obtenez votre eSIM Océanie et partez l'esprit léger.</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour l'Océanie ?",
+          "answer": "ChillSIM propose une couverture eSIM fiable en Océanie, incluant l'Australie, la Nouvelle‑Zélande et les îles du Pacifique. Tarifs compétitifs et activation instantanée."
+        },
+        "q4": {
+          "answer": "Oui ! Nos forfaits Océanie fonctionnent dans plusieurs pays de la région. Voyagez sans changer de carte SIM."
+        }
+      }
+    },
+    "turkey": {
+      "hero": {
+        "title": "eSIM pour la Turquie",
+        "subtitle": "Restez connecté en Turquie avec une couverture eSIM rapide et fiable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour la Turquie",
+        "subtitle": "Connectivité abordable à travers la Turquie"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour vos voyages en Turquie ?"
+      },
+      "seo": {
+        "title": "Découvrez la Turquie avec l'eSIM ChillSIM",
+        "content": "<p>Vous préparez un voyage en Turquie ? Restez connecté facilement avec le service eSIM fiable de ChillSIM. Nos cartes SIM numériques offrent une connectivité transparente sur tout le pays, vous permettant d'explorer sans vous soucier des frais d'itinérance ou des cartes SIM locales. Oui, c'est exact : vous pouvez obtenir des données via une carte eSIM numérique tout en conservant votre carte SIM principale pour les appels vocaux. Scannez le code QR, suivez les étapes d'installation et activez les données eSIM dès votre arrivée !</p><p>Avec ChillSIM, accédez à Internet haut débit dès votre atterrissage en Turquie. Que vous visitiez Istanbul, Éphèse ou la Cappadoce, notre eSIM vous permet de partager vos aventures et de vous orienter facilement.</p><h3>Pourquoi choisir ChillSIM pour la Turquie ?</h3><p>Notre eSIM est conçue pour les voyageurs modernes qui recherchent fiabilité, simplicité et économie. L'installation est numérique et rapide. Pensez à installer l'eSIM avant votre départ car une connexion Internet est nécessaire pour l'installation. La période de validité commence lorsque la eSIM s'enregistre sur le réseau local.</p><p>ChillSIM s'associe à des opérateurs turcs réputés pour assurer une excellente couverture partout dans le pays.</p><p>Quel que soit votre type de voyage — affaires, tourisme ou exploration — ChillSIM propose des forfaits adaptés. Obtenez votre eSIM Turquie dès aujourd'hui et voyagez sereinement !</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour la Turquie ?",
+          "answer": "ChillSIM propose des forfaits eSIM fiables et abordables pour la Turquie. Couverture étendue, activation instantanée et tarifs compétitifs."
+        },
+        "q4": {
+          "answer": "Notre eSIM Turquie est conçue pour une utilisation sur le territoire turc, offrant une excellente couverture d'Istanbul à Antalya, d'Ankara à la Cappadoce."
+        }
+      }
+    },
+    "usa": {
+      "hero": {
+        "title": "eSIM pour les États‑Unis",
+        "subtitle": "Restez connecté à travers les États‑Unis avec une eSIM rapide et fiable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour les États‑Unis",
+        "subtitle": "Connectivité fluide dans les 50 états"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour les USA ?"
+      },
+      "seo": {
+        "title": "Explorez les USA avec l'eSIM ChillSIM",
+        "content": "<p>Vous partez aux États‑Unis ? Restez connecté facilement avec l'eSIM fiable de ChillSIM. Nos cartes SIM numériques offrent une connectivité transparente dans tout le pays, vous évitant les frais d'itinérance élevés et la recherche de cartes SIM locales. Oui, vous pouvez obtenir des données via une eSIM secondaire tout en conservant votre SIM principale pour les appels vocaux. Scannez le code QR, suivez l'installation et activez les données eSIM dès votre arrivée.</p><p>Avec ChillSIM, bénéficiez d'un accès haut débit immédiat aux États‑Unis. Que vous visitiez New‑York, le Grand Canyon ou les plages de Californie, restez connecté pour naviguer, partager et travailler.</p><h3>Pourquoi choisir ChillSIM pour les USA ?</h3><p>Nous collaborons avec des opérateurs majeurs pour garantir une couverture solide de côtes à côtes. Nos forfaits sont flexibles et adaptés aux road trips, voyages d'affaires et vacances en famille.</p><p>Rejoignez les voyageurs qui font confiance à ChillSIM pour leur connectivité aux États‑Unis. Obtenez votre eSIM USA dès aujourd'hui !</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour les États‑Unis ?",
+          "answer": "ChillSIM propose des forfaits eSIM fiables et abordables pour les États‑Unis, avec une couverture nationale et une activation instantanée."
+        },
+        "q4": {
+          "answer": "Notre eSIM USA offre une excellente couverture à travers les 50 états, que vous soyez en ville ou en pleine nature."
+        }
+      }
+    },
+    "canada": {
+      "hero": {
+        "title": "eSIM pour le Canada",
+        "subtitle": "Explorez le Canada avec une couverture eSIM fiable d'un océan à l'autre"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour le Canada",
+        "subtitle": "Restez connecté de Vancouver à Toronto, de Montréal à Calgary"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour le Canada ?"
+      },
+      "seo": {
+        "title": "Découvrez le Canada avec l'eSIM ChillSIM",
+        "content": "<p>Voyagez au Canada ? Restez connecté facilement avec l'eSIM ChillSIM. Nos cartes numériques offrent une connectivité transparente dans ce vaste pays, sans les frais d'itinérance ou la recherche de cartes locales. Scannez le code QR et installez l'eSIM avant ou pendant votre voyage.</p><p>ChillSIM s'associe à des opérateurs canadiens pour garantir une bonne couverture, que vous soyez en ville ou en pleine nature. Profitez d'une connexion fiable pour partager, naviguer et travailler.</p><h3>Pourquoi choisir ChillSIM pour le Canada ?</h3><p>Nos forfaits sont conçus pour différents types de voyageurs : affaires, loisirs ou aventure en plein air. Flexible et simple à utiliser, l'eSIM vous simplifie la vie.</p><p>Obtenez votre eSIM Canada dès aujourd'hui et partez en toute tranquillité.</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour le Canada ?",
+          "answer": "ChillSIM propose des forfaits eSIM fiables et abordables pour le Canada, avec une couverture nationale et une activation instantanée."
+        },
+        "q4": {
+          "answer": "Notre eSIM Canada offre une excellente couverture dans toutes les provinces et territoires, des côtes atlantiques au Pacifique."
+        }
+      }
+    },
+    "thailand": {
+      "hero": {
+        "title": "eSIM pour la Thaïlande",
+        "subtitle": "Découvrez la Thaïlande avec une connectivité eSIM fluide et abordable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour la Thaïlande",
+        "subtitle": "Restez connecté de Bangkok à Phuket, de Chiang Mai à Koh Samui"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour la Thaïlande ?"
+      },
+      "seo": {
+        "title": "Explorez la Thaïlande avec l'eSIM ChillSIM",
+        "content": "<p>Vous planifiez un voyage en Thaïlande ? Restez connecté avec l'eSIM ChillSIM. Nos forfaits offrent une couverture dans tout le pays, idéale pour explorer villes, îles et régions rurales sans souci.</p><p>Scannez le code QR reçu par email, suivez les étapes d'installation et activez votre eSIM. Nous recommandons d'installer l'eSIM avant le départ, car une connexion Internet est nécessaire pour l'installation.</p><h3>Pourquoi choisir ChillSIM pour la Thaïlande ?</h3><p>Nos forfaits sont flexibles et adaptés aux voyageurs souhaitant rester connectés tout au long de leur séjour, que ce soit pour le travail, les loisirs ou l'aventure.</p><p>Obtenez votre eSIM Thaïlande dès aujourd'hui et profitez d'une connexion fiable pendant votre voyage.</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour la Thaïlande ?",
+          "answer": "ChillSIM propose des forfaits eSIM fiables et abordables pour la Thaïlande, avec une bonne couverture et une activation rapide."
+        },
+        "q4": {
+          "answer": "Notre eSIM Thaïlande couvre largement le pays, de Bangkok aux îles tropicales et aux régions du nord."
+        }
+      }
+    },
+    "uae": {
+      "hero": {
+        "title": "eSIM pour les Émirats",
+        "subtitle": "Profitez du luxe et de la connectivité aux Émirats avec une eSIM fiable"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour les Émirats",
+        "subtitle": "Restez connecté à Dubaï, Abou Dhabi et au‑delà"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour les Émirats ?"
+      },
+      "seo": {
+        "title": "Découvrez les Émirats avec l'eSIM ChillSIM",
+        "content": "<p>Préparez un voyage aux Émirats ? Restez connecté avec l'eSIM ChillSIM. Nos forfaits offrent une connectivité fiable dans tout le pays, idéale pour les voyageurs d'affaires et de loisirs.</p><p>Scannez le code QR et installez l'eSIM avant ou pendant votre séjour pour une activation rapide.</p><h3>Pourquoi choisir ChillSIM pour les Émirats ?</h3><p>Nous nous associons à des opérateurs locaux pour garantir une excellente couverture dans les principales villes et destinations touristiques.</p><p>Obtenez votre eSIM UAE et voyagez en toute tranquillité.</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour les Émirats ?",
+          "answer": "ChillSIM propose des forfaits eSIM fiables et abordables pour les Émirats, avec une couverture solide à Dubaï, Abou Dhabi et ailleurs."
+        },
+        "q4": {
+          "answer": "Notre eSIM UAE offre une excellente couverture dans les sept émirats, de Dubaï aux sites culturels d'Abou Dhabi."
+        }
+      }
+    },
+    "japan": {
+      "hero": {
+        "title": "eSIM pour le Japon",
+        "subtitle": "Découvrez le Japon avec une connectivité eSIM rapide et performante"
+      },
+      "plans": {
+        "title": "Choisissez un forfait data eSIM pour le Japon",
+        "subtitle": "Restez connecté de Tokyo à Kyoto, d'Osaka à Hokkaido"
+      },
+      "features": {
+        "title": "Pourquoi choisir ChillSIM pour le Japon ?"
+      },
+      "seo": {
+        "title": "Explorez le Japon avec l'eSIM ChillSIM",
+        "content": "<p>Vous partez au Japon ? Restez connecté facilement avec l'eSIM ChillSIM. Nos forfaits offrent une couverture nationale, idéale pour découvrir les villes modernes, les temples anciens et les paysages naturels.</p><p>Installez l'eSIM en scannant le code QR et profitez d'une connexion fiable pour naviguer et partager vos souvenirs.</p><h3>Pourquoi choisir ChillSIM pour le Japon ?</h3><p>Nos partenariats avec des opérateurs locaux garantissent une excellente couverture, même en zones rurales. Choisissez un forfait adapté à la durée et à l'usage de votre voyage.</p><p>Obtenez votre eSIM Japon dès aujourd'hui et partez sereinement.</p>"
+      },
+      "faq": {
+        "q1": {
+          "question": "Quelle est la meilleure eSIM pour le Japon ?",
+          "answer": "ChillSIM propose des forfaits eSIM fiables et abordables pour le Japon, avec une couverture nationale et une activation rapide."
+        },
+        "q4": {
+          "answer": "Notre eSIM Japon offre une excellente couverture dans tout le pays, de Tokyo aux régions rurales."
+        }
+      }
+    }
   }
 }
 
