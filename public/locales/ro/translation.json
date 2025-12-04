@@ -674,11 +674,11 @@
     "features": {
       "instantConnectivity": {
         "title": "Conectivitate instantă",
-        "description": "Conectează-te imediat ce aterizezi. Fără așteptare, fără complicații, fără schimburi de cartele SIM."
+        "description": "Conectează-te imediat ce aterizezi. Fără așteptare, fără dificultati, fără schimburi de cartele SIM."
       },
       "wideCoverage": {
         "title": "Acoperire extinsă",
-        "description": "Rămâi conectat în mai multe țări cu un singur eSIM. Perfect pentru călătorii multi-țară."
+        "description": "Rămâi conectat la internet în mai multe țări cu un singur eSIM. Perfect pentru călătorii cu mai mult de o singură destinație."
       },
       "affordablePlans": {
         "title": "Planuri accesibile",
@@ -686,21 +686,21 @@
       },
       "easyToUse": {
         "title": "Ușor de utilizat",
-        "description": "Configurare simplă în câteva minute. Doar scanează un cod QR și ești gata de plecare."
+        "description": "Configurare simplă în câteva minute. Doar scanează un cod QR, urmează pașii până la capăt și ești gata de plecare."
       },
       "secureConnection": {
         "title": "Conexiune securizată",
-        "description": "Datele tale sunt protejate cu securitate de nivel enterprise pe rețele de încredere."
+        "description": "Datele tale sunt protejate de sisteme de securitate de cel mai înalt nivel."
       },
       "support": {
         "title": "Suport 24/7",
-        "description": "Primești ajutor ori de câte ori ai nevoie. Echipa noastră de suport este mereu pregătită să te asiste."
+        "description": "Primești ajutor ori de câte ori ai nevoie. Echipa noastră de suport este mereu pregătită să te ajute."
       }
     },
     "disclaimers": {
       "title": "Informații importante",
       "deviceCompatibility": "Asigură-te că dispozitivul tău suportă tehnologia eSIM înainte de a cumpăra.",
-      "activation": "eSIM-ul tău se va activa automat când te conectezi la o rețea acceptată în destinația ta.",
+      "activation": "eSIM-ul tău se va activa automat când te conectezi la o rețea de telefonie mobila în țara de destinație.",
       "installation": "Instalează eSIM-ul înainte de a călători. Vei avea nevoie de o conexiune la internet pentru a finaliza instalarea.",
       "validity": "Planurile de date sunt valabile pentru perioada specificată, începând de la activare."
     },
@@ -712,7 +712,7 @@
       },
       "q3": {
         "question": "Când se activează eSIM-ul meu?",
-        "answer": "eSIM-ul se activează automat când te conectezi la o rețea acceptată în destinația ta. Perioada de valabilitate începe din momentul activării."
+        "answer": "eSIM-ul se activează automat când te conectezi la o rețea acceptată în țara pentru care l-ai achiziționat. Perioada de valabilitate începe din momentul activării."
       },
       "q4": {
         "question": "Pot folosi eSIM-ul în mai multe țări?",
@@ -720,13 +720,13 @@
       },
       "q5": {
         "question": "Ce fac dacă am nevoie de mai multe date?",
-        "answer": "Poți reîncărca eSIM-ul cu date suplimentare prin aplicația sau site-ul nostru. Reîncărcările sunt disponibile oricând în timpul călătoriei."
+        "answer": "Poți reîncărca majoritatea eSIM-urilor cu date suplimentare prin aplicația sau site-ul nostru. Reîncărcările sunt disponibile oricând în timpul călătoriei. În cazul în care opțiunea de reîncărcare nu este disponibilă, poți achiziționa un nou SIM."
       }
     },
     "europe": {
       "hero": {
         "title": "eSIM pentru Europa",
-        "subtitle": "Rămâi conectat în toată Europa cu planuri eSIM accesibile și de încredere"
+        "subtitle": "Rămâi conectat la internet în toată Europa cu planuri eSIM accesibile și de încredere"
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Europa",
@@ -737,7 +737,7 @@
       },
       "seo": {
         "title": "Descoperă Europa cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o călătorie în Europa? Rămâi conectat fără efort cu serviciul nostru eSIM de încredere. Cartelele noastre SIM digitale oferă conectivitate fără întreruperi în toată Europa, permițându-ți să explorezi de la străzile romantice din Paris la obiectivele istorice din Roma fără grija costurilor mari de roaming.</p><p>Cu ChillSIM, beneficiezi de acces instant la date mobile de mare viteză imediat ce aterizezi. Indiferent dacă explorezi orașe pline de viață, castele istorice sau coaste spectaculoase, eSIM-ul nostru te menține conectat pentru a-ți împărtăși aventurile, a naviga ușor și a rămâne în legătură cu cei dragi.</p><h3>De ce să alegi ChillSIM pentru aventura ta europeană?</h3><p>Soluția noastră eSIM este concepută pentru călătorii moderni care caută fiabilitate, accesibilitate și confort. Spre deosebire de cartelele SIM fizice care necesită înlocuire, eSIM-ul nostru se instalează digital în câteva minute. Scanează codul QR înainte sau în timpul călătoriei și ești gata de plecare.</p><p>ChillSIM colaborează cu rețele mobile de top din Europa, inclusiv operatori din Franța, Germania, Italia, Spania, Regatul Unit și altele, asigurându-ți cea mai bună acoperire și viteză posibilă oriunde călătorești.</p><h3>Potrivit pentru orice tip de călător</h3><p>Fie că ești un călător de afaceri care are nevoie de conexiune stabilă pentru apeluri video, un backpacker care vizitează mai multe țări sau o familie în vacanță ce vrea să împărtășească amintiri în timp real, ChillSIM are planul potrivit. eSIM-ul nostru pentru Europa funcționează în peste 35 de țări, fiind ideal pentru aventuri multi-țară.</p><p>Alătură-te miilor de călători mulțumiți care au încredere în ChillSIM pentru a rămâne conectați în Europa. Ia-ți eSIM-ul astăzi și descoperă libertatea conectivității fără granițe!</p>"
+        "content": "<p>Plănuiești o călătorie în Europa? Rămâi conectat la internet fără efort cu serviciul nostru eSIM de încredere. Cartelele noastre SIM digitale oferă conectivitate fără întreruperi în toată Europa, permițându-ți să explorezi de la străzile romantice din Paris până la obiectivele istorice din Roma, fără grija costurilor mari de roaming.</p><p>Cu ChillSIM, beneficiezi de acces instant la date mobile de mare viteză imediat ce aterizezi. Indiferent dacă explorezi orașe pline de viață, castele istorice sau coaste spectaculoase, eSIM-ul nostru te menține conectat pentru a-ți împărtăși aventurile, a naviga ușor și a rămâne în legătură cu cei dragi.</p><h3>De ce să alegi ChillSIM pentru aventura ta europeană?</h3><p>Soluția noastră eSIM este concepută pentru călătorii moderni care caută fiabilitate, accesibilitate și confort. Spre deosebire de cartelele SIM fizice care necesită înlocuire, eSIM-ul nostru se instalează digital în câteva minute. Scanează codul QR înainte sau în timpul călătoriei și ești gata de plecare.</p><p>ChillSIM colaborează cu rețele mobile de top din Europa, inclusiv operatori din Franța, Germania, Italia, Spania, Regatul Unit și altele, asigurându-ți cea mai bună acoperire și viteză posibilă oriunde călătorești.</p><h3>Potrivit pentru orice tip de călător</h3><p>Fie că ești un călător de afaceri care are nevoie de conexiune stabilă pentru apeluri video, un backpacker care vizitează mai multe țări sau o familie în vacanță ce vrea să împărtășească amintiri în timp real, ChillSIM are planul potrivit. eSIM-ul nostru pentru Europa funcționează în peste 35 de țări, fiind ideal pentru aventuri în țări multiple.</p><p>Alătură-te miilor de călători mulțumiți care au încredere în ChillSIM pentru a rămâne conectați la internet în Europa. Ia-ți eSIM-ul astăzi și descoperă libertatea conectivității fără granițe!</p>"
       },
       "faq": {
         "q1": {
@@ -752,18 +752,18 @@
     "africa": {
       "hero": {
         "title": "eSIM pentru Africa",
-        "subtitle": "Trăiește minunile Africii în timp ce rămâi conectat cu acoperire eSIM fiabilă"
+        "subtitle": "Trăiește minunile Africii în timp ce rămâi conectat la internetcu acoperire eSIM fiabilă"
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Africa",
-        "subtitle": "Rămâi conectat în diverse destinații africane"
+        "subtitle": "Rămâi conectat la internet în diverse destinații africane"
       },
       "features": {
         "title": "De ce să alegi ChillSIM pentru călătoria în Africa?"
       },
       "seo": {
         "title": "Explorează Africa cu eSIM-ul ChillSIM",
-        "content": "<p>Pornești într-o aventură africană? De la piramidele majore din Egipt la safari-urile impresionante din Kenya și orașele vibrante din Africa de Sud, rămâi conectat pe tot parcursul călătoriei cu eSIM-ul fiabil de la ChillSIM.</p><p>eSIM-ul nostru pentru Africa oferă conectivitate fără întreruperi pe întregul continent. Fie că urmărești Marea Migrație, explorezi civilizații antice sau te bucuri de plaje spectaculoase, ChillSIM te menține în legătură pentru a împărtăși fiecare moment de neuitat.</p><h3>De ce să alegi ChillSIM pentru safari-ul tău african?</h3><p>Călătoria prin Africa necesită conectivitate fiabilă, iar ChillSIM o oferă. Tehnologia noastră eSIM elimină nevoia de a căuta cartele SIM locale în fiecare țară, economisindu-ți timp prețios pentru a te bucura de aventură.</p><p>Colaborăm cu rețele mobile de top din Africa pentru a asigura o acoperire puternică în marile orașe și destinațiile turistice populare. De la Cape Town la Cairo, de la Nairobi la Marrakech, rămâi conectat fără efort.</p><h3>Conceput pentru exploratorii Africii</h3><p>Fie că ești la un safari, în căutarea siturilor istorice sau călătorești între capitale, ChillSIM oferă conectivitatea de care ai nevoie. Planurile noastre flexibile de date se potrivesc nevoilor tale, fie că împarți fotografii sau navighezi terenuri necunoscute.</p><p>Alătură-te călătorilor care au încredere în ChillSIM pentru aventurile lor africane. Ia-ți eSIM-ul pentru Africa și explorează acest continent magnific cu încredere!</p>"
+        "content": "<p>Pornești într-o aventură africană? De la piramidele majore din Egipt la safari-urile impresionante din Kenya și orașele vibrante din Africa de Sud, rămâi conectat la internet pe tot parcursul călătoriei cu eSIM-ul fiabil de la ChillSIM.</p><p>eSIM-ul nostru pentru Africa oferă conectivitate fără întreruperi pe întregul continent. Fie că urmărești Marea Migrație, explorezi civilizații antice sau te bucuri de plaje spectaculoase, ChillSIM te menține în legătură pentru a împărtăși fiecare moment de neuitat.</p><h3>De ce să alegi ChillSIM pentru safari-ul tău african?</h3><p>Călătoria prin Africa necesită conectivitate fiabilă, iar ChillSIM o oferă. Tehnologia noastră eSIM elimină nevoia de a căuta cartele SIM locale în fiecare țară, economisindu-ți timp prețios pentru a te bucura de aventură.</p><p>Colaborăm cu rețele mobile de top din Africa pentru a asigura o acoperire puternică în marile orașe și destinațiile turistice populare. De la Cape Town la Cairo, de la Nairobi la Marrakech, rămâi conectat la internet fără efort.</p><h3>Conceput pentru exploratorii Africii</h3><p>Fie că ești la un safari, în căutarea siturilor istorice sau călătorești între capitale, ChillSIM oferă conectivitatea de care ai nevoie. Planurile noastre flexibile de date se potrivesc nevoilor tale, fie că împarți fotografii sau navighezi terenuri necunoscute.</p><p>Alătură-te călătorilor care au încredere în ChillSIM pentru aventurile lor africane. Ia-ți eSIM-ul pentru Africa și explorează acest continent magnific cu încredere!</p>"
       },
       "faq": {
         "q1": {
@@ -778,7 +778,7 @@
     "middle-east": {
       "hero": {
         "title": "eSIM pentru Orientul Mijlociu",
-        "subtitle": "Rămâi conectat în Orientul Mijlociu cu planuri eSIM rapide și fiabile"
+        "subtitle": "Rămâi conectat la internet în Orientul Mijlociu cu planuri eSIM rapide și fiabile"
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Orientul Mijlociu",
@@ -789,15 +789,15 @@
       },
       "seo": {
         "title": "Descoperă Orientul Mijlociu cu eSIM-ul ChillSIM",
-        "content": "<p>Călătorești în Orientul Mijlociu? Fie că vizitezi orizonturile futuriste ale Dubaiului, minunile antice din Iordania sau bogăția culturală a Arabiei Saudite, eSIM-ul ChillSIM te menține conectat pe tot parcursul călătoriei.</p><p>eSIM-ul nostru pentru Orientul Mijlociu oferă acces instant la date mobile de mare viteză în regiune. Fie că ai întâlniri de afaceri în capitale moderne sau explorezi situri istorice, rămâi conectat pentru a naviga, comunica și partaja experiențele tale cu ușurință.</p><h3>De ce să alegi ChillSIM pentru călătoria ta în Orientul Mijlociu?</h3><p>Regiunea îmbină istoria antică cu tehnologia modernă, iar conectivitatea ta ar trebui să fie pe măsură. Tehnologia eSIM de la ChillSIM oferă confortul necesar - fără cartele fizice, activare instant și roaming fără probleme între țări.</p><p>Partenerii noștri includ rețele mobile premium din Orientul Mijlociu, asigurând o acoperire excelentă în orașe precum Dubai, Abu Dhabi, Riad, Doha și altele. Bucură-te de internet rapid, fie că ești în souk-uri aglomerate sau în rezervații deșertice.</p><h3>Perfect pentru afaceri și agrement</h3><p>Fie că călătorești în scop profesional în regiune, explorezi situri istorice sau te relaxezi în resorturi, ChillSIM îți oferă conectivitatea de care ai nevoie. Planurile noastre flexibile acoperă atât călătorii scurte, cât și sejururi prelungite.</p><p>Alătură-te călătorilor inteligenți care aleg ChillSIM pentru Orientul Mijlociu. Ia-ți eSIM-ul și descoperă regiunea cu încredere!</p>"
+        "content": "<p>Călătorești în Orientul Mijlociu? Fie că vizitezi orizonturile futuriste ale Dubaiului, minunile antice din Iordania sau bogăția culturală a Arabiei Saudite, eSIM-ul ChillSIM te menține conectat pe tot parcursul călătoriei.</p><p>eSIM-ul nostru pentru Orientul Mijlociu oferă acces instant la date mobile de mare viteză în regiune. Fie că ai întâlniri de afaceri în capitale moderne sau explorezi situri istorice, rămâi conectat la internet pentru a naviga, comunica și partaja experiențele tale cu ușurință.</p><h3>De ce să alegi ChillSIM pentru călătoria ta în Orientul Mijlociu?</h3><p>Regiunea îmbină istoria antică cu tehnologia modernă, iar conectivitatea ta ar trebui să fie pe măsură. Tehnologia eSIM de la ChillSIM oferă confortul necesar - fără cartele fizice, activare instant și roaming fără probleme între țări.</p><p>Partenerii noștri includ rețele mobile premium din Orientul Mijlociu, asigurând o acoperire excelentă în orașe precum Dubai, Abu Dhabi, Riad, Doha și altele. Bucură-te de internet rapid, fie că ești în souk-uri aglomerate sau în rezervații deșertice.</p><h3>Perfect pentru afaceri și agrement</h3><p>Fie că călătorești în scop profesional în regiune, explorezi situri istorice sau te relaxezi în resorturi, ChillSIM îți oferă conectivitatea de care ai nevoie. Planurile noastre flexibile acoperă atât călătorii scurte, cât și sejururi prelungite.</p><p>Alătură-te călătorilor inteligenți care aleg ChillSIM pentru Orientul Mijlociu. Ia-ți eSIM-ul și descoperă regiunea cu încredere!</p>"
       },
       "faq": {
         "q1": {
           "question": "Care este cel mai bun eSIM pentru Orientul Mijlociu?",
-          "answer": "ChillSIM oferă conectivitate rapidă și fiabilă în Orientul Mijlociu. Cu acoperire excelentă în EAU, Arabia Saudită, Qatar și alte țări, prețuri competitive și activare instant, este o alegere inspirată pentru călătoria ta."
+          "answer": "ChillSIM oferă conectivitate rapidă și fiabilă în Orientul Mijlociu. Cu acoperire excelentă în Emiratele Arabe Unite, Arabia Saudită, Qatar și alte țări, prețuri competitive și activare instant, este o alegere inspirată pentru călătoria ta."
         },
         "q4": {
-          "answer": "Da! Planurile noastre pentru Orientul Mijlociu funcționează în mai multe țări din regiune. Călătorește liber din EAU în Arabia Saudită, Qatar în Iordania, fără a schimba cartele SIM."
+          "answer": "Da! Planurile noastre pentru Orientul Mijlociu funcționează în mai multe țări din regiune. Călătorește liber din Emiratele Arabe Unite în Arabia Saudită, Qatar în Iordania, fără a schimba cartele SIM."
         }
       }
     },
@@ -808,14 +808,14 @@
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Asia",
-        "subtitle": "Rămâi conectat de la Tokyo la Bangkok, de la Singapore la Seoul"
+        "subtitle": "Rămâi conectat la internet de la Tokyo la Bangkok, de la Singapore la Seoul"
       },
       "features": {
         "title": "De ce să alegi ChillSIM pentru călătoria în Asia?"
       },
       "seo": {
         "title": "Explorează Asia cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o aventură în Asia? De la luminile neon ale Tokyo la plajele tropicale din Thailanda, de la piețele aglomerate din Bangkok la orizonturile moderne din Singapore, eSIM-ul ChillSIM te menține conectat pe tot parcursul călătoriei.</p><p>eSIM-ul nostru pentru Asia oferă conectivitate fără întreruperi pe întreg continentul. Fie că faci tururi inter-insulare în Indonezia, vizitezi temple în Cambodgia sau lucrezi dintr-un hub tech din Hong Kong, rămâi conectat pentru a naviga, traduce și împărtăși experiențele în timp real.</p><h3>De ce să alegi ChillSIM pentru călătoria ta asiatică?</h3><p>Asia este vastă și diversă, iar conectivitatea trebuie să fie fiabilă. Tehnologia eSIM de la ChillSIM elimină nevoia de a cumpăra cartele locale în fiecare țară, oferindu-ți mai mult timp pentru a explora.</p><p>Colaborăm cu rețele importante din Asia pentru a asigura o acoperire excelentă, de la marile metropole la destinațiile mai puțin frecventate. Bucură-te de internet rapid în Seoul, Bali sau orice altă destinație asiatică.</p><h3>Conceput pentru exploratorii Asiei</h3><p>Fie că ești nomad digital, gurmand în căutare de experiențe culinare sau backpacker, ChillSIM oferă planuri flexibile pentru orice stil de călătorie. Acoperirea multi-țară te menține conectat pe măsură ce schimbi destinațiile.</p><p>Alătură-te miilor care au încredere în ChillSIM pentru conectivitate în Asia. Ia-ți eSIM-ul azi și explorează continentul cu încredere!</p>"
+        "content": "<p>Plănuiești o aventură în Asia? De la luminile neon ale Tokyo la plajele tropicale din Thailanda, de la piețele aglomerate din Bangkok la orizonturile moderne din Singapore, eSIM-ul ChillSIM te menține conectat pe tot parcursul călătoriei.</p><p>eSIM-ul nostru pentru Asia oferă conectivitate fără întreruperi pe întreg continentul. Fie că faci tururi inter-insulare în Indonezia, vizitezi temple în Cambodgia sau lucrezi dintr-un hub tech din Hong Kong, rămâi conectat la internet pentru a naviga, traduce și împărtăși experiențele în timp real.</p><h3>De ce să alegi ChillSIM pentru călătoria ta asiatică?</h3><p>Asia este vastă și diversă, iar conectivitatea trebuie să fie fiabilă. Tehnologia eSIM de la ChillSIM elimină nevoia de a cumpăra cartele locale în fiecare țară, oferindu-ți mai mult timp pentru a explora.</p><p>Colaborăm cu rețele importante din Asia pentru a asigura o acoperire excelentă, de la marile metropole la destinațiile mai puțin frecventate. Bucură-te de internet rapid în Seoul, Bali sau orice altă destinație asiatică.</p><h3>Conceput pentru exploratorii Asiei</h3><p>Fie că ești nomad digital, gurmand în căutare de experiențe culinare sau backpacker, ChillSIM oferă planuri flexibile pentru orice stil de călătorie. Acoperirea multi-țară te menține conectat pe măsură ce schimbi destinațiile.</p><p>Alătură-te miilor care au încredere în ChillSIM pentru conectivitate în Asia. Ia-ți eSIM-ul azi și explorează continentul cu încredere!</p>"
       },
       "faq": {
         "q1": {
@@ -830,7 +830,7 @@
     "north-america": {
       "hero": {
         "title": "eSIM pentru America de Nord",
-        "subtitle": "Rămâi conectat în SUA, Canada și Mexic cu acoperire eSIM fiabilă"
+        "subtitle": "Rămâi conectat la internet în SUA, Canada și Mexic cu acoperire eSIM fiabilă"
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru America de Nord",
@@ -841,7 +841,7 @@
       },
       "seo": {
         "title": "Descoperă America de Nord cu eSIM-ul ChillSIM",
-        "content": "<p>Călătorești prin America de Nord? De la orașele aglomerate din Statele Unite la sălbăticia Canadei și cultura vibrantă din Mexic, eSIM-ul ChillSIM te menține conectat pe tot parcursul aventurii tale nord-americane.</p><p>eSIM-ul nostru pentru America de Nord oferă conectivitate fiabilă în regiune. Fie că faci un road-trip prin SUA, explorezi parcuri naționale în Canada sau descoperi orașe pline de viață din Mexic, rămâi conectat pentru a naviga, partaja și comunica fără efort.</p><h3>De ce să alegi ChillSIM pentru călătoria ta în America de Nord?</h3><p>Distanțele mari din America de Nord cer o conectivitate de încredere, iar ChillSIM o oferă. Tehnologia eSIM elimină căutarea cartelelor locale - doar conectare instantă din momentul sosirii.</p><p>Partenerii noștri includ operatori importanți din SUA, Canada și Mexic, asigurând o acoperire puternică de la New York la Vancouver, de la Los Angeles la Mexico City.</p><h3>Potrivit pentru orice aventură nord-americană</h3><p>Fie că ești în călătorie de afaceri, drumetie prin parcuri sau explorare urbană, ChillSIM oferă planuri flexibile pentru fiecare tip de călător. Acoperirea multi-țară îți permite să te deplasezi fără întreruperi între țările din America de Nord.</p><p>Alătură-te călătorilor care aleg ChillSIM pentru conectivitate în America de Nord. Ia-ți eSIM-ul și descoperă continentul cu încredere!</p>"
+        "content": "<p>Călătorești prin America de Nord? De la orașele aglomerate din Statele Unite la sălbăticia Canadei și cultura vibrantă din Mexic, eSIM-ul ChillSIM te menține conectat pe tot parcursul aventurii tale nord-americane.</p><p>eSIM-ul nostru pentru America de Nord oferă conectivitate fiabilă în regiune. Fie că faci un road-trip prin SUA, explorezi parcuri naționale în Canada sau descoperi orașe pline de viață din Mexic, rămâi conectat la internet pentru a naviga, partaja și comunica fără efort.</p><h3>De ce să alegi ChillSIM pentru călătoria ta în America de Nord?</h3><p>Distanțele mari din America de Nord cer o conectivitate de încredere, iar ChillSIM o oferă. Tehnologia eSIM elimină căutarea cartelelor locale - doar conectare instantă din momentul sosirii.</p><p>Partenerii noștri includ operatori importanți din SUA, Canada și Mexic, asigurând o acoperire puternică de la New York la Vancouver, de la Los Angeles la Mexico City.</p><h3>Potrivit pentru orice aventură nord-americană</h3><p>Fie că ești în călătorie de afaceri, drumetie prin parcuri sau explorare urbană, ChillSIM oferă planuri flexibile pentru fiecare tip de călător. Acoperirea multi-țară îți permite să te deplasezi fără întreruperi între țările din America de Nord.</p><p>Alătură-te călătorilor care aleg ChillSIM pentru conectivitate în America de Nord. Ia-ți eSIM-ul și descoperă continentul cu încredere!</p>"
       },
       "faq": {
         "q1": {
@@ -860,14 +860,14 @@
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru America de Sud",
-        "subtitle": "Rămâi conectat în destinațiile sud-americane"
+        "subtitle": "Rămâi conectat la internet în destinațiile sud-americane"
       },
       "features": {
         "title": "De ce să alegi ChillSIM pentru călătoria în America de Sud?"
       },
       "seo": {
         "title": "Descoperă America de Sud cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o aventură în America de Sud? De la ruinele antice ale Machu Picchu la plajele vibrante din Brazilia, tango-ul din Buenos Aires până la pădurea amazoniană, eSIM-ul ChillSIM te menține conectat pe parcursul călătoriei tale prin acest continent divers.</p><p>eSIM-ul nostru pentru America de Sud oferă conectivitate fără întreruperi în regiune. Fie că faci drumeții în Anzi, explorezi orașe coloniale sau participi la festivaluri locale, rămâi conectat pentru a naviga și a partaja momentele tale.</p><h3>De ce să alegi ChillSIM pentru aventura ta sud-americană?</h3><p>America de Sud are o diversitate impresionantă, iar ChillSIM oferă conectivitate fiabilă în multe dintre destinațiile cheie. Colaborăm cu rețele locale pentru a asigura o acoperire solidă de la Lima la São Paulo.</p><h3>Conceput pentru exploratorii din America de Sud</h3><p>Fie că ești backpacker, călător cultural sau aventurier în natură, ChillSIM oferă planuri flexibile pentru nevoile tale. Bucură-te de acoperire multi-țară pe măsură ce te deplasezi prin continent.</p><p>Alătură-te călătorilor care au încredere în ChillSIM pentru conectivitate în America de Sud. Ia-ți eSIM-ul și pornește la drum cu încredere!</p>"
+        "content": "<p>Plănuiești o aventură în America de Sud? De la ruinele antice ale Machu Picchu la plajele vibrante din Brazilia, tango-ul din Buenos Aires până la pădurea amazoniană, eSIM-ul ChillSIM te menține conectat pe parcursul călătoriei tale prin acest continent divers.</p><p>eSIM-ul nostru pentru America de Sud oferă conectivitate fără întreruperi în regiune. Fie că faci drumeții în Anzi, explorezi orașe coloniale sau participi la festivaluri locale, rămâi conectat la internet pentru a naviga și a partaja momentele tale.</p><h3>De ce să alegi ChillSIM pentru aventura ta sud-americană?</h3><p>America de Sud are o diversitate impresionantă, iar ChillSIM oferă conectivitate fiabilă în multe dintre destinațiile cheie. Colaborăm cu rețele locale pentru a asigura o acoperire solidă de la Lima la São Paulo.</p><h3>Conceput pentru exploratorii din America de Sud</h3><p>Fie că ești backpacker, călător cultural sau aventurier în natură, ChillSIM oferă planuri flexibile pentru nevoile tale. Bucură-te de acoperire multi-țară pe măsură ce te deplasezi prin continent.</p><p>Alătură-te călătorilor care au încredere în ChillSIM pentru conectivitate în America de Sud. Ia-ți eSIM-ul și pornește la drum cu încredere!</p>"
       },
       "faq": {
         "q1": {
@@ -886,14 +886,14 @@
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Oceania",
-        "subtitle": "Rămâi conectat în destinațiile frumoase din Oceania"
+        "subtitle": "Rămâi conectat la internet în destinațiile frumoase din Oceania"
       },
       "features": {
         "title": "De ce să alegi ChillSIM pentru călătoria în Oceania?"
       },
       "seo": {
         "title": "Descoperă Oceania cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o călătorie în Oceania? De la reperele iconice din Australia la peisajele spectaculoase din Noua Zeelandă și insulele Pacificului, eSIM-ul ChillSIM te menține conectat pe tot parcursul aventurii tale.</p><p>eSIM-ul nostru pentru Oceania oferă conectivitate fără întreruperi în regiune. Fie că explorezi Sydney, trasee din Noua Zeelandă sau te relaxezi pe insule exotice, rămâi conectat pentru a naviga și a partaja amintiri.</p><h3>De ce să alegi ChillSIM pentru călătoria ta în Oceania?</h3><p>Distanțele mari din Oceania cer o conectivitate fiabilă, iar ChillSIM oferă exact asta. Colaborăm cu rețele premium pentru a asigura acoperire de la Outback-ul australian până la orașele din Noua Zeelandă și resorturile insulare.</p><h3>Potrivit pentru exploratorii din Oceania</h3><p>Fie că ești într-o călătorie de afaceri în Sydney, într-un road-trip în Noua Zeelandă sau faci island-hopping în Pacific, ChillSIM oferă planuri flexibile pentru fiecare tip de călător.</p><p>Alătură-te călătorilor care au încredere în ChillSIM pentru conectivitate în Oceania. Ia-ți eSIM-ul și pornește la drum cu încredere!</p>"
+        "content": "<p>Plănuiești o călătorie în Oceania? De la reperele iconice din Australia la peisajele spectaculoase din Noua Zeelandă și insulele Pacificului, eSIM-ul ChillSIM te menține conectat pe tot parcursul aventurii tale.</p><p>eSIM-ul nostru pentru Oceania oferă conectivitate fără întreruperi în regiune. Fie că explorezi Sydney, trasee din Noua Zeelandă sau te relaxezi pe insule exotice, rămâi conectat la internet pentru a naviga și a partaja amintiri.</p><h3>De ce să alegi ChillSIM pentru călătoria ta în Oceania?</h3><p>Distanțele mari din Oceania cer o conectivitate fiabilă, iar ChillSIM oferă exact asta. Colaborăm cu rețele premium pentru a asigura acoperire de la Outback-ul australian până la orașele din Noua Zeelandă și resorturile insulare.</p><h3>Potrivit pentru exploratorii din Oceania</h3><p>Fie că ești într-o călătorie de afaceri în Sydney, într-un road-trip în Noua Zeelandă sau faci island-hopping în Pacific, ChillSIM oferă planuri flexibile pentru fiecare tip de călător.</p><p>Alătură-te călătorilor care au încredere în ChillSIM pentru conectivitate în Oceania. Ia-ți eSIM-ul și pornește la drum cu încredere!</p>"
       },
       "faq": {
         "q1": {
@@ -908,7 +908,7 @@
     "turkey": {
       "hero": {
         "title": "eSIM pentru Turcia",
-        "subtitle": "Rămâi conectat în Turcia cu acoperire eSIM rapidă și fiabilă"
+        "subtitle": "Rămâi conectat la internet în Turcia cu acoperire eSIM rapidă și fiabilă"
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Turcia",
@@ -919,7 +919,7 @@
       },
       "seo": {
         "title": "Descoperă Turcia cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o călătorie în Turcia? Rămâi conectat fără efort cu serviciul nostru eSIM de încredere. Cartelele noastre digitale oferă conectivitate în toată țara, permițându-ți să explorezi fără a te îngrijora de costuri mari de roaming sau de cumpărarea unei cartele SIM locale. Poți folosi datele de pe un eSIM digital, păstrând în același timp SIM-ul principal pentru convorbiri vocale. Scanează codul QR, urmează pașii de instalare și pornește datele eSIM-ului când ajungi la destinație!</p><p>Cu ChillSIM obții acces instant la date mobile de mare viteză imediat ce ajungi în Turcia. Fie că vizitezi Istanbul, Efes sau Cappadocia, eSIM-ul nostru te menține conectat pentru a-ți împărtăși experiențele, a naviga și a rămâne în legătură cu cei dragi.</p><h3>De ce să alegi ChillSIM pentru aventurile tale în Turcia?</h3><p>Soluția noastră eSIM este concepută pentru călători moderni care caută fiabilitate, accesibilitate și confort. Spre deosebire de cartelele SIM fizice, eSIM-ul se instalează digital în minute. Este recomandat să instalezi eSIM-ul înainte de plecare, deoarece instalarea necesită o conexiune la internet. Nu te îngrijora în privința datei de expirare — perioada de valabilitate începe doar când SIM-ul se înregistrează în rețeaua destinației!</p><p>ChillSIM colaborează cu rețele mobile de top din Turcia pentru a-ți asigura cea mai bună acoperire și viteză, de la marile orașe la destinațiile mai îndepărtate.</p><h3>Potrivit pentru orice tip de călător</h3><p>Fie că ești într-o călătorie de afaceri, explorezi situri istorice sau te relaxezi, ChillSIM oferă planuri flexibile potrivite pentru tine. Alege din opțiuni variate pentru a se potrivi nevoilor și duratei călătoriei tale.</p><p>Alătură-te mii de călători care au încredere în ChillSIM pentru conectivitate în Turcia. Ia-ți eSIM-ul și călătorește cu încredere!</p>"
+        "content": "<p>Plănuiești o călătorie în Turcia? Rămâi conectat la internet fără efort cu serviciul nostru eSIM de încredere. Cartelele noastre digitale oferă conectivitate în toată țara, permițându-ți să explorezi fără a te îngrijora de costuri mari de roaming sau de cumpărarea unei cartele SIM locale. Poți folosi datele de pe un eSIM digital, păstrând în același timp SIM-ul principal pentru convorbiri vocale. Scanează codul QR, urmează pașii de instalare și pornește datele eSIM-ului când ajungi la destinație!</p><p>Cu ChillSIM obții acces instant la date mobile de mare viteză imediat ce ajungi în Turcia. Fie că vizitezi Istanbul, Efes sau Cappadocia, eSIM-ul nostru te menține conectat pentru a-ți împărtăși experiențele, a naviga și a rămâne în legătură cu cei dragi.</p><h3>De ce să alegi ChillSIM pentru aventurile tale în Turcia?</h3><p>Soluția noastră eSIM este concepută pentru călători moderni care caută fiabilitate, accesibilitate și confort. Spre deosebire de cartelele SIM fizice, eSIM-ul se instalează digital în minute. Este recomandat să instalezi eSIM-ul înainte de plecare, deoarece instalarea necesită o conexiune la internet. Nu te îngrijora în privința datei de expirare — perioada de valabilitate începe doar când SIM-ul se înregistrează în rețeaua destinației!</p><p>ChillSIM colaborează cu rețele mobile de top din Turcia pentru a-ți asigura cea mai bună acoperire și viteză, de la marile orașe la destinațiile mai îndepărtate.</p><h3>Potrivit pentru orice tip de călător</h3><p>Fie că ești într-o călătorie de afaceri, explorezi situri istorice sau te relaxezi, ChillSIM oferă planuri flexibile potrivite pentru tine. Alege din opțiuni variate pentru a se potrivi nevoilor și duratei călătoriei tale.</p><p>Alătură-te mii de călători care au încredere în ChillSIM pentru conectivitate în Turcia. Ia-ți eSIM-ul și călătorește cu încredere!</p>"
       },
       "faq": {
         "q1": {
@@ -934,7 +934,7 @@
     "usa": {
       "hero": {
         "title": "eSIM pentru SUA",
-        "subtitle": "Rămâi conectat în Statele Unite cu eSIM rapid și fiabil"
+        "subtitle": "Rămâi conectat la internet în Statele Unite cu eSIM rapid și fiabil"
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru SUA",
@@ -945,7 +945,7 @@
       },
       "seo": {
         "title": "Explorează SUA cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o călătorie în SUA? Rămâi conectat fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate în toate cele 50 de state, permițându-ți să explorezi fără a te îngrijora de costuri mari de roaming sau de schimbarea cartelelor SIM. Poți folosi datele de pe eSIM în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR, urmează pașii de instalare și pornește datele eSIM-ului când ajungi la destinație!</p><p>Cu ChillSIM beneficiezi de acces instant la date mobile de mare viteză în SUA. Fie că explorezi New York, Marele Canion sau coasta Californiei, eSIM-ul nostru te menține conectat pentru navigare, partajare și comunicare.</p><h3>De ce să alegi ChillSIM pentru aventura ta în SUA?</h3><p>Soluția noastră eSIM este concepută pentru călătorii moderni care caută confort și fiabilitate. Instalarea necesită internet, deci este recomandat să o faci înainte de călătorie. Perioada de valabilitate începe când eSIM-ul se înregistrează în rețea.</p><p>Colaborăm cu rețele de top din SUA pentru a asigura acoperire extinsă, de la metropole la zone mai îndepărtate.</p><h3>Potrivit pentru orice tip de călător în SUA</h3><p>Fie că ești într-un city-break, road-trip sau vacanță, ChillSIM oferă planuri flexibile potrivite pentru nevoile tale. Acoperirea multi-țară te permite să călătorești fără probleme între state.</p><p>Alătură-te mii de călători care aleg ChillSIM pentru conectivitate în SUA. Ia-ți eSIM-ul azi și pornește la drum cu încredere!</p>"
+        "content": "<p>Plănuiești o călătorie în SUA? Rămâi conectat la internet fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate în toate cele 50 de state, permițându-ți să explorezi fără a te îngrijora de costuri mari de roaming sau de schimbarea cartelelor SIM. Poți folosi datele de pe eSIM în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR, urmează pașii de instalare și pornește datele eSIM-ului când ajungi la destinație!</p><p>Cu ChillSIM beneficiezi de acces instant la date mobile de mare viteză în SUA. Fie că explorezi New York, Marele Canion sau coasta Californiei, eSIM-ul nostru te menține conectat pentru navigare, partajare și comunicare.</p><h3>De ce să alegi ChillSIM pentru aventura ta în SUA?</h3><p>Soluția noastră eSIM este concepută pentru călătorii moderni care caută confort și fiabilitate. Instalarea necesită internet, deci este recomandat să o faci înainte de călătorie. Perioada de valabilitate începe când eSIM-ul se înregistrează în rețea.</p><p>Colaborăm cu rețele de top din SUA pentru a asigura acoperire extinsă, de la metropole la zone mai îndepărtate.</p><h3>Potrivit pentru orice tip de călător în SUA</h3><p>Fie că ești într-un city-break, road-trip sau vacanță, ChillSIM oferă planuri flexibile potrivite pentru nevoile tale. Acoperirea multi-țară te permite să călătorești fără probleme între state.</p><p>Alătură-te mii de călători care aleg ChillSIM pentru conectivitate în SUA. Ia-ți eSIM-ul azi și pornește la drum cu încredere!</p>"
       },
       "faq": {
         "q1": {
@@ -953,7 +953,7 @@
           "answer": "ChillSIM oferă planuri eSIM fiabile și accesibile pentru Statele Unite, cu acoperire națională, prețuri competitive și activare instant."
         },
         "q4": {
-          "answer": "eSIM-ul nostru pentru SUA oferă acoperire excelentă în toate cele 50 de state, de la coastă la coastă. Rămâi conectat atât în marile orașe, cât și în zonele naturale."
+          "answer": "eSIM-ul nostru pentru SUA oferă acoperire excelentă în toate cele 50 de state, de la coastă la coastă. Rămâi conectat la internetatât în marile orașe, cât și în zonele naturale."
         }
       }
     },
@@ -964,14 +964,14 @@
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Canada",
-        "subtitle": "Rămâi conectat de la Vancouver la Toronto, Montreal la Calgary"
+        "subtitle": "Rămâi conectat la internet de la Vancouver la Toronto, Montreal la Calgary"
       },
       "features": {
         "title": "De ce să alegi ChillSIM pentru călătoria în Canada?"
       },
       "seo": {
         "title": "Descoperă Canada cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o călătorie în Canada? Rămâi conectat fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate pe întreg teritoriul canadian, permițându-ți să explorezi fără a te îngrijora de costuri mari de roaming sau de cumpărarea unei cartele locale. Poți folosi datele eSIM-ului în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR și urmează pașii de instalare!</p><p>Cu ChillSIM primești acces instant la date mobile de mare viteză în Canada. Fie că ești în orașe vibrante precum Toronto și Vancouver sau în mijlocul peisajelor montane, rămâi conectat pentru a naviga și a partaja amintiri.</p><h3>De ce să alegi ChillSIM pentru aventura ta canadiană?</h3><p>Soluția noastră eSIM este concepută pentru călători care au nevoie de fiabilitate și flexibilitate. Instalarea necesită o conexiune la internet, de aceea recomandăm să o faci înainte de plecare. Perioada de valabilitate începe la înregistrarea în rețea.</p><h3>Potrivit pentru orice tip de călător în Canada</h3><p>Fie că ești în călătorie de afaceri, în expediție în natură sau în vacanță urbană, ChillSIM oferă planuri flexibile care se potrivesc nevoilor tale. Bucură-te de acoperire extinsă în toate provinciile și teritoriile.</p><p>Alătură-te călătorilor care aleg ChillSIM pentru conectivitate în Canada. Ia-ți eSIM-ul și explorează țara cu încredere!</p>"
+        "content": "<p>Plănuiești o călătorie în Canada? Rămâi conectat la internet fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate pe întreg teritoriul canadian, permițându-ți să explorezi fără a te îngrijora de costuri mari de roaming sau de cumpărarea unei cartele locale. Poți folosi datele eSIM-ului în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR și urmează pașii de instalare!</p><p>Cu ChillSIM primești acces instant la date mobile de mare viteză în Canada. Fie că ești în orașe vibrante precum Toronto și Vancouver sau în mijlocul peisajelor montane, rămâi conectat la internet pentru a naviga și a partaja amintiri.</p><h3>De ce să alegi ChillSIM pentru aventura ta canadiană?</h3><p>Soluția noastră eSIM este concepută pentru călători care au nevoie de fiabilitate și flexibilitate. Instalarea necesită o conexiune la internet, de aceea recomandăm să o faci înainte de plecare. Perioada de valabilitate începe la înregistrarea în rețea.</p><h3>Potrivit pentru orice tip de călător în Canada</h3><p>Fie că ești în călătorie de afaceri, în expediție în natură sau în vacanță urbană, ChillSIM oferă planuri flexibile care se potrivesc nevoilor tale. Bucură-te de acoperire extinsă în toate provinciile și teritoriile.</p><p>Alătură-te călătorilor care aleg ChillSIM pentru conectivitate în Canada. Ia-ți eSIM-ul și explorează țara cu încredere!</p>"
       },
       "faq": {
         "q1": {
@@ -990,14 +990,14 @@
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Thailanda",
-        "subtitle": "Rămâi conectat din Bangkok până în Phuket, Chiang Mai până în Koh Samui"
+        "subtitle": "Rămâi conectat la internet din Bangkok până în Phuket, Chiang Mai până în Koh Samui"
       },
       "features": {
         "title": "De ce să alegi ChillSIM pentru Thailanda?"
       },
       "seo": {
         "title": "Explorează Thailanda cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o călătorie în Thailanda? Rămâi conectat fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate în toată țara, permițându-ți să explorezi fără grija costurilor mari de roaming. Poți folosi datele eSIM-ului în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR și instalează eSIM-ul!</p><p>Cu ChillSIM beneficiezi de acces instant la date mobile de mare viteză în Thailanda. Fie că ești în Bangkok, te relaxezi în Phuket sau explorezi nordul țării, rămâi conectat pentru a naviga și a împărtăși amintiri.</p><h3>De ce să alegi ChillSIM pentru aventura ta în Thailanda?</h3><p>Tehnologia eSIM elimină nevoia de a cumpăra cartele locale, oferindu-ți confort și flexibilitate. Recomandăm instalarea înainte de plecare, deoarece procesul necesită internet. Perioada de valabilitate începe la activare.</p><p>Colaborăm cu rețele locale pentru a asigura acoperire solidă în destinațiile populare din Thailanda.</p><h3>Potrivit pentru orice tip de călător</h3><p>Fie că ești nomad digital, turist de plajă sau explorator cultural, ChillSIM oferă planuri flexibile adaptate nevoilor tale.</p><p>Alătură-te călătorilor care aleg ChillSIM pentru Thailanda. Ia-ți eSIM-ul și călătorește liniștit!</p>"
+        "content": "<p>Plănuiești o călătorie în Thailanda? Rămâi conectat la internet fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate în toată țara, permițându-ți să explorezi fără grija costurilor mari de roaming. Poți folosi datele eSIM-ului în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR și instalează eSIM-ul!</p><p>Cu ChillSIM beneficiezi de acces instant la date mobile de mare viteză în Thailanda. Fie că ești în Bangkok, te relaxezi în Phuket sau explorezi nordul țării, rămâi conectat la internet pentru a naviga și a împărtăși amintiri.</p><h3>De ce să alegi ChillSIM pentru aventura ta în Thailanda?</h3><p>Tehnologia eSIM elimină nevoia de a cumpăra cartele locale, oferindu-ți confort și flexibilitate. Recomandăm instalarea înainte de plecare, deoarece procesul necesită internet. Perioada de valabilitate începe la activare.</p><p>Colaborăm cu rețele locale pentru a asigura acoperire solidă în destinațiile populare din Thailanda.</p><h3>Potrivit pentru orice tip de călător</h3><p>Fie că ești nomad digital, turist de plajă sau explorator cultural, ChillSIM oferă planuri flexibile adaptate nevoilor tale.</p><p>Alătură-te călătorilor care aleg ChillSIM pentru Thailanda. Ia-ți eSIM-ul și călătorește liniștit!</p>"
       },
       "faq": {
         "q1": {
@@ -1011,27 +1011,27 @@
     },
     "uae": {
       "hero": {
-        "title": "eSIM pentru EAU",
-        "subtitle": "Experimentează luxul și conectivitatea în EAU cu eSIM fiabil"
+        "title": "eSIM pentru Emiratele Arabe Unite",
+        "subtitle": "Experimentează luxul și conectivitatea în Emiratele Arabe Unite cu eSIM fiabil"
       },
       "plans": {
-        "title": "Alege un plan de date eSIM pentru EAU",
-        "subtitle": "Rămâi conectat în Dubai, Abu Dhabi și nu numai"
+        "title": "Alege un plan de date eSIM pentru Emiratele Arabe Unite",
+        "subtitle": "Rămâi conectat la internet în Dubai, Abu Dhabi și nu numai"
       },
       "features": {
-        "title": "De ce să alegi ChillSIM pentru EAU?"
+        "title": "De ce să alegi ChillSIM pentru Emiratele Arabe Unite?"
       },
       "seo": {
-        "title": "Descoperă EAU cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o călătorie în EAU? Rămâi conectat fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate în toată țara, permițându-ți să explorezi fără grija costurilor mari de roaming. Poți folosi datele eSIM-ului în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR și urmează pașii de instalare!</p><p>Cu ChillSIM beneficiezi de acces instant la date mobile de mare viteză în EAU. Fie că vizitezi Dubai, Abu Dhabi sau alte destinații emiratice, rămâi conectat pentru a naviga și a partaja experiențele tale.</p><h3>De ce să alegi ChillSIM pentru călătoria ta în EAU?</h3><p>Tehnologia eSIM oferă confort modern pentru călătorii și elimină necesitatea cartelelor fizice. Instalarea necesită internet, deci recomandăm efectuarea acesteia înainte de plecare. Perioada de valabilitate începe la activare în rețea.</p><p>Colaborăm cu rețele premium din regiune pentru a asigura acoperire excelentă în orașele majore și destinațiile turistice.</p><h3>Perfect pentru afaceri și agrement</h3><p>Indiferent dacă călătorești în scop de afaceri sau pentru plăcere, ChillSIM oferă planuri flexibile ce se potrivesc nevoilor tale.</p><p>Alătură-te călătorilor care aleg ChillSIM pentru EAU. Ia-ți eSIM-ul și experimentează regiunea cu încredere!</p>"
+        "title": "Descoperă Emiratele Arabe Unite cu eSIM-ul ChillSIM",
+        "content": "<p>Plănuiești o călătorie în Emiratele Arabe Unite? Rămâi conectat la internet fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate în toată țara, permițându-ți să explorezi fără grija costurilor mari de roaming. Poți folosi datele eSIM-ului în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR și urmează pașii de instalare!</p><p>Cu ChillSIM beneficiezi de acces instant la date mobile de mare viteză în Emiratele Arabe Unite. Fie că vizitezi Dubai, Abu Dhabi sau alte destinații emiratice, rămâi conectat la internet pentru a naviga și a partaja experiențele tale.</p><h3>De ce să alegi ChillSIM pentru călătoria ta în Emiratele Arabe Unite?</h3><p>Tehnologia eSIM oferă confort modern pentru călătorii și elimină necesitatea cartelelor fizice. Instalarea necesită internet, deci recomandăm efectuarea acesteia înainte de plecare. Perioada de valabilitate începe la activare în rețea.</p><p>Colaborăm cu rețele premium din regiune pentru a asigura acoperire excelentă în orașele majore și destinațiile turistice.</p><h3>Perfect pentru afaceri și agrement</h3><p>Indiferent dacă călătorești în scop de afaceri sau pentru plăcere, ChillSIM oferă planuri flexibile ce se potrivesc nevoilor tale.</p><p>Alătură-te călătorilor care aleg ChillSIM pentru Emiratele Arabe Unite. Ia-ți eSIM-ul și experimentează regiunea cu încredere!</p>"
       },
       "faq": {
         "q1": {
-          "question": "Care este cel mai bun eSIM pentru EAU?",
-          "answer": "ChillSIM oferă planuri eSIM fiabile și accesibile pentru EAU, cu acoperire excelentă în Dubai, Abu Dhabi și alte emirate. (Nota: traducerea anterioară a fost păstrată în context.)"
+          "question": "Care este cel mai bun eSIM pentru Emiratele Arabe Unite?",
+          "answer": "ChillSIM oferă planuri eSIM fiabile și accesibile pentru Emiratele Arabe Unite, cu acoperire excelentă în Dubai, Abu Dhabi și alte emirate. (Nota: traducerea anterioară a fost păstrată în context.)"
         },
         "q4": {
-          "answer": "eSIM-ul nostru pentru EAU oferă acoperire în toate emiratele, de la zgârie-nori la atracții culturale."
+          "answer": "eSIM-ul nostru pentru Emiratele Arabe Unite oferă acoperire în toate emiratele, de la zgârie-nori la atracții culturale."
         }
       }
     },
@@ -1042,14 +1042,14 @@
       },
       "plans": {
         "title": "Alege un plan de date eSIM pentru Japonia",
-        "subtitle": "Rămâi conectat de la Tokyo la Kyoto, Osaka la Hokkaido"
+        "subtitle": "Rămâi conectat la internet de la Tokyo la Kyoto, Osaka la Hokkaido"
       },
       "features": {
         "title": "De ce să alegi ChillSIM pentru Japonia?"
       },
       "seo": {
         "title": "Explorează Japonia cu eSIM-ul ChillSIM",
-        "content": "<p>Plănuiești o călătorie în Japonia? Rămâi conectat fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate în toată țara, permițându-ți să explorezi fără grija costurilor mari de roaming. Poți folosi datele eSIM-ului în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR și urmează pașii de instalare!</p><p>Cu ChillSIM beneficiezi de acces instant la date mobile de mare viteză în Japonia. Fie că explorezi Tokyo, Kyoto sau regiunile rurale, rămâi conectat pentru a naviga și a împărtăși experiențe.</p><h3>De ce să alegi ChillSIM pentru aventura ta japoneză?</h3><p>Tehnologia eSIM oferă comoditate și flexibilitate. Instalarea necesită conexiune la internet — recomandăm efectuarea înainte de plecare. Perioada de valabilitate începe la înregistrarea în rețea.</p><h3>Potrivit pentru orice călător</h3><p>Fie că ești turist cultural, lucrezi de la distanță sau explorezi peisaje, ChillSIM oferă planuri flexibile potrivite pentru nevoile tale.</p><p>Alătură-te miilor care aleg ChillSIM pentru Japonia. Ia-ți eSIM-ul și pornește la drum cu încredere!</p>"
+        "content": "<p>Plănuiești o călătorie în Japonia? Rămâi conectat la internet fără efort cu serviciul nostru eSIM. Cartelele digitale oferă conectivitate în toată țara, permițându-ți să explorezi fără grija costurilor mari de roaming. Poți folosi datele eSIM-ului în timp ce păstrezi SIM-ul principal pentru apeluri vocale. Scanează codul QR și urmează pașii de instalare!</p><p>Cu ChillSIM beneficiezi de acces instant la date mobile de mare viteză în Japonia. Fie că explorezi Tokyo, Kyoto sau regiunile rurale, rămâi conectat la internet pentru a naviga și a împărtăși experiențe.</p><h3>De ce să alegi ChillSIM pentru aventura ta japoneză?</h3><p>Tehnologia eSIM oferă comoditate și flexibilitate. Instalarea necesită conexiune la internet — recomandăm efectuarea înainte de plecare. Perioada de valabilitate începe la înregistrarea în rețea.</p><h3>Potrivit pentru orice călător</h3><p>Fie că ești turist cultural, lucrezi de la distanță sau explorezi peisaje, ChillSIM oferă planuri flexibile potrivite pentru nevoile tale.</p><p>Alătură-te miilor care aleg ChillSIM pentru Japonia. Ia-ți eSIM-ul și pornește la drum cu încredere!</p>"
       },
       "faq": {
         "q1": {
