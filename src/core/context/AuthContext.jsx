@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteToken } from "firebase/messaging";
-import axios from "axios";
 import { toast } from "react-toastify";
 import {
   getAuth,
@@ -21,6 +20,7 @@ import { supabaseSignout, userLogout } from "../apis/authAPI";
 import { DetachDevice } from "../../redux/reducers/deviceReducer";
 import { messaging } from "../../../firebaseconfig";
 import { queryClient } from "../../main";
+import { api } from "../apis/axios";
 
 const AuthContext = createContext();
 
@@ -54,14 +54,11 @@ export const AuthProvider = ({ children }) => {
     (data) => {
       console.log("display user info", data);
       setLoadingSocial(true);
-      axios
-        .get(`${import.meta.env.VITE_API_URL}api/v1/auth/user-info`, {
+      api
+        .get(`api/v1/auth/user-info`, {
           headers: {
             Authorization: `Bearer ${data?.session?.access_token}`,
             "x-refresh-token": data?.session?.refresh_token,
-            "X-Timezone": Intl.DateTimeFormat().resolvedOptions().timeZone,
-            "X-Language": "en",
-            "x-device-id": sessionStorage.getItem("x-device-id") || "1234",
           },
         })
         .then((res) => {
