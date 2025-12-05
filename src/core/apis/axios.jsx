@@ -76,18 +76,36 @@ api.interceptors.request.use(
       const clickId = localStorage.getItem("affiliate_click_id");
       const timestamp = localStorage.getItem("affiliate_click_timestamp");
       
+      console.log("🔍 Affiliate header check:", { 
+        clickId, 
+        timestamp, 
+        hasClickId: !!clickId, 
+        hasTimestamp: !!timestamp 
+      });
+      
       if (clickId && timestamp) {
         const clickTimestamp = parseInt(timestamp);
         const now = Date.now();
         const isExpired = now - clickTimestamp > ATTRIBUTION_WINDOW_MS;
+        
+        console.log("⏰ Expiry check:", { 
+          clickTimestamp, 
+          now, 
+          isExpired,
+          ageMinutes: Math.round((now - clickTimestamp) / 60000)
+        });
 
         if (!isExpired) {
           config.headers["X-Affiliate-Click-Id"] = clickId;
+          console.log("✅ Added X-Affiliate-Click-Id header:", clickId);
         } else {
           // Clean up expired data
+          console.log("🗑️ Removing expired affiliate data");
           localStorage.removeItem("affiliate_click_id");
           localStorage.removeItem("affiliate_click_timestamp");
         }
+      } else {
+        console.log("⚠️ No affiliate data in localStorage");
       }
     } catch (error) {
       // Fail silently - affiliate tracking is optional
