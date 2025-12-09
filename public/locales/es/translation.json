@@ -316,7 +316,13 @@
     "Plan Started": "Plan Iniciado",
     "Plan Not Started": "Plan No Iniciado",
     "Expired": "Vencido",
-    "Pending": "Pendiente"
+    "Pending": "Pendiente",
+    "popularDestinations": {
+      "title": "Explora Destinos Populares",
+      "subtitle": "Conectividad instantánea en los destinos más visitados del mundo",
+      "countries": "Países Populares",
+      "regions": "Regiones Populares"
+    }
   },
   "bundles": {
     "validity": "Validez",

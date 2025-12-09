@@ -60,7 +60,13 @@ export const useAppRoutes = () => {
       },
       {
         path: "/plans/land",
-        element: <Plans />
+        element: <PlansWrapper />,
+        children: [
+          {
+            path: "",
+            element: <Plans />,
+          },
+        ],
       },
       { path: `/callback-google`, element: <AuthValidation /> },
       { path: `/auth-verify`, element: <AuthValidation /> },

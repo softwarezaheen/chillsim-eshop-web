@@ -307,7 +307,7 @@
     "chooseYourPlan": "Choose your plan",
     "please": "Please",
     "dial": "dial",
-    "checkCompatibility": "to check device compatibility, if EID exist then",
+    "checkCompatibility": "to check device compatibility, if EID exists then",
     "compatibleDevice": "your device is compatible",
     "noPlansAvailable": "No plans available at the moment. Please check back later",
     "atSea": "At Sea",
@@ -316,7 +316,13 @@
     "Plan Started": "Plan Started",
     "Plan Not Started": "Plan Not Started",
     "Expired": "Expired",
-    "Pending": "Pending"
+    "Pending": "Pending",
+    "popularDestinations": {
+      "title": "Explore Popular Destinations",
+      "subtitle": "Get instant connectivity in the world's most visited destinations",
+      "countries": "Popular Countries",
+      "regions": "Popular Regions"
+    }
   },
   "bundles": {
     "validity": "Validity",

@@ -316,7 +316,13 @@
     "Plan Started": "प्लान शुरू हुआ",
     "Plan Not Started": "प्लान शुरू नहीं हुआ",
     "Expired": "समाप्त",
-    "Pending": "लंबित"
+    "Pending": "लंबित",
+    "popularDestinations": {
+      "title": "लोकप्रिय गंतव्य देखें",
+      "subtitle": "दुनिया के सबसे अधिक देखे जाने वाले गंतव्यों में तत्काल कनेक्टिविटी",
+      "countries": "लोकप्रिय देश",
+      "regions": "लोकप्रिय क्षेत्र"
+    }
   },
   "bundles": {
     "validity": "वैधता",

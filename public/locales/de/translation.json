@@ -316,7 +316,13 @@
     "Plan Started": "Tarif gestartet",
     "Plan Not Started": "Tarif nicht gestartet",
     "Expired": "Abgelaufen",
-    "Pending": "Ausstehend"
+    "Pending": "Ausstehend",
+    "popularDestinations": {
+      "title": "Beliebte Reiseziele erkunden",
+      "subtitle": "Sofortige Konnektivität in den meistbesuchten Reisezielen der Welt",
+      "countries": "Beliebte Länder",
+      "regions": "Beliebte Regionen"
+    }
   },
   "bundles": {
     "validity": "Gültigkeit",

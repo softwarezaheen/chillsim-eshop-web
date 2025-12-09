@@ -310,7 +310,13 @@
     "Plan Started": "Plan activat",
     "Plan Not Started": "Plan neactivat",
     "Expired": "Expirat",
-    "Pending": "În așteptare"
+    "Pending": "În așteptare",
+    "popularDestinations": {
+      "title": "Explorează Destinații Populare",
+      "subtitle": "Conectivitate instantanee în cele mai vizitate destinații din lume",
+      "countries": "Țări Populare",
+      "regions": "Regiuni Populare"
+    }
   },
   "bundles": {
     "validity": "Valabilitate",
