@@ -97,9 +97,12 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
                     <TableCell sx={{ border: "1px solid black" }}>
                       {t("orders.unitPrice")}
                     </TableCell>
+                    {/* Fees column - only show if fee_enabled is true */}
+                    {order?.fee_enabled !== false && (
                     <TableCell sx={{ border: "1px solid black" }}>
                       {t("orders.fees")}
                     </TableCell>
+                    )}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -121,6 +124,8 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
                         order?.order_amount + " " + order?.order_currency
                       )}
                     </TableCell>
+                    {/* Fees column - only show if fee_enabled is true */}
+                    {order?.fee_enabled !== false && (
                     <TableCell sx={{ border: "1px solid black" }}>
                       {isLoading ? (
                         <Skeleton width={50} />
@@ -128,6 +133,7 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
                         (order?.order_fee || 0) + " " + order?.order_currency
                       )}
                     </TableCell>
+                    )}
                   </TableRow>
                 </TableBody>
               </Table>
@@ -138,6 +144,8 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
               }
               style={{ position: "relative" }}
             >
+              {/* Tax row - only show for exclusive mode */}
+              {order?.tax_mode === "exclusive" && (
               <p>
                 {t("orders.tax")}{" "}
                 {isLoading ? (
@@ -146,6 +154,7 @@ const OrderReceipt = ({ order, onClose, isLoading }) => {
                   (order?.order_vat || 0) + " " + order?.order_currency
                 )}
               </p>
+              )}
               <div style={{ display: "flex", width: "100%", justifyContent: "space-between", alignItems: "center" }}>
                 {order?.order_invoice && (
                   <Button

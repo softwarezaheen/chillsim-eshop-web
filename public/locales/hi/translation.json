@@ -442,7 +442,8 @@
     "paymentProcessingError": "भुगतान प्रोसेस नहीं किया जा सकता। कृपया IT सहायता से संपर्क करें।",
     "paymentConfirmationFailed": "भुगतान पुष्टि विफल",
     "paymentMethod": "भुगतान विधि",
-    "failedToLoadPaymentInputs": "भुगतान इनपुट लोड करने में विफल। कृपया बाद में फिर प्रयास करें"
+    "failedToLoadPaymentInputs": "भुगतान इनपुट लोड करने में विफल। कृपया बाद में फिर प्रयास करें",
+    "securityDisclaimer": "भुगतान Stripe.com के माध्यम से सुरक्षित रूप से प्रोसेस किए जाते हैं। ChillSim आपके कार्ड विवरण स्टोर नहीं करता।"
   },
   "planType": {
     "Data only": "केवल डेटा"
@@ -459,6 +460,12 @@
   },
   "activity_policy": "eSIM जब किसी समर्थित नेटवर्क से कनेक्ट होता है तो वैधता अवधि शुरू होती है।",
   "price_details": "दिखाई गई कीमतें करों और लेनदेन शुल्क को छोड़कर हैं।",
+  "price_details.inclusive_with_fees": "दिखाई गई कीमतों में कर शामिल हैं। भुगतान पर लेनदेन शुल्क लागू होते हैं",
+  "price_details.inclusive_no_fees": "दिखाई गई कीमतें अंतिम हैं और सभी करों सहित हैं",
+  "price_details.exclusive_with_fees": "दिखाई गई कीमतों में कर और लेनदेन शुल्क शामिल नहीं हैं",
+  "price_details.exclusive_no_fees": "दिखाई गई कीमतों में कर शामिल नहीं हैं",
+  "price_details.none_with_fees": "भुगतान पर लेनदेन शुल्क लागू होते हैं",
+  "price_details.none_no_fees": "दिखाई गई कीमतें अंतिम हैं",
   "terms": {
     "failedToLoadTermsData": "नियम डेटा लोड करने में विफल",
     "termsAndConditions": "नियम और शर्तें"

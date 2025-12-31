@@ -437,7 +437,8 @@
     "paymentProcessingError": "Plata nu poate fi procesată. Te rugăm să contactezi departamentul suport IT.",
     "paymentConfirmationFailed": "Nu s-a putut confirma plata",
     "paymentMethod": "Metodă de plată",
-    "failedToLoadPaymentInputs": "Încărcarea datelor de plată a eșuat. Te rugăm să încerci din nou mai târziu"
+    "failedToLoadPaymentInputs": "Încărcarea datelor de plată a eșuat. Te rugăm să încerci din nou mai târziu",
+    "securityDisclaimer": "Plățile sunt procesate în siguranță prin Stripe.com. ChillSim nu stochează datele cardului dvs."
   },
   "planType": {
     "Data only": "Doar date"
@@ -454,6 +455,12 @@
   },
   "activity_policy": "Perioada de valabilitate începe când eSIM-ul se conectează la orice rețea suportată.",
   "price_details":"Prețurile afișate nu includ taxe și comisioane de tranzacție.",
+  "price_details.inclusive_with_fees": "Prețurile afișate includ taxele. Se aplică comisioane de tranzacție la plată",
+  "price_details.inclusive_no_fees": "Prețurile afișate sunt finale și includ toate taxele",
+  "price_details.exclusive_with_fees": "Prețurile afișate nu includ taxe și comisioane de tranzacție",
+  "price_details.exclusive_no_fees": "Prețurile afișate nu includ taxe",
+  "price_details.none_with_fees": "Se aplică comisioane de tranzacție la plată",
+  "price_details.none_no_fees": "Prețurile afișate sunt finale",
   "terms": {
     "failedToLoadTermsData": "Nu s-au putut încărca informațiile despre Termeni",
     "termsAndConditions": "Termeni și condiții"

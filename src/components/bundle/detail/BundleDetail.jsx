@@ -22,6 +22,7 @@ import TooltipComponent from "../../shared/tooltip/TooltipComponent";
 import { useTranslation, Trans } from "react-i18next";
 import { formatValidity } from "../../../assets/utils/formatValidity";
 import { gtmEvent, gtmAddToCartEvent } from "../../../core/utils/gtm.jsx";
+import { getPriceDisclaimerText } from "../../../utils/priceDisclaimerHelper.js";
 
 const BundleDetail = ({
   onClose,
@@ -276,16 +277,26 @@ const BundleDetail = ({
                     t("common.notAvailable")}
                 </p>
               </div>
-              <hr />
-              <div className={"flex flex-col gap-[0.1rem]"}>
-                <div className={"text-content-600"}>
-                  {t("bundles.priceDetails")}
-                </div>
-                <p className={"font-semibold break-words"}>
-                  {t(`price_details`) ||
-                    t("common.notAvailable")}
-                </p>
-              </div>
+              {/* Only show price details section if NOT (fees off AND tax inclusive) */}
+              {(() => {
+                const configurations = JSON.parse(sessionStorage.getItem("configurations") || "{}");
+                const taxMode = (configurations.tax_mode || "exclusive").toLowerCase();
+                const feeEnabled = (configurations.fee_enabled || "false").toLowerCase() === "true";
+                const shouldHide = !feeEnabled && taxMode === "inclusive";
+                return !shouldHide;
+              })() && (
+                <>
+                  <hr />
+                  <div className={"flex flex-col gap-[0.1rem]"}>
+                    <div className={"text-content-600"}>
+                      {t("bundles.priceDetails")}
+                    </div>
+                    <p className={"font-semibold break-words"}>
+                      {getPriceDisclaimerText(t)}
+                    </p>
+                  </div>
+                </>
+              )}
               <hr />
               <div>
                 <div className={"text-content-600"}>

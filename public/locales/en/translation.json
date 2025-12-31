@@ -442,7 +442,8 @@
     "paymentProcessingError": "Payment cannot be processed. Please contact IT support.",
     "paymentConfirmationFailed": "Failed to confirm payment",
     "paymentMethod": "Payment Method",
-    "failedToLoadPaymentInputs": "Failed to load payment inputs. Please try again later"
+    "failedToLoadPaymentInputs": "Failed to load payment inputs. Please try again later",
+    "securityDisclaimer": "Payments are securely processed via Stripe.com. ChillSim does not store your card details."
   },
   "planType": {
     "Data only": "Data only"
@@ -458,7 +459,13 @@
     "year": "year"
   },
   "activity_policy": "The validity period starts when the eSIM connects to any supported networks.",
-  "price_details":"Prices shown exclude taxes and transaction fees.",
+  "price_details": "Prices shown exclude taxes and transaction fees.",
+  "price_details.inclusive_with_fees": "Prices displayed include taxes. Transaction fees apply at checkout",
+  "price_details.inclusive_no_fees": "Prices displayed are final and include all taxes",
+  "price_details.exclusive_with_fees": "Prices shown exclude taxes and transaction fees",
+  "price_details.exclusive_no_fees": "Prices shown exclude taxes",
+  "price_details.none_with_fees": "Transaction fees apply at checkout",
+  "price_details.none_no_fees": "Prices displayed are final",
   "terms": {
     "failedToLoadTermsData": "Failed to load Terms Data",
     "termsAndConditions": "Terms & Conditions"

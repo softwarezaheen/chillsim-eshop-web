@@ -94,6 +94,24 @@ const Checkout = () => {
     return parseFloat(amount).toFixed(2);
   };
 
+  // Calculate order total based on tax mode
+  // For inclusive/none modes: VAT is already included in original_amount
+  // For exclusive mode: VAT is added on top
+  const calculateOrderTotal = (order) => {
+    if (!order) return 0;
+    const amount = order.original_amount || 0;
+    const fee = order.fee || 0;
+    const vat = order.vat || 0;
+    
+    // For exclusive mode, VAT is added on top
+    // For inclusive/none modes, VAT is already included in original_amount
+    if (order.tax_mode === "exclusive") {
+      return amount + fee + vat;
+    }
+    // inclusive or none mode - VAT already included
+    return amount + fee;
+  };
+
   // Calculate original price from discounted amount (reverse calculation)
   // Backend returns already-discounted original_amount, we need to show the actual original
   const calculateOriginalPrice = (discountedAmount) => {
@@ -271,21 +289,24 @@ const Checkout = () => {
             </div>
             {!isWalletPaymentWithSufficientBalance && (
               <>
-                <div
-                  className={"flex flex-row justify-between items-start gap-[1rem]"}
-                >
-                  <label className={"flex-1 font-semibold"}>
-                    {t("checkout.subtotal")}
-                  </label>
-                  <p
-                    dir={"ltr"}
-                    className={`flex-1 font-bold text-right `}
+                {/* Hide subtotal row when fees are off AND tax is inclusive */}
+                {!(!orderDetail?.fee_enabled && orderDetail?.tax_mode === "inclusive") && (
+                  <div
+                    className={"flex flex-row justify-between items-start gap-[1rem]"}
                   >
-                  {orderDetail?.original_amount
-                    ? getDisplayAmount(calculateOriginalPrice(orderDetail.original_amount) / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
-                    : "---"}
-                  </p>
-                </div>
+                    <label className={"flex-1 font-semibold"}>
+                      {t("checkout.subtotal")}
+                    </label>
+                    <p
+                      dir={"ltr"}
+                      className={`flex-1 font-bold text-right `}
+                    >
+                    {orderDetail?.original_amount
+                      ? getDisplayAmount(calculateOriginalPrice(orderDetail.original_amount) / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
+                      : "---"}
+                    </p>
+                  </div>
+                )}
               {isEligible && discountPercentage && !iccid && orderDetail?.original_amount && (
                 <div
                   className={"flex flex-row justify-between items-center gap-[1rem]"}
@@ -302,6 +323,8 @@ const Checkout = () => {
                   </p>
                 </div>
               )}
+              {/* Fee row - only show if fee_enabled is true and fee exists */}
+              {orderDetail?.fee_enabled !== false && (
               <div
                   className={
                     "flex flex-row justify-between items-start gap-[1rem]"
@@ -316,6 +339,9 @@ const Checkout = () => {
                       : "---"}
                   </p>
                 </div>
+              )}
+                {/* Tax row - only show for exclusive mode (not inclusive or none) */}
+                {orderDetail?.tax_mode === "exclusive" && (
                 <div
                   className={
                     "flex flex-row justify-between items-start gap-[1rem]"
@@ -330,6 +356,7 @@ const Checkout = () => {
                       : "---"}
                   </p>
                 </div>
+                )}
                 
               <hr />
               <div
@@ -349,7 +376,7 @@ const Checkout = () => {
                   {!orderDetail
                     ? t("common.loading")
                     : (
-                        getDisplayAmount((orderDetail.original_amount + orderDetail.fee + orderDetail.vat)/100) +
+                        getDisplayAmount(calculateOrderTotal(orderDetail)/100) +
                         " " +
                         (orderDetail.display_currency || orderDetail.currency)
                       )
@@ -367,10 +394,7 @@ const Checkout = () => {
                       </label>
                       <p dir="ltr" className="font-bold text-2xl text-right">
                         {(
-                          (orderDetail.original_amount +
-                          orderDetail.fee +
-                          orderDetail.vat
-                          ) / 100
+                          calculateOrderTotal(orderDetail) / 100
                         ).toFixed(2) + " " + orderDetail.currency}
                       </p>
                     </div>
