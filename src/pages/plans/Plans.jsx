@@ -14,7 +14,8 @@ import { useHomeCountries } from "../../core/custom-hook/useHomeCountries";
 import { DownloadButton } from "../../components/download/DownloadButton.jsx";
 import CountriesList from "../../components/country-section/CountriesList";
 import { CountriesSkeletons } from "../../components/shared/skeletons/HomePageSkeletons";
-import BundleCard from "../../components/bundle/bundle-card/BundleCard";
+import BundleTableCompact from "../../components/home/BundleTableCompact";
+import BundleDetail from "../../components/bundle/detail/BundleDetail";
 import {
   Autocomplete,
   Alert,
@@ -24,6 +25,7 @@ import {
   IconButton,
   Radio,
   RadioGroup,
+  Switch,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -91,6 +93,17 @@ const Plans = (props) => {
   const [isSearching, setIsSearching] = useState(isSmall);
   const [showAllCountries, setShowAllCountries] = useState(false);
   const [openOrderDetail, setOpenOrderDetail] = useState(false);
+  
+  // Duration filter state
+  const [selectedDuration, setSelectedDuration] = useState("all");
+  
+  // Country vs Regional toggle (only for countries)
+  const [showRegional, setShowRegional] = useState(false);
+  const [userManuallySwitched, setUserManuallySwitched] = useState(false);
+  
+  // Bundle detail modal state
+  const [selectedBundle, setSelectedBundle] = useState(null);
+  const [isBundleModalOpen, setIsBundleModalOpen] = useState(false);
 
   const [search, setSearch] = useState(
     searchParams.getAll("country_codes") || []
@@ -144,6 +157,184 @@ const Plans = (props) => {
       return [];
     }
   }, [data, activeTab, showAllCountries, filters?.type, activeRadio]);
+
+  // Deduplicate and sort bundles (for global/regions display)
+  const sortedBundles = useMemo(() => {
+    if (!homeData || filters?.type === "" || !Array.isArray(homeData)) return homeData;
+    
+    const bundles = homeData;
+    
+    // Helper to convert data to MB for comparison
+    const getDataInMB = (bundle) => {
+      if (bundle.unlimited || bundle.gprs_limit < 0) {
+        return Infinity;
+      }
+      if (bundle.gprs_limit >= 100) {
+        return bundle.gprs_limit;
+      }
+      return bundle.gprs_limit * 1024;
+    };
+
+    const getPrice = (bundle) => {
+      return parseFloat(bundle.price || bundle.original_price || 0);
+    };
+
+    // For countries view, group by data + type (country vs regional)
+    // For regions/global, group by data only
+    const grouped = bundles.reduce((acc, bundle) => {
+      const dataInMB = getDataInMB(bundle);
+      const bundleType = (filters?.type === "" && activeTab === "countries")
+        ? ((bundle.count_countries || 1) === 1 ? 'country' : 'regional')
+        : 'all';
+      // For unlimited bundles, include validity in the key to keep different validities separate
+      const validity = bundle.validity_days || bundle.validity || 0;
+      const key = dataInMB === Infinity ? `${dataInMB}-${validity}-${bundleType}` : `${dataInMB}-${bundleType}`;
+      
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(bundle);
+      return acc;
+    }, {});
+
+    const bestBundles = Object.values(grouped).map((group) => {
+      const sorted = group.sort((a, b) => {
+        const validityDiff = (b.validity_days || b.validity || 0) - (a.validity_days || a.validity || 0);
+        if (validityDiff !== 0) return validityDiff;
+        return getPrice(a) - getPrice(b);
+      });
+      return sorted[0];
+    });
+
+    const sorted = bestBundles.sort((a, b) => {
+      const aData = getDataInMB(a);
+      const bData = getDataInMB(b);
+      
+      if (aData === Infinity && bData === Infinity) {
+        return getPrice(a) - getPrice(b);
+      }
+      if (aData === Infinity) return 1;
+      if (bData === Infinity) return -1;
+      
+      const dataDiff = aData - bData;
+      if (dataDiff !== 0) return dataDiff;
+      
+      return getPrice(a) - getPrice(b);
+    });
+    
+    return sorted;
+  }, [homeData, filters?.type, activeTab]);
+
+  // Duration chip options
+  const durationChips = [
+    { value: "all", label: t("home.duration.all") },
+    { value: 7, label: t("home.duration.7d") },
+    { value: 14, label: t("home.duration.14d") },
+    { value: 30, label: t("home.duration.30d") },
+    { value: 90, label: t("home.duration.90d") },
+    { value: 365, label: t("home.duration.1yr") },
+  ];
+
+  // Filter bundles by duration and country/regional type
+  const filteredBundles = useMemo(() => {
+    if (!sortedBundles || !Array.isArray(sortedBundles)) return sortedBundles;
+    
+    let filtered = sortedBundles;
+    
+    // For countries view, filter by country count
+    if (filters?.type === "" && activeTab === "countries") {
+      if (!showRegional) {
+        filtered = filtered.filter((b) => (b.count_countries || 1) === 1);
+      } else {
+        filtered = filtered.filter((b) => (b.count_countries || 1) > 1);
+      }
+    }
+    
+    // Filter by duration
+    if (selectedDuration === "all") {
+      return filtered;
+    }
+
+    const filterByDays = (bundle) => {
+      const validity = bundle.validity_days || bundle.validity || 0;
+      
+      switch (selectedDuration) {
+        case "7d": return validity <= 7;
+        case "14d": return validity <= 14;
+        case "30d": return validity <= 30;
+        case "90d": return validity <= 90;
+        case "1yr": return validity <= 365;
+        default: return true;
+      }
+    };
+
+    const durationFiltered = filtered.filter(filterByDays);
+    
+    return durationFiltered.sort((a, b) => {
+      const aValidity = a.validity_days || a.validity || 0;
+      const bValidity = b.validity_days || b.validity || 0;
+      return bValidity - aValidity;
+    });
+  }, [sortedBundles, selectedDuration, filters?.type, activeTab, showRegional]);
+
+  // Counts for country vs regional toggle
+  const countryPlansCount = useMemo(() => {
+    if (filters?.type !== "" || activeTab !== "countries" || !sortedBundles) return 0;
+    let filtered = sortedBundles.filter((b) => (b.count_countries || 1) === 1);
+    
+    if (selectedDuration !== "all") {
+      filtered = filtered.filter((b) => {
+        const validity = b.validity_days || b.validity || 0;
+        switch (selectedDuration) {
+          case "7d": return validity <= 7;
+          case "14d": return validity <= 14;
+          case "30d": return validity <= 30;
+          case "90d": return validity <= 90;
+          case "1yr": return validity <= 365;
+          default: return true;
+        }
+      });
+    }
+    
+    return filtered.length;
+  }, [sortedBundles, selectedDuration, filters?.type, activeTab]);
+
+  const regionalPlansCount = useMemo(() => {
+    if (filters?.type !== "" || activeTab !== "countries" || !sortedBundles) return 0;
+    let filtered = sortedBundles.filter((b) => (b.count_countries || 1) > 1);
+    
+    if (selectedDuration !== "all") {
+      filtered = filtered.filter((b) => {
+        const validity = b.validity_days || b.validity || 0;
+        switch (selectedDuration) {
+          case "7d": return validity <= 7;
+          case "14d": return validity <= 14;
+          case "30d": return validity <= 30;
+          case "90d": return validity <= 90;
+          case "1yr": return validity <= 365;
+          default: return true;
+        }
+      });
+    }
+    
+    return filtered.length;
+  }, [sortedBundles, selectedDuration, filters?.type, activeTab]);
+
+  const hasRegionalBundles = useMemo(() => {
+    if (filters?.type !== "" || activeTab !== "countries" || !sortedBundles) return false;
+    return sortedBundles.some((b) => (b.count_countries || 1) > 1);
+  }, [sortedBundles, filters?.type, activeTab]);
+
+  // Modal handlers
+  const handleViewDetails = (bundle) => {
+    setSelectedBundle(bundle);
+    setIsBundleModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsBundleModalOpen(false);
+    setSelectedBundle(null);
+  };
 
   const resetFilter = () => {
     setIsSearching(false);
@@ -417,18 +608,79 @@ const Plans = (props) => {
           supportedCountries={search}
         />
       ) : filters?.type === "global" || activeRadio === "cruises" ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          {homeData?.map((bundleElement) => (
-            <BundleCard
-              key={`${bundleElement?.bundle_code}`}
-              bundle={bundleElement}
-              countryData={null}
-              isLoading={false}
-              globalDisplay={true}
-              cruises={activeRadio === "cruises"}
+        <>
+          {/* Duration Filter Chips */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {durationChips.map((chip) => (
+              <Chip
+                key={chip.value}
+                label={chip.label}
+                onClick={() => setSelectedDuration(chip.value)}
+                color={selectedDuration === chip.value ? "primary" : "default"}
+                variant={selectedDuration === chip.value ? "filled" : "outlined"}
+                sx={{
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor:
+                      selectedDuration === chip.value ? "primary.dark" : "action.hover",
+                  },
+                }}
+              />
+            ))}
+          </div>
+
+          {/* Country vs Regional Toggle (only for countries view) */}
+          {activeTab === "countries" && hasRegionalBundles && (
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <Typography
+                variant="body1"
+                sx={{
+                  fontWeight: showRegional ? 400 : 600,
+                  color: showRegional ? "text.secondary" : "primary.main",
+                }}
+              >
+                {t("regionLanding.countrySpecific")} ({countryPlansCount})
+              </Typography>
+              <Switch
+                checked={showRegional}
+                onChange={(e) => {
+                  setShowRegional(e.target.checked);
+                  setUserManuallySwitched(true);
+                }}
+                color="primary"
+              />
+              <Typography
+                variant="body1"
+                sx={{
+                  fontWeight: showRegional ? 600 : 400,
+                  color: showRegional ? "primary.main" : "text.secondary",
+                }}
+              >
+                {t("regionLanding.regionalPlans")} ({regionalPlansCount})
+              </Typography>
+            </div>
+          )}
+
+          {/* Bundle Table */}
+          <BundleTableCompact
+            bundles={filteredBundles}
+            onViewDetails={handleViewDetails}
+            defaultSort={
+              selectedDuration === "all"
+                ? { orderBy: "price", order: "asc" }
+                : { orderBy: "validity", order: "desc" }
+            }
+          />
+
+          {/* Bundle Detail Modal */}
+          {selectedBundle && isBundleModalOpen && (
+            <BundleDetail
+              bundle={selectedBundle}
+              open={isBundleModalOpen}
+              onClose={handleCloseModal}
             />
-          ))}{" "}
-        </div>
+          )}
+        </>
       ) : (
         <CountriesList
           data={homeData}

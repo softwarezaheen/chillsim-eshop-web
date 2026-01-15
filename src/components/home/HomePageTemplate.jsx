@@ -115,19 +115,99 @@ const HomePageTemplate = ({
     }
   }, []);
 
-  // Filter bundles based on duration and country count
-  const filteredBundles = useMemo(() => {
+  // Deduplicate bundles by data amount and type
+  const sortedBundles = useMemo(() => {
     if (!bundles || bundles.length === 0) return [];
 
-    let filtered = [...bundles];
+    console.log('🔍 [Homepage Dedup] Raw bundles received:', bundles.length);
+
+    // Helper to convert data to MB for comparison
+    const getDataInMB = (bundle) => {
+      if (bundle.unlimited || bundle.gprs_limit < 0) {
+        return Infinity;
+      }
+      if (bundle.gprs_limit >= 100) {
+        return bundle.gprs_limit;
+      }
+      return bundle.gprs_limit * 1024;
+    };
+
+    const getPrice = (bundle) => {
+      return parseFloat(bundle.price || bundle.original_price || 0);
+    };
+
+    // Group bundles by data amount AND bundle type (country vs regional)
+    const grouped = bundles.reduce((acc, bundle) => {
+      const dataInMB = getDataInMB(bundle);
+      const bundleType = ((bundle.count_countries || 1) === 1) ? 'country' : 'regional';
+      // For unlimited bundles, include validity in the key to keep different validities separate
+      const validity = bundle.validity || 0;
+      const key = dataInMB === Infinity ? `${dataInMB}-${validity}-${bundleType}` : `${dataInMB}-${bundleType}`;
+      
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(bundle);
+      return acc;
+    }, {});
+
+    console.log('🔍 [Homepage Dedup] Grouped into', Object.keys(grouped).length, 'unique combinations');
+
+    // For each data amount group, pick the bundle with best value
+    const bestBundles = Object.values(grouped).map((group) => {
+      const sorted = group.sort((a, b) => {
+        // Prefer longer validity (better value)
+        const validityDiff = (b.validity || 0) - (a.validity || 0);
+        if (validityDiff !== 0) return validityDiff;
+        
+        // Then lowest price
+        return getPrice(a) - getPrice(b);
+      });
+      return sorted[0];
+    });
+
+    console.log('🔍 [Homepage Dedup] Best bundles after dedup:', bestBundles.length);
+
+    // Sort by data amount (ascending: 1GB → 50GB), then by price (ascending)
+    const sorted = bestBundles.sort((a, b) => {
+      const aData = getDataInMB(a);
+      const bData = getDataInMB(b);
+      
+      if (aData === Infinity && bData === Infinity) {
+        return getPrice(a) - getPrice(b);
+      }
+      if (aData === Infinity) return 1;
+      if (bData === Infinity) return -1;
+      
+      const dataDiff = aData - bData;
+      if (dataDiff !== 0) return dataDiff;
+      
+      return getPrice(a) - getPrice(b);
+    });
+    
+    console.log('🔍 [Homepage Dedup] Final sorted bundles:', sorted.length);
+    
+    return sorted;
+  }, [bundles]);
+
+  // Filter bundles based on duration and country count
+  const filteredBundles = useMemo(() => {
+    if (!sortedBundles || sortedBundles.length === 0) return [];
+
+    console.log('🔍 [Homepage Filter] Starting with sortedBundles:', sortedBundles.length);
+    console.log('🔍 [Homepage Filter] showRegional:', showRegional, 'selectedDuration:', selectedDuration);
+
+    let filtered = [...sortedBundles];
 
     // Filter by country count (single-country vs regional)
     if (!showRegional) {
       // Show only country-specific bundles (count_countries === 1)
       filtered = filtered.filter((b) => (b.count_countries || 1) === 1);
+      console.log('🔍 [Homepage Filter] After country filter:', filtered.length);
     } else {
       // Show only regional bundles (count_countries > 1)
       filtered = filtered.filter((b) => (b.count_countries || 1) > 1);
+      console.log('🔍 [Homepage Filter] After regional filter:', filtered.length);
     }
 
     // Filter by duration
@@ -137,41 +217,63 @@ const HomePageTemplate = ({
         const validity = b.validity || 0;
         return validity <= maxDays;
       });
+      console.log('🔍 [Homepage Filter] After duration filter (<=', maxDays, 'days):', filtered.length);
     }
 
-    // Sort: validity DESC (closest to selected duration first), then price ASC
-    filtered.sort((a, b) => {
-      // First sort by validity descending
-      if ((b.validity || 0) !== (a.validity || 0)) {
-        return (b.validity || 0) - (a.validity || 0);
-      }
-      // Then by price ascending
-      return (a.price || 0) - (b.price || 0);
-    });
+    // Sort based on selected duration
+    if (maxDays === null) {
+      // For "all" duration, sort by price ascending
+      filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
+      console.log('🔍 [Homepage Filter] Sorted by price (all duration)');
+    } else {
+      // For filtered durations, sort by validity DESC (closest to selected first), then price ASC
+      filtered.sort((a, b) => {
+        // First sort by validity descending
+        if ((b.validity || 0) !== (a.validity || 0)) {
+          return (b.validity || 0) - (a.validity || 0);
+        }
+        // Then by price ascending
+        return (a.price || 0) - (b.price || 0);
+      });
+      console.log('🔍 [Homepage Filter] Sorted by validity DESC, then price ASC');
+    }
+
+    console.log('🔍 [Homepage Filter] Final filtered bundles:', filtered.length);
 
     return filtered;
-  }, [bundles, selectedDuration, showRegional, durationOptions]);
+  }, [sortedBundles, selectedDuration, showRegional, durationOptions]);
 
   // Count of country plans and regional plans
   const countryPlansCount = useMemo(() => {
-    if (!bundles || bundles.length === 0) return 0;
-    let filtered = bundles.filter((b) => (b.count_countries || 1) === 1);
+    if (!sortedBundles || sortedBundles.length === 0) return 0;
+    let filtered = sortedBundles.filter((b) => (b.count_countries || 1) === 1);
     const maxDays = durationOptions[selectedDuration];
     if (maxDays !== null) {
       filtered = filtered.filter((b) => (b.validity || 0) <= maxDays);
     }
     return filtered.length;
-  }, [bundles, selectedDuration, durationOptions]);
+  }, [sortedBundles, selectedDuration, durationOptions]);
 
   const regionalPlansCount = useMemo(() => {
-    if (!bundles || bundles.length === 0) return 0;
-    let filtered = bundles.filter((b) => (b.count_countries || 1) > 1);
+    if (!sortedBundles || sortedBundles.length === 0) return 0;
+    let filtered = sortedBundles.filter((b) => (b.count_countries || 1) > 1);
     const maxDays = durationOptions[selectedDuration];
     if (maxDays !== null) {
       filtered = filtered.filter((b) => (b.validity || 0) <= maxDays);
     }
     return filtered.length;
-  }, [bundles, selectedDuration, durationOptions]);
+  }, [sortedBundles, selectedDuration, durationOptions]);
+
+  // Reset results when search is cleared
+  useEffect(() => {
+    if (selectedCountries.length === 0 && hasSearched) {
+      setBundles([]);
+      setHasSearched(false);
+      setShowRegional(false);
+      setUserManuallySwitched(false);
+      setSelectedDuration("all");
+    }
+  }, [selectedCountries, hasSearched]);
 
   // Auto-switch to regional on initial search if no country plans but regional exists
   // Only if user hasn't manually switched back to country
@@ -191,8 +293,8 @@ const HomePageTemplate = ({
 
   // Check if regional bundles are available
   const hasRegionalBundles = useMemo(() => {
-    return bundles.some((b) => (b.count_countries || 1) > 1);
-  }, [bundles]);
+    return sortedBundles.some((b) => (b.count_countries || 1) > 1);
+  }, [sortedBundles]);
 
   // Handle bundle click to open modal
   const handleViewDetails = useCallback((bundle) => {
@@ -350,6 +452,11 @@ const HomePageTemplate = ({
                 bundles={filteredBundles}
                 onViewDetails={handleViewDetails}
                 selectedDuration={selectedDuration}
+                defaultSort={
+                  selectedDuration === "all"
+                    ? { orderBy: "price", order: "asc" }
+                    : { orderBy: "validity", order: "desc" }
+                }
               />
             )}
 

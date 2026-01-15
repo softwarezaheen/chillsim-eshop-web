@@ -86,7 +86,24 @@ const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration, def
           return 0;
       }
 
-      return order === "asc" ? aValue - bValue : bValue - aValue;
+      // Primary sort
+      const primaryComparison = order === "asc" ? aValue - bValue : bValue - aValue;
+      
+      // If primary values are equal, apply secondary sort
+      if (primaryComparison === 0) {
+        // When sorting by validity, secondary sort by price ASC
+        // When sorting by price, secondary sort by validity DESC
+        if (orderBy === "validity") {
+          return (a.price || 0) - (b.price || 0);
+        } else if (orderBy === "price") {
+          return (b.validity || 0) - (a.validity || 0);
+        } else if (orderBy === "data") {
+          // For data, secondary sort by price ASC
+          return (a.price || 0) - (b.price || 0);
+        }
+      }
+
+      return primaryComparison;
     };
 
     return [...bundles].sort(comparator);

@@ -208,7 +208,9 @@ const RegionLanding = () => {
       const bundleType = isCountry 
         ? ((bundle.count_countries || 1) === 1 ? 'country' : 'regional')
         : 'all';
-      const key = `${dataInMB}-${bundleType}`;
+      // For unlimited bundles, include validity in the key to keep different validities separate
+      const validity = bundle.validity_days || bundle.validity || 0;
+      const key = dataInMB === Infinity ? `${dataInMB}-${validity}-${bundleType}` : `${dataInMB}-${bundleType}`;
       
       if (!acc[key]) {
         acc[key] = [];
