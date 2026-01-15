@@ -260,11 +260,11 @@ const RegionLanding = () => {
     if (isLoadingHomeData) return;
     
     if (!isCountry && !regionTag) {
-      navigate("/plans/land");
+      navigate("/");
     }
     // Only redirect if homeData has loaded AND we can't find the UUID for a valid ISO3 code
     if (isCountry && iso3Code && homeData?.countries && !countryUUID) {
-      navigate("/plans/land");
+      navigate("/");
     }
   }, [isCountry, regionTag, iso3Code, countryUUID, homeData, isLoadingHomeData, navigate]);
 
@@ -291,10 +291,10 @@ const RegionLanding = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[400px] w-full overflow-hidden">
+      <section className="relative h-[60vh] min-h-[400px] w-screen overflow-hidden -mx-[50vw] left-[50%] right-[50%]">
         {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center scale-105"
           style={{
             backgroundImage: `url(${heroImage})`,
           }}

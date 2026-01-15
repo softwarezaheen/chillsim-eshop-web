@@ -115,7 +115,7 @@ const InjectedCheckout = ({ orderDetail }) => {
               }
 
               navigate({
-                pathname: iccid ? `/esim/${iccid}` : "/plans/land",
+                pathname: iccid ? `/esim/${iccid}` : "/",
                 search: !iccid ? `?${searchParams.toString()}` : "",
               });
             }, 5000); // 5000 ms = 5 seconds
@@ -156,7 +156,7 @@ const InjectedCheckout = ({ orderDetail }) => {
             sx={{ width: "60%" }}
             onClick={() => {
               dispatch(LimitedSignOut());
-              navigate("/plans/land");
+              navigate("/");
             }}
           >
             {t("btn.cancel")}

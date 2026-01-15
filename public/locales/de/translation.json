@@ -318,10 +318,10 @@
     "Expired": "Abgelaufen",
     "Pending": "Ausstehend",
     "popularDestinations": {
-      "title": "Beliebte Reiseziele erkunden",
+      "title": "Beliebte Reiseziele Entdecken",
       "subtitle": "Sofortige Konnektivität in den meistbesuchten Reisezielen der Welt",
-      "countries": "Beliebte Länder",
-      "regions": "Beliebte Regionen"
+      "countries": "Top Länderziele",
+      "regions": "Top Regionale Ziele"
     }
   },
   "bundles": {
@@ -1054,5 +1054,145 @@
         }
       }
         }
+  },
+  "home": {
+    "hero": {
+      "title": "Reise Smart. Bleib Verbunden.",
+      "subtitle": "eSIM-Datentarife zu Heimnetzwerk-Preisen. Keine Roaming-Gebühren, überall online."
+    },
+    "search": {
+      "title": "Finden Sie Ihren perfekten Internettarif",
+      "destination": "Wohin reisen Sie?",
+      "placeholder": "Länder suchen (z.B. Frankreich, Japan, USA)",
+      "duration": "Wie lange dauert Ihre Reise?",
+      "findPlans": "Tarife Finden",
+      "selectCountry": "Bitte wählen Sie mindestens ein Reiseziel",
+      "noCountries": "Keine Länder gefunden",
+      "maxCountries": "Wählen Sie bis zu 3 Länder für Multi-Länder-Tarife"
+    },
+    "partner": {
+      "recommendedBy": "Empfohlen von"
+    },
+    "duration": {
+      "all": "Alle",
+      "7d": "7 Tage",
+      "14d": "14 Tage",
+      "30d": "30 Tage",
+      "90d": "90 Tage",
+      "1yr": "1 Jahr"
+    },
+    "results": {
+      "countryPlans": "Ländertarife",
+      "regionalPlans": "Regionaltarife",
+      "showRegional": "Regionaltarife anzeigen ({{count}} verfügbar)",
+      "viewRegional": "Anzeigen",
+      "backToCountry": "Zurück zu Ländertarifen",
+      "noResults": "Keine Tarife für Ihre Auswahl gefunden",
+      "tryDifferentDuration": "Versuchen Sie eine längere Dauer oder ein anderes Reiseziel"
+    },
+    "table": {
+      "planName": "Tarifname",
+      "data": "Daten",
+      "validity": "Gültigkeit",
+      "countries": "Länder",
+      "price": "Preis",
+      "viewDetails": "Details Anzeigen",
+      "countriesCovered": "Länder abgedeckt"
+    },
+    "popular": {
+      "title": "Beliebte Reiseziele",
+      "subtitle": "Entdecken Sie unsere beliebtesten eSIM-Reiseziele weltweit"
+    },
+    "howItWorks": {
+      "title": "So Funktioniert's",
+      "subtitle": "In 4 einfachen Schritten verbunden",
+      "step1": {
+        "title": "Wählen Sie Ihr Reiseziel",
+        "description": "Suchen Sie Ihr Reiseziel und wählen Sie einen Datentarif, der zu Ihren Bedürfnissen passt"
+      },
+      "step2": {
+        "title": "Kaufen Sie Ihre eSIM",
+        "description": "Schließen Sie Ihren Kauf sicher online ab. Keine physische SIM-Karte erforderlich"
+      },
+      "step3": {
+        "title": "Scannen & Installieren",
+        "description": "Scannen Sie den QR-Code, den wir Ihnen senden, um die eSIM auf Ihrem Gerät zu installieren"
+      },
+      "step4": {
+        "title": "Verbunden Reisen",
+        "description": "Aktivieren Sie Ihre eSIM bei Ankunft und genießen Sie nahtlose Konnektivität"
+      }
+    },
+    "benefits": {
+      "title": "Warum Unsere eSIM Wählen?",
+      "subtitle": "Erleben Sie problemlose Konnektivität, wohin Sie auch reisen",
+      "global": {
+        "title": "190+ Länder",
+        "description": "Bleiben Sie in über 190 Ländern mit unserem umfassenden Netzwerk verbunden"
+      },
+      "savings": {
+        "title": "Bis zu 90% Sparen",
+        "description": "Vermeiden Sie teure Roaming-Gebühren und zahlen Sie lokale Preise für Daten"
+      },
+      "instant": {
+        "title": "Sofortige Aktivierung",
+        "description": "Erhalten Sie Ihre eSIM sofort per E-Mail. Kein Warten, kein Versand"
+      },
+      "easy": {
+        "title": "Einfache Einrichtung",
+        "description": "Einfache QR-Code-Installation. Keine technischen Kenntnisse erforderlich"
+      },
+      "secure": {
+        "title": "Sichere Zahlung",
+        "description": "Ihre Zahlungsinformationen sind mit Verschlüsselung auf Bankniveau geschützt"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "description": "Unser Support-Team ist immer bereit zu helfen, jederzeit, überall"
+      }
+    },
+    "faq": {
+      "title": "Häufig Gestellte Fragen",
+      "subtitle": "Alles, was Sie über eSIM wissen müssen",
+      "items": {
+        "whatIsEsim": {
+          "question": "Was ist eine eSIM?",
+          "answer": "Eine eSIM (eingebettete SIM) ist eine digitale SIM, mit der Sie einen Mobilfunktarif aktivieren können, ohne eine physische SIM-Karte zu verwenden. Sie ist in Ihr Telefon eingebaut und kann ferngesteuert programmiert werden."
+        },
+        "howToInstall": {
+          "question": "Wie installiere ich eine eSIM?",
+          "answer": "Nach dem Kauf erhalten Sie einen QR-Code per E-Mail. Gehen Sie einfach in die Einstellungen Ihres Telefons, wählen Sie 'eSIM hinzufügen' und scannen Sie den QR-Code. Die eSIM wird in Minuten installiert."
+        },
+        "compatible": {
+          "question": "Ist mein Telefon eSIM-kompatibel?",
+          "answer": "Die meisten modernen Smartphones unterstützen eSIM, einschließlich iPhone XS und neuer, Samsung Galaxy S20 und neuer, Google Pixel 3 und neuer. Überprüfen Sie die Einstellungen Ihres Telefons auf eSIM-Unterstützung."
+        },
+        "multipleCountries": {
+          "question": "Kann ich eine eSIM in mehreren Ländern nutzen?",
+          "answer": "Ja! Unsere Regionaltarife decken mehrere Länder mit einer einzigen eSIM ab. Perfekt für Reisen durch Europa, Asien oder andere Regionen. Prüfen Sie die Tarifdetails für die Liste der abgedeckten Länder."
+        },
+        "validity": {
+          "question": "Wann beginnt die Gültigkeit meiner eSIM?",
+          "answer": "Die Gültigkeit Ihrer eSIM beginnt, wenn Sie sich zum ersten Mal mit einem Mobilfunknetz in Ihrem Zielland verbinden, nicht beim Kauf oder der Installation. Installieren Sie sie vor Ihrer Reise für mehr Komfort."
+        },
+        "topUp": {
+          "question": "Kann ich meine eSIM aufladen?",
+          "answer": "Ja! Sie können über unsere Website ganz einfach mehr Daten zu Ihrer bestehenden eSIM hinzufügen. Kein Kauf einer neuen eSIM oder erneute Installation erforderlich."
+        }
+      }
+    },
+    "modal": {
+      "data": "Daten",
+      "validity": "Gültigkeit",
+      "speed": "Geschwindigkeit",
+      "countries": "Länder",
+      "coverageTitle": "Abdeckung",
+      "included": "Was enthalten ist",
+      "feature1": "Sofortige eSIM-Lieferung per E-Mail",
+      "feature2": "24/7 Kundenservice",
+      "feature3": "Einfaches Aufladen verfügbar",
+      "cancel": "Abbrechen",
+      "buyNow": "Jetzt Kaufen"
+    }
   }
 }

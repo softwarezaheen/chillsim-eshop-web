@@ -1074,6 +1074,145 @@
         }
       }
     }
+  },
+  "home": {
+    "hero": {
+      "title": "Călătorește Inteligent. Rămâi Conectat.",
+      "subtitle": "Planuri de date eSIM la prețuri de rețea locală. Evită tarifele de roaming, rămâi online oriunde."
+    },
+    "search": {
+      "title": "Găsește planul tău perfect de Internet",
+      "destination": "Unde călătorești?",
+      "placeholder": "Caută țări (ex: Franța, Japonia, SUA)",
+      "duration": "Cât durează călătoria ta?",
+      "findPlans": "Găsește Planuri",
+      "selectCountry": "Te rugăm să selectezi cel puțin o destinație",
+      "noCountries": "Nu s-au găsit țări",
+      "maxCountries": "Selectează până la 3 țări pentru planuri multi-țară"
+    },
+    "partner": {
+      "recommendedBy": "Recomandat de"
+    },
+    "duration": {
+      "all": "Toate",
+      "7d": "7 Zile",
+      "14d": "14 Zile",
+      "30d": "30 Zile",
+      "90d": "90 Zile",
+      "1yr": "1 An"
+    },
+    "results": {
+      "countryPlans": "Planuri de Țară",
+      "regionalPlans": "Planuri Regionale",
+      "showRegional": "Arată planuri regionale ({{count}} disponibile)",
+      "viewRegional": "Vezi",
+      "backToCountry": "Înapoi la planuri de țară",
+      "noResults": "Nu s-au găsit planuri pentru selecția ta",
+      "tryDifferentDuration": "Încearcă să selectezi o durată mai lungă sau altă destinație"
+    },
+    "table": {
+      "planName": "Nume Plan",
+      "data": "Date",
+      "validity": "Valabilitate",
+      "countries": "Țări",
+      "price": "Preț",
+      "viewDetails": "Vezi Detalii",
+      "countriesCovered": "țări acoperite"
+    },
+    "popular": {
+      "title": "Destinații de Călătorie Populare",
+      "subtitle": "Descoperă cele mai populare destinații eSIM din lume"
+    },
+    "howItWorks": {
+      "title": "Cum Funcționează",
+      "subtitle": "Conectează-te în 4 pași simpli",
+      "step1": {
+        "title": "Alege Destinația",
+        "description": "Caută destinația ta și selectează un plan de date potrivit nevoilor tale"
+      },
+      "step2": {
+        "title": "Cumpără eSIM-ul",
+        "description": "Finalizează achiziția în siguranță online. Nu ai nevoie de cartelă SIM fizică"
+      },
+      "step3": {
+        "title": "Scanează și Instalează",
+        "description": "Scanează codul QR pe care ți-l trimitem pentru a instala eSIM-ul pe dispozitiv"
+      },
+      "step4": {
+        "title": "Călătorește Conectat",
+        "description": "Activează eSIM-ul când ajungi și bucură-te de conectivitate fără întreruperi"
+      }
+    },
+    "benefits": {
+      "title": "De Ce Să Alegi eSIM-ul Nostru?",
+      "subtitle": "Experimentează conectivitate fără griji oriunde călătorești",
+      "global": {
+        "title": "190+ Țări",
+        "description": "Rămâi conectat în peste 190 de țări cu rețeaua noastră extinsă"
+      },
+      "savings": {
+        "title": "Economisește Până la 90%",
+        "description": "Evită tarifele scumpe de roaming și plătește prețuri locale pentru date"
+      },
+      "instant": {
+        "title": "Activare Instantă",
+        "description": "Primește eSIM-ul instant pe email. Fără așteptare, fără livrare"
+      },
+      "easy": {
+        "title": "Configurare Ușoară",
+        "description": "Instalare simplă prin cod QR. Nu necesită cunoștințe tehnice"
+      },
+      "secure": {
+        "title": "Plată Securizată",
+        "description": "Informațiile tale de plată sunt protejate cu criptare de nivel bancar"
+      },
+      "support": {
+        "title": "Suport 24/7",
+        "description": "Echipa noastră de suport este mereu pregătită să te ajute, oricând, oriunde"
+      }
+    },
+    "faq": {
+      "title": "Întrebări Frecvente",
+      "subtitle": "Tot ce trebuie să știi despre eSIM",
+      "items": {
+        "whatIsEsim": {
+          "question": "Ce este un eSIM?",
+          "answer": "Un eSIM (SIM încorporat) este un SIM digital care îți permite să activezi un plan celular fără a folosi o cartelă SIM fizică. Este integrat în telefon și poate fi programat de la distanță."
+        },
+        "howToInstall": {
+          "question": "Cum instalez un eSIM?",
+          "answer": "După achiziție, vei primi un cod QR pe email. Pur și simplu intră în setările telefonului, selectează 'Adaugă eSIM' sau 'Adaugă Plan Celular' și scanează codul QR. eSIM-ul va fi instalat în câteva minute."
+        },
+        "compatible": {
+          "question": "Este telefonul meu compatibil cu eSIM?",
+          "answer": "Majoritatea smartphone-urilor moderne suportă eSIM, inclusiv iPhone XS și mai noi, Samsung Galaxy S20 și mai noi, Google Pixel 3 și mai noi. Verifică setările telefonului pentru suport eSIM."
+        },
+        "multipleCountries": {
+          "question": "Pot folosi un eSIM în mai multe țări?",
+          "answer": "Da! Planurile noastre regionale acoperă mai multe țări cu un singur eSIM. Perfect pentru călătorii în Europa, Asia sau alte regiuni. Verifică detaliile planului pentru lista țărilor acoperite."
+        },
+        "validity": {
+          "question": "Când începe valabilitatea eSIM-ului?",
+          "answer": "Valabilitatea eSIM-ului începe când te conectezi prima dată la o rețea mobilă în țara destinație, nu când cumperi sau instalezi. Instalează-l înainte de călătorie pentru confort."
+        },
+        "topUp": {
+          "question": "Pot reîncărca eSIM-ul?",
+          "answer": "Da! Poți adăuga cu ușurință mai multe date la eSIM-ul existent prin site-ul nostru. Nu trebuie să cumperi un nou eSIM sau să treci din nou prin procesul de instalare."
+        }
+      }
+    },
+    "modal": {
+      "data": "Date",
+      "validity": "Valabilitate",
+      "speed": "Viteză",
+      "countries": "Țări",
+      "coverageTitle": "Acoperire",
+      "included": "Ce este inclus",
+      "feature1": "Livrare eSIM instant pe email",
+      "feature2": "Suport clienți 24/7",
+      "feature3": "Reîncărcare ușoară disponibilă",
+      "cancel": "Anulare",
+      "buyNow": "Cumpără Acum"
+    }
   }
 }
-

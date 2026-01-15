@@ -23,7 +23,7 @@ const RouteWrapper = ({ layout, element, isPrivate, isAuthRestricted }) => {
       />
     );
   } else if (isAuthRestricted && isAuthenticated) {
-    return <Navigate to={next ? decodeURIComponent(next) : "/plans/land"} />;
+    return <Navigate to={next ? decodeURIComponent(next) : "/"} />;
   }
 
   const Layout = layout ? layout : isAuthenticated ? AuthLayout : MainLayout;

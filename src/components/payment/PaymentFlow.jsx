@@ -136,7 +136,7 @@ const PaymentFlow = (props) => {
     setTimeout(() => {
       // Navigate with order_id parameter to trigger the same flow as card payments
       if (orderData?.order_id) {
-        const targetPath = iccid ? `/esim/${iccid}` : "/plans/land";
+        const targetPath = iccid ? `/esim/${iccid}` : "/";
         const searchParams = new URLSearchParams(window.location.search);
         searchParams.set("order_id", orderData.order_id);
         
@@ -147,7 +147,7 @@ const PaymentFlow = (props) => {
       } else {
         // Fallback if no order_id (shouldn't happen)
         navigate({
-          pathname: iccid ? `/esim/${iccid}` : "/plans/land",
+          pathname: iccid ? `/esim/${iccid}` : "/",
           search: !iccid ? new URLSearchParams(window.location.search).toString() : "",
         });
       }

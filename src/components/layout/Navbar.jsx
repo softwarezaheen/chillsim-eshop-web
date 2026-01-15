@@ -30,7 +30,7 @@ const Navbar = ({ main }) => {
       : false;
 
   const handleLogoClick = () => {
-    navigate("/plans/land");
+    navigate("/");
     window.scrollTo(0, 0);
   };
 

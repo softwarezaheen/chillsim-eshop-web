@@ -1,8 +1,10 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { BillingFormView } from "../../components/billing-info";
+import { CircularProgress } from "@mui/material";
+
+const BillingFormView = lazy(() => import("../../components/billing-info").then(module => ({ default: module.BillingFormView })));
 
 const BillingPage = () => {
   const { t } = useTranslation();
@@ -28,12 +30,18 @@ const BillingPage = () => {
       </div>
 
       {/* Billing Form */}
+      <Suspense fallback={
+        <div className="flex items-center justify-center min-h-[400px]">
+          <CircularProgress />
+        </div>
+      }>
       <div className="flex flex-col items-start gap-4 w-full">
         <BillingFormView 
           showHeader={true}
           submitButtonText={t("btn.continueToCheckout")}
         />
       </div>
+      </Suspense>
     </div>
   );
 };

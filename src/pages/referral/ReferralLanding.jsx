@@ -50,7 +50,7 @@ const ReferralLanding = () => {
   // Redirect if no referral code provided
   useEffect(() => {
     if (!referralCode) {
-      navigate("/plans/land");
+      navigate("/");
     }
   }, [referralCode, navigate]);
 
@@ -91,7 +91,7 @@ const ReferralLanding = () => {
     retry: false,
     onError: (error) => {
       // If referral code is invalid (404 or any error), redirect to plans
-      navigate("/plans/land");
+      navigate("/");
     },
     onSuccess: (data) => {
       // Store referral code in localStorage and Redux for later use during signup
@@ -133,7 +133,7 @@ const ReferralLanding = () => {
       setTimeout(() => refetch(), 0);
     } else {
       // Keep existing referral, redirect to plans
-      navigate("/plans/land");
+      navigate("/");
     }
   };
 
@@ -155,7 +155,7 @@ const ReferralLanding = () => {
               variant="contained"
               color="primary"
               fullWidth
-              onClick={() => navigate("/plans/land")}
+              onClick={() => navigate("/")}
             >
               {t("referral.landing.browsePlans")}
             </Button>
@@ -276,7 +276,7 @@ const ReferralLanding = () => {
               color="primary"
               size="medium"
               fullWidth
-              onClick={() => navigate("/plans/land")}
+              onClick={() => navigate("/")}
             >
               {t("referral.landing.browsePlans")}
             </Button>

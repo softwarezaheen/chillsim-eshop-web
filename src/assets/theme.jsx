@@ -100,7 +100,7 @@ export const appTheme = createTheme({
               opacity: "1",
             },
             "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button": {
-              "-webkit-appearance": "none",
+              WebkitAppearance: "none",
               margin: 0,
             },
           },

@@ -134,7 +134,7 @@ const OtpVerification = ({
                 });
               }
 
-              navigate("/plans/land");
+              navigate("/");
             }, 5000); // 5000 ms = 5 seconds
           } else {
             //login user
@@ -161,7 +161,7 @@ const OtpVerification = ({
               navigate(nextUrl);
             } else {
               // Default navigation if no next parameter
-              navigate("/plans/land");
+              navigate("/");
             }
           }
         } else {
