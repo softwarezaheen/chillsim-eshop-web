@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -9,6 +9,8 @@ import {
   Chip,
   Container as MuiContainer,
   Skeleton,
+  Switch,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import {
@@ -20,7 +22,8 @@ import {
   Shield,
 } from "@mui/icons-material";
 import { getBundlesByRegion, getBundlesByCountry } from "../../core/apis/homeAPI";
-import BundleCard from "../../components/bundle/bundle-card/BundleCard";
+import BundleTableCompact from "../../components/home/BundleTableCompact";
+import BundleDetail from "../../components/bundle/detail/BundleDetail";
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
 import { gtmViewItemListEvent } from "../../core/utils/gtm";
 import { useHomeCountries } from "../../core/custom-hook/useHomeCountries";
@@ -107,6 +110,17 @@ const RegionLanding = () => {
   const navigate = useNavigate();
   const isSmall = useMediaQuery("(max-width: 768px)");
 
+  // Modal state for bundle details
+  const [selectedBundle, setSelectedBundle] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Duration filter state
+  const [selectedDuration, setSelectedDuration] = useState("all");
+  
+  // Country vs Regional toggle (only for country landing pages)
+  const [showRegional, setShowRegional] = useState(false);
+  const [userManuallySwitched, setUserManuallySwitched] = useState(false);
+
   // Support URL parsing from pathname
   const typeSlug = type || getTypeFromUrl(location.pathname);
   
@@ -188,10 +202,13 @@ const RegionLanding = () => {
       return parseFloat(bundle.price || bundle.original_price || 0);
     };
 
-    // Group bundles by data amount only (not validity)
+    // Group bundles by data amount AND bundle type (country vs regional for country pages)
     const grouped = bundles.reduce((acc, bundle) => {
       const dataInMB = getDataInMB(bundle);
-      const key = `${dataInMB}`;
+      const bundleType = isCountry 
+        ? ((bundle.count_countries || 1) === 1 ? 'country' : 'regional')
+        : 'all';
+      const key = `${dataInMB}-${bundleType}`;
       
       if (!acc[key]) {
         acc[key] = [];
@@ -203,31 +220,14 @@ const RegionLanding = () => {
     // For each data amount group, pick the bundle with best value
     const bestBundles = Object.values(grouped).map((group) => {
       const sorted = group.sort((a, b) => {
-        if (isCountry) {
-          // Country landing: prefer single-country bundles first
-          const countriesDiff = (a.count_countries || 0) - (b.count_countries || 0);
-          if (countriesDiff !== 0) return countriesDiff;
-          
-          // Then prefer longer validity (better value)
-          const validityDiff = (b.validity_days || b.validity || 0) - (a.validity_days || a.validity || 0);
-          if (validityDiff !== 0) return validityDiff;
-          
-          // Finally, lowest price
-          return getPrice(a) - getPrice(b);
-        } else {
-          // Region landing: prefer multi-country coverage first
-          const countriesDiff = (b.count_countries || 0) - (a.count_countries || 0);
-          if (countriesDiff !== 0) return countriesDiff;
-          
-          // Then prefer longer validity (better value)
-          const validityDiff = (b.validity_days || b.validity || 0) - (a.validity_days || a.validity || 0);
-          if (validityDiff !== 0) return validityDiff;
-          
-          // Finally, lowest price
-          return getPrice(a) - getPrice(b);
-        }
+        // Prefer longer validity (better value)
+        const validityDiff = (b.validity_days || b.validity || 0) - (a.validity_days || a.validity || 0);
+        if (validityDiff !== 0) return validityDiff;
+        
+        // Then lowest price
+        return getPrice(a) - getPrice(b);
       });
-      return sorted[0]; // Return best bundle from this data amount group
+      return sorted[0]; // Return best bundle from this group
     });
 
     // Sort by data amount (ascending: 1GB → 50GB), then by price (ascending)
@@ -249,11 +249,157 @@ const RegionLanding = () => {
         
         // If same data, sort by price (ascending - cheapest first)
         return getPrice(a) - getPrice(b);
-      })
-      .slice(0, 6); // Show top 6 bundles
+      });
     
     return sorted;
   }, [bundles]);
+
+  // Duration chip options
+  const durationChips = [
+    { key: "all", label: t("home.duration.all") },
+    { key: "7d", label: t("home.duration.7d") },
+    { key: "14d", label: t("home.duration.14d") },
+    { key: "30d", label: t("home.duration.30d") },
+    { key: "90d", label: t("home.duration.90d") },
+    { key: "1yr", label: t("home.duration.1yr") },
+  ];
+
+  // Filter bundles by duration
+  const filteredBundles = useMemo(() => {
+    if (!sortedBundles) return [];
+    
+    let filtered = sortedBundles;
+    
+    // For country landing pages, filter by country count (single-country vs regional)
+    if (isCountry) {
+      if (!showRegional) {
+        // Show only country-specific bundles (count_countries === 1)
+        filtered = filtered.filter((b) => (b.count_countries || 1) === 1);
+      } else {
+        // Show only regional bundles (count_countries > 1)
+        filtered = filtered.filter((b) => (b.count_countries || 1) > 1);
+      }
+    }
+    
+    // Filter by duration
+    if (selectedDuration === "all") {
+      return filtered;
+    }
+
+    const filterByDays = (bundle) => {
+      const validity = bundle.validity_days || bundle.validity || 0;
+      
+      switch (selectedDuration) {
+        case "7d":
+          return validity <= 7;
+        case "14d":
+          return validity <= 14;
+        case "30d":
+          return validity <= 30;
+        case "90d":
+          return validity <= 90;
+        case "1yr":
+          return validity <= 365;
+        default:
+          return true;
+      }
+    };
+
+    const durationFiltered = filtered.filter(filterByDays);
+    
+    // Sort by validity descending (longest validity first) when duration filter is active
+    return durationFiltered.sort((a, b) => {
+      const aValidity = a.validity_days || a.validity || 0;
+      const bValidity = b.validity_days || b.validity || 0;
+      return bValidity - aValidity;
+    });
+  }, [sortedBundles, selectedDuration, isCountry, showRegional]);
+
+  // Count of country plans and regional plans (for country landing pages only)
+  const countryPlansCount = useMemo(() => {
+    if (!isCountry || !sortedBundles) return 0;
+    let filtered = sortedBundles.filter((b) => (b.count_countries || 1) === 1);
+    
+    // Apply duration filter
+    if (selectedDuration !== "all") {
+      filtered = filtered.filter((b) => {
+        const validity = b.validity_days || b.validity || 0;
+        switch (selectedDuration) {
+          case "7d": return validity <= 7;
+          case "14d": return validity <= 14;
+          case "30d": return validity <= 30;
+          case "90d": return validity <= 90;
+          case "1yr": return validity <= 365;
+          default: return true;
+        }
+      });
+    }
+    
+    return filtered.length;
+  }, [sortedBundles, selectedDuration, isCountry]);
+
+  const regionalPlansCount = useMemo(() => {
+    if (!isCountry || !sortedBundles) return 0;
+    let filtered = sortedBundles.filter((b) => (b.count_countries || 1) > 1);
+    
+    // Apply duration filter
+    if (selectedDuration !== "all") {
+      filtered = filtered.filter((b) => {
+        const validity = b.validity_days || b.validity || 0;
+        switch (selectedDuration) {
+          case "7d": return validity <= 7;
+          case "14d": return validity <= 14;
+          case "30d": return validity <= 30;
+          case "90d": return validity <= 90;
+          case "1yr": return validity <= 365;
+          default: return true;
+        }
+      });
+    }
+    
+    return filtered.length;
+  }, [sortedBundles, selectedDuration, isCountry]);
+
+  // Check if regional bundles are available (for country pages)
+  // Use sortedBundles to check after deduplication
+  const hasRegionalBundles = useMemo(() => {
+    if (!isCountry || !sortedBundles) return false;
+    return sortedBundles.some((b) => (b.count_countries || 1) > 1);
+  }, [sortedBundles, isCountry]);
+
+  // Auto-switch to regional on initial load if no country plans but regional exists
+  // Only for country pages and if user hasn't manually switched
+  useEffect(() => {
+    if (isCountry && !isLoading && countryPlansCount === 0 && regionalPlansCount > 0 && !showRegional && !userManuallySwitched) {
+      setShowRegional(true);
+    }
+  }, [isCountry, isLoading, countryPlansCount, regionalPlansCount, showRegional, userManuallySwitched]);
+
+  // Auto-switch to regional if no country plans available when duration filter changes
+  useEffect(() => {
+    if (isCountry && !userManuallySwitched) {
+      // Only auto-switch if no country plans available
+      if (countryPlansCount === 0 && regionalPlansCount > 0) {
+        setShowRegional(true);
+      }
+      // If user is on regional view but no regional plans available, switch back to country
+      else if (showRegional && regionalPlansCount === 0 && countryPlansCount > 0) {
+        setShowRegional(false);
+      }
+      // Otherwise preserve user's choice
+    }
+  }, [selectedDuration, isCountry, countryPlansCount, regionalPlansCount, userManuallySwitched, showRegional]);
+
+  // Modal handlers
+  const handleViewDetails = useCallback((bundle) => {
+    setSelectedBundle(bundle);
+    setIsModalOpen(true);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+    setSelectedBundle(null);
+  }, []);
 
   useEffect(() => {
     // Don't validate while home data is still loading
@@ -343,39 +489,88 @@ const RegionLanding = () => {
       {/* Plans Section */}
       <section id="plans-section" className="py-16 bg-gray-50">
         <MuiContainer maxWidth="lg">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               {t(`landing.${typeSlug}.plans.title`, {
                 defaultValue: `Choose an eSIM data plan for ${displayName}`,
               })}
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-gray-600 mb-6">
               {t(`landing.${typeSlug}.plans.subtitle`, {
                 defaultValue: `Affordable plans with wide coverage across ${displayName}`,
               })}
             </p>
-          </div>
 
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {Array.from({ length: 6 }).map((_, idx) => (
-                <Card key={idx}>
-                  <CardContent>
-                    <Skeleton variant="rectangular" height={200} />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : sortedBundles.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sortedBundles.map((bundle) => (
-                <BundleCard
-                  key={bundle.bundle_code}
-                  bundle={bundle}
-                  regionIcon={regionIcon}
+            {/* Duration Chips */}
+            <div className="flex flex-wrap justify-center gap-2 mb-8">
+              {durationChips.map((chip) => (
+                <Chip
+                  key={chip.key}
+                  label={chip.label}
+                  onClick={() => setSelectedDuration(chip.key)}
+                  variant={selectedDuration === chip.key ? "filled" : "outlined"}
+                  color={selectedDuration === chip.key ? "primary" : "default"}
+                  className={`cursor-pointer transition-all ${
+                    selectedDuration === chip.key
+                      ? "!bg-primary !text-white font-semibold"
+                      : "!border-gray-300 !text-gray-700 hover:!bg-gray-100"
+                  }`}
                 />
               ))}
             </div>
+
+            {/* Country vs Regional Toggle (only for country landing pages) */}
+            {isCountry && hasRegionalBundles && (
+              <div className="flex justify-center mb-8">
+                <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+                  <Typography
+                    variant="body2"
+                    className={!showRegional ? "!font-semibold !text-gray-700" : "!text-gray-500"}
+                  >
+                    {t("home.results.countryPlans")} ({countryPlansCount})
+                  </Typography>
+                  <Switch
+                    checked={showRegional}
+                    onChange={(e) => {
+                      const newValue = e.target.checked;
+                      setShowRegional(newValue);
+                      // If user switches back to country plans, mark as manually switched
+                      if (!newValue) {
+                        setUserManuallySwitched(true);
+                      }
+                    }}
+                    color="primary"
+                    size="small"
+                  />
+                  <Typography
+                    variant="body2"
+                    className={showRegional ? "!font-semibold !text-gray-700" : "!text-gray-500"}
+                  >
+                    {t("home.results.regionalPlans")} ({regionalPlansCount})
+                  </Typography>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {isLoading ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                <p className="text-gray-600">{t("home.results.loading")}</p>
+              </div>
+            </div>
+          ) : filteredBundles.length > 0 ? (
+            <BundleTableCompact
+              bundles={filteredBundles}
+              onViewDetails={handleViewDetails}
+              selectedDuration={selectedDuration}
+              defaultSort={
+                selectedDuration === "all" 
+                  ? { orderBy: "price", order: "asc" }
+                  : { orderBy: "validity", order: "desc" }
+              }
+            />
           ) : (
             <NoDataFound />
           )}
@@ -806,6 +1001,15 @@ const RegionLanding = () => {
           </div>
         </MuiContainer>
       </section>
+
+      {/* Bundle Detail Modal */}
+      {selectedBundle && (
+        <BundleDetail
+          open={isModalOpen}
+          onClose={handleCloseModal}
+          bundle={selectedBundle}
+        />
+      )}
     </div>
   );
 };

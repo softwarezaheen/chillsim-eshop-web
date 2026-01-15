@@ -1,5 +1,5 @@
 //UTILITIES
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 //MUI
@@ -20,13 +20,21 @@ import {
 } from "@mui/material";
 import { Visibility, ShoppingCart } from "@mui/icons-material";
 
-const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration }) => {
+const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration, defaultSort }) => {
   const { t } = useTranslation();
   const isMobile = useMediaQuery("(max-width: 639px)");
 
-  // Sorting state
-  const [orderBy, setOrderBy] = useState("validity");
-  const [order, setOrder] = useState("desc");
+  // Sorting state - use defaultSort prop if provided, otherwise default to validity desc
+  const [orderBy, setOrderBy] = useState(defaultSort?.orderBy || "validity");
+  const [order, setOrder] = useState(defaultSort?.order || "desc");
+
+  // Update sort state when defaultSort prop changes
+  useEffect(() => {
+    if (defaultSort) {
+      setOrderBy(defaultSort.orderBy);
+      setOrder(defaultSort.order);
+    }
+  }, [defaultSort]);
 
   // Handle sort
   const handleRequestSort = (property) => {
