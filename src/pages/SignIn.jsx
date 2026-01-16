@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 //COMPONENT
 import {
   Backdrop,
@@ -34,6 +34,8 @@ import { supportedPrefix } from "../core/variables/ProjectVariables";
 const SignIn = () => {
   const { t } = useTranslation();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const next = searchParams.get("next");
   const { signinWithGoogle, loadingSocial, signinWithFacebook, signinWithApple } = useAuth();
   const [showOtpVerification, setShowOtpVerification] = useState(false);
   const [showEmailSent, setShowEmailSent] = useState(false);
@@ -329,7 +331,7 @@ const SignIn = () => {
             </div>
             <div className="flex flex-col gap-[1rem]">
               <button
-                onClick={signinWithGoogle}
+                onClick={() => signinWithGoogle(next)}
                 disabled={loadingSocial}
                 className="flex items-center justify-center gap-[0.5rem] w-full py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium text-primary hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1877F2] disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -338,7 +340,7 @@ const SignIn = () => {
               </button>
 
               <button
-                onClick={signinWithFacebook}
+                onClick={() => signinWithFacebook(next)}
                 disabled={loadingSocial}
                 className="flex items-center justify-center gap-[0.5rem] w-full py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1877F2] disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -347,7 +349,7 @@ const SignIn = () => {
               </button>
 
               <button
-                onClick={signinWithApple}
+                onClick={() => signinWithApple(next)}
                 disabled={loadingSocial}
                 className="flex items-center justify-center gap-[0.5rem] w-full py-2 px-4 border border-gray-300 rounded shadow-sm bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
               >

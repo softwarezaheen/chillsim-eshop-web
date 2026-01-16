@@ -105,13 +105,19 @@ export const AuthProvider = ({ children }) => {
     [dispatch]
   );
 
-  const signinWithFacebook = async () => {
+  const signinWithFacebook = async (nextUrl) => {
     console.log("facebook login success:");
     try {
+      // Build redirect URL with next parameter if provided
+      let redirectUrl = `${import.meta.env.VITE_APP_URL}/signin?social=true`;
+      if (nextUrl) {
+        redirectUrl += `&next=${encodeURIComponent(nextUrl)}`;
+      }
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "facebook",
         options: {
-          redirectTo: `${import.meta.env.VITE_APP_URL}/signin?social=true`,
+          redirectTo: redirectUrl,
         },
       });
       if (error) {
@@ -126,7 +132,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signinWithGoogle = async () => {
+  const signinWithGoogle = async (nextUrl) => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     console.log("Google login success:");
@@ -154,12 +160,13 @@ export const AuthProvider = ({ children }) => {
         );
         return;
       }
+      // Note: Google uses popup, so next parameter is preserved in URL automatically
     } catch (error) {
       handleError(error, "google");
     }
   };
 
-  const signinWithApple = async () => {
+  const signinWithApple = async (nextUrl) => {
     // Prevent duplicate clicks during redirect
     if (loadingSocial) {
       console.log("Apple login already in progress, ignoring duplicate click");
@@ -170,10 +177,16 @@ export const AuthProvider = ({ children }) => {
     setLoadingSocial(true);
 
     try {
+      // Build redirect URL with next parameter if provided
+      let redirectUrl = `${import.meta.env.VITE_APP_URL}/signin?social=true`;
+      if (nextUrl) {
+        redirectUrl += `&next=${encodeURIComponent(nextUrl)}`;
+      }
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "apple",
         options: {
-          redirectTo: `${import.meta.env.VITE_APP_URL}/signin?social=true`,
+          redirectTo: redirectUrl,
           // Request name and email from Apple
           scopes: "name email",
         },
