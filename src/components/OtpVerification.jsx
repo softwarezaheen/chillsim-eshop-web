@@ -134,7 +134,15 @@ const OtpVerification = ({
                 });
               }
 
-              navigate("/");
+              // Navigate to /plans/land with order_id for success modal
+              // or /esim/${iccid} for topups
+              const searchParams = new URLSearchParams();
+              searchParams.set("order_id", orderDetail?.order_id);
+              
+              navigate({
+                pathname: iccid ? `/esim/${iccid}` : "/plans/land",
+                search: !iccid ? `?${searchParams.toString()}` : "",
+              });
             }, 5000); // 5000 ms = 5 seconds
           } else {
             //login user

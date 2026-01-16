@@ -15,7 +15,7 @@ import BundleDetail from "../detail/BundleDetail";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-import { gtmEvent, gtmViewItemEvent, gtmAddToCartEvent } from "../../../core/utils/gtm.jsx";
+import { gtmEvent, gtmAddToCartEvent } from "../../../core/utils/gtm.jsx";
 
 const BundleCard = ({
   bundle,
@@ -41,29 +41,7 @@ const BundleCard = ({
   const shouldShowDiscount = isEligible && discountPercentage > 0 && !iccid; // Don't show for top-ups
   
   const handleDetail = () => {
-    // Send GA4 view_item event
-    gtmViewItemEvent({
-      ...bundle,
-      currency: bundle?.currency_code
-    }, !!iccid);
-
-    // Legacy events for backward compatibility
-    // if (iccid) {
-    //   gtmEvent("view_topup_details", {
-    //     bundle_id: bundle?.bundle_code || "",
-    //     bundle_name: bundle?.display_title || bundle?.title || "",
-    //     amount: bundle?.price || 0,
-    //     currency: bundle?.currency_code || "",
-    //     iccid: iccid
-    //   });
-    // } else {
-    //   gtmEvent("view_product_details", {
-    //     bundle_id: bundle?.bundle_code || "",
-    //     bundle_name: bundle?.display_title || bundle?.title || "",
-    //     amount: bundle?.price || 0,
-    //     currency: bundle?.currency_code || ""
-    //   });
-    // }
+    // view_item event is now triggered in BundleDetail when modal opens
     setOpenDetail(true);
   };
 
@@ -249,15 +227,7 @@ const BundleCard = ({
                 variant="contained"
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent card click
-                  
-                  // Fire view_item event since button click prevents card click
-                  // This is especially important for topup scenarios
-                  gtmViewItemEvent({
-                    ...bundle,
-                    currency: bundle?.currency_code
-                  }, !!iccid);
-                  
-                  // Open the detail modal - add_to_cart will be fired from within
+                  // view_item event is now triggered in BundleDetail when modal opens
                   setOpenDetail(true);
                 }}
               >

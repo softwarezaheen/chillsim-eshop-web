@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Container, useMediaQuery, IconButton } from "@mui/material";
 import PublicIcon from "@mui/icons-material/Public";
+import LanguageIcon from "@mui/icons-material/Language";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
@@ -138,6 +139,22 @@ const DestinationCard = ({ destination, onClick }) => {
     </div>
   );
 };
+
+// Compact pill component for quick destination access
+const DestinationPill = ({ destination, onClick }) => (
+  <button
+    onClick={onClick}
+    className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white hover:border-primary hover:bg-primary/5 transition-all duration-200 whitespace-nowrap shadow-sm"
+  >
+    <img
+      src={destination.flag}
+      alt={destination.name}
+      className="w-4 h-4 rounded-full object-cover"
+      onError={(e) => { e.target.style.display = 'none'; }}
+    />
+    <span className="text-xs font-medium text-gray-700">{destination.name}</span>
+  </button>
+);
 
 const Carousel = ({ items, onItemClick, title, icon }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -297,7 +314,7 @@ const Carousel = ({ items, onItemClick, title, icon }) => {
   );
 };
 
-const PopularDestinations = () => {
+const PopularDestinations = ({ layout = "maximized" }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -305,6 +322,52 @@ const PopularDestinations = () => {
     navigate(`/esim-destination/${slug}`);
   };
 
+  // Compact layout - horizontal scrollable pills
+  if (layout === "compact") {
+    return (
+      <div className="mb-4 sm:mb-6">
+        {/* Countries Row */}
+        <div className="mb-2">
+          <div className="flex items-center justify-center sm:justify-center gap-2 mb-1.5 px-4 sm:px-0">
+            <PublicIcon className="text-primary" sx={{ fontSize: 16 }} />
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              {t("plans.topCountries", "Top Countries")}
+            </span>
+          </div>
+          <div className="flex flex-nowrap sm:flex-wrap sm:justify-center gap-2 overflow-x-auto sm:overflow-x-visible pb-2 px-4 sm:px-0 scrollbar-hide">
+            {POPULAR_COUNTRIES.map((dest) => (
+              <DestinationPill
+                key={dest.slug}
+                destination={dest}
+                onClick={() => handleDestinationClick(dest.slug)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Regions Row */}
+        <div>
+          <div className="flex items-center justify-center sm:justify-center gap-2 mb-1.5 px-4 sm:px-0">
+            <LanguageIcon className="text-secondary" sx={{ fontSize: 16 }} />
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              {t("plans.topRegions", "Top Regions")}
+            </span>
+          </div>
+          <div className="flex flex-nowrap sm:flex-wrap sm:justify-center gap-2 overflow-x-auto sm:overflow-x-visible pb-2 px-4 sm:px-0 scrollbar-hide">
+            {POPULAR_REGIONS.map((dest) => (
+              <DestinationPill
+                key={dest.slug}
+                destination={dest}
+                onClick={() => handleDestinationClick(dest.slug)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Maximized layout - large carousel cards (default)
   return (
     <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
       <Container maxWidth="lg">

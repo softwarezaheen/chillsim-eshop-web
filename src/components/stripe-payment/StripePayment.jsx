@@ -114,8 +114,10 @@ const InjectedCheckout = ({ orderDetail }) => {
                 });
               }
 
+              // Navigate to /plans/land for new orders (where PaymentCompletion modal exists)
+              // or /esim/${iccid} for topups
               navigate({
-                pathname: iccid ? `/esim/${iccid}` : "/",
+                pathname: iccid ? `/esim/${iccid}` : "/plans/land",
                 search: !iccid ? `?${searchParams.toString()}` : "",
               });
             }, 5000); // 5000 ms = 5 seconds

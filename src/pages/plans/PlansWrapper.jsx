@@ -12,26 +12,25 @@ const PlansWrapper = () => {
 
   return (
     <div className="pb-12">
-      <div className="max-w-xxl mx-auto  sm:px-6 lg:px-8">
+      <div className="max-w-xxl mx-auto sm:px-6 lg:px-8">
         {showHeader && (
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">
+          <div className="text-center mb-6 sm:mb-10">
+            <h1 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-4">
               {t("plans.chooseYourPlan")}
             </h1>
-            <p>
+            {/* <p className="text-sm sm:text-base">
               {t("plans.please")} &nbsp;
-              <span className="font-mono text-lg font-bold text-primary">
+              <span className="font-mono text-sm sm:text-lg font-bold text-primary">
                 {t("plans.dial")} <span dir={"ltr"}>*#06#</span>
               </span>
               &nbsp; {t("plans.checkCompatibility")}
-              <br />
               {t("plans.compatibleDevice")}
-            </p>
+            </p> */}
           </div>
         )}
 
-        {/* Popular Destinations Section */}
-        <PopularDestinations />
+        {/* Compact Popular Destinations for Plans page */}
+        <PopularDestinations layout="compact" />
 
         <Outlet />
       </div>

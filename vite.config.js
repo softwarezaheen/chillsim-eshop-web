@@ -170,35 +170,9 @@ export default defineConfig(({ mode }) => {
         input: {
           app: "./index.html",
         },
-        output: {
-          manualChunks: {
-            // Core React libraries
-            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-            // MUI library (large dependency)
-            'mui-vendor': [
-              '@mui/material',
-              '@mui/icons-material',
-              '@emotion/react',
-              '@emotion/styled'
-            ],
-            // Firebase
-            'firebase-vendor': [
-              'firebase/app',
-              'firebase/auth',
-              'firebase/messaging'
-            ],
-            // Other major dependencies
-            'vendor-libs': [
-              '@reduxjs/toolkit',
-              'react-redux',
-              '@tanstack/react-query',
-              'react-i18next',
-              'i18next',
-              'axios',
-              'react-toastify'
-            ]
-          }
-        }
+        // NOTE: Manual chunking removed - was causing circular dependency issues
+        // with store/auth/axios modules loading in wrong order.
+        // React.lazy() route splitting still provides good code splitting.
       },
     },
   };

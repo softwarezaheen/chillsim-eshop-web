@@ -135,8 +135,10 @@ const PaymentFlow = (props) => {
     // Add a small delay to ensure users see the processing modal before navigation
     setTimeout(() => {
       // Navigate with order_id parameter to trigger the same flow as card payments
+      // Navigate to /plans/land for new orders (where PaymentCompletion modal exists)
+      // or /esim/${iccid} for topups
       if (orderData?.order_id) {
-        const targetPath = iccid ? `/esim/${iccid}` : "/";
+        const targetPath = iccid ? `/esim/${iccid}` : "/plans/land";
         const searchParams = new URLSearchParams(window.location.search);
         searchParams.set("order_id", orderData.order_id);
         
@@ -147,7 +149,7 @@ const PaymentFlow = (props) => {
       } else {
         // Fallback if no order_id (shouldn't happen)
         navigate({
-          pathname: iccid ? `/esim/${iccid}` : "/",
+          pathname: iccid ? `/esim/${iccid}` : "/plans/land",
           search: !iccid ? new URLSearchParams(window.location.search).toString() : "",
         });
       }

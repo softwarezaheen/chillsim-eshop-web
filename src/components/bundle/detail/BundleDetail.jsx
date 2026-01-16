@@ -1,5 +1,5 @@
 //UTILITIES
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 //COMPONENT
 import NoDataFound from "../../shared/no-data-found/NoDataFound";
@@ -21,7 +21,7 @@ import clsx from "clsx";
 import TooltipComponent from "../../shared/tooltip/TooltipComponent";
 import { useTranslation, Trans } from "react-i18next";
 import { formatValidity } from "../../../assets/utils/formatValidity";
-import { gtmEvent, gtmAddToCartEvent } from "../../../core/utils/gtm.jsx";
+import { gtmEvent, gtmViewItemEvent, gtmAddToCartEvent } from "../../../core/utils/gtm.jsx";
 import { getPriceDisclaimerText } from "../../../utils/priceDisclaimerHelper.js";
 
 const BundleDetail = ({
@@ -49,6 +49,21 @@ const BundleDetail = ({
     : originalPrice;
   
   const shouldShowDiscount = isEligible && discountPercentage > 0 && !iccid; // Don't show for top-ups
+
+  // Send GA4 view_item event when modal opens
+  useEffect(() => {
+    if (bundle) {
+      gtmViewItemEvent({
+        bundle_code: bundle.bundle_code,
+        title: bundle.display_title || bundle.title,
+        price: bundle.price,
+        currency: bundle.currency,
+        gprs_limit: bundle.gprs_limit,
+        validity_days: bundle.validity_days || bundle.validity,
+        countries: bundle.countries,
+      }, !!iccid);
+    }
+  }, [bundle, iccid]);
 
   const handleCheckExist = () => {
     //order top-up

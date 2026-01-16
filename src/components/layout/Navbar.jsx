@@ -68,16 +68,14 @@ const Navbar = ({ main }) => {
   }, [isHomePage, showMenu]);
 
 const menuLinks = useMemo(() => {
-  if (main) return menuItems;
-  else {
-    if (isAuthenticated) {
-      // 🔹 Combina ambele meniuri când userul este logat
-      return [...menuItemsSigned, ...authMenuItems];
-    } else {
-      return authMenuItems;
-    }
+  if (isAuthenticated) {
+    // Show authenticated menu when logged in (full or guest checkout)
+    return [...menuItemsSigned, ...authMenuItems];
+  } else {
+    // Show public menu when not authenticated
+    return menuItems;
   }
-}, [main, isAuthenticated]);
+}, [isAuthenticated]);
 
   return (
     <>

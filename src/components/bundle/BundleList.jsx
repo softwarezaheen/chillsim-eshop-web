@@ -102,7 +102,7 @@ const BundleList = ({
     // Group bundles by data amount AND bundle type (country vs regional for country pages)
     const grouped = data.reduce((acc, bundle) => {
       const dataInMB = getDataInMB(bundle);
-      const bundleType = (!region && countryData?.id)
+      const bundleType = (!region && (countryData?.id || expandedCountry))
         ? ((bundle.count_countries || 1) === 1 ? 'country' : 'regional')
         : 'all';
       // For unlimited bundles, include validity in the key to keep different validities separate
@@ -147,7 +147,7 @@ const BundleList = ({
     });
     
     return sorted;
-  }, [data, region, countryData]);
+  }, [data, region, countryData, expandedCountry]);
 
   // Filter bundles based on duration and country count
   const filteredBundles = useMemo(() => {
@@ -156,7 +156,7 @@ const BundleList = ({
     let filtered = [...sortedBundles];
 
     // Filter by country count (single-country vs regional) for country pages
-    if (!region && countryData?.id) {
+    if (!region && (countryData?.id || expandedCountry)) {
       if (!showRegional) {
         // Show only country-specific bundles (count_countries === 1)
         filtered = filtered.filter((b) => (b.count_countries || 1) === 1);
@@ -221,10 +221,10 @@ const BundleList = ({
 
   // Auto-switch to regional if no country plans but regional exists
   useEffect(() => {
-    if (!region && countryData?.id && countryPlansCount === 0 && regionalPlansCount > 0 && !showRegional && !userManuallySwitched) {
+    if (!region && (countryData?.id || expandedCountry) && countryPlansCount === 0 && regionalPlansCount > 0 && !showRegional && !userManuallySwitched) {
       setShowRegional(true);
     }
-  }, [countryPlansCount, regionalPlansCount, showRegional, userManuallySwitched, region, countryData]);
+  }, [countryPlansCount, regionalPlansCount, showRegional, userManuallySwitched, region, countryData, expandedCountry]);
 
   // Reset manual switch flag when duration changes
   useEffect(() => {
@@ -454,7 +454,7 @@ const BundleList = ({
       </div>
 
       {/* Country vs Regional Toggle (only for country pages) */}
-      {!region && countryData?.id && hasRegionalBundles && (
+      {!region && (countryData?.id || expandedCountry) && hasRegionalBundles && (
         <div className="flex justify-center">
           <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
             <Typography
@@ -502,7 +502,7 @@ const BundleList = ({
           <div className="text-center py-12">
             <p className="text-gray-600">{t("home.results.noPlans")}</p>
             {/* If no country plans but regional exists, show hint */}
-            {!region && countryData?.id && !showRegional && regionalPlansCount > 0 && (
+            {!region && (countryData?.id || expandedCountry) && !showRegional && regionalPlansCount > 0 && (
               <p className="text-sm text-gray-500 mt-2">
                 {t("home.results.tryRegional", { count: regionalPlansCount })}
               </p>
