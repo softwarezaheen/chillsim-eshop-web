@@ -74,7 +74,7 @@ const BundleList = ({
   const durationChips = [
     { value: "all", label: t("home.duration.all") },
     { value: 7, label: t("home.duration.7d") },
-    { value: 14, label: t("home.duration.14d") },
+    { value: 15, label: t("home.duration.15d") },
     { value: 30, label: t("home.duration.30d") },
     { value: 90, label: t("home.duration.90d") },
     { value: 365, label: t("home.duration.1yr") },

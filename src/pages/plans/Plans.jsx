@@ -229,7 +229,7 @@ const Plans = (props) => {
   const durationChips = [
     { value: "all", label: t("home.duration.all") },
     { value: 7, label: t("home.duration.7d") },
-    { value: 14, label: t("home.duration.14d") },
+    { value: 15, label: t("home.duration.15d") },
     { value: 30, label: t("home.duration.30d") },
     { value: 90, label: t("home.duration.90d") },
     { value: 365, label: t("home.duration.1yr") },
@@ -260,7 +260,7 @@ const Plans = (props) => {
       
       switch (selectedDuration) {
         case "7d": return validity <= 7;
-        case "14d": return validity <= 14;
+        case "15d": return validity <= 15;
         case "30d": return validity <= 30;
         case "90d": return validity <= 90;
         case "1yr": return validity <= 365;
@@ -287,7 +287,7 @@ const Plans = (props) => {
         const validity = b.validity_days || b.validity || 0;
         switch (selectedDuration) {
           case "7d": return validity <= 7;
-          case "14d": return validity <= 14;
+          case "15d": return validity <= 15;
           case "30d": return validity <= 30;
           case "90d": return validity <= 90;
           case "1yr": return validity <= 365;
@@ -308,7 +308,7 @@ const Plans = (props) => {
         const validity = b.validity_days || b.validity || 0;
         switch (selectedDuration) {
           case "7d": return validity <= 7;
-          case "14d": return validity <= 14;
+          case "15d": return validity <= 15;
           case "30d": return validity <= 30;
           case "90d": return validity <= 90;
           case "1yr": return validity <= 365;

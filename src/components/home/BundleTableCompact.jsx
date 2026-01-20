@@ -61,6 +61,15 @@ const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration, def
   // Sort bundles
   const sortedBundles = useMemo(() => {
     const comparator = (a, b) => {
+      // Only push unlimited bundles to bottom when sorting by DATA
+      if (orderBy === "data") {
+        const aIsUnlimited = a.unlimited || (a.gprs_limit !== undefined && a.gprs_limit < 0);
+        const bIsUnlimited = b.unlimited || (b.gprs_limit !== undefined && b.gprs_limit < 0);
+        
+        if (aIsUnlimited && !bIsUnlimited) return 1;  // a after b
+        if (!aIsUnlimited && bIsUnlimited) return -1; // a before b
+      }
+      
       let aValue, bValue;
 
       switch (orderBy) {

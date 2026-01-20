@@ -260,7 +260,7 @@ const RegionLanding = () => {
   const durationChips = [
     { key: "all", label: t("home.duration.all") },
     { key: "7d", label: t("home.duration.7d") },
-    { key: "14d", label: t("home.duration.14d") },
+    { key: "15d", label: t("home.duration.15d") },
     { key: "30d", label: t("home.duration.30d") },
     { key: "90d", label: t("home.duration.90d") },
     { key: "1yr", label: t("home.duration.1yr") },
@@ -294,8 +294,8 @@ const RegionLanding = () => {
       switch (selectedDuration) {
         case "7d":
           return validity <= 7;
-        case "14d":
-          return validity <= 14;
+        case "15d":
+          return validity <= 15;
         case "30d":
           return validity <= 30;
         case "90d":
@@ -328,7 +328,7 @@ const RegionLanding = () => {
         const validity = b.validity_days || b.validity || 0;
         switch (selectedDuration) {
           case "7d": return validity <= 7;
-          case "14d": return validity <= 14;
+          case "15d": return validity <= 15;
           case "30d": return validity <= 30;
           case "90d": return validity <= 90;
           case "1yr": return validity <= 365;
@@ -350,7 +350,7 @@ const RegionLanding = () => {
         const validity = b.validity_days || b.validity || 0;
         switch (selectedDuration) {
           case "7d": return validity <= 7;
-          case "14d": return validity <= 14;
+          case "15d": return validity <= 15;
           case "30d": return validity <= 30;
           case "90d": return validity <= 90;
           case "1yr": return validity <= 365;

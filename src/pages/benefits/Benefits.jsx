@@ -116,7 +116,8 @@ const Benefits = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-700 to-secondary py-24">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=2000')] opacity-10 bg-cover bg-center" />
+        <div className="absolute inset-0 bg-[url('https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/benefits/benefits_shutterstock_2621627227.jpg')] opacity-60 bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
         
         <Container className="relative z-10">
           <div className="text-center text-white max-w-3xl mx-auto">
@@ -126,10 +127,10 @@ const Benefits = () => {
               className="mb-6 bg-white/20 backdrop-blur-sm text-white font-semibold"
               size="medium"
             />
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight drop-shadow-lg">
               {t("benefits.heroTitle")}
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90">
+            <p className="text-xl md:text-2xl mb-8 text-white drop-shadow-md">
               {t("benefits.heroSubtitle")}
             </p>
             {!isAuthenticated && (

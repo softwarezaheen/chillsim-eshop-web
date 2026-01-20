@@ -29,7 +29,7 @@ const TravelSearchWidget = ({
   const durationChips = [
     { key: "all", label: t("home.duration.all") },
     { key: "7d", label: t("home.duration.7d") },
-    { key: "14d", label: t("home.duration.14d") },
+    { key: "15d", label: t("home.duration.15d") },
     { key: "30d", label: t("home.duration.30d") },
     { key: "90d", label: t("home.duration.90d") },
     { key: "1yr", label: t("home.duration.1yr") },

@@ -7,43 +7,78 @@ import LanguageIcon from "@mui/icons-material/Language";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
+// Custom hook for intersection observer lazy loading
+const useLazyLoad = (options = {}) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const elementRef = useRef(null);
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    // If already visible, no need to observe
+    if (isVisible) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.disconnect(); // Stop observing once visible
+      }
+    }, {
+      rootMargin: options.rootMargin || '50px', // Start loading 50px before entering viewport
+      threshold: options.threshold || 0,
+      ...options,
+    });
+
+    observer.observe(element);
+
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, [isVisible, options.rootMargin, options.threshold]);
+
+  return [elementRef, isVisible];
+};
+
 // Popular countries with their URL slugs and hero images
 const POPULAR_COUNTRIES = [
   {
     name: "Turkey",
     slug: "turkey",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2267492301_turkey.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/country/tur.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2267492301_turkey.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/country/tur.png",
   },
   {
     name: "USA",
     slug: "usa",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2513128999_chicago.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/country/usa.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2513128999_chicago.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/country/usa.png",
   },
   {
     name: "Thailand",
     slug: "thailand",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2617897393_thailand.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/country/tha.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2617897393_thailand.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/country/tha.png",
   },
   {
     name: "UAE",
     slug: "uae",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2586153585_dubai.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/country/are.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2586153585_dubai.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/country/are.png",
   },
   {
     name: "Japan",
     slug: "japan",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2360483575_japan.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/country/jpn.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2360483575_japan.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/country/jpn.png",
   },
   {
     name: "Canada",
     slug: "canada",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2633532499_canada.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/country/can.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2633532499_canada.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/country/can.png",
   },
 ];
 
@@ -52,54 +87,61 @@ const POPULAR_REGIONS = [
   {
     name: "Europe",
     slug: "europe",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_314760704_europe.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/region/EUROPE.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_314760704_europe.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/region/EUROPE.png",
   },
   {
     name: "Asia",
     slug: "asia",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2442381629_china.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/region/ASIA.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2442381629_china.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/region/ASIA.png",
   },
   {
     name: "North America",
     slug: "north-america",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2513128999_chicago.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/region/NORTH_AMERICA.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2513128999_chicago.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/region/NORTH_AMERICA.png",
   },
   {
     name: "Middle East",
     slug: "middle-east",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2586153585_dubai.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/region/MIDDLE_EAST.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2586153585_dubai.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/region/MIDDLE_EAST.png",
   },
   {
     name: "Africa",
     slug: "africa",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2597617703_africa.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/region/AFRICA.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2597617703_africa.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/region/AFRICA.png",
   },
   {
     name: "South America",
     slug: "south-america",
-    image: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2608490949_south_america.webp",
-    flag: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/region/SOUTH_AMERICA.png",
+    image: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2608490949_south_america.webp",
+    flag: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/region/SOUTH_AMERICA.png",
   },
 ];
 
 const DestinationCard = ({ destination, onClick }) => {
+  const [imgRef, isVisible] = useLazyLoad({ rootMargin: '100px' });
+  
   return (
     <div
+      ref={imgRef}
       onClick={onClick}
       className="group relative overflow-hidden rounded-xl cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300 aspect-[4/3]"
     >
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-500"
-        style={{
-          backgroundImage: `url(${destination.image})`,
-        }}
-      />
+      {/* Background Image - Lazy Loaded with Intersection Observer */}
+      {isVisible ? (
+        <img
+          src={destination.image}
+          alt={destination.name}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+        />
+      ) : (
+        <div className="absolute inset-0 w-full h-full bg-gray-200 animate-pulse" />
+      )}
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
@@ -107,10 +149,11 @@ const DestinationCard = ({ destination, onClick }) => {
       {/* Content */}
       <div className="absolute inset-0 p-4 flex flex-col justify-end">
         <div className="flex items-center gap-3 mb-2">
-          {destination.flag && (
+          {destination.flag && isVisible && (
             <img 
               src={destination.flag} 
               alt={`${destination.name} flag`}
+              loading="lazy"
               className="w-10 h-10 rounded-full object-cover shadow-lg border-2 border-white bg-white"
             />
           )}
@@ -141,20 +184,30 @@ const DestinationCard = ({ destination, onClick }) => {
 };
 
 // Compact pill component for quick destination access
-const DestinationPill = ({ destination, onClick }) => (
-  <button
-    onClick={onClick}
-    className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white hover:border-primary hover:bg-primary/5 transition-all duration-200 whitespace-nowrap shadow-sm"
-  >
-    <img
-      src={destination.flag}
-      alt={destination.name}
-      className="w-4 h-4 rounded-full object-cover"
-      onError={(e) => { e.target.style.display = 'none'; }}
-    />
-    <span className="text-xs font-medium text-gray-700">{destination.name}</span>
-  </button>
-);
+const DestinationPill = ({ destination, onClick }) => {
+  const [imgRef, isVisible] = useLazyLoad({ rootMargin: '200px' });
+  
+  return (
+    <button
+      ref={imgRef}
+      onClick={onClick}
+      className="flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-gray-200 bg-white hover:border-primary hover:bg-primary/5 transition-all duration-200 whitespace-nowrap shadow-sm"
+    >
+      {isVisible ? (
+        <img
+          src={destination.flag}
+          loading="lazy"
+          alt={destination.name}
+          className="w-4 h-4 rounded-full object-cover"
+          onError={(e) => { e.target.style.display = 'none'; }}
+        />
+      ) : (
+        <div className="w-4 h-4 rounded-full bg-gray-200 animate-pulse" />
+      )}
+      <span className="text-xs font-medium text-gray-700">{destination.name}</span>
+    </button>
+  );
+};
 
 const Carousel = ({ items, onItemClick, title, icon }) => {
   const [currentIndex, setCurrentIndex] = useState(0);

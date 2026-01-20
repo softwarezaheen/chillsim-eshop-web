@@ -65,7 +65,7 @@ const HomePageTemplate = ({
   const durationOptions = useMemo(() => ({
     all: null,
     "7d": 7,
-    "14d": 14,
+    "15d": 15,
     "30d": 30,
     "90d": 90,
     "1yr": 365,
