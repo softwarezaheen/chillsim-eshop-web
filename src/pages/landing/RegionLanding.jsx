@@ -80,27 +80,27 @@ const isCountryCode = (type) => {
 // Hero images for each region (placeholders - replace with CDN images for production)
 const REGION_HERO_IMAGES = {
   EUROPE:
-    "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_314760704_europe.webp",
+    "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_314760704_europe.webp",
   AFRICA:
-    "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2597617703_africa.webp",
+    "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2597617703_africa.webp",
   MIDDLE_EAST:
-    "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2586153585_dubai.webp",
+    "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2586153585_dubai.webp",
   ASIA:
-    "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2442381629_china.webp",
+    "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2442381629_china.webp",
   NORTH_AMERICA:
-    "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2513128999_chicago.webp",
+    "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2513128999_chicago.webp",
   SOUTH_AMERICA:
-    "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2608490949_south_america.webp",
+    "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2608490949_south_america.webp",
 };
 
 // Hero images for country landing pages
 const COUNTRY_HERO_IMAGES = {
-  TR: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2267492301_turkey.webp",
-  US: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2513128999_chicago.webp",
-  CA: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2633532499_canada.webp",
-  TH: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2617897393_thailand.webp",
-  AE: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2586153585_dubai.webp",
-  JP: "https://igtykprtntalfypbsdtp.supabase.co/storage/v1/object/public/media/landing/shutterstock_2360483575_japan.webp",
+  TR: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2267492301_turkey.webp",
+  US: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2513128999_chicago.webp",
+  CA: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2633532499_canada.webp",
+  TH: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2617897393_thailand.webp",
+  AE: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2586153585_dubai.webp",
+  JP: "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/landing/shutterstock_2360483575_japan.webp",
 };
 
 const RegionLanding = () => {
