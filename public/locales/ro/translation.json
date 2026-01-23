@@ -1104,7 +1104,7 @@
     },
     "results": {
       "countryPlans": "Planuri de Țară",
-      "regionalPlans": "Planuri Regionale",
+      "regionalPlans": "Include Planuri Regionale",
       "showRegional": "Arată planuri regionale ({{count}} disponibile)",
       "viewRegional": "Vezi",
       "backToCountry": "Înapoi la planuri de țară",

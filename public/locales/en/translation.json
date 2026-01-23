@@ -1114,7 +1114,7 @@
       "searchPrompt": "Search for your destination above to see available plans",
       "noPlans": "No plans found for your selection. Try a different destination or duration.",
       "countryPlans": "Country Plans",
-      "regionalPlans": "Regional Plans",
+      "regionalPlans": "Include Regional Plans",
       "showRegional": "Show regional plans ({{count}} available)",
       "viewRegional": "View",
       "backToCountry": "Back to country plans",

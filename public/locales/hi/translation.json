@@ -1109,7 +1109,7 @@
     },
     "results": {
       "countryPlans": "देश प्लान",
-      "regionalPlans": "क्षेत्रीय प्लान",
+      "regionalPlans": "क्षेत्रीय प्लान शामिल करें",
       "showRegional": "क्षेत्रीय प्लान दिखाएं ({{count}} उपलब्ध)",
       "viewRegional": "देखें",
       "backToCountry": "देश प्लान पर वापस जाएं",

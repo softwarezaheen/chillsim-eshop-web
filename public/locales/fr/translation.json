@@ -1109,7 +1109,7 @@
     },
     "results": {
       "countryPlans": "Forfaits Pays",
-      "regionalPlans": "Forfaits Régionaux",
+      "regionalPlans": "Inclure les Forfaits Régionaux",
       "showRegional": "Afficher les forfaits régionaux ({{count}} disponibles)",
       "viewRegional": "Voir",
       "backToCountry": "Retour aux forfaits pays",

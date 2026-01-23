@@ -149,7 +149,15 @@ const Footer = () => {
               </Link>
             </div>
             <div dir="ltr" className="text-sm text-white">
-              © 2025 {footerProjectName}
+              © 2025 {footerProjectName} | Powered by{" "}
+              <a
+                href="https://zenminutes.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-gray-200"
+              >
+                ZenMinutes SRL
+              </a>
             </div>
           </div>
         </div>

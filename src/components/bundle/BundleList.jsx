@@ -160,10 +160,9 @@ const BundleList = ({
       if (!showRegional) {
         // Show only country-specific bundles (count_countries === 1)
         filtered = filtered.filter((b) => (b.count_countries || 1) === 1);
-      } else {
-        // Show only regional bundles (count_countries > 1)
-        filtered = filtered.filter((b) => (b.count_countries || 1) > 1);
       }
+      // When showRegional is true, show all bundles (both country and regional)
+      // No filtering needed
     }
 
     // Filter by duration

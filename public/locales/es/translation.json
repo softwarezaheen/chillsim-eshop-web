@@ -1109,7 +1109,7 @@
     },
     "results": {
       "countryPlans": "Planes de País",
-      "regionalPlans": "Planes Regionales",
+      "regionalPlans": "Incluir Planes Regionales",
       "showRegional": "Mostrar planes regionales ({{count}} disponibles)",
       "viewRegional": "Ver",
       "backToCountry": "Volver a planes de país",

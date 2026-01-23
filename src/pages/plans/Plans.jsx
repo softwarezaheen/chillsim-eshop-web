@@ -245,9 +245,9 @@ const Plans = (props) => {
     if (filters?.type === "" && activeTab === "countries") {
       if (!showRegional) {
         filtered = filtered.filter((b) => (b.count_countries || 1) === 1);
-      } else {
-        filtered = filtered.filter((b) => (b.count_countries || 1) > 1);
       }
+      // When showRegional is true, show all bundles (both country and regional)
+      // No filtering needed
     }
     
     // Filter by duration

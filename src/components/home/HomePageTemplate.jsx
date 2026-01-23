@@ -204,11 +204,10 @@ const HomePageTemplate = ({
       // Show only country-specific bundles (count_countries === 1)
       filtered = filtered.filter((b) => (b.count_countries || 1) === 1);
       console.log('🔍 [Homepage Filter] After country filter:', filtered.length);
-    } else {
-      // Show only regional bundles (count_countries > 1)
-      filtered = filtered.filter((b) => (b.count_countries || 1) > 1);
-      console.log('🔍 [Homepage Filter] After regional filter:', filtered.length);
     }
+    // When showRegional is true, show all bundles (both country and regional)
+    // No filtering needed - keep all bundles
+    console.log('🔍 [Homepage Filter] After regional toggle (showing all):', filtered.length);
 
     // Filter by duration
     const maxDays = durationOptions[selectedDuration];

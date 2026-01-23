@@ -1084,7 +1084,7 @@
     },
     "results": {
       "countryPlans": "Ländertarife",
-      "regionalPlans": "Regionaltarife",
+      "regionalPlans": "Regionaltarife einbeziehen",
       "showRegional": "Regionaltarife anzeigen ({{count}} verfügbar)",
       "viewRegional": "Anzeigen",
       "backToCountry": "Zurück zu Ländertarifen",
