@@ -1088,7 +1088,8 @@
       "findPlans": "Găsește Planuri",
       "selectCountry": "Te rugăm să selectezi cel puțin o destinație",
       "noCountries": "Nu s-au găsit țări",
-      "maxCountries": "Selectează până la 3 țări pentru planuri multi-țară"
+      "maxCountries": "Selectează până la 3 țări pentru planuri multi-țară",
+      "searching": "Căutare în curs..."
     },
     "partner": {
       "recommendedBy": "Recomandat de"

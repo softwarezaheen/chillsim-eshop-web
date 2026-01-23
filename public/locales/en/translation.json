@@ -1094,7 +1094,8 @@
       "findPlans": "Find Plans",
       "selectCountry": "Please select at least one destination",
       "noCountries": "No countries found",
-      "maxCountries": "Select up to 3 countries for multi-country plans"
+      "maxCountries": "Select up to 3 countries for multi-country plans",
+      "searching": "Searching..."
     },
     "partner": {
       "recommendedBy": "Recommended by"

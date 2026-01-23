@@ -1068,7 +1068,8 @@
       "findPlans": "Tarife Finden",
       "selectCountry": "Bitte wählen Sie mindestens ein Reiseziel",
       "noCountries": "Keine Länder gefunden",
-      "maxCountries": "Wählen Sie bis zu 3 Länder für Multi-Länder-Tarife"
+      "maxCountries": "Wählen Sie bis zu 3 Länder für Multi-Länder-Tarife",
+      "searching": "Suche..."
     },
     "partner": {
       "recommendedBy": "Empfohlen von"

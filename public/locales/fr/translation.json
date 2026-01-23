@@ -1093,7 +1093,8 @@
       "findPlans": "Trouver des Forfaits",
       "selectCountry": "Veuillez sélectionner au moins une destination",
       "noCountries": "Aucun pays trouvé",
-      "maxCountries": "Sélectionnez jusqu'à 3 pays pour les forfaits multi-pays"
+      "maxCountries": "Sélectionnez jusqu'à 3 pays pour les forfaits multi-pays",
+      "searching": "Recherche de forfaits..."
     },
     "partner": {
       "recommendedBy": "Recommandé par"

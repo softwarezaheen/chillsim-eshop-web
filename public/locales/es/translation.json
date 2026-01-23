@@ -1093,7 +1093,8 @@
       "findPlans": "Buscar Planes",
       "selectCountry": "Por favor selecciona al menos un destino",
       "noCountries": "No se encontraron países",
-      "maxCountries": "Selecciona hasta 3 países para planes multi-país"
+      "maxCountries": "Selecciona hasta 3 países para planes multi-país",
+      "searching": "Buscando planes..."
     },
     "partner": {
       "recommendedBy": "Recomendado por"
@@ -1101,7 +1102,7 @@
     "duration": {
       "all": "Todos",
       "7d": "7 Días",
-      "15d": "15 Días"
+      "15d": "15 Días",
       "30d": "30 Días",
       "90d": "90 Días",
       "1yr": "1 Año"
