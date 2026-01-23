@@ -92,12 +92,32 @@ const PushNotification = () => {
 
   useEffect(() => {
     requestPermission().then((firebaseRes) => {
-      if (
-        (isAuthenticated && authenticatedToken) ||
-        (!isAuthenticated && anonymousToken)
-      )
+      // CRITICAL FIX: Don't register device without FCM token
+      // This prevents devices with null tokens in production
+      if (!firebaseRes) {
+        console.warn("⚠️ No FCM token - device not registered");
         return;
+      }
 
+      // Get current token from Redux for this auth state
+      const currentToken = isAuthenticated ? authenticatedToken : anonymousToken;
+      
+      // If token changed (user reset permissions or token refreshed), update backend
+      // Firebase auto-refreshes tokens, so we need to detect and update
+      if (currentToken && currentToken !== firebaseRes) {
+        console.info("🔄 FCM token changed - updating backend");
+        registerDevice(firebaseRes);
+        return;
+      }
+
+      // Don't re-register if already have same token
+      if (currentToken === firebaseRes) {
+        console.info("✅ Already registered with current FCM token");
+        return;
+      }
+
+      // New registration - no token yet
+      console.info("🆕 Registering new device with FCM token");
       registerDevice(firebaseRes);
     });
   }, [isAuthenticated]);
