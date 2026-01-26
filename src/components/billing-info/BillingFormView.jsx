@@ -55,13 +55,50 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
   });
 
   const selectedCountry = watch("country");
+  const selectedState = watch("state");
   const [billingType, setBillingType] = useState("individual");
+
+  // State for cascading dropdowns
+  const [availableCounties, setAvailableCounties] = useState([]);
+  const [availableCities, setAvailableCities] = useState([]);
 
   const handleCountryChange = (countryValue) => {
     setValue("country", countryValue);
     // Clear city and state when user manually changes country
     setValue("city", "");
     setValue("state", "");
+    
+    // Reset cascading dropdowns
+    setAvailableCounties([]);
+    setAvailableCities([]);
+  };
+
+  const handleCountyChange = (countyValue) => {
+    setValue("state", countyValue);
+    // Clear city when county changes
+    setValue("city", "");
+    
+    // Load cities for the selected county
+    if (countyValue && selectedCountry === "RO") {
+      const county = romanianCounties.find(c => c.alpha3.trim() === countyValue);
+      if (county) {
+        // Normalize Romanian characters for lookup (ș→s, ț→t) to match regions.js keys
+        const countyKey = county.name.toUpperCase().replace(/Ș/g, 'S').replace(/Ț/g, 'T');
+        if (romanianCities[countyKey]) {
+          const cities = romanianCities[countyKey].map(city => ({
+            value: city.name,
+            label: city.name,
+          }));
+          setAvailableCities(cities);
+        } else {
+          setAvailableCities([]);
+        }
+      } else {
+        setAvailableCities([]);
+      }
+    } else {
+      setAvailableCities([]);
+    }
   };
 
   const fetchBillingInfo = async () => {
@@ -149,6 +186,30 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
     }
   }, [userEmail, setValue]);
 
+  // Load cities when state/county is set (for editing existing data)
+  useEffect(() => {
+    if (selectedCountry === "RO" && selectedState) {
+      const county = romanianCounties.find(c => c.alpha3.trim() === selectedState);
+      if (county) {
+        // Normalize Romanian characters for lookup (ș→s, ț→t) to match regions.js keys
+        const countyKey = county.name.toUpperCase().replace(/Ș/g, 'S').replace(/Ț/g, 'T');
+        if (romanianCities[countyKey]) {
+          const cities = romanianCities[countyKey].map(city => ({
+            value: city.name,
+            label: city.name,
+          }));
+          setAvailableCities(cities);
+        } else {
+          setAvailableCities([]);
+        }
+      } else {
+        setAvailableCities([]);
+      }
+    } else {
+      setAvailableCities([]);
+    }
+  }, [selectedCountry, selectedState]);
+
   return (
     <form
       onSubmit={handleSubmit(handleSubmitForm)}
@@ -170,6 +231,10 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
             onChange={() => {
               setBillingType("individual");
               setValue("billingType", "individual");
+              // Clear business fields when switching to individual
+              setValue("companyName", "");
+              setValue("vatCode", "");
+              setValue("tradeRegistry", "");
             }}
           />
           {t("checkout.individual")}
@@ -328,34 +393,74 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
 
       {/* City / State */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* State/County - shows first for better UX */}
+        <Controller
+          name="state"
+          control={control}
+          render={({ field, fieldState }) =>
+            selectedCountry === "RO" ? (
+              <div>
+                <label className="block text-sm font-medium mb-1">{t("checkout.state")}</label>
+                <Select
+                  {...field}
+                  options={romanianCounties.map((county) => ({
+                    value: county.alpha3.trim(),
+                    label: county.name,
+                  }))}
+                  placeholder={t("checkout.selectCounty")}
+                  onChange={(option) => {
+                    field.onChange(option?.value);
+                    handleCountyChange(option?.value);
+                  }}
+                  value={
+                    field.value
+                      ? {
+                          value: field.value,
+                          label:
+                            romanianCounties.find((c) => c.alpha3.trim() === field.value)?.name ||
+                            field.value,
+                        }
+                      : null
+                  }
+                  isSearchable
+                  isClearable
+                />
+                {fieldState.error && (
+                  <FormHelperText error>{fieldState.error.message}</FormHelperText>
+                )}
+              </div>
+            ) : (
+              <FormInput
+                {...field}
+                label={t("checkout.state")}
+                placeholder={t("checkout.state")}
+                helperText={fieldState.error?.message}
+              />
+            )
+          }
+        />
+
+        {/* City - filtered by selected county for Romania */}
         <Controller
           name="city"
           control={control}
           render={({ field, fieldState }) => {
             const isRomaniaSelected = selectedCountry === "RO";
             
-            // Generate Romanian city options
-            const romanianCityOptions = isRomaniaSelected 
-              ? Object.keys(romanianCities).flatMap((county) =>
-                  romanianCities[county]?.map((city) => ({
-                    value: city.name,
-                    label: city.name,
-                  })) || []
-                ).filter(Boolean)
-              : [];
-            
             return isRomaniaSelected ? (
               <div>
+                <label className="block text-sm font-medium mb-1">{t("checkout.city")}</label>
                 <Select
                   {...field}
-                  options={romanianCityOptions}
-                  placeholder={t("checkout.selectCity")}
+                  options={availableCities}
+                  placeholder={selectedState ? t("checkout.selectCity") : t("checkout.selectCountyFirst")}
                   onChange={(option) => field.onChange(option?.value)}
                   value={
                     field.value ? { value: field.value, label: field.value } : null
                   }
                   isSearchable
                   isClearable
+                  isDisabled={!selectedState}
                 />
                 {fieldState.error && (
                   <FormHelperText error>{fieldState.error.message}</FormHelperText>
@@ -371,46 +476,6 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
               />
             );
           }}
-        />
-        
-        <Controller
-          name="state"
-          control={control}
-          render={({ field, fieldState }) =>
-            selectedCountry === "RO" ? (
-              <div>
-                <Select
-                  {...field}
-                  options={romanianCounties.map((county) => ({
-                    value: county.alpha3.trim(),
-                    label: county.name,
-                  }))}
-                  placeholder={t("checkout.selectCounty")}
-                  onChange={(option) => field.onChange(option?.value)}
-                  value={
-                    field.value
-                      ? {
-                          value: field.value,
-                          label:
-                            romanianCounties.find((c) => c.alpha3.trim() === field.value)?.name ||
-                            field.value,
-                        }
-                      : null
-                  }
-                />
-                {fieldState.error && (
-                  <FormHelperText error>{fieldState.error.message}</FormHelperText>
-                )}
-              </div>
-            ) : (
-              <FormInput
-                {...field}
-                label={t("checkout.state")}
-                placeholder={t("checkout.state")}
-                helperText={fieldState.error?.message}
-              />
-            )
-          }
         />
       </div>
 

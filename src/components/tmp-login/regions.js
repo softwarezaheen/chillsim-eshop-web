@@ -20777,10 +20777,50 @@ export const romanianCities = {
       "long": "25.774698"
     }
   ],
-  "BUCUREȘTI": [
+  "SECTOR 1 (BUCURESTI)": [
     {
       "name": "BUCURESTI",
       "zip": "010011",
+      "lat": "44.436141",
+      "long": "26.10272"
+    }
+  ],
+  "SECTOR 2 (BUCURESTI)": [
+    {
+      "name": "BUCURESTI",
+      "zip": "020011",
+      "lat": "44.436141",
+      "long": "26.10272"
+    }
+  ],
+  "SECTOR 3 (BUCURESTI)": [
+    {
+      "name": "BUCURESTI",
+      "zip": "030011",
+      "lat": "44.436141",
+      "long": "26.10272"
+    }
+  ],
+  "SECTOR 4 (BUCURESTI)": [
+    {
+      "name": "BUCURESTI",
+      "zip": "040011",
+      "lat": "44.436141",
+      "long": "26.10272"
+    }
+  ],
+  "SECTOR 5 (BUCURESTI)": [
+    {
+      "name": "BUCURESTI",
+      "zip": "050011",
+      "lat": "44.436141",
+      "long": "26.10272"
+    }
+  ],
+  "SECTOR 6 (BUCURESTI)": [
+    {
+      "name": "BUCURESTI",
+      "zip": "060011",
       "lat": "44.436141",
       "long": "26.10272"
     }

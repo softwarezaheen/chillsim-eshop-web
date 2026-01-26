@@ -516,6 +516,7 @@ const BundleList = ({
           bundle={selectedBundle}
           open={isBundleModalOpen}
           onClose={handleCloseModal}
+          iccid={topup ? bundleOrder?.iccid : null}
         />
       )}
     </div>

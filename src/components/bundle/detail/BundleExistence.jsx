@@ -1,15 +1,38 @@
 //UTILITIES
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 //COMPONENT
 import { Check, Close } from "@mui/icons-material";
-import { Button, Dialog, DialogContent, IconButton } from "@mui/material";
+import { Button, Dialog, DialogContent, IconButton, CircularProgress } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { hasBillingInfo } from "../../../core/apis/userAPI";
 
 const BundleExistence = ({ onClose, bundle }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [isChecking, setIsChecking] = useState(false);
+
+  const handleBuyNewEsim = async () => {
+    setIsChecking(true);
+    try {
+      const hasCompleteBilling = await hasBillingInfo();
+      const checkoutPath = `/checkout/${bundle?.bundle_code}`;
+      
+      if (hasCompleteBilling) {
+        navigate(checkoutPath);
+      } else {
+        navigate(`/billing?next=${encodeURIComponent(checkoutPath)}`);
+      }
+    } catch (error) {
+      // Fallback to billing page on error
+      navigate(`/billing?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`);
+    } finally {
+      setIsChecking(false);
+    }
+  };
 
   return (
     <Dialog fullWidth open={true} maxWidth={"sm"}>
@@ -49,13 +72,13 @@ const BundleExistence = ({ onClose, bundle }) => {
           </p>
 
           <Button
-            component={Link}
-            to={`/billing?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`}
+            onClick={handleBuyNewEsim}
+            disabled={isChecking}
             className={"max-w-xs"}
             variant={"contained"}
             color="primary"
           >
-            {t("btn.buy_new_esim")}
+            {isChecking ? <CircularProgress size={24} color="inherit" /> : t("btn.buy_new_esim")}
           </Button>
           <Button
             component={Link}

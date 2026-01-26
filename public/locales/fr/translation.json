@@ -391,6 +391,7 @@
     "selectCountry": "-- Sélectionner un pays --",
     "city": "Ville",
     "selectCity": "-- Sélectionner une ville --",
+    "selectCountyFirst": "Sélectionner d'abord un département",
     "state": "Département",
     "selectCounty": "-- Sélectionner un département --",
     "phone": "Téléphone de contact",

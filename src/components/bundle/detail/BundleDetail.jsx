@@ -13,7 +13,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { checkBundleExist } from "../../../core/apis/userAPI";
+import { checkBundleExist, hasBillingInfo } from "../../../core/apis/userAPI";
 import { toast } from "react-toastify";
 import BundleExistence from "./BundleExistence";
 import { useSelector } from "react-redux";
@@ -65,7 +65,7 @@ const BundleDetail = ({
     }
   }, [bundle, iccid]);
 
-  const handleCheckExist = () => {
+  const handleCheckExist = async () => {
     //order top-up
 
     console.log(
@@ -83,21 +83,33 @@ const BundleDetail = ({
       return;
     }
 
-    // If authenticated, always go to billing first (billing will handle existing info)
+    // Check if user has complete billing info
+    setIsSubmitting(true);
+    const hasCompleteBilling = await hasBillingInfo();
+    
+    // Helper to navigate based on billing status
+    const navigateToNextStep = (checkoutPath) => {
+      if (hasCompleteBilling) {
+        navigate(checkoutPath);
+      } else {
+        navigate(`/billing?next=${encodeURIComponent(checkoutPath)}`);
+      }
+    };
+
+    // If topup (iccid present), go directly to checkout or billing
     if (iccid) {
-      navigate(`/billing?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}/${iccid}`)}`);
+      navigateToNextStep(`/checkout/${bundle?.bundle_code}/${iccid}`);
+      setIsSubmitting(false);
       return;
     } else {
       // For normal orders, check if bundle exists first
-      setIsSubmitting(true);
-
       checkBundleExist(bundle?.bundle_code)
         .then((res) => {
           if (res?.data?.status === "success") {
             if (res?.data?.data) {
               setOpenRedirection(true);
             } else {
-              navigate(`/billing?next=${encodeURIComponent(`/checkout/${bundle?.bundle_code}`)}`);
+              navigateToNextStep(`/checkout/${bundle?.bundle_code}`);
             }
           } else {
             toast.error(res?.message);

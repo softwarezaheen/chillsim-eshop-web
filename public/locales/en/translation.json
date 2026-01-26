@@ -391,6 +391,7 @@
     "selectCountry": "-- Select country --",
     "city": "City",
     "selectCity": "-- Select city --",
+    "selectCountyFirst": "Select county first",
     "state": "State",
     "selectCounty": "-- Select county --",
     "phone": "Contact phone number",
@@ -488,6 +489,7 @@
   },
   "profile": {
     "infoUpdatedSuccessfully": "Information Updated Successfully",
+    "billingInfoUpdatedSuccessfully": "Billing Information Updated Successfully",
     "failedToUpdateUserInfo": "Failed to update user info",
     "accountInformation": "Account Information",
     "firstName": "First Name",

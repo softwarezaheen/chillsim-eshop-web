@@ -164,3 +164,43 @@ export const saveBillingInfo = async (payload) => {
     throw error;
   }
 };
+
+/**
+ * Check if user has complete billing information.
+ * Required fields for individual: firstName, lastName, country, state, city
+ * Required fields for business (companyName OR vatCode present): above + companyName, vatCode
+ * 
+ * @returns {Promise<boolean>} true if billing info is complete, false otherwise
+ */
+export const hasBillingInfo = async () => {
+  try {
+    const res = await getBillingInfo();
+    const data = res?.data?.data;
+    
+    if (!data) return false;
+    
+    // Check base required fields for individual
+    const hasBaseFields = !!(
+      data.firstName?.trim() &&
+      data.lastName?.trim() &&
+      data.country?.trim() &&
+      data.state?.trim() &&
+      data.city?.trim()
+    );
+    
+    if (!hasBaseFields) return false;
+    
+    // Check if this is a business account (either companyName or vatCode is present)
+    const isBusiness = !!(data.companyName?.trim() || data.vatCode?.trim());
+    
+    if (isBusiness) {
+      // Business requires both companyName AND vatCode
+      return !!(data.companyName?.trim() && data.vatCode?.trim());
+    }
+    
+    return true;
+  } catch (error) {
+    console.error("Error checking billing info:", error);
+    return false;
+  }
+};
