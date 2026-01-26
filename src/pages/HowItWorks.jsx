@@ -11,14 +11,16 @@ import {
 } from "../assets/CustomComponents";
 import AppleIcon from "@mui/icons-material/Apple";
 import AdbIcon from "@mui/icons-material/Adb";
+import DownloadIcon from "@mui/icons-material/Download";
 import { androidSteps, iOSSteps } from "../core/variables/StaticVariables";
 import SwiperComponent from "../components/shared/swiper-component/SwiperComponent";
 import useQueryParams from "../core/custom-hook/useQueryParams";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useSelector } from "react-redux";
+import { Button } from "@mui/material";
 
 const HowItWorks = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [searchParams] = useSearchParams();
   const [filters, setFilters] = useState({
     device: searchParams.get("device") || "iOS",
@@ -34,6 +36,13 @@ const HowItWorks = () => {
   useEffect(() => {
     handleQueryParams();
   }, [filters]);
+
+  const getPDFUrl = () => {
+    const baseUrl = "https://pub-c6956f461b54496d92df707e9f1b2fef.r2.dev/documents";
+    const device = filters?.device?.toLowerCase();
+    const language = i18n.language === "ro" ? "ro" : "en";
+    return `${baseUrl}/${device}_${language}.pdf`;
+  };
 
   return (
     <div className="min-h-screen">
@@ -68,6 +77,22 @@ const HowItWorks = () => {
             </CustomToggleButton>
           </CustomToggleGroup>
         </div>
+
+        {/* PDF Download Button */}
+        <div className="flex justify-center">
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<DownloadIcon />}
+            href={getPDFUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ textTransform: 'none', width: 'auto', whiteSpace: 'nowrap' }}
+          >
+            {t("howItWorks.downloadPDF")}
+          </Button>
+        </div>
+
         <div className="w-full sm:max-w-4xl mx-auto bg-primary-50 rounded-[100px] p-8 shadown-sm">
           <SwiperComponent
             swiperRef={swiperRef}
