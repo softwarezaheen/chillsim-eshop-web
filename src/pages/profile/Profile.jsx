@@ -179,6 +179,7 @@ const Profile = () => {
             label: city.name,
           }));
           setAvailableCities(cities);
+        }
       } else {
         setAvailableCities([]);
       }
@@ -308,6 +309,7 @@ const Profile = () => {
             label: city.name,
           }));
           setAvailableCities(cities);
+        }
       }
     } else {
       setAvailableCities([]);
