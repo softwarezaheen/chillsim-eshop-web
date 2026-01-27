@@ -15,6 +15,9 @@ import { dcbMessage } from "../core/variables/ProjectVariables";
 import { queryClient } from "../main";
 import { SignIn } from "../redux/reducers/authReducer";
 import { validateReferralEligibility } from "../redux/reducers/referralReducer";
+import { addDevice } from "../core/apis/appAPI";
+import { AttachDevice } from "../redux/reducers/deviceReducer";
+import { requestPermission } from "../../firebaseconfig";
 
 const schema = ({ t }) =>
   yup.object().shape({
@@ -100,6 +103,50 @@ const OtpVerification = ({
     setVerifiedBy(otp_channel?.[0]);
   }, [otp_channel]);
 
+  // 🔥 CRITICAL FIX: Re-register device after OTP login (matches mobile app behavior)
+  // This ensures FCM token is linked to user_id after email/phone OTP verification
+  const reRegisterDeviceAfterOtpLogin = async () => {
+    try {
+      console.log("🔄 Re-registering device after OTP login...");
+      
+      // Request FCM permission and get token
+      const fcmToken = await requestPermission();
+      
+      if (!fcmToken) {
+        console.warn("⚠️ No FCM token available - user may have denied permission or browser doesn't support FCM");
+        return;
+      }
+      
+      console.log("📤 Calling addDevice API with FCM token:", fcmToken.substring(0, 20) + "...");
+      
+      // Register device with backend
+      const response = await addDevice({
+        fcm_token: fcmToken,
+        manufacturer: navigator.vendor || "Unknown",
+        device_model: navigator.userAgent,
+        os: navigator.userAgentData?.platform || "Unknown",
+        os_version: navigator.userAgentData?.platformVersion || "Unknown",
+        app_version: navigator.appVersion,
+        ram_size: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Unknown",
+        screen_resolution: `${window.screen.width}x${window.screen.height}`,
+        is_rooted: false,
+      });
+      
+      console.log("📥 addDevice API response:", response);
+      
+      // Update Redux state with authenticated FCM token
+      dispatch(AttachDevice({
+        authenticated_fcm_token: fcmToken,
+        x_device_id: sessionStorage.getItem("x-device-id"),
+      }));
+      
+      console.log("✅ Device re-registered successfully after OTP login");
+    } catch (error) {
+      console.error("❌ Failed to re-register device:", error);
+      // Don't throw - device registration is optional and shouldn't block login
+    }
+  };
+
   const handleSubmitForm = (payload) => {
     setIsVerifying(true);
     const searchParams = new URLSearchParams(location.search);
@@ -122,7 +169,7 @@ const OtpVerification = ({
             provider_type: "",
           }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (res?.data?.status === "success") {
           if (checkout) {
             // Delay invalidation by 5 seconds
@@ -146,11 +193,22 @@ const OtpVerification = ({
             }, 5000); // 5000 ms = 5 seconds
           } else {
             //login user
+            
+            // Dispatch SignIn to update Redux with authentication tokens
+            const authData = res?.data?.data;
             dispatch(
               SignIn({
-                ...res?.data?.data,
+                ...authData,
               })
             );
+            
+            // Re-register device after Redux updates (next tick)
+            // This ensures axios interceptor can read the token from Redux
+            setTimeout(() => {
+              reRegisterDeviceAfterOtpLogin().catch(err => {
+                console.error("Device re-registration failed (non-blocking):", err);
+              });
+            }, 0);
             
             // Check if user has a referral code to validate
             const referredBy = localStorage.getItem("referred_by");

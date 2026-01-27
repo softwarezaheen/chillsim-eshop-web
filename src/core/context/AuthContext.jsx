@@ -17,8 +17,9 @@ import {
 import supabase from "../supabase/SupabaseClient";
 import { SignIn, SignOut } from "../../redux/reducers/authReducer";
 import { supabaseSignout, userLogout } from "../apis/authAPI";
-import { DetachDevice } from "../../redux/reducers/deviceReducer";
-import { messaging } from "../../../firebaseconfig";
+import { DetachDevice, AttachDevice } from "../../redux/reducers/deviceReducer";
+import { messaging, requestPermission } from "../../../firebaseconfig";
+import { addDevice } from "../apis/appAPI";
 import { queryClient } from "../../main";
 import { api } from "../apis/axios";
 
@@ -50,8 +51,52 @@ export const AuthProvider = ({ children }) => {
      - in case token is invalid (add some digits to token to trigger error)
      */
 
+  // 🔥 CRITICAL FIX: Re-register device after social login (matches mobile app behavior)
+  // This ensures FCM token is linked to user_id after Google/Facebook/Apple OAuth
+  const reRegisterDeviceAfterLogin = useCallback(async () => {
+    try {
+      console.log("🔄 Re-registering device after social login...");
+      
+      // Request FCM permission and get token
+      const fcmToken = await requestPermission();
+      
+      if (!fcmToken) {
+        console.warn("⚠️ No FCM token available - user may have denied permission or browser doesn't support FCM");
+        return;
+      }
+      
+      console.log("📤 Calling addDevice API with FCM token:", fcmToken.substring(0, 20) + "...");
+      
+      // Register device with backend
+      const response = await addDevice({
+        fcm_token: fcmToken,
+        manufacturer: navigator.vendor || "Unknown",
+        device_model: navigator.userAgent,
+        os: navigator.userAgentData?.platform || "Unknown",
+        os_version: navigator.userAgentData?.platformVersion || "Unknown",
+        app_version: navigator.appVersion,
+        ram_size: navigator.deviceMemory ? `${navigator.deviceMemory} GB` : "Unknown",
+        screen_resolution: `${window.screen.width}x${window.screen.height}`,
+        is_rooted: false,
+      });
+      
+      console.log("📥 addDevice API response:", response);
+      
+      // Update Redux state with authenticated FCM token
+      dispatch(AttachDevice({
+        authenticated_fcm_token: fcmToken,
+        x_device_id: sessionStorage.getItem("x-device-id"),
+      }));
+      
+      console.log("✅ Device re-registered successfully after social login");
+    } catch (error) {
+      console.error("❌ Failed to re-register device:", error);
+      // Don't throw - device registration is optional and shouldn't block login
+    }
+  }, [dispatch]);
+
   const displayUserInfo = useCallback(
-    (data) => {
+    async (data, shouldReRegisterDevice = false) => {
       console.log("display user info", data);
       setLoadingSocial(true);
       api
@@ -61,7 +106,7 @@ export const AuthProvider = ({ children }) => {
             "x-refresh-token": data?.session?.refresh_token,
           },
         })
-        .then((res) => {
+        .then(async (res) => {
           if (res?.data?.status === "success") {
             const userInfo = res?.data?.data?.user_info;
             
@@ -83,6 +128,17 @@ export const AuthProvider = ({ children }) => {
                 user_info: userInfo,
               })
             );
+
+            // 🔥 Re-register device ONLY on actual login (SIGNED_IN event)
+            // NOT on token refresh or initial session load
+            // Use setTimeout to allow Redux state to update first
+            if (shouldReRegisterDevice) {
+              setTimeout(() => {
+                reRegisterDeviceAfterLogin().catch(err => {
+                  console.error("Device re-registration failed (non-blocking):", err);
+                });
+              }, 0);
+            }
           }
 
           setLoadingSocial(false);
@@ -102,7 +158,7 @@ export const AuthProvider = ({ children }) => {
           setLoadingSocial(false);
         });
     },
-    [dispatch]
+    [dispatch, reRegisterDeviceAfterLogin]
   );
 
   const signinWithFacebook = async (nextUrl) => {
@@ -272,15 +328,27 @@ export const AuthProvider = ({ children }) => {
         user_info
       );
       console.log(session?.user?.email, user_info?.email);
+      
+      // Handle actual login - trigger device re-registration
       if (
-        (event === "SIGNED_IN" ||
-          event === "INITIAL_SESSION" ||
-          event === "TOKEN_REFRESHED") &&
-        session &&
+        event === "SIGNED_IN" &&
+        session?.user?.email && // 🔥 Ensure we have an email (not null/undefined)
         session?.user?.email !== user_info?.email
       ) {
-        displayUserInfo({ session });
-      } else if (event === "SIGNOUT") {
+        // 🔥 Pass true to trigger device re-registration on actual login
+        displayUserInfo({ session }, true);
+      }
+      // Handle session restoration on page load - NO device re-registration
+      else if (
+        (event === "INITIAL_SESSION" || event === "TOKEN_REFRESHED") &&
+        session?.user?.email && // 🔥 Ensure we have an email (not null/undefined)
+        session?.user?.email !== user_info?.email
+      ) {
+        // Pass false to skip device re-registration (already registered)
+        displayUserInfo({ session }, false);
+      }
+      // Handle logout
+      else if (event === "SIGNOUT") {
         handleLogout();
       }
     });

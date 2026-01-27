@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { onMessageListener, requestPermission } from "../../../firebaseconfig";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,9 @@ const PushNotification = () => {
   const device = useSelector((state) => state.device); // Ensure `device` exists
   const authenticatedToken = device?.authenticated_fcm_token || null;
   const anonymousToken = device?.anonymous_fcm_token || null;
+  
+  // 🔥 Track previous auth state to detect logout
+  const prevIsAuthenticatedRef = useRef(isAuthenticated);
   const ToastDisplay = (toastElement) => (
     <div className="flex flex-col gap-[0.7rem] items-start w-full">
       <div
@@ -91,6 +94,28 @@ const PushNotification = () => {
   };
 
   useEffect(() => {
+    // 🔥 CRITICAL FIX: Detect authentication state transitions
+    // Check BEFORE tokens are cleared/updated by Redux actions
+    const wasAuthenticated = prevIsAuthenticatedRef.current;
+    const isLoggingOut = wasAuthenticated && !isAuthenticated;
+    const isLoggingIn = !wasAuthenticated && isAuthenticated;
+    
+    // Update ref for next render
+    prevIsAuthenticatedRef.current = isAuthenticated;
+    
+    // Skip re-registration on logout (authenticated → anonymous)
+    if (isLoggingOut) {
+      console.info("🚫 User logged out - skipping device re-registration");
+      return;
+    }
+    
+    // Skip re-registration on login (anonymous → authenticated)
+    // Login flows (OtpVerification, AuthContext) already handle device registration
+    if (isLoggingIn) {
+      console.info("🚫 User logged in - device already registered by login flow");
+      return;
+    }
+    
     requestPermission().then((firebaseRes) => {
       // CRITICAL FIX: Don't register device without FCM token
       // This prevents devices with null tokens in production
@@ -116,7 +141,7 @@ const PushNotification = () => {
         return;
       }
 
-      // New registration - no token yet
+      // New registration - no token yet (only for initial anonymous user)
       console.info("🆕 Registering new device with FCM token");
       registerDevice(firebaseRes);
     });
