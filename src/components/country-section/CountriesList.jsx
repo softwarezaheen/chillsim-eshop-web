@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 //REDUCER
 import { AttachSearch, DetachSearch } from "../../redux/reducers/searchReducer";
 //COMPONENT
-import { Collapse, Grid2, useMediaQuery } from "@mui/material";
+import { Collapse, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import BundleList from "../bundle/BundleList";
 import CountryCard from "./country-card/CountryCard";
@@ -160,7 +160,7 @@ export const CountriesList = (props) => {
             )}
           </div>
 
-          <Grid2 item xs={12}>
+          <div>
             <Collapse
               in={getRowIndex(expandedCountry) === rowIndex && expandedCountry}
             >
@@ -173,7 +173,7 @@ export const CountriesList = (props) => {
                 />
               )}
             </Collapse>
-          </Grid2>
+          </div>
         </div>
       ))}
       {!isLoading && data?.length > 8 && countryDisplay && (
