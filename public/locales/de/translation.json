@@ -569,7 +569,7 @@
     "comingSoon": "Demnächst verfügbar...",
     "cashbackRewards": "Cashback-Belohnungen",
     "cashbackDescription": "Nach {{threshold}} erfolgreichen Käufen erhalten Sie automatisch {{percentage}}% Cashback auf jeden weiteren qualifizierten Kauf in Ihr Guthaben!",
-    "cashbackNote": "Cashback-Prozentsatz wird nur auf den Produktwert angewendet (nach Aktionsrabatten). Ohne MwSt. und Bearbeitungsgebühren."
+    "cashbackNote": "Cashback-Prozentsatz wird nur auf den Produktwert angewendet (nach Aktionsrabatten)."
   },
   "appBanner": {
     "title": "In ChillSim App öffnen",

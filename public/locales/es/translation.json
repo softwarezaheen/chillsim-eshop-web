@@ -569,7 +569,7 @@
     "comingSoon": "Próximamente...",
     "cashbackRewards": "Recompensas de Cashback",
     "cashbackDescription": "Después de {{threshold}} compras exitosas, automáticamente ganarás {{percentage}}% de cashback en tu billetera, en cada compra calificada posterior!",
-    "cashbackNote": "El porcentaje de cashback se aplica solo al valor del producto (después de descuentos promocionales). Excluye IVA y tarifas de procesamiento."
+    "cashbackNote": "El porcentaje de cashback se aplica solo al valor del producto (después de descuentos promocionales)."
   },
   "appBanner": {
     "title": "Abrir en App ChillSim",

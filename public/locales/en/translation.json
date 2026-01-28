@@ -571,7 +571,7 @@
     "comingSoon": "Coming soon...",
     "cashbackRewards": "Cashback Rewards",
     "cashbackDescription": "After {{threshold}} successful purchases, you will automatically earn {{percentage}}% cashback, in your wallet, on every qualifying purchase thereafter!",
-    "cashbackNote": "Cashback percentage is applied to product value only (after promo discounts). Excludes VAT and processing fees."
+    "cashbackNote": "Cashback percentage is applied to product value only (after promo discounts)."
   },
   "appBanner": {
     "title": "Open in ChillSim App",
