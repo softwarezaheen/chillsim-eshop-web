@@ -68,14 +68,23 @@ const Navbar = ({ main }) => {
   }, [isHomePage, showMenu]);
 
 const menuLinks = useMemo(() => {
+  let links = [];
+  
+  // Add Home link when not on home page
+  if (!isHomePage) {
+    links.push({ path: "/", label: "home" });
+  }
+  
   if (isAuthenticated) {
     // Show authenticated menu when logged in (full or guest checkout)
-    return [...menuItemsSigned, ...authMenuItems];
+    links = [...links, ...menuItemsSigned, ...authMenuItems];
   } else {
     // Show public menu when not authenticated
-    return menuItems;
+    links = [...links, ...menuItems];
   }
-}, [isAuthenticated]);
+  
+  return links;
+}, [isAuthenticated, isHomePage]);
 
   return (
     <>

@@ -1,6 +1,6 @@
 //UTILITIES
 import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 //COMPONENT
@@ -21,14 +21,31 @@ const DrawerMenu = ({ toggleMenu, setToggleMenu }) => {
   const { t } = useTranslation();
   const { handleLogout } = useAuth();
   const { isAuthenticated } = useSelector((state) => state.authentication);
+  const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
+  
+  const isHomePage =
+    import.meta.env.VITE_APP_HOME_VISIBLE === "true"
+      ? location.pathname === "/"
+      : false;
 
   const menuElements = useMemo(() => {
-    return isAuthenticated
-      ? authResponsiveMenuItems.concat(menuItems)
-      : menuItems;
-  }, [isAuthenticated]);
+    let links = [];
+    
+    // Add Home link when not on home page
+    if (!isHomePage) {
+      links.push({ path: "/", label: "home" });
+    }
+    
+    if (isAuthenticated) {
+      links = [...links, ...authResponsiveMenuItems, ...menuItems];
+    } else {
+      links = [...links, ...menuItems];
+    }
+    
+    return links;
+  }, [isAuthenticated, isHomePage]);
 
   return (
     <StyledDrawer

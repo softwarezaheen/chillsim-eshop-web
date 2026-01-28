@@ -6,16 +6,18 @@ import {
 } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import AuthSlice from "./reducers/authReducer";
-import SearchSlice from "./reducers/searchReducer";
-import OrderSlice from "./reducers/orderReducer";
-import DeviceSlice from "./reducers/deviceReducer";
-import CurrencySlice from "./reducers/currencyReducer";
-import directionReducer from "./reducers/directionSlice.jsx";
-import ReferralSlice from "./reducers/referralReducer.jsx";
-import hardSet from "redux-persist/es/stateReconciler/hardSet";
 import { thunk } from "redux-thunk";
 import { createMigrate } from "redux-persist";
+import hardSet from "redux-persist/es/stateReconciler/hardSet";
+
+// Import reducers
+import authReducer from "./reducers/authReducer";
+import searchReducer from "./reducers/searchReducer";
+import orderReducer from "./reducers/orderReducer";
+import deviceReducer from "./reducers/deviceReducer";
+import currencyReducer from "./reducers/currencyReducer";
+import directionReducer from "./reducers/directionSlice.jsx";
+import referralReducer from "./reducers/referralReducer.jsx";
 
 // ========================================
 // 🛡️ STORAGE WRAPPER FOR iOS IN-APP BROWSERS
@@ -49,13 +51,13 @@ console.log("📦 Redux Persist Storage:", isStorageAvailable() ? "localStorage"
 // ========================================
 
 const rootReducer = combineReducers({
-  authentication: AuthSlice,
-  search: SearchSlice,
-  order: OrderSlice,
-  device: DeviceSlice,
-  currency: CurrencySlice,
+  authentication: authReducer,
+  search: searchReducer,
+  order: orderReducer,
+  device: deviceReducer,
+  currency: currencyReducer,
   direction: directionReducer,
-  referral: ReferralSlice,
+  referral: referralReducer,
 });
 
 // Migration to add referral state to existing persisted storage

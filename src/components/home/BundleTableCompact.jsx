@@ -194,14 +194,27 @@ const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration, def
             {columns.map((column) => (
               <TableCell
                 key={column.id}
-                className="!font-semibold !text-gray-700"
+                className="!font-semibold !text-black"
                 sortDirection={orderBy === column.id ? order : false}
+                align={column.id === 'countries' ? 'left' : 'inherit'}
               >
                 {column.sortable ? (
                   <TableSortLabel
                     active={orderBy === column.id}
                     direction={orderBy === column.id ? order : "asc"}
                     onClick={() => handleRequestSort(column.id)}
+                    sx={{
+                      color: 'black !important',
+                      '&:hover': {
+                        color: 'black !important',
+                      },
+                      '&.Mui-active': {
+                        color: 'black !important',
+                      },
+                      '& .MuiTableSortLabel-icon': {
+                        color: 'black !important',
+                      },
+                    }}
                   >
                     {column.label}
                   </TableSortLabel>
@@ -218,6 +231,7 @@ const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration, def
               key={bundle.bundle_code || index}
               hover
               className="cursor-pointer"
+              onClick={() => onViewDetails(bundle)}
             >
               {/* Plan Name */}
               <TableCell>
@@ -244,31 +258,31 @@ const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration, def
               <TableCell>{formatValidity(bundle.validity_display)}</TableCell>
 
               {/* Countries */}
-              <TableCell>
+              <TableCell align="left">
                 {bundle.countries && bundle.countries.length > 0 ? (
                   <Tooltip 
                     title={bundle.countries.map(c => c.country).join(", ")} 
                     arrow
                     placement="top"
                   >
-                    <AvatarGroup 
-                      max={4}
-                      total={bundle.count_countries || bundle.countries.length}
-                      sx={{ 
-                        justifyContent: "flex-start",
-                        "& .MuiAvatar-root": {
-                          width: 22,
-                          height: 22,
-                          fontSize: "0.65rem",
-                          border: "1px solid white",
-                        },
-                        "& .MuiAvatarGroup-avatar": {
-                          width: 22,
-                          height: 22,
-                          fontSize: "0.65rem",
-                        },
-                      }}
-                    >
+                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                      <AvatarGroup 
+                        max={4}
+                        total={bundle.count_countries || bundle.countries.length}
+                        sx={{ 
+                          "& .MuiAvatar-root": {
+                            width: 22,
+                            height: 22,
+                            fontSize: "0.65rem",
+                            border: "1px solid white",
+                          },
+                          "& .MuiAvatarGroup-avatar": {
+                            width: 22,
+                            height: 22,
+                            fontSize: "0.65rem",
+                          },
+                        }}
+                      >
                       {bundle.countries.map((country, idx) => (
                         <Avatar
                           key={idx}
@@ -277,6 +291,7 @@ const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration, def
                         />
                       ))}
                     </AvatarGroup>
+                    </div>
                   </Tooltip>
                 ) : (
                   <span className="text-sm text-gray-500">
@@ -299,7 +314,10 @@ const BundleTableCompact = ({ bundles = [], onViewDetails, selectedDuration, def
                   variant="outlined"
                   color="primary"
                   size="small"
-                  onClick={() => onViewDetails(bundle)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onViewDetails(bundle);
+                  }}
                   startIcon={<Visibility />}
                 >
                   {t("home.table.viewDetails")}
