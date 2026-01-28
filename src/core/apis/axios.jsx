@@ -127,7 +127,7 @@ api.interceptors.response.use(
     console.log("Interceptor error:", error?.response?.status);
 
     if (error?.response?.status === 401 && !originalRequest._retry) {
-      const authenticationStore = store?.getState()?.authentication;
+      originalRequest._retry = true;
       
       // If already refreshing, queue this request
       if (isRefreshing) {
@@ -147,8 +147,9 @@ api.interceptors.response.use(
           });
       }
 
-      originalRequest._retry = true;
+      // Set flag IMMEDIATELY to prevent race condition (before any async operations)
       isRefreshing = true;
+      const authenticationStore = store?.getState()?.authentication;
 
       const refreshToken = authenticationStore?.tmp?.isAuthenticated
         ? authenticationStore?.tmp?.refresh_token
