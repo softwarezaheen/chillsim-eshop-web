@@ -7,6 +7,19 @@ if (typeof document !== 'undefined') {
   document.body.appendChild(root);
 }
 
+// Mock IntersectionObserver for tests
+global.IntersectionObserver = class IntersectionObserver {
+  constructor(callback) {
+    this.callback = callback;
+  }
+  observe() {
+    // Immediately trigger callback as if element is intersecting
+    this.callback([{ isIntersecting: true, target: {} }], this);
+  }
+  unobserve() {}
+  disconnect() {}
+};
+
 // Mock the queryClient import from main.jsx to prevent circular dependency
 vi.mock("./../main", () => {
   return {

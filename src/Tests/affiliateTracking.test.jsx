@@ -300,14 +300,8 @@ describe('useAffiliateTracking Hook', () => {
       });
 
       await waitFor(() => {
-        const storedId = localStorage.getItem('affiliate_click_id');
-        // Should store exactly what was passed (backend validates)
-        expect(storedId).toBe(xssAttempt);
-      });
-
-      // Verify API was called with the value (backend will validate/sanitize)
-      await waitFor(() => {
-        expect(affiliatesAPI.trackAffiliateVisit).toHaveBeenCalledWith(xssAttempt);
+        // Should be REJECTED due to XSS protection (only alphanumeric, -, _ allowed)
+        expect(localStorage.getItem('affiliate_click_id')).toBeNull();
       });
     });
 
@@ -320,10 +314,9 @@ describe('useAffiliateTracking Hook', () => {
         });
       }).not.toThrow();
 
-      // Should be stored and sent to backend for validation
+      // Should be REJECTED due to SQL injection protection (only alphanumeric, -, _ allowed)
       await waitFor(() => {
-        expect(localStorage.getItem('affiliate_click_id')).toBe(sqlInjection);
-        expect(affiliatesAPI.trackAffiliateVisit).toHaveBeenCalledWith(sqlInjection);
+        expect(localStorage.getItem('affiliate_click_id')).toBeNull();
       });
     });
 
@@ -349,21 +342,21 @@ describe('useAffiliateTracking Hook', () => {
     });
 
     it('should handle very long click IDs', async () => {
-      const longClickId = 'a'.repeat(500); // 500 character click ID
+      const longClickId = 'a'.repeat(500); // 500 character click ID (exceeds 100 char limit)
       
       renderHook(() => useAffiliateTracking(), {
         wrapper: createWrapper(`im_ref=${longClickId}`)
       });
 
       await waitFor(() => {
-        // Should store as-is (backend will enforce length limits)
-        expect(localStorage.getItem('affiliate_click_id')).toBe(longClickId);
+        // Should be REJECTED due to length limit (max 100 characters)
+        expect(localStorage.getItem('affiliate_click_id')).toBeNull();
       });
     });
   });
 
   describe('Edge Cases', () => {
-    it('should handle special characters in click ID', async () => {
+    it('should reject special characters in click ID (XSS protection)', async () => {
       const specialChars = 'click_!@#$%^&*()_+-=[]{}|;:,.<>?';
       
       expect(() => {
@@ -373,11 +366,12 @@ describe('useAffiliateTracking Hook', () => {
       }).not.toThrow();
 
       await waitFor(() => {
-        expect(localStorage.getItem('affiliate_click_id')).toBe(specialChars);
+        // Should be rejected due to XSS protection (only alphanumeric, -, _ allowed)
+        expect(localStorage.getItem('affiliate_click_id')).toBeNull();
       });
     });
 
-    it('should handle unicode characters in click ID', async () => {
+    it('should reject unicode characters in click ID (XSS protection)', async () => {
       const unicode = 'click_测试_🚀_מבחן';
       
       renderHook(() => useAffiliateTracking(), {
@@ -385,7 +379,8 @@ describe('useAffiliateTracking Hook', () => {
       });
 
       await waitFor(() => {
-        expect(localStorage.getItem('affiliate_click_id')).toBe(unicode);
+        // Should be rejected due to XSS protection (only alphanumeric, -, _ allowed)
+        expect(localStorage.getItem('affiliate_click_id')).toBeNull();
       });
     });
 

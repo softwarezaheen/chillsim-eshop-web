@@ -198,9 +198,12 @@ const SmartAppBanner = () => {
             }}
             onError={(e) => {
               // Fallback to emoji if logo fails to load
+              const parent = e.target.parentElement;
               e.target.style.display = "none";
-              e.target.parentElement.textContent = "📱";
-              e.target.parentElement.style.fontSize = { xs: "20px", sm: "24px" };
+              if (parent) {
+                parent.textContent = "📱";
+                parent.style.fontSize = "24px";
+              }
             }}
           />
         </Box>

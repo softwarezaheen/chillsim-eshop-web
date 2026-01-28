@@ -1,8 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach, beforeAll } from "vitest";
+import "@testing-library/jest-dom";
 import SmartAppBanner from "./SmartAppBanner";
 import { I18nextProvider } from "react-i18next";
-import i18n from "../../../i18n";
+import i18n from "../../../Tests/test-i18n";
 import * as gtmUtils from "../../../core/utils/gtm";
 
 // Mock GTM utility
@@ -17,6 +18,11 @@ describe("SmartAppBanner Component", () => {
   const renderWithI18n = (component) => {
     return render(<I18nextProvider i18n={i18n}>{component}</I18nextProvider>);
   };
+
+  beforeAll(async () => {
+    // Wait for i18n to load translations
+    await i18n.loadNamespaces("translation");
+  });
 
   beforeEach(() => {
     // Store original values
@@ -169,7 +175,7 @@ describe("SmartAppBanner Component", () => {
       
       renderWithI18n(<SmartAppBanner />);
       
-      const openButton = screen.getByText(/open/i);
+      const openButton = screen.getByRole("button", { name: /open/i });
       fireEvent.click(openButton);
       
       expect(window.location.href).toContain("chillsim://open?source=web&url=");
@@ -179,7 +185,7 @@ describe("SmartAppBanner Component", () => {
     it("should track open app click event", () => {
       renderWithI18n(<SmartAppBanner />);
       
-      const openButton = screen.getByText(/open/i);
+      const openButton = screen.getByRole("button", { name: /open/i });
       fireEvent.click(openButton);
       
       expect(gtmUtils.gtmEvent).toHaveBeenCalledWith("smart_banner_click", expect.objectContaining({
@@ -221,11 +227,11 @@ describe("SmartAppBanner Component", () => {
       renderWithI18n(<SmartAppBanner />);
       
       // Check for main text elements
-      expect(screen.getByText(/open in/i)).toBeInTheDocument();
+      expect(screen.getByText(/open in chillsim app/i)).toBeInTheDocument();
       expect(screen.getByText(/better experience/i)).toBeInTheDocument();
       
       // Check for action buttons
-      expect(screen.getByText(/open/i)).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /open/i })).toBeInTheDocument();
       expect(screen.getByLabelText(/dismiss/i)).toBeInTheDocument();
     });
 
@@ -310,7 +316,7 @@ describe("SmartAppBanner Component", () => {
       
       renderWithI18n(<SmartAppBanner />);
       
-      const openButton = screen.getByText(/open/i);
+      const openButton = screen.getByRole("button", { name: /open/i });
       fireEvent.click(openButton);
       
       expect(window.location.href).toContain("chillsim://open");
@@ -323,7 +329,7 @@ describe("SmartAppBanner Component", () => {
       
       renderWithI18n(<SmartAppBanner />);
       
-      const openButton = screen.getByText(/open/i);
+      const openButton = screen.getByRole("button", { name: /open/i });
       fireEvent.click(openButton);
       
       const expectedUrl = encodeURIComponent("http://localhost:5173/referral?referralCode=EB5AA1A7&utm_source=instagram");
