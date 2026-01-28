@@ -48,6 +48,14 @@ const BundleDetail = ({
     ? originalPrice * (1 - discountPercentage / 100)
     : originalPrice;
   
+  // Sort countries alphabetically
+  const sortedCountries = useMemo(() => {
+    if (!bundle?.countries) return [];
+    return [...bundle.countries].sort((a, b) => 
+      (a.country || '').localeCompare(b.country || '')
+    );
+  }, [bundle?.countries]);
+  
   const shouldShowDiscount = isEligible && discountPercentage > 0 && !iccid; // Don't show for top-ups
 
   // Send GA4 view_item event when modal opens
@@ -260,7 +268,7 @@ const BundleDetail = ({
                 {bundle?.countries?.length === 0 ? (
                   <NoDataFound text={t("bundles.bundleIsntSupportedCountry")} />
                 ) : (
-                  bundle?.countries?.map((supportedCountries, index) => (
+                  sortedCountries?.map((supportedCountries, index) => (
                     <div
                       className={"flex flex-row gap-[1rem] items-center"}
                       key={`${index}`}
