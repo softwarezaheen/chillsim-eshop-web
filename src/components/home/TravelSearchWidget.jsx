@@ -28,11 +28,10 @@ const TravelSearchWidget = ({
   // Duration chip options
   const durationChips = [
     { key: "all", label: t("home.duration.all") },
-    { key: "7d", label: t("home.duration.7d") },
-    { key: "15d", label: t("home.duration.15d") },
-    { key: "30d", label: t("home.duration.30d") },
-    { key: "90d", label: t("home.duration.90d") },
-    { key: "1yr", label: t("home.duration.1yr") },
+    { key: 1, label: t("home.duration.1d") },
+    { key: 3, label: t("home.duration.3d") },
+    { key: 7, label: t("home.duration.7d") },
+    { key: "more", label: t("home.duration.more") },
   ];
 
   const handleCountryChange = (_, newValue) => {

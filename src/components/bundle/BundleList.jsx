@@ -73,11 +73,10 @@ const BundleList = ({
   // Duration chip options
   const durationChips = [
     { value: "all", label: t("home.duration.all") },
+    { value: 1, label: t("home.duration.1d") },
+    { value: 3, label: t("home.duration.3d") },
     { value: 7, label: t("home.duration.7d") },
-    { value: 15, label: t("home.duration.15d") },
-    { value: 30, label: t("home.duration.30d") },
-    { value: 90, label: t("home.duration.90d") },
-    { value: 365, label: t("home.duration.1yr") },
+    { value: "more", label: t("home.duration.more") },
   ];
 
   // Deduplicate bundles by data amount and type
@@ -169,7 +168,8 @@ const BundleList = ({
     if (selectedDuration !== "all") {
       filtered = filtered.filter((b) => {
         const validity = b.validity_in_days || b.validity || 0;
-        return validity <= selectedDuration;
+        if (selectedDuration === "more") return validity >= 7;
+        return validity >= selectedDuration;
       });
     }
 
@@ -200,7 +200,8 @@ const BundleList = ({
     if (selectedDuration !== "all") {
       filtered = filtered.filter((b) => {
         const validity = b.validity_in_days || b.validity || 0;
-        return validity <= selectedDuration;
+        if (selectedDuration === "more") return validity >= 7;
+        return validity >= selectedDuration;
       });
     }
     return filtered.length;
@@ -212,7 +213,8 @@ const BundleList = ({
     if (selectedDuration !== "all") {
       filtered = filtered.filter((b) => {
         const validity = b.validity_in_days || b.validity || 0;
-        return validity <= selectedDuration;
+        if (selectedDuration === "more") return validity >= 7;
+        return validity >= selectedDuration;
       });
     }
     return filtered.length;
@@ -492,9 +494,9 @@ const BundleList = ({
             bundles={filteredBundles}
             onViewDetails={handleViewDetails}
             defaultSort={
-              selectedDuration === "all"
+              selectedDuration !== "all"
                 ? { orderBy: "price", order: "asc" }
-                : { orderBy: "validity", order: "desc" }
+                : { orderBy: "price", order: "asc" }
             }
           />
         ) : (

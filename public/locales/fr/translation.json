@@ -1097,11 +1097,10 @@
     },
     "duration": {
       "all": "Tous",
+      "1d": "1 Jour",
+      "3d": "3 Jours",
       "7d": "7 Jours",
-      "15d": "15 Jours",
-      "30d": "30 Jours",
-      "90d": "90 Jours",
-      "1yr": "1 An"
+      "more": "Plus"
     },
     "results": {
       "countryPlans": "Forfaits Pays",

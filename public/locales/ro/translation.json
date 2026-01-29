@@ -1092,11 +1092,10 @@
     },
     "duration": {
       "all": "Toate",
+      "1d": "1 Zi",
+      "3d": "3 Zile",
       "7d": "7 Zile",
-      "15d": "15 Zile",
-      "30d": "30 Zile",
-      "90d": "90 Zile",
-      "1yr": "1 An"
+      "more": "Mai mult"
     },
     "results": {
       "countryPlans": "Planuri de Țară",

@@ -61,14 +61,13 @@ const HomePageTemplate = ({
     contentRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Duration options in days
+  // Duration options in days (minimum validity required)
   const durationOptions = useMemo(() => ({
     all: null,
-    "7d": 7,
-    "15d": 15,
-    "30d": 30,
-    "90d": 90,
-    "1yr": 365,
+    1: 1,
+    3: 3,
+    7: 7,
+    more: 7,
   }), []);
 
   // Get countries list from homeData
@@ -210,17 +209,17 @@ const HomePageTemplate = ({
     console.log('🔍 [Homepage Filter] After regional toggle (showing all):', filtered.length);
 
     // Filter by duration
-    const maxDays = durationOptions[selectedDuration];
-    if (maxDays !== null) {
+    const minDays = durationOptions[selectedDuration];
+    if (minDays !== null) {
       filtered = filtered.filter((b) => {
         const validity = b.validity || 0;
-        return validity <= maxDays;
+        return validity >= minDays;
       });
-      console.log('🔍 [Homepage Filter] After duration filter (<=', maxDays, 'days):', filtered.length);
+      console.log('🔍 [Homepage Filter] After duration filter (>=', minDays, 'days):', filtered.length);
     }
 
     // Sort based on selected duration
-    if (maxDays === null) {
+    if (minDays === null) {
       // For "all" duration, sort by price ascending
       filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
       console.log('🔍 [Homepage Filter] Sorted by price (all duration)');
@@ -246,9 +245,9 @@ const HomePageTemplate = ({
   const countryPlansCount = useMemo(() => {
     if (!sortedBundles || sortedBundles.length === 0) return 0;
     let filtered = sortedBundles.filter((b) => (b.count_countries || 1) === 1);
-    const maxDays = durationOptions[selectedDuration];
-    if (maxDays !== null) {
-      filtered = filtered.filter((b) => (b.validity || 0) <= maxDays);
+    const minDays = durationOptions[selectedDuration];
+    if (minDays !== null) {
+      filtered = filtered.filter((b) => (b.validity || 0) >= minDays);
     }
     return filtered.length;
   }, [sortedBundles, selectedDuration, durationOptions]);
@@ -256,9 +255,9 @@ const HomePageTemplate = ({
   const regionalPlansCount = useMemo(() => {
     if (!sortedBundles || sortedBundles.length === 0) return 0;
     let filtered = sortedBundles.filter((b) => (b.count_countries || 1) > 1);
-    const maxDays = durationOptions[selectedDuration];
-    if (maxDays !== null) {
-      filtered = filtered.filter((b) => (b.validity || 0) <= maxDays);
+    const minDays = durationOptions[selectedDuration];
+    if (minDays !== null) {
+      filtered = filtered.filter((b) => (b.validity || 0) >= minDays);
     }
     return filtered.length;
   }, [sortedBundles, selectedDuration, durationOptions]);
@@ -452,9 +451,9 @@ const HomePageTemplate = ({
                 onViewDetails={handleViewDetails}
                 selectedDuration={selectedDuration}
                 defaultSort={
-                  selectedDuration === "all"
+                  selectedDuration !== "all"
                     ? { orderBy: "price", order: "asc" }
-                    : { orderBy: "validity", order: "desc" }
+                    : { orderBy: "price", order: "asc" }
                 }
               />
             )}

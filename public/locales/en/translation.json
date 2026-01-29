@@ -1099,11 +1099,10 @@
     },
     "duration": {
       "all": "All",
+      "1d": "1 Day",
+      "3d": "3 Days",
       "7d": "7 Days",
-      "15d": "15 Days",
-      "30d": "30 Days",
-      "90d": "90 Days",
-      "1yr": "1 Year"
+      "more": "More"
     },
     "results": {
       "title": "Available Plans",

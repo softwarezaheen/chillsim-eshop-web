@@ -228,11 +228,10 @@ const Plans = (props) => {
   // Duration chip options
   const durationChips = [
     { value: "all", label: t("home.duration.all") },
+    { value: 1, label: t("home.duration.1d") },
+    { value: 3, label: t("home.duration.3d") },
     { value: 7, label: t("home.duration.7d") },
-    { value: 15, label: t("home.duration.15d") },
-    { value: 30, label: t("home.duration.30d") },
-    { value: 90, label: t("home.duration.90d") },
-    { value: 365, label: t("home.duration.1yr") },
+    { value: "more", label: t("home.duration.more") },
   ];
 
   // Filter bundles by duration and country/regional type
@@ -257,15 +256,8 @@ const Plans = (props) => {
 
     const filterByDays = (bundle) => {
       const validity = bundle.validity_days || bundle.validity || 0;
-      
-      switch (selectedDuration) {
-        case "7d": return validity <= 7;
-        case "15d": return validity <= 15;
-        case "30d": return validity <= 30;
-        case "90d": return validity <= 90;
-        case "1yr": return validity <= 365;
-        default: return true;
-      }
+      if (selectedDuration === "more") return validity >= 7;
+      return validity >= selectedDuration;
     };
 
     const durationFiltered = filtered.filter(filterByDays);
@@ -285,14 +277,8 @@ const Plans = (props) => {
     if (selectedDuration !== "all") {
       filtered = filtered.filter((b) => {
         const validity = b.validity_days || b.validity || 0;
-        switch (selectedDuration) {
-          case "7d": return validity <= 7;
-          case "15d": return validity <= 15;
-          case "30d": return validity <= 30;
-          case "90d": return validity <= 90;
-          case "1yr": return validity <= 365;
-          default: return true;
-        }
+        if (selectedDuration === "more") return validity >= 7;
+        return validity >= selectedDuration;
       });
     }
     
@@ -306,14 +292,8 @@ const Plans = (props) => {
     if (selectedDuration !== "all") {
       filtered = filtered.filter((b) => {
         const validity = b.validity_days || b.validity || 0;
-        switch (selectedDuration) {
-          case "7d": return validity <= 7;
-          case "15d": return validity <= 15;
-          case "30d": return validity <= 30;
-          case "90d": return validity <= 90;
-          case "1yr": return validity <= 365;
-          default: return true;
-        }
+        if (selectedDuration === "more") return validity >= 7;
+        return validity >= selectedDuration;
       });
     }
     
@@ -666,9 +646,9 @@ const Plans = (props) => {
             bundles={filteredBundles}
             onViewDetails={handleViewDetails}
             defaultSort={
-              selectedDuration === "all"
+              selectedDuration !== "all"
                 ? { orderBy: "price", order: "asc" }
-                : { orderBy: "validity", order: "desc" }
+                : { orderBy: "price", order: "asc" }
             }
           />
 

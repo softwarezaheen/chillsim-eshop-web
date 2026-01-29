@@ -1072,11 +1072,10 @@
     },
     "duration": {
       "all": "Alle",
+      "1d": "1 Tag",
+      "3d": "3 Tage",
       "7d": "7 Tage",
-      "15d": "15 Tage",
-      "30d": "30 Tage",
-      "90d": "90 Tage",
-      "1yr": "1 Jahr"
+      "more": "Mehr"
     },
     "results": {
       "countryPlans": "Ländertarife",

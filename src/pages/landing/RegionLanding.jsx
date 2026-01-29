@@ -259,11 +259,10 @@ const RegionLanding = () => {
   // Duration chip options
   const durationChips = [
     { key: "all", label: t("home.duration.all") },
-    { key: "7d", label: t("home.duration.7d") },
-    { key: "15d", label: t("home.duration.15d") },
-    { key: "30d", label: t("home.duration.30d") },
-    { key: "90d", label: t("home.duration.90d") },
-    { key: "1yr", label: t("home.duration.1yr") },
+    { key: 1, label: t("home.duration.1d") },
+    { key: 3, label: t("home.duration.3d") },
+    { key: 7, label: t("home.duration.7d") },
+    { key: "more", label: t("home.duration.more") },
   ];
 
   // Filter bundles by duration
@@ -289,21 +288,8 @@ const RegionLanding = () => {
 
     const filterByDays = (bundle) => {
       const validity = bundle.validity_days || bundle.validity || 0;
-      
-      switch (selectedDuration) {
-        case "7d":
-          return validity <= 7;
-        case "15d":
-          return validity <= 15;
-        case "30d":
-          return validity <= 30;
-        case "90d":
-          return validity <= 90;
-        case "1yr":
-          return validity <= 365;
-        default:
-          return true;
-      }
+      if (selectedDuration === "more") return validity >= 7;
+      return validity >= selectedDuration;
     };
 
     const durationFiltered = filtered.filter(filterByDays);
@@ -325,14 +311,8 @@ const RegionLanding = () => {
     if (selectedDuration !== "all") {
       filtered = filtered.filter((b) => {
         const validity = b.validity_days || b.validity || 0;
-        switch (selectedDuration) {
-          case "7d": return validity <= 7;
-          case "15d": return validity <= 15;
-          case "30d": return validity <= 30;
-          case "90d": return validity <= 90;
-          case "1yr": return validity <= 365;
-          default: return true;
-        }
+        if (selectedDuration === "more") return validity >= 7;
+        return validity >= selectedDuration;
       });
     }
     
@@ -347,14 +327,8 @@ const RegionLanding = () => {
     if (selectedDuration !== "all") {
       filtered = filtered.filter((b) => {
         const validity = b.validity_days || b.validity || 0;
-        switch (selectedDuration) {
-          case "7d": return validity <= 7;
-          case "15d": return validity <= 15;
-          case "30d": return validity <= 30;
-          case "90d": return validity <= 90;
-          case "1yr": return validity <= 365;
-          default: return true;
-        }
+        if (selectedDuration === "more") return validity >= 7;
+        return validity >= selectedDuration;
       });
     }
     
@@ -567,9 +541,9 @@ const RegionLanding = () => {
               onViewDetails={handleViewDetails}
               selectedDuration={selectedDuration}
               defaultSort={
-                selectedDuration === "all" 
+                selectedDuration !== "all" 
                   ? { orderBy: "price", order: "asc" }
-                  : { orderBy: "validity", order: "desc" }
+                  : { orderBy: "price", order: "asc" }
               }
             />
           ) : (
