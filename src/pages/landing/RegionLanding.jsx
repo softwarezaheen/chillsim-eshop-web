@@ -393,9 +393,31 @@ const RegionLanding = () => {
     return null;
   }
 
-  // Show nothing while loading - preloader in index.html handles this
+  // Show skeleton while loading
   if (isLoadingHomeData || isLoading) {
-    return null;
+    return (
+      <>
+        {/* Hero Skeleton */}
+        <div className="relative w-full bg-gradient-to-br from-primary/10 to-primary/5">
+          <Skeleton variant="rectangular" width="100%" height={400} animation="wave" />
+        </div>
+
+        {/* Content Skeleton */}
+        <MuiContainer maxWidth="lg" className="py-12">
+          {/* Duration chips skeleton */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {Array(5)
+              .fill()
+              .map((_, i) => (
+                <Skeleton key={i} variant="rectangular" width={80} height={32} sx={{ borderRadius: 2 }} />
+              ))}
+          </div>
+
+          {/* Table skeleton */}
+          <Skeleton variant="rectangular" width="100%" height={400} sx={{ borderRadius: 1 }} />
+        </MuiContainer>
+      </>
+    );
   }
 
   // Get hero image for region or country

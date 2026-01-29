@@ -322,7 +322,7 @@ const BundleList = ({
       <div className="space-y-6 mb-6">
         {/* Duration chips skeleton */}
         <div className="flex flex-wrap justify-center gap-2">
-          {Array(6)
+          {Array(5)
             .fill()
             .map((_, i) => (
               <Skeleton key={i} variant="rectangular" width={80} height={32} sx={{ borderRadius: 2 }} />

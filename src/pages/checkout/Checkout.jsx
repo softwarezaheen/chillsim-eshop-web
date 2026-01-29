@@ -28,6 +28,7 @@ import { StripePayment } from "../../components/stripe-payment/StripePayment";
 import PaymentFlow from "../../components/payment/PaymentFlow";
 import { useTranslation } from "react-i18next";
 import { gtmEvent, gtmBeginCheckoutEvent } from "../../core/utils/gtm.jsx";
+import { formatValidity } from "../../assets/utils/formatValidity";
 
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
@@ -284,7 +285,9 @@ const Checkout = () => {
                 dir={"ltr"}
                 className={`flex-1 font-bold truncate text-right`}
               >
-                {data?.display_title || t("common.notAvailable")}
+                {data?.display_title && data?.gprs_limit_display && data?.validity_display
+                  ? `${data.display_title} ${data.gprs_limit_display} ${formatValidity(data.validity_display)}`
+                  : data?.display_title || t("common.notAvailable")}
               </p>
             </div>
             {!isWalletPaymentWithSufficientBalance && (
