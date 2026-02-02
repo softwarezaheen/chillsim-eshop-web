@@ -1215,5 +1215,31 @@
       "cancel": "Cancelar",
       "buyNow": "Comprar Ahora"
     }
+  },
+  "welcomeOffer": {
+    "title": "Oferta Exclusiva de Bienvenida!",
+    "subtitle": "Solo para Nuevos Clientes",
+    "description": "Obtén tu primer paquete eSIM de <strong>1GB para Europa</strong> por solo <strong>€0.50</strong> — un descuento masivo del 99%.",
+    "bullet1": "Cobertura en toda la UE",
+    "bullet2": "Solo €0.50 en tu primer pedido",
+    "bullet3": "Activación instantánea",
+    "getOffer": "Obtener Mi Oferta de Bienvenida",
+    "maybeLater": "Quizás Más Tarde",
+    "successTitle": "¡Tu Código de Bienvenida Está Listo!",
+    "successDescription": "Usa el código de abajo al comprar cualquier paquete <strong>eSIM de 1GB para Europa</strong> para obtener tu descuento exclusivo del 99%.",
+    "promoCode": "Tu Código Promocional:",
+    "copyCode": "Copiar Código",
+    "copied": "¡Copiado!",
+    "howToUse": "Cómo Usarlo:",
+    "step1": "Elige cualquier paquete eSIM de 1GB para Europa",
+    "step2": "Ingresa <strong>WELCOME</strong> al finalizar la compra",
+    "step3": "Paga solo €0.50 por tu primera eSIM",
+    "browsePackages": "Explorar Paquetes eSIM",
+    "gotIt": "¡Entendido!",
+    "widgetText": "Promo de Bienvenida",
+    "widget": {
+      "title": "Oferta de Bienvenida",
+      "badge": "99% DTO"
+    }
   }
 }

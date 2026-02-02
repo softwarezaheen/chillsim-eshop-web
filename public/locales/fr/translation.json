@@ -1215,5 +1215,31 @@
       "cancel": "Annuler",
       "buyNow": "Acheter Maintenant"
     }
+  },
+  "welcomeOffer": {
+    "title": "Offre de Bienvenue Exclusive!",
+    "subtitle": "Nouveaux Clients Uniquement",
+    "description": "Obtenez votre premier forfait eSIM <strong>1Go Europe</strong> pour seulement <strong>0,50€</strong> — une remise massive de 99%.",
+    "bullet1": "Couverture dans toute l'UE",
+    "bullet2": "Seulement 0,50€ sur votre première commande",
+    "bullet3": "Activation instantanée",
+    "getOffer": "Obtenir Mon Offre de Bienvenue",
+    "maybeLater": "Peut-être Plus Tard",
+    "successTitle": "Votre Code de Bienvenue Est Prêt !",
+    "successDescription": "Utilisez le code ci-dessous lors de l'achat de n'importe quel forfait <strong>eSIM 1Go Europe</strong> pour obtenir votre remise exclusive de 99%.",
+    "promoCode": "Votre Code Promo :",
+    "copyCode": "Copier le Code",
+    "copied": "Copié !",
+    "howToUse": "Comment l'Utiliser :",
+    "step1": "Choisissez n'importe quel forfait eSIM 1Go Europe",
+    "step2": "Entrez <strong>WELCOME</strong> lors du paiement",
+    "step3": "Ne payez que 0,50€ pour votre première eSIM",
+    "browsePackages": "Parcourir les Forfaits eSIM",
+    "gotIt": "Compris !",
+    "widgetText": "Offre de Bienvenue",
+    "widget": {
+      "title": "Offre de Bienvenue",
+      "badge": "99% REMISE"
+    }
   }
 }

@@ -1222,5 +1222,19 @@
       "cancel": "Cancel",
       "buyNow": "Buy Now"
     }
+  },
+  "welcomeOffer": {
+    "title": "Special Welcome Offer!",
+    "subtitle": "Get your first 1GB eSIM for any EU country for just €0.50. Would you like to claim this deal?",
+    "priceDescription": "for 1GB data in any EU country",
+    "getOfferButton": "Get the offer!",
+    "termsHint": "Valid for new customers only. One-time use.",
+    "successTitle": "Glad to see you try our service! 😊",
+    "successSubtitle": "Please use the promo code below at checkout to get your €0.50 1GB data plan.",
+    "useCodeLabel": "Use this promo code at checkout:",
+    "signUpButton": "Sign up now",
+    "checkoutHint": "Enter the code WELCOME at checkout to claim your discount",
+    "codeCopied": "Promo code copied!",
+    "widgetText": "Welcome Promo"
   }
 }

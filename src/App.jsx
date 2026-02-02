@@ -8,6 +8,8 @@ import PushNotification from "./components/push-notification/PushNotification";
 import UpdateBanner from "./components/shared/update-banner/UpdateBanner";
 import SmartAppBanner from "./components/shared/smart-app-banner/SmartAppBanner";
 import AppRouter from "./core/routes/AppRouter";
+import { WelcomeOfferModal, WelcomeOfferWidget } from "./components/welcome-offer/WelcomeOfferModal";
+import { useWelcomeOffer } from "./core/custom-hook/useWelcomeOffer";
 import { fetchUserInfo, SignOut } from "./redux/reducers/authReducer";
 import { fetchCurrencyInfo } from "./redux/reducers/currencyReducer";
 import { loadReferralFromStorage } from "./redux/reducers/referralReducer";
@@ -31,6 +33,9 @@ function App() {
   
   // Track affiliate visits from URL parameters
   useAffiliateTracking();
+  
+  // Welcome offer popup for new visitors
+  const welcomeOffer = useWelcomeOffer();
 
   const getDeviceId = async () => {
     try {
@@ -104,6 +109,18 @@ function App() {
       <AppRouter />
       <PushNotification />
       <UpdateBanner />
+      {/* Welcome Offer for new visitors */}
+      <WelcomeOfferModal
+        open={welcomeOffer.showModal}
+        onClose={welcomeOffer.handleDismiss}
+        onGetOffer={welcomeOffer.handleGetOffer}
+        showSuccessMessage={welcomeOffer.showSuccess}
+      />
+      <WelcomeOfferWidget
+        visible={welcomeOffer.showWidget}
+        onClick={welcomeOffer.handleWidgetClick}
+        onClose={welcomeOffer.handleWidgetClose}
+      />
       {whatsapp_number?.trim() !== "" && (
         <a
           href={`https://wa.me/${whatsapp_number.replace(/[^+\d]/g, "")}`}

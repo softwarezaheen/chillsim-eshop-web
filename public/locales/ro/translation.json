@@ -1210,5 +1210,19 @@
       "cancel": "Anulare",
       "buyNow": "Cumpără Acum"
     }
+  },
+  "welcomeOffer": {
+    "title": "Ofertă Specială de Bun Venit!",
+    "subtitle": "Primește primul tău eSIM de 1GB pentru orice țară din Europa la doar €0.50. Vrei să profiți de această ofertă?",
+    "priceDescription": "pentru 1GB de date în orice țară din Europa",
+    "getOfferButton": "Vreau oferta!",
+    "termsHint": "Valabil doar pentru clienții noi. Utilizare unică.",
+    "successTitle": "Ne bucurăm să ne încerci serviciul! 😊",
+    "successSubtitle": "Te rugăm să folosești codul promoțional de mai jos la checkout pentru a obține planul de 1GB la €0.50.",
+    "useCodeLabel": "Folosește acest cod promoțional la checkout:",
+    "signUpButton": "Înregistrează-te acum",
+    "checkoutHint": "Introdu codul WELCOME la checkout pentru a beneficia de reducere",
+    "codeCopied": "Codul promoțional a fost copiat!",
+    "widgetText": "Promoție de Bun Venit"
   }
 }
