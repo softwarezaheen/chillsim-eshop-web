@@ -170,7 +170,7 @@ const TravelSearchWidget = ({
         </p>
       </div>
 
-      {/* Duration Chips */}
+      {/* TEMPORARILY HIDDEN - Duration Filter Chips
       <div className="mb-5">
         <label className="block text-sm font-medium text-white mb-2">
           {t("home.search.duration")}
@@ -192,6 +192,7 @@ const TravelSearchWidget = ({
           ))}
         </div>
       </div>
+      */}
 
       {/* Search Button */}
       <Button

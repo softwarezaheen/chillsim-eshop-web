@@ -589,7 +589,7 @@ const Plans = (props) => {
         />
       ) : filters?.type === "global" || activeRadio === "cruises" ? (
         <>
-          {/* Duration Filter Chips */}
+          {/* TEMPORARILY HIDDEN - Duration Filter Chips
           <div className="flex flex-wrap justify-center gap-2 mb-8">
             {durationChips.map((chip) => (
               <Chip
@@ -608,6 +608,7 @@ const Plans = (props) => {
               />
             ))}
           </div>
+          */}
 
           {/* Country vs Regional Toggle (only for countries view) */}
           {activeTab === "countries" && hasRegionalBundles && (

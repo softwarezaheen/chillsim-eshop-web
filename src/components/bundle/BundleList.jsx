@@ -320,7 +320,7 @@ const BundleList = ({
     // For country/region view, use table skeleton
     return (
       <div className="space-y-6 mb-6">
-        {/* Duration chips skeleton */}
+        {/* TEMPORARILY HIDDEN - Duration chips skeleton
         <div className="flex flex-wrap justify-center gap-2">
           {Array(5)
             .fill()
@@ -328,6 +328,7 @@ const BundleList = ({
               <Skeleton key={i} variant="rectangular" width={80} height={32} sx={{ borderRadius: 2 }} />
             ))}
         </div>
+        */}
 
         {/* Table skeleton */}
         <div className="bg-white shadow-md p-4 rounded-md">
@@ -434,7 +435,7 @@ const BundleList = ({
   // Use new compact table for country/region view
   return (
     <div className="space-y-6 mb-6">
-      {/* Duration Filter Chips */}
+      {/* TEMPORARILY HIDDEN - Duration Filter Chips
       <div className="flex flex-wrap justify-center gap-2">
         {durationChips.map((chip) => (
           <Chip
@@ -453,6 +454,7 @@ const BundleList = ({
           />
         ))}
       </div>
+      */}
 
       {/* Country vs Regional Toggle (only for country pages) */}
       {!region && (countryData?.id || expandedCountry) && hasRegionalBundles && (

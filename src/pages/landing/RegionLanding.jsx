@@ -498,7 +498,7 @@ const RegionLanding = () => {
               })}
             </p>
 
-            {/* Duration Chips */}
+            {/* TEMPORARILY HIDDEN - Duration Filter Chips
             <div className="flex flex-wrap justify-center gap-2 mb-8">
               {durationChips.map((chip) => (
                 <Chip
@@ -515,6 +515,7 @@ const RegionLanding = () => {
                 />
               ))}
             </div>
+            */}
 
             {/* Country vs Regional Toggle (only for country landing pages) */}
             {isCountry && hasRegionalBundles && (

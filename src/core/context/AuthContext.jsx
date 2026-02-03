@@ -266,30 +266,55 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     const auth = getAuth();
-    userLogout()
-      .then((res) => {
-        if (res?.data?.status === "success") {
-          console.log("start with firebase signout");
-          firebaseSignOut(auth);
-          console.log("start with dispatch");
-          dispatch(SignOut());
-          dispatch(DetachDevice());
-          queryClient.clear();
-          // Only delete messaging token if messaging is available
-          if (messaging) {
-            deleteToken(messaging);
-          }
-          supabaseSignout();
+    
+    // 🔥 CRITICAL FIX: Always clear local state regardless of API success
+    // This prevents users from appearing logged in after failed logout
+    const clearLocalAuthState = async () => {
+      console.log("Clearing local auth state...");
+      try {
+        await firebaseSignOut(auth);
+      } catch (e) {
+        console.error("Firebase signout error (non-blocking):", e);
+      }
+      
+      dispatch(SignOut());
+      dispatch(DetachDevice());
+      queryClient.clear();
+      
+      // Only delete messaging token if messaging is available
+      if (messaging) {
+        try {
+          await deleteToken(messaging);
+        } catch (e) {
+          console.error("FCM token delete error (non-blocking):", e);
         }
-      })
-      .catch((error) => {
-        toast.error(error?.message || "Failed to loggout");
-      })
-      .finally(() => {
-        setLoadingSocial(false);
-      });
+      }
+      
+      try {
+        await supabaseSignout();
+      } catch (e) {
+        console.error("Supabase signout error (non-blocking):", e);
+      }
+      
+      console.log("Local auth state cleared successfully");
+    };
+    
+    try {
+      // Try to notify backend about logout (for device tracking, etc.)
+      const res = await userLogout();
+      if (res?.data?.status !== "success") {
+        console.warn("Backend logout returned non-success status");
+      }
+    } catch (error) {
+      // Log the error but don't block local cleanup
+      console.error("Backend logout failed (will still clear local state):", error?.message);
+    }
+    
+    // Always clear local state, even if backend call failed
+    await clearLocalAuthState();
+    setLoadingSocial(false);
   };
 
   const handleError = (error, provider) => {
