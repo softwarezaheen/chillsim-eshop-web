@@ -179,16 +179,15 @@ const Plans = (props) => {
       return parseFloat(bundle.price || bundle.original_price || 0);
     };
 
-    // For countries view, group by data + type (country vs regional)
-    // For regions/global, group by data only
+    // Group by data + validity + type (country vs regional)
     const grouped = bundles.reduce((acc, bundle) => {
       const dataInMB = getDataInMB(bundle);
       const bundleType = (filters?.type === "" && activeTab === "countries")
         ? ((bundle.count_countries || 1) === 1 ? 'country' : 'regional')
         : 'all';
-      // For unlimited bundles, include validity in the key to keep different validities separate
+      // CRITICAL: Include validity in key for ALL bundles (not just unlimited)
       const validity = bundle.validity_days || bundle.validity || 0;
-      const key = dataInMB === Infinity ? `${dataInMB}-${validity}-${bundleType}` : `${dataInMB}-${bundleType}`;
+      const key = `${dataInMB}-${validity}-${bundleType}`;
       
       if (!acc[key]) {
         acc[key] = [];

@@ -202,15 +202,15 @@ const RegionLanding = () => {
       return parseFloat(bundle.price || bundle.original_price || 0);
     };
 
-    // Group bundles by data amount AND bundle type (country vs regional for country pages)
+    // Group bundles by data amount + validity + bundle type (country vs regional for country pages)
     const grouped = bundles.reduce((acc, bundle) => {
       const dataInMB = getDataInMB(bundle);
       const bundleType = isCountry 
         ? ((bundle.count_countries || 1) === 1 ? 'country' : 'regional')
         : 'all';
-      // For unlimited bundles, include validity in the key to keep different validities separate
+      // CRITICAL: Include validity in key for ALL bundles (not just unlimited)
       const validity = bundle.validity_days || bundle.validity || 0;
-      const key = dataInMB === Infinity ? `${dataInMB}-${validity}-${bundleType}` : `${dataInMB}-${bundleType}`;
+      const key = `${dataInMB}-${validity}-${bundleType}`;
       
       if (!acc[key]) {
         acc[key] = [];

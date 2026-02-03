@@ -135,13 +135,13 @@ const HomePageTemplate = ({
       return parseFloat(bundle.price || bundle.original_price || 0);
     };
 
-    // Group bundles by data amount AND bundle type (country vs regional)
+    // Group bundles by data + validity + type (country vs regional)
     const grouped = bundles.reduce((acc, bundle) => {
       const dataInMB = getDataInMB(bundle);
       const bundleType = ((bundle.count_countries || 1) === 1) ? 'country' : 'regional';
-      // For unlimited bundles, include validity in the key to keep different validities separate
+      // CRITICAL: Include validity in key for ALL bundles (not just unlimited)
       const validity = bundle.validity || 0;
-      const key = dataInMB === Infinity ? `${dataInMB}-${validity}-${bundleType}` : `${dataInMB}-${bundleType}`;
+      const key = `${dataInMB}-${validity}-${bundleType}`;
       
       if (!acc[key]) {
         acc[key] = [];
