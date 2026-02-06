@@ -82,8 +82,7 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
     if (countyValue && selectedCountry === "RO") {
       const county = romanianCounties.find(c => c.alpha3.trim() === countyValue);
       if (county) {
-        // Normalize Romanian characters for lookup (ș→s, ț→t) to match regions.js keys
-        const countyKey = county.name.toUpperCase().replace(/Ș/g, 'S').replace(/Ț/g, 'T');
+        const countyKey = county.name.toUpperCase();
         if (romanianCities[countyKey]) {
           const cities = romanianCities[countyKey].map(city => ({
             value: city.name,
@@ -191,8 +190,7 @@ const BillingFormView = ({ onSubmitSuccess, showHeader = true, submitButtonText 
     if (selectedCountry === "RO" && selectedState) {
       const county = romanianCounties.find(c => c.alpha3.trim() === selectedState);
       if (county) {
-        // Normalize Romanian characters for lookup (ș→s, ț→t) to match regions.js keys
-        const countyKey = county.name.toUpperCase().replace(/Ș/g, 'S').replace(/Ț/g, 'T');
+        const countyKey = county.name.toUpperCase();
         if (romanianCities[countyKey]) {
           const cities = romanianCities[countyKey].map(city => ({
             value: city.name,

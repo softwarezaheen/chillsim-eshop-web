@@ -36,7 +36,7 @@ export const romanianCounties = [
   { "name": "Neamț", "alpha2": "NT", "alpha3": "RO-NT" },
   { "name": "Olt", "alpha2": "OT", "alpha3": "RO-OT" },
   { "name": "Prahova", "alpha2": "PH", "alpha3": "RO-PH" },
-  { "name": "Satu Mare", "alpha2": "SM", "alpha3": "RO-SM" },
+  { "name": "Satu-Mare", "alpha2": "SM", "alpha3": "RO-SM" },
   { "name": "Sălaj", "alpha2": "SJ", "alpha3": "RO-SJ" },
   { "name": "Sibiu", "alpha2": "SB", "alpha3": "RO-SB" },
   { "name": "Suceava", "alpha2": "SV", "alpha3": "RO-SV" },
