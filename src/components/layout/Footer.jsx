@@ -141,6 +141,13 @@ const Footer = () => {
                 {t("footer.cookiePolicy")}
               </Link>
               <Link
+                to={"/student-discounts"}
+                onClick={() => handleNavigation()}
+                className="text-sm text-white"
+              >
+                {t("footer.studentDiscounts")}
+              </Link>
+              <Link
                 to={"/contact-us"}
                 onClick={() => handleNavigation()}
                 className="text-sm text-white"

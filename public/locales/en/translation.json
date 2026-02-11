@@ -435,6 +435,7 @@
     "termsAndConditions": "Terms & Conditions",
     "privacyPolicy": "Privacy Policy",
     "cookiePolicy": "Cookie Policy",
+    "studentDiscounts": "Student Discounts",
     "office": "Office",
     "email": "Email",
     "phone": "Phone"
@@ -630,6 +631,34 @@
       "browsePlans": "Browse Plans",
       "manageAccount": "My Account",
       "getStarted": "Get Started"
+    }
+  },
+  "studentDiscounts": {
+    "title": "Student Discounts",
+    "subtitle": "As a student you can claim a <highlight>30% discount code</highlight> that can be used across any size plan and location.",
+    "question": "Where are you studying?",
+    "claimDiscount": "Claim 30% discount via Student Beans",
+    "terms": "Terms and conditions apply.",
+    "poweredBy": "Powered by",
+    "badge": {
+      "percent": "30%",
+      "text": "Student Discount",
+      "save": "Save 30%"
+    },
+    "countries": {
+      "uk": "United Kingdom",
+      "us": "United States",
+      "fr": "France",
+      "de": "Germany"
+    },
+    "cta": {
+      "browsePlans": "Browse All eSIM Plans",
+      "reminder": "Don't forget to claim your 30% student discount code from StudentBeans first!"
+    },
+    "finalCta": {
+      "title": "Ready to Stay Connected?",
+      "description": "Browse our global eSIM plans and save 30% with your student discount code from StudentBeans",
+      "button": "View Student Plans"
     }
   },
   "promotions": {

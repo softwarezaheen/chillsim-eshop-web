@@ -435,6 +435,7 @@
     "termsAndConditions": "Términos y Condiciones",
     "privacyPolicy": "Política de Privacidad",
     "cookiePolicy": "Política de Cookies",
+    "studentDiscounts": "Descuentos para Estudiantes",
     "office": "Oficina",
     "email": "Email",
     "phone": "Teléfono"
@@ -657,6 +658,34 @@
       "toggleEnabled": "Estás recibiendo ofertas exclusivas",
       "toggleDisabled": "¡Sí, envíenme ofertas exclusivas!",
       "disclaimer": "Puedes cambiar tus preferencias en cualquier momento desde Información de Cuenta. Solo enviamos ofertas valiosas, ¡sin spam!"
+    }
+  },
+  "studentDiscounts": {
+    "title": "Descuentos para Estudiantes",
+    "subtitle": "Como estudiante puedes obtener un <highlight>código de descuento del 30%</highlight> que se puede usar en cualquier plan y destino.",
+    "question": "¿Dónde estudias?",
+    "claimDiscount": "Obtener 30% descuento vía Student Beans",
+    "terms": "Se aplican términos y condiciones.",
+    "poweredBy": "Desarrollado por",
+    "badge": {
+      "percent": "30%",
+      "text": "Descuento Estudiantil",
+      "save": "Ahorra 30%"
+    },
+    "countries": {
+      "uk": "Reino Unido",
+      "us": "Estados Unidos",
+      "fr": "Francia",
+      "de": "Alemania"
+    },
+    "cta": {
+      "browsePlans": "Explorar todos los planes eSIM",
+      "reminder": "¡No olvides obtener tu código de descuento del 30% de StudentBeans primero!"
+    },
+    "finalCta": {
+      "title": "¿Listo para permanecer conectado?",
+      "description": "Explora nuestros planes eSIM globales y ahorra 30% con tu código de descuento estudiantil de StudentBeans",
+      "button": "Ver planes para estudiantes"
     }
   },
   "landing": {

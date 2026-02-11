@@ -435,6 +435,7 @@
     "termsAndConditions": "Conditions Générales",
     "privacyPolicy": "Politique de Confidentialité",
     "cookiePolicy": "Politique des Cookies",
+    "studentDiscounts": "Réductions Étudiantes",
     "office": "Bureau",
     "email": "Email",
     "phone": "Téléphone"
@@ -657,6 +658,34 @@
       "toggleEnabled": "Vous recevez des offres exclusives",
       "toggleDisabled": "Oui, envoyez-moi des offres exclusives !",
       "disclaimer": "Vous pouvez modifier vos préférences à tout moment dans Informations du Compte. Nous n'envoyons que des offres précieuses, pas de spam !"
+    }
+  },
+  "studentDiscounts": {
+    "title": "Réductions Étudiantes",
+    "subtitle": "En tant qu'étudiant, vous pouvez obtenir un <highlight>code de réduction de 30%</highlight> à utiliser sur n'importe quel forfait et destination.",
+    "question": "Où étudiez-vous ?",
+    "claimDiscount": "Obtenir 30% de réduction via Student Beans",
+    "terms": "Les conditions générales s'appliquent.",
+    "poweredBy": "Propulsé par",
+    "badge": {
+      "percent": "30%",
+      "text": "Réduction Étudiante",
+      "save": "Économisez 30%"
+    },
+    "countries": {
+      "uk": "Royaume-Uni",
+      "us": "États-Unis",
+      "fr": "France",
+      "de": "Allemagne"
+    },
+    "cta": {
+      "browsePlans": "Parcourir tous les forfaits eSIM",
+      "reminder": "N'oubliez pas d'obtenir votre code de réduction de 30% sur StudentBeans d'abord !"
+    },
+    "finalCta": {
+      "title": "Prêt à rester connecté ?",
+      "description": "Parcourez nos forfaits eSIM mondiaux et économisez 30% avec votre code de réduction étudiant de StudentBeans",
+      "button": "Voir les forfaits étudiants"
     }
   },
   "landing": {

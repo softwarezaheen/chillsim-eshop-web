@@ -32,6 +32,7 @@ const ReferralLanding = lazy(() => import("../../pages/referral/ReferralLanding"
 const Benefits = lazy(() => import("../../pages/benefits/Benefits"));
 const RegionLanding = lazy(() => import("../../pages/landing/RegionLanding"));
 const StudentBeansPage = lazy(() => import("../../pages/partners/StudentBeansPage"));
+const StudentDiscounts = lazy(() => import("../../pages/StudentDiscounts"));
 
 // Loading component for Suspense fallback
 const PageLoader = () => (
@@ -113,6 +114,10 @@ export const useAppRoutes = () => {
       {
         path: "/benefits",
         element: withSuspense(Benefits),
+      },
+      {
+        path: "/student-discounts",
+        element: withSuspense(StudentDiscounts),
       },
       {
         path: "/esim-destination/:type",

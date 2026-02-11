@@ -430,6 +430,7 @@
     "termsAndConditions": "Termeni și condiții",
     "privacyPolicy": "Politica de confidențialitate",
     "cookiePolicy": "Politica de cookies",
+    "studentDiscounts": "Reduceri pentru Studenți",
     "office": "Birou",
     "email": "Adresă de e-mail",
     "phone": "Număr de telefon"
@@ -652,6 +653,34 @@
       "toggleEnabled": "Primești oferte exclusive",
       "toggleDisabled": "Da, trimite-mi oferte exclusive!",
       "disclaimer": "Poți modifica preferințele oricând din Informații Cont. Trimitem doar oferte valoroase—fără spam!"
+    }
+  },
+  "studentDiscounts": {
+    "title": "Reduceri pentru Studenți",
+    "subtitle": "Ca student poți obține un <highlight>cod de reducere de 30%</highlight> care poate fi folosit pentru orice plan și destinație.",
+    "question": "Unde studiezi?",
+    "claimDiscount": "Obține 30% reducere prin Student Beans",
+    "terms": "Se aplică termeni și condiții.",
+    "poweredBy": "Susținut de",
+    "badge": {
+      "percent": "30%",
+      "text": "Reducere pentru Studenți",
+      "save": "Economisește 30%"
+    },
+    "countries": {
+      "uk": "Regatul Unit",
+      "us": "Statele Unite",
+      "fr": "Franța",
+      "de": "Germania"
+    },
+    "cta": {
+      "browsePlans": "Explorează toate planurile eSIM",
+      "reminder": "Nu uita să obții codul tău de reducere de 30% de la StudentBeans mai întâi!"
+    },
+    "finalCta": {
+      "title": "Gata să rămâi conectat?",
+      "description": "Explorează planurile noastre eSIM globale și economisește 30% cu codul tău de reducere pentru studenți de la StudentBeans",
+      "button": "Vezi planurile pentru studenți"
     }
   },
   "landing": {
