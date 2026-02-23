@@ -24,6 +24,7 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import PromotionsInline from "../promotions/PromotionsInline";
+import AutoTopupPrompt from "../auto-topup/AutoTopupPrompt";
 
 const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false }) => {
   const { t } = useTranslation();
@@ -106,7 +107,7 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
 
   return (
     <Dialog open={true} maxWidth="sm">
-      <DialogContent className="flex flex-col gap-[1rem] xs:!px-8 !py-10 min-w-[200px] max-w-[500px]">
+      <DialogContent className="flex flex-col gap-[0.4rem] sm:gap-[0.6rem] xs:!px-8 !py-3 sm:!py-5 min-w-[200px] max-w-[500px]">
         <div className={"flex flex-row justify-end"}>
           <IconButton
             aria-label="close"
@@ -130,10 +131,10 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
             <Close />
           </IconButton>
         </div>
-        <h1 className={"mt-2 text-center"}>{t("orders.qrcode_detail")}</h1>
+        <h1 className={"mt-1 text-center text-base sm:text-lg font-bold"}>{t("orders.qrcode_detail")}</h1>
         {!isLoading ? (
           orderData || data ? (
-            <p className={"text-center text-content-600 font-medium"}>
+            <p className={"text-center text-content-600 text-xs sm:text-sm font-medium"}>
               {t("orders.qrcode_sent_text")}
             </p>
           ) : (
@@ -141,7 +142,7 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
           )
         ) : (
           <div className={"flex flex-col gap-[1rem]"}>
-            <p className={"text-center text-content-600 font-medium"}>
+            <p className={"text-center text-content-600 text-xs sm:text-sm font-medium"}>
               {t("orders.qrcode_loading")}
             </p>
             <Skeleton width={"100%"} />
@@ -151,12 +152,12 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
           <>
             <div
               className={
-                "bg-primary-50 p-4 rounded-2xl flex items-center justify-center shadow-sm"
+                "bg-primary-50 p-2 sm:p-3 rounded-xl flex items-center justify-center shadow-sm"
               }
             >
               <div
                 className={
-                  "bg-white p-2 flex items-center justify-center w-[200px] h-[200px] rounded-md shadow-sm"
+                  "bg-white p-1.5 flex items-center justify-center w-[150px] h-[150px] sm:w-[180px] sm:h-[180px] rounded-md shadow-sm"
                 }
               >
                 {isLoading ? (
@@ -164,7 +165,7 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
                 ) : orderData?.qr_code_value || data?.qr_code_value ? (
                   <QRCode
                     size={100}
-                    style={{ height: "150px", width: "150px" }}
+                    style={{ height: "130px", width: "130px" }}
                     value={data?.qr_code_value || orderData?.qr_code_value}
                     viewBox={`0 0 256 256`}
                   />
@@ -173,10 +174,10 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
                 )}
               </div>
             </div>
-            <div className={"flex flex-col gap-[0.5rem]"}>
+            <div className={"flex flex-col gap-[0.25rem]"}>
               <label
                 dir={"ltr"}
-                className={`font-semibold ${
+                className={`font-semibold text-[0.65rem] sm:text-xs ${
                   localStorage.getItem("i18nextLng") === "ar"
                     ? "text-right"
                     : "text-left"
@@ -186,10 +187,10 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
               </label>
               <div
                 className={
-                  "flex flex-row justify-between items-center bg-white shadow-sm p-[0.8rem] rounded-md"
+                  "flex flex-row justify-between items-center bg-white shadow-sm p-[0.3rem] sm:p-[0.5rem] rounded-md"
                 }
               >
-                <p className={"font-medium text-content-500 truncate "}>
+                <p className={"font-medium text-content-500 text-[0.6rem] sm:text-xs truncate "}>
                   {isLoading ? (
                     <Skeleton width={100} />
                   ) : (
@@ -208,16 +209,16 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
                 </IconButton>
               </div>
             </div>
-            <div className={"flex flex-col gap-[0.5rem]"}>
-              <label className={"font-semibold"}>
+            <div className={"flex flex-col gap-[0.25rem]"}>
+              <label className={"font-semibold text-[0.65rem] sm:text-xs"}>
                 {t("orders.activateCode")}
               </label>
               <div
                 className={
-                  "flex flex-row justify-between items-center bg-white shadow-sm p-[0.8rem] rounded-md"
+                  "flex flex-row justify-between items-center bg-white shadow-sm p-[0.3rem] sm:p-[0.5rem] rounded-md"
                 }
               >
-                <p className={"font-medium text-content-500 truncate"}>
+                <p className={"font-medium text-content-500 text-[0.6rem] sm:text-xs truncate"}>
                   {isLoading ? (
                     <Skeleton width={100} />
                   ) : (
@@ -237,16 +238,25 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
               </div>
             </div>{" "}
             
+            {/* Auto Top-Up Prompt — only for new bundle purchases from payment completion (not unlimited bundles, not top-ups) */}
+            {isFromPaymentCompletion && orderHistoryData?.order_type !== 'topup' && (data?.iccid || orderData?.iccid) && orderHistoryData?.bundle_details?.bundle_code && !orderHistoryData?.bundle_details?.unlimited && (
+              <AutoTopupPrompt
+                iccid={data?.iccid || orderData?.iccid}
+                bundleId={orderHistoryData?.bundle_details?.bundle_code}
+                bundleName={orderHistoryData?.bundle_details?.display_title || orderHistoryData?.bundle_details?.bundle_code}
+                dataAmount={orderHistoryData?.bundle_details?.gprs_limit_display || ""}
+                validity={orderHistoryData?.bundle_details?.validity_display || ""}
+              />
+            )}
+
             {/* Promotions Inline Component - Show if user is authenticated and doesn't have notifications enabled */}
             {isAuth && !user_info?.should_notify && (
-              <div className="mt-4">
-                <PromotionsInline />
-              </div>
+              <PromotionsInline />
             )}
             
             {/* Download Invoice Button */}
             {orderHistoryData?.pdf_url && (
-              <div className="flex flex-col gap-[0.5rem] mt-4">
+              <div className="flex flex-col gap-[0.25rem] mt-1">
                 <Button
                   variant="outlined"
                   color="primary"
@@ -296,6 +306,7 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
                 </Button>
               </div>
             )}
+            
           </>
         )}
 

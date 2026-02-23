@@ -2,9 +2,10 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
+
 //COMPONENT
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import OrderCard from "../../../components/order/OrderCard";
+import EsimCard from "../../../components/esim/EsimCard";
 import { getMyEsimByIccid } from "../../../core/apis/userAPI";
 import { NoDataFoundSVG } from "../../../assets/icons/Common";
 import NoDataFound from "../../../components/shared/no-data-found/NoDataFound";
@@ -47,9 +48,8 @@ const EsimDetail = (props) => {
           text={t("noDataFound.no_data_matching_iccid")}
         />
       ) : (
-        <OrderCard
+        <EsimCard
           order={{ bundle_details: data }}
-          myesim
           refetchData={refetch}
         />
       )}

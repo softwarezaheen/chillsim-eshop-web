@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  Switch,
-  FormControlLabel,
-  Box,
-} from "@mui/material";
-import { LocalOffer } from "@mui/icons-material";
+import { Switch } from "@mui/material";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { toast } from "react-toastify";
 import { updateUserInfo } from "../../core/apis/authAPI";
 import { UpdateAuthInfo } from "../../redux/reducers/authReducer";
@@ -74,45 +70,23 @@ const PromotionsInline = () => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-warning-50 to-primary-50 rounded-xl p-6 border-2 border-warning-200">
-      <div className="flex items-start gap-4 mb-4">
-        <div className="bg-white w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-          <LocalOffer className="text-warning text-2xl" />
-        </div>
-        <div className="flex-1">
-          <h3 className="font-bold text-content-900 text-lg mb-2">
-            {t("promotions.inline.title")}
-          </h3>
-          <p className="text-sm text-content-600 leading-relaxed">
-            {t("promotions.inline.description")}
-          </p>
-        </div>
-      </div>
-
-      {/* Toggle */}
-      <Box className="bg-white p-4 rounded-lg shadow-sm">
-        <FormControlLabel
-          control={
-            <Switch
-              checked={shouldNotify}
-              onChange={(e) => handleToggleNotifications(e.target.checked)}
-              disabled={isUpdating}
-              color="warning"
-            />
-          }
-          label={
-            <span className="text-sm font-medium text-content-800">
-              {shouldNotify
-                ? t("promotions.inline.toggleEnabled")
-                : t("promotions.inline.toggleDisabled")}
-            </span>
-          }
+    <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 bg-amber-50 border border-amber-200 rounded-lg">
+      <div className="flex items-center gap-2">
+        <NotificationsNoneIcon sx={{ fontSize: { xs: 18, sm: 20 }, color: '#d97706', flexShrink: 0 }} />
+        <p className="text-xs sm:text-sm font-semibold text-amber-900 flex-1 leading-tight">
+          {t("promotions.inline.title")}
+        </p>
+        <Switch
+          checked={shouldNotify}
+          onChange={(e) => handleToggleNotifications(e.target.checked)}
+          disabled={isUpdating}
+          color="warning"
+          size="small"
+          sx={{ flexShrink: 0 }}
         />
-      </Box>
-
-      {/* Disclaimer */}
-      <p className="text-xs text-content-500 mt-4 leading-relaxed text-center">
-        {t("promotions.inline.disclaimer")}
+      </div>
+      <p className="text-[0.65rem] leading-tight sm:text-xs text-amber-700 pl-[26px]">
+        {t("promotions.inline.description")}
       </p>
     </div>
   );

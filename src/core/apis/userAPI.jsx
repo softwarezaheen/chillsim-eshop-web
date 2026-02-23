@@ -18,6 +18,19 @@ export const assignTopupBundle = async (payload) => {
   }
 };
 
+export const getTaxes = async (bundleCode, promoCode = null) => {
+  try {
+    const params = {};
+    if (promoCode) {
+      params.promo_code = promoCode;
+    }
+    const res = await api.get(`api/v1/user/bundle/get-taxes/${bundleCode}`, { params });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getOrderByID = async (payload) => {
   try {
     const res = await api.get(`api/v1/user/my-esim-by-order/${payload}`, {
@@ -75,9 +88,7 @@ export const getMyEsim = async (payload) => {
 
 export const getMyEsimByIccid = async (payload) => {
   try {
-    const res = await api.get(`api/v1/user/my-esim/${payload}`, {
-      params: { ...payload },
-    });
+    const res = await api.get(`api/v1/user/my-esim/${payload}`);
     return res;
   } catch (error) {
     throw error;
@@ -159,6 +170,91 @@ export const getBillingInfo = async (payload) => {
 export const saveBillingInfo = async (payload) => {
   try {
     const res = await api.post(`api/v1/user/save-billing-info`, payload);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ===================== Auto Top-Up APIs =====================
+
+export const enableAutoTopup = async (payload) => {
+  try {
+    const res = await api.post(`api/v1/user/auto-topup/enable`, payload);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const disableAutoTopup = async (payload) => {
+  try {
+    const res = await api.post(`api/v1/user/auto-topup/disable`, payload);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAutoTopupConfig = async (iccid) => {
+  try {
+    const res = await api.get(`api/v1/user/auto-topup/${iccid}`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAutoTopupConfigs = async () => {
+  try {
+    const res = await api.get(`api/v1/user/auto-topup`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateAutoTopupConfig = async ({ iccid, ...payload }) => {
+  try {
+    const res = await api.put(`api/v1/user/auto-topup/${iccid}`, payload);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ===================== Payment Method APIs =====================
+
+export const getPaymentMethods = async () => {
+  try {
+    const res = await api.get(`api/v1/user/payment-methods`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const setDefaultPaymentMethod = async (pmId) => {
+  try {
+    const res = await api.post(`api/v1/user/payment-methods/${pmId}/default`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deletePaymentMethod = async (pmId) => {
+  try {
+    const res = await api.delete(`api/v1/user/payment-methods/${pmId}`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const syncPaymentMethods = async () => {
+  try {
+    const res = await api.post(`api/v1/user/payment-methods/sync`);
     return res;
   } catch (error) {
     throw error;

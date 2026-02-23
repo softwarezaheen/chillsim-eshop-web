@@ -13,7 +13,7 @@ import useQueryParams from "../../core/custom-hook/useQueryParams";
 import NoDataFound from "../../components/shared/no-data-found/NoDataFound";
 import { NoDataFoundSVG } from "../../assets/icons/Common";
 import { Button, Skeleton } from "@mui/material";
-import OrderCard from "../../components/order/OrderCard";
+import EsimCard from "../../components/esim/EsimCard";
 import PromotionsModal from "../../components/promotions/PromotionsModal";
 import { usePromotionsPopup } from "../../core/custom-hook/usePromotionsPopup";
 import { shouldShowPromotionsPopup } from "../../core/utils/authHelpers";
@@ -111,10 +111,9 @@ const Esim = () => {
         />
       ) : (
         finalData?.map((el, index) => (
-          <OrderCard
+          <EsimCard
             order={{ bundle_details: el }}
             key={`${el?.bundle_code}-${index}`}
-            myesim
             refetchData={refetch}
           />
         ))

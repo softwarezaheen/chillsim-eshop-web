@@ -29,7 +29,7 @@ const schema = yup.object().shape({
 
 export const StripePayment = (props) => {
   const { t } = useTranslation();
-  const { stripePromise, clientSecret, orderDetail, loading } = props;
+  const { stripePromise, clientSecret, orderDetail, loading, enableAutoTopup, autoTopupMonthlyCap, bundle, onError } = props;
   const { totalValue } = props;
 
 
@@ -49,7 +49,7 @@ export const StripePayment = (props) => {
         locale: localStorage.getItem("i18nextLng"),
       }}
     >
-      <InjectedCheckout {...props} orderDetail={orderDetail} />
+      <InjectedCheckout {...props} orderDetail={orderDetail} enableAutoTopup={enableAutoTopup} autoTopupMonthlyCap={autoTopupMonthlyCap} bundle={bundle} onError={onError} onCancel={props.onCancel} />
     </Elements>
   ) : (
     <div className={"flex flex-col gap-8 w-full sm:basis-[50%] shrink-0"}>
@@ -58,13 +58,15 @@ export const StripePayment = (props) => {
   );
 };
 
-const InjectedCheckout = ({ orderDetail }) => {
+const InjectedCheckout = ({ orderDetail, enableAutoTopup, autoTopupMonthlyCap, bundle, onError, onCancel }) => {
   const { t } = useTranslation();
   const { iccid } = useParams();
   const elements = useElements({ locale: localStorage.getItem("i18nextLng") });
   const stripe = useStripe();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  console.log('💳 StripePayment InjectedCheckout props:', { enableAutoTopup, autoTopupMonthlyCap, iccid, bundleCode: bundle?.bundle_code });
 
   const {
     control,
@@ -83,8 +85,17 @@ const InjectedCheckout = ({ orderDetail }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmitForm = () => {
+    // Clear any previous errors when retrying
+    if (onError) {
+      onError(null);
+    }
+    
     if (!stripe || !elements) {
-      toast.error(t("stripe.paymentProcessingError"));
+      if (onError) {
+        onError(t("stripe.paymentProcessingError"));
+      } else {
+        toast.error(t("stripe.paymentProcessingError"));
+      }
       return;
     }
     const searchParams = new URLSearchParams(location.search);
@@ -98,7 +109,11 @@ const InjectedCheckout = ({ orderDetail }) => {
         })
         .then(function (result) {
           if (result.error) {
-            toast.error(result.error?.message);
+            if (onError) {
+              onError(result.error?.message);
+            } else {
+              toast.error(result.error?.message);
+            }
 
             // Inform the customer that there was an error.
           } else {
@@ -115,20 +130,28 @@ const InjectedCheckout = ({ orderDetail }) => {
               }
 
               // Navigate to /plans/land for new orders (where PaymentCompletion modal exists)
-              // or /esim/${iccid} for topups
+              // or /esim/${iccid} for topups (both with order_id in search params)
               navigate({
                 pathname: iccid ? `/esim/${iccid}` : "/plans/land",
-                search: !iccid ? `?${searchParams.toString()}` : "",
+                search: searchParams.toString(),
               });
             }, 5000); // 5000 ms = 5 seconds
           }
         })
         .catch((error) => {
-          toast.error(error?.message || t("stripe.paymentConfirmationFailed"));
+          if (onError) {
+            onError(error?.message || t("stripe.paymentConfirmationFailed"));
+          } else {
+            toast.error(error?.message || t("stripe.paymentConfirmationFailed"));
+          }
         })
         .finally(() => setIsSubmitting(false));
     } catch (error) {
-      toast.error(t("stripe.paymentConfirmationFailed"));
+      if (onError) {
+        onError(t("stripe.paymentConfirmationFailed"));
+      } else {
+        toast.error(t("stripe.paymentConfirmationFailed"));
+      }
       setIsSubmitting(false);
     }
   };
@@ -141,6 +164,14 @@ const InjectedCheckout = ({ orderDetail }) => {
     <div className={"flex flex-col gap-8 w-full sm:basis-[50%] shrink-0"}>
       <>
         <PaymentElement id="payment-element" onChange={handleChange} />
+
+        {/* Save payment method notice */}
+        <div className="flex items-center gap-1.5 text-xs text-gray-500">
+          <svg className="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+          </svg>
+          <span>{t("stripe.savePaymentNotice")}</span>
+        </div>
 
         <div className={"flex flex-row gap-[0.5rem]"}>
           <Button
@@ -157,8 +188,12 @@ const InjectedCheckout = ({ orderDetail }) => {
             variant="contained"
             sx={{ width: "60%" }}
             onClick={() => {
-              dispatch(LimitedSignOut());
-              navigate("/");
+              if (onCancel) {
+                onCancel();
+              } else {
+                dispatch(LimitedSignOut());
+                navigate("/");
+              }
             }}
           >
             {t("btn.cancel")}

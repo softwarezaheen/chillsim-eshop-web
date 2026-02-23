@@ -12,6 +12,7 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import SimCardOutlinedIcon from "@mui/icons-material/SimCardOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import WalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import { useAuth } from "../core/context/AuthContext";
 
@@ -99,6 +100,21 @@ const UserMenu = () => {
                 color="primary"
               />
               <span className={"font-semibold"}>{t("nav.myWallet")}</span>
+            </Link>
+            <Link
+              to="/payment-methods"
+              className="flex items-center space-x-3 px-2 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+              onClick={onClose}
+            >
+              <CreditCardIcon
+                style={
+                  localStorage.getItem("i18nextLng") === "ar"
+                    ? { marginLeft: "8px" }
+                    : {}
+                }
+                color="primary"
+              />
+              <span className={"font-semibold"}>{t("nav.paymentMethods")}</span>
             </Link>
             <Link
               to="/referral-program"

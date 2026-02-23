@@ -33,6 +33,7 @@ const Benefits = lazy(() => import("../../pages/benefits/Benefits"));
 const RegionLanding = lazy(() => import("../../pages/landing/RegionLanding"));
 const StudentBeansPage = lazy(() => import("../../pages/partners/StudentBeansPage"));
 const StudentDiscounts = lazy(() => import("../../pages/StudentDiscounts"));
+const PaymentMethods = lazy(() => import("../../pages/payment-methods/PaymentMethods"));
 
 // Loading component for Suspense fallback
 const PageLoader = () => (
@@ -186,6 +187,11 @@ export const useAppRoutes = () => {
       {
         path: "/wallet",
         element: withSuspense(Wallet),
+        isPrivate: true,
+      },
+      {
+        path: "/payment-methods",
+        element: withSuspense(PaymentMethods),
         isPrivate: true,
       },
       {

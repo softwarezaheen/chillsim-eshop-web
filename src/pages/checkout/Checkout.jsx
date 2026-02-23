@@ -29,6 +29,7 @@ import PaymentFlow from "../../components/payment/PaymentFlow";
 import { useTranslation } from "react-i18next";
 import { gtmEvent, gtmBeginCheckoutEvent } from "../../core/utils/gtm.jsx";
 import { formatValidity } from "../../assets/utils/formatValidity";
+import AutoTopupCheckoutOption from "../../components/auto-topup/AutoTopupCheckoutOption";
 
 const Checkout = () => {
   const { isAuthenticated, tmp } = useSelector((state) => state.authentication);
@@ -50,6 +51,9 @@ const Checkout = () => {
   const [isPromoApplied, setIsPromoApplied] = useState(false);
   const [isPromoValidating, setIsPromoValidating] = useState(false);
   const [isWalletPaymentWithSufficientBalance, setIsWalletPaymentWithSufficientBalance] = useState(false);
+  // Auto top-up state for checkout integration
+  const [enableAutoTopupAtCheckout, setEnableAutoTopupAtCheckout] = useState(false);
+  const [autoTopupMonthlyCap, setAutoTopupMonthlyCap] = useState("0");
   const dispatch = useDispatch();
 
   const handleApplyPromoCode = async () => {
@@ -100,6 +104,13 @@ const Checkout = () => {
   // For exclusive mode: VAT is added on top
   const calculateOrderTotal = (order) => {
     if (!order) return 0;
+    
+    // If backend provides total field directly, use it (from getTaxes or assignMethod response)
+    if (order.total !== undefined && order.total !== null) {
+      return order.total;
+    }
+    
+    // Otherwise calculate from components
     const amount = order.original_amount || 0;
     const fee = order.fee || 0;
     const vat = order.vat || 0;
@@ -196,12 +207,12 @@ const Checkout = () => {
   return (
     <div
       className={
-        "flex flex-col gap-4 w-full max-w-xxl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16"
+        "flex flex-col gap-4 w-full max-w-xxl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-20 pb-8 sm:pb-16"
       }
     >
       <div
         className={
-          "flex flex-row gap-2 items-center font-semibold cursor-pointer"
+          "flex flex-row gap-2 items-center text-sm sm:text-base font-semibold cursor-pointer"
         }
         onClick={() => {
           navigate(-1);
@@ -263,64 +274,67 @@ const Checkout = () => {
             setOrderDetail={setOrderDetail}
             promoCode={promoCode}
             setIsWalletPaymentWithSufficientBalance={setIsWalletPaymentWithSufficientBalance}
+            enableAutoTopup={enableAutoTopupAtCheckout}
+            autoTopupMonthlyCap={autoTopupMonthlyCap}
           />
 
         )}
+        <div className="w-full sm:basis-[50%] flex flex-col gap-3 sm:gap-4 grow-0 min-w-0">
         <div
           className={
-            "bg-primary-50 p-4 rounded-2xl flex flex-col gap-5 w-full sm:basis-[50%] shadow-sm grow-0 min-w-0"
+            "bg-primary-50 p-3 sm:p-4 rounded-2xl flex flex-col gap-3 sm:gap-5 w-full shadow-sm"
           }
         >
-          <h1 className={"font-bold text-2xl"}>{t("checkout.summary")}</h1>
-          <div className={"flex flex-col gap-2 min-w-0"}>
+          <h1 className={"font-bold text-lg sm:text-2xl"}>{t("checkout.summary")}</h1>
+          <div className={"flex flex-col gap-1.5 sm:gap-2 min-w-0"}>
             <div
               className={
-                "flex flex-row justify-between items-start gap-[1rem] min-w-0"
+                "flex flex-row justify-between items-start gap-2 sm:gap-[1rem] min-w-0"
               }
             >
-              <label className={"flex-1 font-semibold"}>
+              <label className={"flex-1 font-semibold text-xs sm:text-base"}>
                 {t("checkout.bundleName")}
               </label>
               <p
                 dir={"ltr"}
-                className={`flex-1 font-bold truncate text-right`}
+                className={`flex-1 font-bold truncate text-right text-xs sm:text-base`}
               >
                 {data?.display_title && data?.gprs_limit_display && data?.validity_display
                   ? `${data.display_title} ${data.gprs_limit_display} ${formatValidity(data.validity_display)}`
                   : data?.display_title || t("common.notAvailable")}
               </p>
             </div>
-            {!isWalletPaymentWithSufficientBalance && (
-              <>
-                {/* Hide subtotal row when fees are off AND tax is inclusive */}
-                {!(!orderDetail?.fee_enabled && orderDetail?.tax_mode === "inclusive") && (
-                  <div
-                    className={"flex flex-row justify-between items-start gap-[1rem]"}
+            {/* Always show order details, but hide fees/taxes for wallet */}
+            <>
+              {/* Hide subtotal row when fees are off AND tax is inclusive */}
+              {!(!orderDetail?.fee_enabled && orderDetail?.tax_mode === "inclusive") && (
+                <div
+                  className={"flex flex-row justify-between items-start gap-2 sm:gap-[1rem]"}
+                >
+                  <label className={"flex-1 font-semibold text-xs sm:text-base"}>
+                    {t("checkout.subtotal")}
+                  </label>
+                  <p
+                    dir={"ltr"}
+                    className={`flex-1 font-bold text-right text-xs sm:text-base`}
                   >
-                    <label className={"flex-1 font-semibold"}>
-                      {t("checkout.subtotal")}
-                    </label>
-                    <p
-                      dir={"ltr"}
-                      className={`flex-1 font-bold text-right `}
-                    >
-                    {orderDetail?.original_amount
-                      ? getDisplayAmount(calculateOriginalPrice(orderDetail.original_amount) / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
-                      : "---"}
-                    </p>
-                  </div>
-                )}
+                  {orderDetail?.original_amount
+                    ? getDisplayAmount(calculateOriginalPrice(orderDetail.original_amount) / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
+                    : "---"}
+                  </p>
+                </div>
+              )}
               {isEligible && discountPercentage && !iccid && orderDetail?.original_amount && (
                 <div
-                  className={"flex flex-row justify-between items-center gap-[1rem]"}
+                  className={"flex flex-row justify-between items-center gap-2 sm:gap-[1rem]"}
                   style={{ color: '#22c55e' }}
                 >
-                  <label className={"flex-1 font-semibold"}>
+                  <label className={"flex-1 font-semibold text-xs sm:text-base"}>
                     {t("checkout.discount")} {discountPercentage}%{referrerName && ` ${t("checkout.from")} ${referrerName}`}
                   </label>
                   <p
                     dir={"ltr"}
-                    className={`flex-1 font-bold text-right`}
+                    className={`flex-1 font-bold text-right text-xs sm:text-base`}
                   >
                     - {getDisplayAmount(calculateDiscountAmount(orderDetail.original_amount) / 100)} {orderDetail.display_currency || orderDetail.currency}
                   </p>
@@ -330,13 +344,13 @@ const Checkout = () => {
               {orderDetail?.fee_enabled !== false && (
               <div
                   className={
-                    "flex flex-row justify-between items-start gap-[1rem]"
+                    "flex flex-row justify-between items-start gap-2 sm:gap-[1rem]"
                   }
                 >
-                  <label className={"flex-1 font-semibold"}>
+                  <label className={"flex-1 font-semibold text-xs sm:text-base"}>
                     {t("checkout.fee")}
                   </label>
-                  <p dir="ltr" className="flex-1 font-bold text-right">
+                  <p dir="ltr" className="flex-1 font-bold text-right text-xs sm:text-base">
                     {orderDetail?.fee
                       ? getDisplayAmount(orderDetail.fee / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
                       : "---"}
@@ -347,13 +361,13 @@ const Checkout = () => {
                 {orderDetail?.tax_mode === "exclusive" && (
                 <div
                   className={
-                    "flex flex-row justify-between items-start gap-[1rem]"
+                    "flex flex-row justify-between items-start gap-2 sm:gap-[1rem]"
                   }
                 >
-                  <label className={"flex-1 font-semibold"}>
+                  <label className={"flex-1 font-semibold text-xs sm:text-base"}>
                     {t("checkout.tax")}
                   </label>
-                  <p dir="ltr" className="flex-1 font-bold text-right">
+                  <p dir="ltr" className="flex-1 font-bold text-right text-xs sm:text-base">
                     {orderDetail?.vat
                       ? getDisplayAmount(orderDetail.vat / 100) + " " + (orderDetail.display_currency || orderDetail.currency)
                       : "---"}
@@ -363,17 +377,17 @@ const Checkout = () => {
                 
               <hr />
               <div
-                className={"flex flex-row justify-between items-start gap-[1rem]"}
+                className={"flex flex-row justify-between items-start gap-2 sm:gap-[1rem]"}
               >
-                <label className={"font-semibold"}>{t("checkout.total")}</label>
+                <label className={"font-semibold text-sm sm:text-base"}>{t("checkout.total")}</label>
                 <p dir="ltr" 
                   className={
                     orderDetail &&
                     orderDetail.display_currency &&
                     orderDetail.currency &&
                     orderDetail.display_currency !== orderDetail.currency
-                      ? "font-bold text-right"
-                      : "font-bold text-2xl text-right"
+                      ? "font-bold text-right text-sm sm:text-base"
+                      : "font-bold text-lg sm:text-2xl text-right"
                   }
                 >
                   {!orderDetail
@@ -391,33 +405,34 @@ const Checkout = () => {
                 orderDetail.currency &&
                 orderDetail.display_currency !== orderDetail.currency && (
                   <>
-                    <div className="flex flex-row justify-between items-start gap-[1rem]">
-                      <label className="font-semibold">
+                    <div className="flex flex-row justify-between items-start gap-2 sm:gap-[1rem]">
+                      <label className="font-semibold text-sm sm:text-base">
                         {t("checkout.totalToBePaidIn", { currency: orderDetail.currency })}
                       </label>
-                      <p dir="ltr" className="font-bold text-2xl text-right">
+                      <p dir="ltr" className="font-bold text-lg sm:text-2xl text-right">
                         {(
                           calculateOrderTotal(orderDetail) / 100
                         ).toFixed(2) + " " + orderDetail.currency}
                       </p>
                     </div>
-                    <div className="flex flex-row justify-between items-start gap-[1rem]">
-                      <label className="font-medium">
+                    <div className="flex flex-row justify-between items-start gap-2 sm:gap-[1rem]">
+                      <label className="font-medium text-xs sm:text-sm">
                         {t("checkout.exchangeRate")}
                       </label>
-                      <p dir="ltr" className="font-medium text-right">
+                      <p dir="ltr" className="font-medium text-xs sm:text-sm text-right">
                         {`1 ${orderDetail.display_currency} = ${orderDetail.exchange_rate} ${orderDetail.currency}`}
                       </p>
                     </div>
                   </>
                 )
               }
-              </>
-            )}
+            </>
+          </div>
+          
           {/* Promo Code Section - Only show for new purchases, not top-ups, and when no referral code exists */}
           {!iccid && !localStorage.getItem("referred_by") && (
-            <div className="flex flex-col gap-2 mt-4">
-              <label className="font-semibold text-sm">{t("checkout.promoCode")}</label>
+            <div className="flex flex-col gap-2 mt-2 sm:mt-4">
+              <label className="font-semibold text-xs sm:text-sm">{t("checkout.promoCode")}</label>
               <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
@@ -431,12 +446,12 @@ const Checkout = () => {
                   }}
                   placeholder={t("checkout.enterPromoCode")}
                   disabled={!orderDetail ? true :isPromoApplied}
-                  className="w-full sm:flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  className="w-full sm:flex-1 px-2 py-1.5 sm:px-3 sm:py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                 />
                 <button
                   onClick={handleApplyPromoCode}
                   disabled={!promoCode.trim() || isPromoApplied || isLoading || isPromoValidating}
-                  className="w-full sm:w-auto px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-3 py-1.5 sm:px-4 sm:py-2 text-sm bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isPromoValidating ? (
                     <>
@@ -462,6 +477,19 @@ const Checkout = () => {
             </div>
           )}
           </div>
+        
+        {/* Auto top-up option - only show for top-up purchases (not unlimited bundles) */}
+        {iccid && data && !data?.unlimited && (
+          <AutoTopupCheckoutOption
+            bundleData={data}
+            iccid={iccid}
+            userProfileId={data?.user_profile_id}
+            onAutoTopupChange={(enabled, monthlyCap) => {
+              setEnableAutoTopupAtCheckout(enabled);
+              setAutoTopupMonthlyCap(monthlyCap);
+            }}
+          />
+        )}
         </div>
       </div>
     </div>

@@ -193,7 +193,7 @@ const StudentDiscounts = () => {
           <div className="text-center mt-12">
             <Button
               component={Link}
-              to="/plans"
+              to="/plans/land"
               variant="contained"
               color="primary"
               size="large"
@@ -225,7 +225,7 @@ const StudentDiscounts = () => {
               </p>
               <Button
                 component={Link}
-                to="/plans"
+                to="/plans/land"
                 variant="contained"
                 color="secondary"
                 size="large"
