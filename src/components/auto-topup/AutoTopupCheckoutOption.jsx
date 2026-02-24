@@ -46,8 +46,8 @@ const AutoTopupCheckoutOption = ({
     }
   };
 
-  if (!bundleData || !iccid) {
-    return null; // Only show for top-up purchases
+  if (!bundleData) {
+    return null;
   }
 
   return (

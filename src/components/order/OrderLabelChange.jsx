@@ -40,7 +40,7 @@ const OrderLabelChange = ({ refetch, onClose, bundle }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      label: bundle?.label_name || bundle?.display_title,
+      label: bundle?.display_title,
     },
     resolver: yupResolver(schema({ t })),
     mode: "all",

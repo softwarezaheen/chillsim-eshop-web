@@ -1289,7 +1289,7 @@
   },
   "autoTopup": {
     "promptTitle": "Activar Recarga Automática",
-    "promptDescription": "¡No te quedes sin datos! Cuando tu consumo alcance el 80%, recargaremos automáticamente con {{bundle}} ({{data}}, {{validity}}) usando tu método de pago guardado.",
+    "promptDescription": "¡No te quedes sin datos! Cuando tu consumo alcance el 80%, recargaremos automáticamente con {{bundle}} ({{data}}, {{validity}}) usando tu método de pago predeterminado guardado.",
     "enableButton": "Activar Recarga Automática",
     "enabling": "Activando…",
     "enabledSuccess": "¡La recarga automática ha sido activada!",

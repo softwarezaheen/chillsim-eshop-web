@@ -1264,7 +1264,7 @@
   },
   "autoTopup": {
     "promptTitle": "Automatische Aufladung aktivieren",
-    "promptDescription": "Nie wieder ohne Daten! Wenn dein Verbrauch 80% erreicht, laden wir automatisch mit {{bundle}} ({{data}}, {{validity}}) über deine gespeicherte Zahlungsmethode nach.",
+    "promptDescription": "Nie wieder ohne Daten! Wenn dein Verbrauch 80% erreicht, laden wir automatisch mit {{bundle}} ({{data}}, {{validity}}) über deine gespeicherte Standard-Zahlungsmethode nach.",
     "enableButton": "Automatische Aufladung aktivieren",
     "enabling": "Wird aktiviert…",
     "enabledSuccess": "Automatische Aufladung wurde aktiviert!",

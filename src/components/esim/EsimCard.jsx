@@ -108,8 +108,8 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
             <Avatar
               src={order?.bundle_details?.icon}
               alt={
-                order?.bundle_details?.label_name ||
-                order?.bundle_details?.iccid ||
+                order?.bundle_details?.display_title ||
+                order?.bundle_details?.bundle_name ||
                 ""
               }
               sx={{ width: 45, height: 45, display: { xs: 'none', sm: 'flex' } }}
@@ -119,8 +119,8 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
                 src="/media/global.svg"
                 className="bg-white"
                 alt={
-                  order?.bundle_details?.label_name ||
-                  order?.bundle_details?.iccid ||
+                  order?.bundle_details?.display_title ||
+                  order?.bundle_details?.bundle_name ||
                   ""
                 }
               />
@@ -129,7 +129,7 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
               <div className="w-full overflow-hidden">
                 <p className="text-base sm:text-xl font-bold text-primary truncate w-full flex items-center gap-[0.2rem]">
                   <span dir="ltr" className="truncate">
-                    {order?.bundle_details?.label_name || order?.bundle_details?.iccid || ""}
+                    {order?.bundle_details?.display_title || order?.bundle_details?.bundle_name || ""}
                   </span>
                   {order?.bundle_details?.is_topup_allowed &&
                     order?.bundle_details?.auto_topup_enabled && (
@@ -148,9 +148,9 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
                   )}
                 </p>
               </div>
-              <p className="text-base text-gray-500 truncate w-full">
+              <p className="text-sm text-gray-400 truncate w-full">
                 <span dir="ltr">
-                  {order?.bundle_details?.display_subtitle || ""}
+                  {order?.bundle_details?.iccid || ""}
                 </span>
               </p>
             </div>
@@ -321,7 +321,7 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
                     {el.type === "date"
                       ? dayjs
                           .unix(order?.bundle_details?.[el?.field])
-                          .format("LL")
+                          .format("LL LT")
                       : order?.bundle_details?.[el?.field]}{" "}
                   </p>
                 </div>
@@ -559,7 +559,7 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
             bundleCode={order?.bundle_details?.bundle_code}
             bundleName={order?.bundle_details?.display_title}
             bundleData={order?.bundle_details}
-            labelName={order?.bundle_details?.label_name || order?.bundle_details?.iccid}
+            labelName={order?.bundle_details?.display_title || order?.bundle_details?.bundle_name}
             userProfileId={order?.bundle_details?.user_profile_id}
             isAutoTopupEnabled={order?.bundle_details?.auto_topup_enabled}
           />

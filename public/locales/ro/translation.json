@@ -1272,7 +1272,7 @@
   },
   "autoTopup": {
     "promptTitle": "Activează Reîncărcarea Automată",
-    "promptDescription": "Nu rămâne niciodată fără date! Când consumul tău atinge 80%, vom reîncărca automat cu {{bundle}} ({{data}}, {{validity}}) folosind metoda ta de plată salvată.",
+    "promptDescription": "Nu rămâne niciodată fără date! Când consumul tău atinge 80%, vom reîncărca automat cu {{bundle}} ({{data}}, {{validity}}) folosind metoda ta de plată implicită salvată.",
     "enableButton": "Activează Reîncărcarea Automată",
     "enabling": "Se activează…",
     "enabledSuccess": "Reîncărcarea automată a fost activată!",

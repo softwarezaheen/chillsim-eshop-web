@@ -478,8 +478,8 @@ const Checkout = () => {
           )}
           </div>
         
-        {/* Auto top-up option - only show for top-up purchases (not unlimited bundles) */}
-        {iccid && data && !data?.unlimited && (
+        {/* Auto top-up option - show for all purchases (not unlimited bundles) */}
+        {data && !data?.unlimited && (
           <AutoTopupCheckoutOption
             bundleData={data}
             iccid={iccid}

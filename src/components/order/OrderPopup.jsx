@@ -238,8 +238,8 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
               </div>
             </div>{" "}
             
-            {/* Auto Top-Up Prompt — only for new bundle purchases from payment completion (not unlimited bundles, not top-ups) */}
-            {isFromPaymentCompletion && orderHistoryData?.order_type !== 'topup' && (data?.iccid || orderData?.iccid) && orderHistoryData?.bundle_details?.bundle_code && !orderHistoryData?.bundle_details?.unlimited && (
+            {/* Auto Top-Up Prompt — only for new bundle purchases from payment completion (not unlimited bundles, not top-ups, not already enabled during checkout) */}
+            {isFromPaymentCompletion && !data?.auto_topup_enabled && orderHistoryData?.order_type !== 'topup' && (data?.iccid || orderData?.iccid) && orderHistoryData?.bundle_details?.bundle_code && !orderHistoryData?.bundle_details?.unlimited && (
               <AutoTopupPrompt
                 iccid={data?.iccid || orderData?.iccid}
                 bundleId={orderHistoryData?.bundle_details?.bundle_code}

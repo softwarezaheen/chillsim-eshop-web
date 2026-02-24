@@ -122,9 +122,9 @@ const InjectedCheckout = ({ orderDetail, enableAutoTopup, autoTopupMonthlyCap, b
             
             // Delay invalidation by 5 seconds
             setTimeout(() => {
-              queryClient.invalidateQueries({ queryKey: ["my-esim"] });
+              queryClient.removeQueries({ queryKey: ["my-esim"] });
               if (iccid) {
-                queryClient.invalidateQueries({
+                queryClient.removeQueries({
                   queryKey: [`esim-detail-${iccid}`],
                 });
               }

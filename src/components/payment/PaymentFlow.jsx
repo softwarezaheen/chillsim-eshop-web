@@ -159,10 +159,11 @@ const PaymentFlow = (props) => {
     // Update user info to refresh wallet balance
     dispatch(fetchUserInfo());
     
-    // Invalidate queries immediately
-    queryClient.invalidateQueries({ queryKey: ["my-esim"] });
+    // Remove cached queries so the eSIM detail/list pages fetch fresh data
+    // (invalidateQueries only marks stale — user would see old cached state briefly)
+    queryClient.removeQueries({ queryKey: ["my-esim"] });
     if (iccid) {
-      queryClient.invalidateQueries({
+      queryClient.removeQueries({
         queryKey: [`esim-detail-${iccid}`],
       });
     }
@@ -338,7 +339,7 @@ const PaymentFlow = (props) => {
       promo_code: promoCode.toUpperCase(),
       referral_code: referredBy || "",
       affiliate_code: "",
-      ...(iccid ? { enable_auto_topup: shouldEnableAutoTopup } : {}),
+      enable_auto_topup: shouldEnableAutoTopup,
     };
     
     // Add payment_method_id ONLY for actual saved payment methods (pm_xxx, card_xxx, ba_xxx)

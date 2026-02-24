@@ -112,19 +112,19 @@ const PaymentMethods = () => {
     const brandLower = (brand || "").toLowerCase();
     switch (brandLower) {
       case "visa":
-        return "💳 Visa";
+        return "Visa";
       case "mastercard":
-        return "💳 Mastercard";
+        return "Mastercard";
       case "amex":
-        return "💳 Amex";
+        return "Amex";
       default:
-        return "💳 " + (brand || "Card");
+        return (brand || "Card");
     }
   };
 
   const isCardExpired = (pm) => {
-    // Only check expiration for card type
-    if (pm.type !== "card") return false;
+    // Only check expiration for card-based types (card, google_pay, apple_pay)
+    if (!["card", "google_pay", "apple_pay"].includes(pm.type)) return false;
     
     const expMonth = pm.exp_month || pm.metadata?.exp_month;
     const expYear = pm.exp_year || pm.metadata?.exp_year;
@@ -217,6 +217,10 @@ const PaymentMethods = () => {
               <div className="text-2xl">
                 {pm.type === "link" ? (
                   <LinkIcon color="primary" />
+                ) : pm.type === "google_pay" ? (
+                  <img src="/images/googlePay.png" alt="Google Pay" className="w-6 h-6 object-contain" />
+                ) : pm.type === "apple_pay" ? (
+                  <img src="/images/applePay.png" alt="Apple Pay" className="w-6 h-6 object-contain" />
                 ) : (
                   <CreditCardIcon color={expired ? "error" : "primary"} />
                 )}
@@ -225,7 +229,11 @@ const PaymentMethods = () => {
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className={`font-semibold text-sm ${expired ? 'line-through' : ''}`}>
                     {pm.type === "link" 
-                      ? `🔗 Stripe Link - ${anonymizeEmail(pm.metadata?.email)}`
+                      ? `Stripe Link - ${anonymizeEmail(pm.metadata?.email)}`
+                      : pm.type === "google_pay"
+                      ? `GPay - ${getBrandIcon(pm.brand || pm.metadata?.brand)} •••• ${pm.last4 || pm.metadata?.last4}`
+                      : pm.type === "apple_pay"
+                      ? `ApplePay - ${getBrandIcon(pm.brand || pm.metadata?.brand)} •••• ${pm.last4 || pm.metadata?.last4}`
                       : `${getBrandIcon(pm.brand || pm.metadata?.brand)} •••• ${pm.last4 || pm.metadata?.last4}`
                     }
                   </span>
@@ -256,7 +264,7 @@ const PaymentMethods = () => {
                     />
                   )}
                 </div>
-                {(pm.exp_month || pm.metadata?.exp_month) && (
+                {["card", "google_pay", "apple_pay"].includes(pm.type) && (pm.exp_month || pm.metadata?.exp_month) && (
                   <span className={`text-xs ${expired ? 'text-red-500' : 'text-content-500'}`}>
                     {t("paymentMethods.expires")} {pm.exp_month || pm.metadata?.exp_month}/
                     {pm.exp_year || pm.metadata?.exp_year}

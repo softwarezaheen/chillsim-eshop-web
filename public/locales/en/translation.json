@@ -1284,7 +1284,7 @@
   },
   "autoTopup": {
     "promptTitle": "Enable Auto Top-Up",
-    "promptDescription": "Never run out of data! When your usage reaches 80%, we'll automatically recharge with {{bundle}} ({{data}}, {{validity}}) using your saved payment method.",
+    "promptDescription": "Never run out of data! When your usage reaches 80%, we'll automatically recharge with {{bundle}} ({{data}}, {{validity}}) using your default saved payment method.",
     "enableButton": "Enable Auto Top-Up",
     "enabling": "Enabling…",
     "enabledSuccess": "Auto top-up has been enabled!",
