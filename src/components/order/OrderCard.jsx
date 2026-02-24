@@ -1,6 +1,7 @@
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import LanguageIcon from "@mui/icons-material/Language";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import WifiIcon from "@mui/icons-material/Wifi";
@@ -28,6 +29,30 @@ const OrderCard = ({ order }) => {
   const [collapseElement, setCollapseElement] = useState(null);
   const [openOrderReceipt, setOpenOrderReceipt] = useState(false);
 
+  const getOrderTypeIcon = (orderType) => {
+    switch (orderType) {
+      case "Topup":
+        return "/media/esimTopUp.png";
+      case "AutoTopup":
+        return "/media/esimAutoTopUp.png";
+      case "Assign":
+      default:
+        return "/media/esim.png";
+    }
+  };
+
+  const getOrderTypeLabel = (orderType) => {
+    switch (orderType) {
+      case "Topup":
+        return t("orders.orderTypeTopup");
+      case "AutoTopup":
+        return t("orders.orderTypeAutoTopup");
+      case "Assign":
+      default:
+        return t("orders.orderTypeNewEsim");
+    }
+  };
+
   const { data: orderDetail, isLoading } = useQuery({
     queryKey: [`${collapseElement}-order-history-id`, collapseElement],
     queryFn: () =>
@@ -50,9 +75,9 @@ const OrderCard = ({ order }) => {
     <Card key={order.order_number || order?.iccid}>
       <CardContent className={"flex flex-col gap-[1rem]"}>
         <div className="flex flex-row justify-between items-start w-full">
-          <div className="flex flex-row gap-6 items-center flex-1 min-w-0">
+          <div className="flex flex-row gap-3 items-center flex-1 min-w-0">
             <Avatar
-              src={order?.bundle_details?.icon}
+              src={getOrderTypeIcon(order?.order_type)}
               alt={
                 order?.bundle_details?.display_title ||
                 order?.bundle_details?.label_name ||
@@ -60,9 +85,8 @@ const OrderCard = ({ order }) => {
               }
               sx={{ width: 45, height: 45, display: { xs: 'none', sm: 'flex' } }}
             >
-              {/* fallback image */}
               <img
-                src="/media/global.svg"
+                src="/media/esim.png"
                 className="bg-white"
                 alt={
                   order?.bundle_details?.display_title ||
@@ -72,17 +96,23 @@ const OrderCard = ({ order }) => {
               />
             </Avatar>
             <div className="flex flex-col justify-between items-start min-w-0 flex-1">
-              <div className="w-full overflow-hidden">
-                <p className="text-base sm:text-xl font-bold text-primary truncate w-full">
-                  <span dir="ltr" className="truncate">
-                    {order?.bundle_details?.display_title || order?.bundle_details?.label_name || ""}
-                  </span>
-                </p>
-              </div>
+              <p className="text-xs text-gray-500 hidden sm:block">
+                {getOrderTypeLabel(order?.order_type)}
+              </p>
+              <p className="text-base sm:text-xl font-bold text-primary truncate w-full hidden sm:block">
+                <span dir="ltr" className="truncate">
+                  {order?.bundle_details?.display_title || order?.bundle_details?.label_name || ""}
+                </span>
+              </p>
+              <p className="text-base font-bold text-primary truncate w-full sm:hidden">
+                <span dir="ltr" className="truncate">
+                  {order?.bundle_details?.display_title || order?.bundle_details?.label_name || ""}
+                </span>
+              </p>
             </div>
           </div>
           <div className="flex items-center flex-shrink-0 gap-2">
-            <div className="text-xl font-bold text-end hidden sm:block text-primary">
+            <div className="text-xl font-bold text-end hidden sm:block text-primary whitespace-nowrap">
               {/* <span dir="ltr">{order?.bundle_details?.price_display}</span> */}
               <span dir="ltr">{order?.order_display_price || ""}</span>
             </div>
@@ -97,7 +127,7 @@ const OrderCard = ({ order }) => {
                     : order?.bundle_details?.order_number || order?.order_number
                 )
               }
-              endIcon={<KeyboardArrowDownIcon />}
+              endIcon={collapseElement == (order?.bundle_details?.order_number || order?.order_number) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
               sx={{ textTransform: "none", color: "text.secondary" }}
             >
               {t("btn.details")}
@@ -105,9 +135,6 @@ const OrderCard = ({ order }) => {
           </div>
         </div>
 
-        <div className="text-xl font-bold items-center cursor-pointer text-end sm:hidden block">
-          {order?.order_display_price}
-        </div>
         <div className={"flex flex-wrap flex-row gap-[0.5rem]"}>
           <Chip
             size="small"
@@ -224,6 +251,16 @@ const OrderCard = ({ order }) => {
               </div>
             </CustomPopover>
           )}
+        </div>
+
+        {/* Mobile-only row: order type + price */}
+        <div className="flex sm:hidden flex-row justify-between items-center">
+          <p className="text-xs text-gray-500">
+            {getOrderTypeLabel(order?.order_type)}
+          </p>
+          <div className="text-xl font-bold text-primary whitespace-nowrap">
+            <span dir="ltr">{order?.order_display_price || ""}</span>
+          </div>
         </div>
 
         <Collapse

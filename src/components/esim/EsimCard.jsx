@@ -4,6 +4,7 @@ import AddToPhotosOutlinedIcon from "@mui/icons-material/AddToPhotosOutlined";
 import BoltIcon from "@mui/icons-material/Bolt";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import LanguageIcon from "@mui/icons-material/Language";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import QrCode2OutlinedIcon from "@mui/icons-material/QrCode2Outlined";
@@ -104,9 +105,9 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
     <Card key={order.order_number || order?.iccid}>
       <CardContent className={"flex flex-col gap-[1rem]"}>
         <div className="flex flex-row justify-between items-start w-full">
-          <div className="flex flex-row gap-6 items-center flex-1 min-w-0">
+          <div className="flex flex-row gap-3 items-center flex-1 min-w-0">
             <Avatar
-              src={order?.bundle_details?.icon}
+              src="/media/esim.png"
               alt={
                 order?.bundle_details?.display_title ||
                 order?.bundle_details?.bundle_name ||
@@ -116,7 +117,7 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
             >
               {/* fallback image */}
               <img
-                src="/media/global.svg"
+                src="/media/esim.png"
                 className="bg-white"
                 alt={
                   order?.bundle_details?.display_title ||
@@ -170,7 +171,7 @@ const EsimCard = ({ order, refetchData, isEnablingAutoTopup = false }) => {
                     : order?.bundle_details?.order_number || order?.order_number
                 )
               }
-              endIcon={<KeyboardArrowDownIcon />}
+              endIcon={collapseElement == (order?.bundle_details?.order_number || order?.order_number) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
               sx={{ textTransform: "none", color: "text.secondary" }}
             >
               {t("btn.details")}
