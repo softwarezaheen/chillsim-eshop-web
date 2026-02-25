@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import PopularDestinations from "../../components/popular-destinations/PopularDestinations";
+import DownloadAppSection from "../../components/home/DownloadAppSection";
 
 const PlansWrapper = () => {
   const { t } = useTranslation();
@@ -11,8 +12,8 @@ const PlansWrapper = () => {
   const showHeader = location.pathname === "/plans/land";
 
   return (
-    <div className="pb-12">
-      <div className="max-w-xxl mx-auto sm:px-6 lg:px-8">
+    <div>
+      <div className="max-w-xxl mx-auto sm:px-6 lg:px-8 pb-12">
         {showHeader && (
           <div className="text-center mb-6 sm:mb-10">
             <h1 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-4">
@@ -33,6 +34,10 @@ const PlansWrapper = () => {
         <PopularDestinations layout="compact" />
 
         <Outlet />
+      </div>
+
+      <div className="mt-12 -mb-8">
+        <DownloadAppSection />
       </div>
     </div>
   );

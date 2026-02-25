@@ -1187,6 +1187,10 @@
         "description": "Activează eSIM-ul când ajungi și bucură-te de conectivitate fără întreruperi"
       }
     },
+    "downloadApp": {
+      "title": "Descarcă Aplicația ChillSim",
+      "subtitle": "Gestionează-ți eSIM-urile oricând. Descarcă aplicația noastră gratuită pentru cea mai bună experiență."
+    },
     "benefits": {
       "title": "De Ce Să Alegi eSIM-ul Nostru?",
       "subtitle": "Experimentează conectivitate fără griji oriunde călătorești",

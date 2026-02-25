@@ -6,6 +6,7 @@ import TravelSearchWidget from "./TravelSearchWidget";
 import BundleTableCompact from "./BundleTableCompact";
 import BundleDetail from "../bundle/detail/BundleDetail";
 import HowItWorksSection from "./HowItWorksSection";
+import DownloadAppSection from "./DownloadAppSection";
 import BenefitsSection from "./BenefitsSection";
 import FAQSection from "./FAQSection";
 import PopularDestinations from "../popular-destinations/PopularDestinations";
@@ -489,6 +490,9 @@ const HomePageTemplate = ({
 
       {/* How It Works */}
       <HowItWorksSection />
+
+      {/* Download App */}
+      <DownloadAppSection />
 
       {/* Benefits */}
       <BenefitsSection />

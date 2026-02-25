@@ -11,7 +11,7 @@ import { validateReferralEligibility, loadReferralFromStorage } from "../../redu
 //API
 import { useHomeCountries } from "../../core/custom-hook/useHomeCountries";
 //COMPONENT
-import { DownloadButton } from "../../components/download/DownloadButton.jsx";
+
 import CountriesList from "../../components/country-section/CountriesList";
 import { CountriesSkeletons } from "../../components/shared/skeletons/HomePageSkeletons";
 import BundleTableCompact from "../../components/home/BundleTableCompact";
@@ -671,8 +671,6 @@ const Plans = (props) => {
           setShowAllCountries={setShowAllCountries}
         />
       )}
-
-      <DownloadButton />
 
       {searchParams.get("order_id") && hoorayOpen && (
         <PaymentCompletion

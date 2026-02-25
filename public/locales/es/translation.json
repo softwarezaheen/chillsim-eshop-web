@@ -1192,6 +1192,10 @@
         "description": "Activa tu eSIM cuando llegues y disfruta de conectividad sin interrupciones"
       }
     },
+    "downloadApp": {
+      "title": "Descarga la App de ChillSim",
+      "subtitle": "Gestiona tus eSIMs donde quieras. Descarga nuestra app gratuita para la mejor experiencia."
+    },
     "benefits": {
       "title": "¿Por Qué Elegir Nuestra eSIM?",
       "subtitle": "Experimenta conectividad sin complicaciones donde quiera que viajes",
