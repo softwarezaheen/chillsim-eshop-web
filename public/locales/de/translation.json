@@ -1169,7 +1169,8 @@
     },
     "downloadApp": {
       "title": "Holen Sie Sich die ChillSim App",
-      "subtitle": "Verwalten Sie Ihre eSIMs unterwegs. Laden Sie unsere kostenlose App für das beste Erlebnis herunter."
+      "subtitle": "Verwalten Sie Ihre eSIMs unterwegs. Laden Sie unsere kostenlose App für das beste Erlebnis herunter.",
+      "button": "Herunterladen"
     },
     "benefits": {
       "title": "Warum Unsere eSIM Wählen?",

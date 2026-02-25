@@ -1189,7 +1189,8 @@
     },
     "downloadApp": {
       "title": "Descarcă Aplicația ChillSim",
-      "subtitle": "Gestionează-ți eSIM-urile oricând. Descarcă aplicația noastră gratuită pentru cea mai bună experiență."
+      "subtitle": "Gestionează-ți eSIM-urile oricând. Descarcă aplicația noastră gratuită pentru cea mai bună experiență.",
+      "button": "Descarcă"
     },
     "benefits": {
       "title": "De Ce Să Alegi eSIM-ul Nostru?",

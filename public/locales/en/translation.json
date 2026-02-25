@@ -1201,7 +1201,8 @@
     },
     "downloadApp": {
       "title": "Get the ChillSim App",
-      "subtitle": "Manage your eSIMs on the go. Download our free app for the best experience."
+      "subtitle": "Manage your eSIMs on the go. Download our free app for the best experience.",
+      "button": "Download App"
     },
     "benefits": {
       "title": "Why Choose Our eSIM?",

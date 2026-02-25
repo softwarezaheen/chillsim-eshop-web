@@ -65,7 +65,7 @@ const TravelSearchWidget = ({
       }}
     >
       {/* Search Header */}
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex items-center gap-2 mb-4 text-center justify-center">
         <Wifi className="text-white" />
         <h3 className="text-lg font-semibold text-white">
           {t("home.search.title")}

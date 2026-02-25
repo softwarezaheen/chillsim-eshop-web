@@ -14,7 +14,7 @@ import PopularDestinations from "../popular-destinations/PopularDestinations";
 import { useHomeCountries } from "../../core/custom-hook/useHomeCountries";
 import { getBundlesByCountry } from "../../core/apis/homeAPI";
 //MUI
-import { CircularProgress, Typography, Button, Switch } from "@mui/material";
+import { CircularProgress, Typography, Button, Switch, useMediaQuery } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
@@ -306,14 +306,17 @@ const HomePageTemplate = ({
     setSelectedBundle(null);
   }, []);
 
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   // Random hero background image
   const heroBackgrounds = useMemo(() => [
-    "/images/backgrounds/home_shutterstock_1939831561.jpg",
-    "/images/backgrounds/home_shutterstock_2620973827.jpg",
-    "/images/backgrounds/home_shutterstock_424964827.jpg",
+    // desktopPosition defaults to "center", mobilePosition shifts focal point on small screens
+    { src: "/images/backgrounds/home_shutterstock_1939831561.jpg", mobilePosition: "center" },
+    { src: "/images/backgrounds/home_shutterstock_2620973827.jpg", mobilePosition: "center" },
+    { src: "/images/backgrounds/home_shutterstock_424964827.jpg",  mobilePosition: "70% center" },
   ], []);
 
-  const [heroImage] = useState(() => 
+  const [heroImageObj] = useState(() =>
     heroBackgrounds[Math.floor(Math.random() * heroBackgrounds.length)]
   );
 
@@ -323,9 +326,10 @@ const HomePageTemplate = ({
       <section className="relative h-screen w-full overflow-hidden">
         {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center scale-105"
+          className="absolute inset-0 bg-cover scale-105"
           style={{
-            backgroundImage: `url(${heroImage})`,
+            backgroundImage: `url(${heroImageObj.src})`,
+            backgroundPosition: isMobile ? heroImageObj.mobilePosition : "center",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
@@ -370,6 +374,32 @@ const HomePageTemplate = ({
               setSelectedDuration={setSelectedDuration}
               onSearch={handleSearch}
             />
+            {/* Download App Button */}
+            <div className="mt-12 flex justify-center">
+              <button
+                onClick={() => {
+                  const ua = navigator.userAgent || "";
+                  if (/android/i.test(ua)) {
+                    window.location.href = "https://play.google.com/store/apps/details?id=zaheen.esim.chillsim";
+                  } else if (/iphone|ipad|ipod/i.test(ua)) {
+                    window.location.href = "https://apps.apple.com/us/app/chillsim-travel-esim/id6747967151";
+                  } else {
+                    window.open("https://chillsim.net/download", "_blank");
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white whitespace-nowrap transition-all hover:scale-105 active:scale-95"
+                style={{
+                  background: "rgba(255,255,255,0.15)",
+                  backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)",
+                  border: "1px solid rgba(255,255,255,0.3)",
+                }}
+              >
+                <img src="/media/apple.svg" alt="" style={{ width: 18, height: 18 }} />
+                <img src="/media/googlePlay.svg" alt="" style={{ width: 18, height: 18 }} />
+                {t("home.downloadApp.button")}
+              </button>
+            </div>
           </div>
         </div>
 

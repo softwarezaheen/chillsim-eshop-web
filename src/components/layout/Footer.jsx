@@ -83,33 +83,40 @@ const Footer = () => {
             </a>
           </div>
 
-          {i18n.language === "ro" && ( <div className="text-center">
-              <div className="flex justify-center">
-                <a 
-                  href="https://anpc.ro/ce-este-sal/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="/images/anpc-sal.png"
-                    alt="Logo ANPC"
-                    className="max-h-10 object-contain"
-                  />
-                </a>
-              </div>
-              <div className="flex justify-center"> 
-                <a
-                  href="https://ec.europa.eu/consumers/odr"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src="/images/anpc-sol.png"
-                    alt="Logo ANPC"
-                    className="max-h-12 object-contain"
-                  />
-                </a>
-              </div>
+          {i18n.language === "ro" && ( <div className="text-center flex flex-col items-center gap-2">
+              <a 
+                href="https://anpc.ro/ce-este-sal/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/images/anpc-sal.png"
+                  alt="Logo ANPC"
+                  className="w-40 object-contain"
+                />
+              </a>
+              <a
+                href="https://ec.europa.eu/consumers/odr"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/images/anpc-sol.png"
+                  alt="Logo ANPC"
+                  className="w-40 object-contain"
+                />
+              </a>
+              <a 
+                href="https://www.anat.ro/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/images/anat.png"
+                  alt="Logo ANAT"
+                  className="w-40 object-contain"
+                />
+              </a>
           </div>)}
 
 
@@ -118,7 +125,7 @@ const Footer = () => {
         {/* Bottom Links */}
         <div className=" pt-2 border-t border-white">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-6 mb-4 gap-2 md:mb-0">
+            <div className="flex flex-col items-center md:flex-row md:items-center md:space-x-4 gap-2 mb-4 md:mb-0">
               <Link
                 to={"/privacy"}
                 onClick={() => handleNavigation()}

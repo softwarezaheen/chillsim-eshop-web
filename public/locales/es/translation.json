@@ -1194,7 +1194,8 @@
     },
     "downloadApp": {
       "title": "Descarga la App de ChillSim",
-      "subtitle": "Gestiona tus eSIMs donde quieras. Descarga nuestra app gratuita para la mejor experiencia."
+      "subtitle": "Gestiona tus eSIMs donde quieras. Descarga nuestra app gratuita para la mejor experiencia.",
+      "button": "Descargar"
     },
     "benefits": {
       "title": "¿Por Qué Elegir Nuestra eSIM?",
