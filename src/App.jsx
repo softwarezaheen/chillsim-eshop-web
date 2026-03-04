@@ -16,6 +16,7 @@ import { loadReferralFromStorage } from "./redux/reducers/referralReducer";
 import { setDayjsLocale } from "./components/dayjsSetup.js";
 import { supportWhatsappPhone } from "./core/variables/ProjectVariables";
 import { useAffiliateTracking } from "./core/custom-hook/useAffiliateTracking";
+import { useUtmTracking } from "./core/custom-hook/useUtmTracking";
 
 // iOS in-app browser detection
 const isIOSInAppBrowser = () => {
@@ -33,6 +34,9 @@ function App() {
   
   // Track affiliate visits from URL parameters
   useAffiliateTracking();
+  
+  // Capture UTM parameters for customer source attribution
+  useUtmTracking();
   
   // Welcome offer popup for new visitors
   const welcomeOffer = useWelcomeOffer();

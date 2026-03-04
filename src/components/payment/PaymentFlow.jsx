@@ -340,6 +340,19 @@ const PaymentFlow = (props) => {
       referral_code: referredBy || "",
       affiliate_code: "",
       enable_auto_topup: shouldEnableAutoTopup,
+      // UTM attribution data from localStorage (first-touch, 30-day window)
+      ...(() => {
+        try {
+          const raw = localStorage.getItem("utm_data");
+          if (!raw) return {};
+          const parsed = JSON.parse(raw);
+          return {
+            ...(parsed.utm_source ? { utm_source: parsed.utm_source } : {}),
+            ...(parsed.utm_medium ? { utm_medium: parsed.utm_medium } : {}),
+            ...(parsed.utm_campaign ? { utm_campaign: parsed.utm_campaign } : {}),
+          };
+        } catch { return {}; }
+      })(),
     };
     
     // Add payment_method_id ONLY for actual saved payment methods (pm_xxx, card_xxx, ba_xxx)
