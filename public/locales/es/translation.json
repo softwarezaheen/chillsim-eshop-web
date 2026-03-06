@@ -323,6 +323,10 @@
     "Plan Not Started": "Plan No Iniciado",
     "Expired": "Vencido",
     "Pending": "Pendiente",
+    "pending": "Pendiente",
+    "active": "Activo",
+    "depleted": "Agotado",
+    "expired": "Vencido",
     "popularDestinations": {
       "title": "Explora Destinos de Viaje Populares",
       "subtitle": "Conectividad instantánea en los destinos más visitados del mundo",

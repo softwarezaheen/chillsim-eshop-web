@@ -323,6 +323,10 @@
     "Plan Not Started": "Tarif nicht gestartet",
     "Expired": "Abgelaufen",
     "Pending": "Ausstehend",
+    "pending": "Ausstehend",
+    "active": "Aktiv",
+    "depleted": "Aufgebraucht",
+    "expired": "Abgelaufen",
     "popularDestinations": {
       "title": "Beliebte Reiseziele Entdecken",
       "subtitle": "Sofortige Konnektivität in den meistbesuchten Reisezielen der Welt",

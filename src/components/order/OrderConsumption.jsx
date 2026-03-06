@@ -79,7 +79,7 @@ const OrderConsumption = ({ onClose, data, isLoading }) => {
                   {isLoading ? (
                     <Skeleton width={50} />
                   ) : (
-                    t(`plans.${data?.plan_status}`)
+                    t(`plans.${data?.plan_status?.toLowerCase()}`)
                   )}
                 </p>
               </div>

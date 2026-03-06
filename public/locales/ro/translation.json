@@ -317,6 +317,10 @@
     "Plan Not Started": "Plan neactivat",
     "Expired": "Expirat",
     "Pending": "În așteptare",
+    "pending": "În așteptare",
+    "active": "Activ",
+    "depleted": "Epuizat",
+    "expired": "Expirat",
     "popularDestinations": {
       "title": "Explorează Destinații Populare",
       "subtitle": "Conectivitate instantanee în cele mai vizitate destinații din lume",

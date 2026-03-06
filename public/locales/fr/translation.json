@@ -323,6 +323,10 @@
     "Plan Not Started": "Forfait Non Commencé",
     "Expired": "Expiré",
     "Pending": "En Attente",
+    "pending": "En attente",
+    "active": "Actif",
+    "depleted": "Épuisé",
+    "expired": "Expiré",
     "popularDestinations": {
       "title": "Découvrez les Destinations de Voyage Populaires",
       "subtitle": "Connectivité instantanée dans les destinations les plus visitées au monde",

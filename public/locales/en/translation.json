@@ -323,6 +323,10 @@
     "Plan Not Started": "Plan Not Started",
     "Expired": "Expired",
     "Pending": "Pending",
+    "pending": "Pending",
+    "active": "Active",
+    "depleted": "Depleted",
+    "expired": "Expired",
     "popularDestinations": {
       "title": "Explore Popular Travel Destinations",
       "subtitle": "Get instant connectivity in the world's most visited destinations",
