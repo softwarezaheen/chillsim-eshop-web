@@ -26,11 +26,10 @@ export const clearCacheIfVersionChanged = (newVersion) => {
       // Clear old cache key (legacy)
       localStorage.removeItem(API_CACHE_KEY);
       
-      // Clear language-specific cache keys
-      const languages = ['en', 'ro', 'es', 'fr'];
-      languages.forEach(lang => {
-        localStorage.removeItem(`home_countries_cache_${lang}`);
-      });
+      // Clear all locale cache entries dynamically (no hardcoded language list)
+      Object.keys(localStorage)
+        .filter(k => k.startsWith('home_countries_cache_'))
+        .forEach(k => localStorage.removeItem(k));
       
       setStoredVersion(newVersion);
       return true;

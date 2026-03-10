@@ -1,13 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { getBundlesVersion } from "../apis/bundlesAPI";
 import { queryClient } from "../../main";
 
-const VERSION_CHECK_INTERVAL = 5 * 60 * 1000; // 5 minutes
+const VERSION_CHECK_INTERVAL = 15 * 60 * 1000; // 15 minutes
 const BUNDLES_VERSION_STORAGE_KEY = "app_bundles_version";
 
 export const useBundlesVersionChecker = () => {
-  const [updateAvailable, setUpdateAvailable] = useState(false);
-  const [newVersion, setNewVersion] = useState(null);
   const intervalRef = useRef(null);
   const isCheckingRef = useRef(false);
 
@@ -26,13 +24,6 @@ export const useBundlesVersionChecker = () => {
 
   const checkVersion = async () => {
     if (isCheckingRef.current) return;
-    
-    // Skip check if we just reloaded (clear the flag after skipping)
-    if (sessionStorage.getItem('bundles_just_reloaded') === 'true') {
-      console.log('📦 Skipping version check - just reloaded');
-      sessionStorage.removeItem('bundles_just_reloaded');
-      return;
-    }
     
     try {
       isCheckingRef.current = true;
@@ -54,46 +45,27 @@ export const useBundlesVersionChecker = () => {
         return;
       }
 
-      // Version mismatch - bundles updated
+      // Version mismatch - silently refresh the cache without interrupting the user
       if (storedVersion !== serverVersion) {
-        console.log(`📦 New bundles version: ${storedVersion} → ${serverVersion}`);
-        setNewVersion(serverVersion);
-        setUpdateAvailable(true);
+        console.log(`📦 New bundles version: ${storedVersion} → ${serverVersion}. Refreshing cache silently.`);
+
+        // Clear all locale cache entries dynamically (no hardcoded language list)
+        Object.keys(localStorage)
+          .filter(k => k.startsWith('home_countries_cache_'))
+          .forEach(k => localStorage.removeItem(k));
+        localStorage.removeItem('react-query-cache');
+
+        // Update stored version
+        localStorage.setItem(BUNDLES_VERSION_STORAGE_KEY, serverVersion);
+
+        // Invalidate in-memory React Query so home data refetches transparently
+        queryClient.invalidateQueries({ queryKey: ["home-countries"] });
       }
     } catch (error) {
       console.warn("Bundles version check failed:", error.message);
     } finally {
       isCheckingRef.current = false;
     }
-  };
-
-  const reloadApp = () => {
-    if (!newVersion) return;
-    
-    // Set a flag to indicate we just reloaded (prevent immediate re-check)
-    sessionStorage.setItem('bundles_just_reloaded', 'true');
-    
-    // Clear all bundle-related caches
-    const languages = ['en', 'ro', 'es', 'fr'];
-    languages.forEach(lang => {
-      localStorage.removeItem(`home_countries_cache_${lang}`);
-    });
-    
-    // Clear React Query persisted cache
-    localStorage.removeItem('react-query-cache');
-    
-    // Invalidate React Query in-memory cache
-    queryClient.removeQueries({ queryKey: ["home-countries"] });
-    
-    // Update version in localStorage
-    localStorage.setItem(BUNDLES_VERSION_STORAGE_KEY, newVersion);
-    
-    // Reload page
-    window.location.reload(true);
-  };
-
-  const dismissUpdate = () => {
-    setUpdateAvailable(false);
   };
 
   useEffect(() => {
@@ -112,8 +84,8 @@ export const useBundlesVersionChecker = () => {
   }, []);
 
   return {
-    updateAvailable,
-    reloadApp,
-    dismissUpdate,
+    updateAvailable: false,
+    reloadApp: () => {},
+    dismissUpdate: () => {},
   };
 };
