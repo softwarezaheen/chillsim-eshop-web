@@ -160,6 +160,10 @@
     "paymentMethods": "Metode de plată"
   },
   "referral": {
+    "milestones": {
+      "progress": "{{count}} din {{total}} recomandări în acest ciclu",
+      "cycleLabel": "Se resetează la fiecare ciclu"
+    },
     "discountActive": "🎉 Reducere de Recomandare Activă!",
     "discountMessage": "Primești {{percentage}}% reducere mulțumită {{referrerName}}",
     "youSave": "Economisești",
@@ -187,7 +191,7 @@
       "useNew": "Folosește Cod Nou"
     },
     "program": {
-      "earnRewards": "Câștigă Recompense Recomandând Prieteni",
+      "earnRewards": "Câștigă Chill Credits Recomandând Prieteni",
       "youGet": "Tu Primești",
       "youGetDescription": "Câștigă {{amount}} {{currency}} în portofel pentru fiecare prieten care se înregistrează și face prima achiziție",
       "friendGets": "Prietenul Tău Primește",
@@ -203,7 +207,13 @@
       "shareEmailSubject": "Primești {{percentage}}% reducere la prima achiziție ChillSIM!",
       "shareEmailBody": "Bună! Am folosit ChillSIM pentru eSIM-urile mele de călătorie și m-am gândit că ți-ar putea plăcea și ție. Folosește linkul meu de recomandare pentru a te înregistra și primești {{percentage}}% reducere la prima achiziție: {{link}}",
       "shareWhatsappMessage": "Bună! Alătură-te ChillSIM folosind linkul meu de recomandare și primești {{percentage}}% reducere la prima achiziție: {{link}}",
-      "shareTwitterMessage": "Primește {{percentage}}% reducere la primul tău eSIM ChillSIM! Folosește linkul meu de recomandare: {{link}}"
+      "shareTwitterMessage": "Primește {{percentage}}% reducere la primul tău eSIM ChillSIM! Folosește linkul meu de recomandare: {{link}}",
+      "milestonesTitle": "Etape Bonus",
+      "milestone5Label": "5 recomandări",
+      "milestone10Label": "10 recomandări",
+      "yourProgress": "{{count}} din {{total}} recomandări în acest ciclu",
+      "bonusMilestone5": "Bonus la 5 recomandări",
+      "bonusMilestone10": "Bonus la 10 recomandări"
     },
     "rewardsHistory": "Istoricul Recompenselor",
     "noRewardsYet": "Nicio recompensă încă",
@@ -603,7 +613,12 @@
     "signUpToSave": "Începe să Economisești",
     "signUpForOffers": "Obține Oferte",
     "referralProgram": {
-      "title": "Recomandă Prieteni, Câștigă Recompense",
+      "title": "Recomandă Prieteni, Câștigă Chill Credits",
+      "inviteFriends": "Invită Prieteni. Câștigă Chill Credits.",
+      "shareText": "Distribuie ChillSIM prietenilor și amândoi beneficiați — plus deblochezi etape bonus.",
+      "bonusMilestones": "Etape bonus",
+      "milestone5Label": "5 recomandări",
+      "milestone10Label": "10 recomandări",
       "description": "Împărtășește experiența și primește recompense! Fiecare prieten recomandat care face prima achiziție îți aduce credite instant în portofel.",
       "yourReward": "Tu Câștigi",
       "friendReward": "Prietenul Tău Primește",
@@ -614,23 +629,15 @@
       "cta": "Obține Link"
     },
     "cashback": {
-      "title": "Cashback la Comenzi Recurente",
-      "description": "Loialitate care plătește! Cu cât călătorești și rămâi conectat mai mult cu noi, cu atât economisești mai mult. Bucură-te de cashback automat la achizițiile recurente.",
-      "earnBack": "Câștigi Înapoi",
-      "savingsGoal": "Economii inteligente la fiecare călătorie",
-      "benefit1": "Cashback automat aplicat după achizițiile eligibile",
-      "benefit2": "Credite depuse direct în portofel",
-      "benefit3": "Combină cu alte promoții pentru economii maxime",
+      "title": "Recompense de Conectivitate",
+      "description": "Rămâi conectat cu ChillSIM și câștigă credite de călătorie.",
+      "earnBack": "{{percentage}}% înapoi la achizițiile recurente",
+      "earned": "Total câștigat",
+      "benefit1": "Adăugate automat în portofel",
+      "benefit2": "Folosește creditele pe orice plan viitor",
+      "benefit3": "Combină cu promoții și recomandări",
+      "benefit4": "Mai multe călătorii. Mai multe recompense.",
       "cta": "Vezi Portofel"
-    },
-    "promotions": {
-      "title": "Promoții și Oferte Exclusive",
-      "description": "Fii primul care află de reducerile flash, ofertele sezoniere și ofertele cu durată limitată. Selectăm cele mai bune oferte special pentru tine.",
-      "benefit1": "Acces anticipat la reducerile sezoniere și ofertele flash",
-      "benefit2": "Oferte personalizate în funcție de destinațiile tale de călătorie",
-      "benefit3": "Surprize speciale de ziua ta și bonusuri de loialitate",
-      "receiving": "Primești oferte promoționale",
-      "notReceiving": "Activează pentru a primi oferte exclusive"
     },
     "howItWorks": {
       "title": "Cum Funcționează",
@@ -671,11 +678,9 @@
       "dontShowAgain": "Nu mai afișa aceasta"
     },
     "inline": {
-      "title": "🎉 Vrei să economisești și mai mult?",
-      "description": "Activează notificările promoționale pentru a primi oferte exclusive, vânzări flash și promoții personalizate adaptate destinațiilor tale de călătorie.",
-      "toggleEnabled": "Primești oferte exclusive",
-      "toggleDisabled": "Da, trimite-mi oferte exclusive!",
-      "disclaimer": "Poți modifica preferințele oricând din Informații Cont. Trimitem doar oferte valoroase—fără spam!"
+      "title": "Oferte Travel SIM",
+      "description": "Ca și client existent ChillSIM, aveți dreptul la promoții speciale exclusiv pentru clienți.",
+      "optOutLabel": "Nu doresc să primesc e-mailuri despre produse și servicii similare de la ChillSIM. Vă puteți dezabona oricând, gratuit, prin linkul de dezabonare din fiecare e-mail."
     }
   },
   "studentDiscounts": {

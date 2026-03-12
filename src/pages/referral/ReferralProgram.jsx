@@ -17,11 +17,19 @@ import ShareIcon from "@mui/icons-material/Share";
 import EmailIcon from "@mui/icons-material/Email";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import { Twitter as XIcon } from "@mui/icons-material";
+const XIcon = ({ size = 20 }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622z" />
+  </svg>
+);
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import PeopleIcon from "@mui/icons-material/People";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import StarIcon from "@mui/icons-material/Star";
 //SHARED COMPONENTS
 import RewardsHistory from "../../components/referral/RewardsHistory";
+import MilestoneProgress from "../../components/referral/MilestoneProgress";
+import { getReferralProgress } from "../../core/apis/referralAPI";
 
 /**
  * ReferralProgram Page
@@ -40,6 +48,10 @@ const ReferralProgram = () => {
     referred_discount_percentage 
   } = useSelector((state) => state.currency);
   const [copied, setCopied] = useState(false);
+  const [positionInCycle, setPositionInCycle] = useState(0);
+  const [milestone5Bonus, setMilestone5Bonus] = useState("15");
+  const [milestone10Bonus, setMilestone10Bonus] = useState("20");
+  const [cycleSize, setCycleSize] = useState(10);
 
   const referralCode = user_info?.referral_code;
   const baseUrl = window.location.origin;
@@ -48,6 +60,26 @@ const ReferralProgram = () => {
   const currency = user_currency?.currency || system_currency || "EUR";
   const referralAmount = referral_amount || "10";
   const discountPercentage = referred_discount_percentage || "10";
+
+  // Load config + referral progress on mount
+  React.useEffect(() => {
+    try {
+      const configurations = sessionStorage.getItem("configurations");
+      if (configurations) {
+        const cfg = JSON.parse(configurations);
+        setMilestone5Bonus(cfg.REFERRAL_MILESTONE_5_BONUS || "15");
+        setMilestone10Bonus(cfg.REFERRAL_MILESTONE_10_BONUS || "20");
+        setCycleSize(parseInt(cfg.REFERRAL_MILESTONE_CYCLE_SIZE, 10) || 10);
+      }
+    } catch (_) {}
+    getReferralProgress()
+      .then((res) => {
+        if (res?.data?.data) {
+          setPositionInCycle(res.data.data.position_in_cycle ?? 0);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   /**
    * Copy referral link to clipboard
@@ -135,7 +167,7 @@ const ReferralProgram = () => {
           </div>
 
           {/* Rewards Explanation */}
-          <div className="grid md:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <div className="grid md:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
             <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
               <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                 <CardGiftcardIcon className="text-primary" sx={{ fontSize: { xs: 20, sm: 28 } }} />
@@ -147,6 +179,27 @@ const ReferralProgram = () => {
                   currency: currency,
                 })}
               </p>
+            </div>
+
+            <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <EmojiEventsIcon sx={{ fontSize: { xs: 20, sm: 28 }, color: "#906bae" }} />
+                <h3 className="font-bold text-sm sm:text-base">{t("referral.program.milestonesTitle")}</h3>
+              </div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="flex items-center gap-1 text-xs text-gray-600">
+                  <StarIcon sx={{ fontSize: 13, color: "#906bae" }} />
+                  {t("referral.program.milestone5Label")}
+                </span>
+                <span className="text-sm font-bold text-primary-700">+€{milestone5Bonus}</span>
+              </div>
+              <div className="flex items-center justify-between border-t border-gray-100 pt-1.5">
+                <span className="flex items-center gap-1 text-xs text-gray-600">
+                  <EmojiEventsIcon sx={{ fontSize: 13, color: "#906bae" }} />
+                  {t("referral.program.milestone10Label")}
+                </span>
+                <span className="text-sm font-bold text-primary-700">+€{milestone10Bonus}</span>
+              </div>
             </div>
 
             <div className="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm">
@@ -235,11 +288,35 @@ const ReferralProgram = () => {
                     padding: { xs: "6px", sm: "8px" }
                   }}
                 >
-                  <XIcon sx={{ fontSize: { xs: 18, sm: 20 } }} />
+                  <XIcon size={20} />
                 </IconButton>
               </Tooltip>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Milestone Progress Section */}
+      <Card>
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex items-center gap-2 sm:gap-3 mb-4">
+            <div className="bg-primary/10 p-2 rounded-full">
+              <EmojiEventsIcon className="text-primary" sx={{ fontSize: { xs: 20, sm: 28 } }} />
+            </div>
+            <div>
+              <h2 className="text-base sm:text-lg font-bold">{t("referral.program.milestonesTitle")}</h2>
+              <p className="text-xs text-gray-500">{t("referral.milestones.cycleLabel")}</p>
+            </div>
+          </div>
+
+          <MilestoneProgress
+            positionInCycle={positionInCycle}
+            cycleSize={cycleSize}
+            milestone5Bonus={milestone5Bonus}
+            milestone10Bonus={milestone10Bonus}
+            currency={currency}
+            compact={false}
+          />
         </CardContent>
       </Card>
 

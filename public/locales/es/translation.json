@@ -160,6 +160,10 @@
     "paymentMethods": "Métodos de pago"
   },
   "referral": {
+    "milestones": {
+      "progress": "{{count}} de {{total}} referidos este ciclo",
+      "cycleLabel": "Se reinicia cada ciclo"
+    },
     "discountActive": "🎉 ¡Descuento Activo!",
     "discountMessage": "Obtén {{percentage}}% de descuento gracias a {{referrerName}}",
     "youSave": "Ahorras",
@@ -187,7 +191,7 @@
       "useNew": "Usar Nuevo"
     },
     "program": {
-      "earnRewards": "Gana Recompensas Refiriendo Amigos",
+      "earnRewards": "Gana Chill Credits Refiriendo Amigos",
       "youGet": "Tú Obtienes",
       "youGetDescription": "Gana {{amount}} {{currency}} en tu billetera por cada amigo que se registre y haga su primera compra",
       "friendGets": "Tu Amigo Obtiene",
@@ -203,7 +207,13 @@
       "shareEmailSubject": "¡Obtén {{percentage}}% de descuento en tu primera compra de ChillSIM!",
       "shareEmailBody": "¡Hola! He estado usando ChillSIM para mis eSIMs de viaje y pensé que te podría interesar. Usa mi enlace de referido para registrarte y obtener {{percentage}}% de descuento en tu primera compra: {{link}}",
       "shareWhatsappMessage": "¡Hola! Únete a ChillSIM usando mi enlace y obtén {{percentage}}% de descuento en tu primera compra: {{link}}",
-      "shareTwitterMessage": "¡Obtén {{percentage}}% de descuento en tu primera eSIM de ChillSIM! Usa mi enlace: {{link}}"
+      "shareTwitterMessage": "¡Obtén {{percentage}}% de descuento en tu primera eSIM de ChillSIM! Usa mi enlace: {{link}}",
+      "milestonesTitle": "Hitos Bonus",
+      "milestone5Label": "5 referidos",
+      "milestone10Label": "10 referidos",
+      "yourProgress": "{{count}} de {{total}} referidos este ciclo",
+      "bonusMilestone5": "Bonus en 5 referidos",
+      "bonusMilestone10": "Bonus en 10 referidos"
     },
     "rewardsHistory": "Historial de Recompensas",
     "noRewardsYet": "Aún no hay recompensas",
@@ -608,7 +618,12 @@
     "signUpToSave": "Comienza a Ahorrar",
     "signUpForOffers": "Obtener Ofertas",
     "referralProgram": {
-      "title": "Refiere Amigos, Gana Recompensas",
+      "title": "Refiere Amigos, Gana Chill Credits",
+      "inviteFriends": "Invita Amigos. Gana Chill Credits.",
+      "shareText": "Comparte ChillSIM con amigos y ambos se benefician — además desbloquean hitos bonus.",
+      "bonusMilestones": "Hitos bonus",
+      "milestone5Label": "5 referidos",
+      "milestone10Label": "10 referidos",
       "description": "¡Comparte el amor y recibe recompensas! Cada amigo que refieras que haga su primera compra te gana créditos instantáneos en tu billetera.",
       "yourReward": "Tú Ganas",
       "friendReward": "Tu Amigo Recibe",
@@ -619,23 +634,15 @@
       "cta": "Obtener Link de Referido"
     },
     "cashback": {
-      "title": "Cashback en Pedidos Recurrentes",
-      "description": "¡Lealtad que paga! Cuanto más viajas y te mantienes conectado con nosotros, más ahorras. Disfruta de cashback automático en compras recurrentes.",
-      "earnBack": "Ganas de Vuelta",
-      "savingsGoal": "Ahorros inteligentes en cada viaje",
-      "benefit1": "Cashback automático aplicado después de compras calificadas",
-      "benefit2": "Créditos depositados directamente en tu billetera",
-      "benefit3": "Acumula con otras promociones para máximo ahorro",
+      "title": "Recompensas de Conectividad",
+      "description": "Mantente conectado con ChillSIM y gana créditos de viaje.",
+      "earnBack": "{{percentage}}% de vuelta en compras recurrentes",
+      "earned": "Total ganado",
+      "benefit1": "Añadido automáticamente a tu billetera",
+      "benefit2": "Usa créditos en cualquier plan futuro",
+      "benefit3": "Combina con promociones y referidos",
+      "benefit4": "Más viajes. Más recompensas.",
       "cta": "Ver Billetera"
-    },
-    "promotions": {
-      "title": "Promociones y Ofertas Exclusivas",
-      "description": "Sé el primero en la fila para ventas flash, ofertas de temporada y ofertas por tiempo limitado. Seleccionamos las mejores ofertas solo para ti.",
-      "benefit1": "Acceso anticipado a ventas de temporada y ofertas flash",
-      "benefit2": "Ofertas personalizadas según tus destinos de viaje",
-      "benefit3": "Sorpresas especiales de cumpleaños y bonos de lealtad",
-      "receiving": "Estás recibiendo ofertas promocionales",
-      "notReceiving": "Activa para recibir ofertas exclusivas"
     },
     "howItWorks": {
       "title": "Cómo Funciona",
@@ -676,11 +683,9 @@
       "dontShowAgain": "No mostrar esto de nuevo"
     },
     "inline": {
-      "title": "🎉 ¿Quieres ahorrar aún más?",
-      "description": "Activa las notificaciones promocionales para recibir ofertas exclusivas, ventas flash y ofertas personalizadas adaptadas a tus destinos de viaje.",
-      "toggleEnabled": "Estás recibiendo ofertas exclusivas",
-      "toggleDisabled": "¡Sí, envíenme ofertas exclusivas!",
-      "disclaimer": "Puedes cambiar tus preferencias en cualquier momento desde Información de Cuenta. Solo enviamos ofertas valiosas, ¡sin spam!"
+      "title": "Ofertas Travel SIM",
+      "description": "Como cliente existente de ChillSIM, tiene derecho a promociones especiales exclusivas para clientes.",
+      "optOutLabel": "No deseo recibir correos electrónicos sobre productos y servicios similares de ChillSIM. También puede darse de baja en cualquier momento, de forma gratuita, a través del enlace de cancelación en cada correo electrónico."
     }
   },
   "studentDiscounts": {

@@ -50,3 +50,32 @@ export const getPromotionUsageHistory = async (payload) => {
     throw error;
   }
 };
+
+/**
+ * Get current user's referral milestone progress
+ * @returns {Promise} API response with progress data:
+ *   total_referrals, current_cycle, position_in_cycle, cycle_size,
+ *   milestones [{type, target, bonus, reached}],
+ *   total_earned, referral_amount, referred_discount_percentage
+ */
+export const getReferralProgress = async () => {
+  try {
+    const res = await api.get(`api/v1/promotion/referral-progress`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Get total cashback earned from orders (loyalty cashback only)
+ * @returns {Promise} API response with { total_cashback: number }
+ */
+export const getCashbackTotal = async () => {
+  try {
+    const res = await api.get(`api/v1/promotion/cashback-total`);
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #906BAE;
+  --color-primary-600: #7C5496;
+  --color-primary-700: #67477D;
+  --color-secondary: #D3DC47;
+  --color-success: #009165;
+  --color-primary-tint: color-mix(in srgb, #906BAE, white 55%);
+  --color-secondary-tint: color-mix(in srgb, #D3DC47, white 55%);
+  --color-progress-gradient: linear-gradient(90deg, var(--color-primary), var(--color-primary-tint) 35%, var(--color-secondary-tint) 65%, var(--color-secondary));
+}
+
 /* EXPLANATION : woff : for compression and faster loading time */
 @font-face {
   font-family: "quicksand-light";

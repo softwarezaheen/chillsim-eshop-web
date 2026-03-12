@@ -160,6 +160,10 @@
     "paymentMethods": "Zahlungsmethoden"
   },
   "referral": {
+    "milestones": {
+      "progress": "{{count}} von {{total}} Empfehlungen in diesem Zyklus",
+      "cycleLabel": "Wird jeden Zyklus zurückgesetzt"
+    },
     "discountActive": "🎉 Empfehlungsrabatt aktiv!",
     "discountMessage": "Erhalten Sie {{percentage}}% Rabatt dank {{referrerName}}",
     "youSave": "Sie sparen",
@@ -187,7 +191,7 @@
       "useNew": "Neuen Code nutzen"
     },
     "program": {
-      "earnRewards": "Verdienen Sie Belohnungen durch Empfehlungen",
+      "earnRewards": "Verdienen Sie Chill Credits durch Empfehlungen",
       "youGet": "Sie erhalten",
       "youGetDescription": "Verdienen Sie {{amount}} {{currency}} in Ihrem Guthaben für jeden Freund, der sich registriert und seinen ersten Kauf tätigt",
       "friendGets": "Ihr Freund erhält",
@@ -203,7 +207,13 @@
       "shareEmailSubject": "{{percentage}}% Rabatt auf Ihren ersten ChillSIM-Kauf!",
       "shareEmailBody": "Hi! Ich nutze ChillSIM für meine Reise-eSIMs und dachte, es könnte auch für dich interessant sein. Nutze meinen Empfehlungslink zur Registrierung und erhalte {{percentage}}% Rabatt auf deinen ersten Kauf: {{link}}",
       "shareWhatsappMessage": "Hi! Tritt ChillSIM mit meinem Empfehlungslink bei und erhalte {{percentage}}% Rabatt auf deinen ersten Kauf: {{link}}",
-      "shareTwitterMessage": "{{percentage}}% Rabatt auf deine erste ChillSIM eSIM! Nutze meinen Link: {{link}}"
+      "shareTwitterMessage": "{{percentage}}% Rabatt auf deine erste ChillSIM eSIM! Nutze meinen Link: {{link}}",
+      "milestonesTitle": "Bonus-Meilensteine",
+      "milestone5Label": "5 Empfehlungen",
+      "milestone10Label": "10 Empfehlungen",
+      "yourProgress": "{{count}} von {{total}} Empfehlungen in diesem Zyklus",
+      "bonusMilestone5": "Bonus bei 5 Empfehlungen",
+      "bonusMilestone10": "Bonus bei 10 Empfehlungen"
     },
     "rewardsHistory": "Belohnungsverlauf",
     "noRewardsYet": "Noch keine Belohnungen",
@@ -608,7 +618,12 @@
     "signUpToSave": "Sparen beginnen",
     "signUpForOffers": "Exklusive Angebote erhalten",
     "referralProgram": {
-      "title": "Freunde empfehlen, Belohnungen verdienen",
+      "title": "Freunde empfehlen, Chill Credits verdienen",
+      "inviteFriends": "Freunde einladen. Chill Credits verdienen.",
+      "shareText": "Teile ChillSIM mit Freunden und ihr profitiert beide — plus schalte Bonus-Meilensteine frei.",
+      "bonusMilestones": "Bonus-Meilensteine",
+      "milestone5Label": "5 Empfehlungen",
+      "milestone10Label": "10 Empfehlungen",
       "description": "Teilen Sie die Freude und werden Sie belohnt! Für jeden empfohlenen Freund, der seinen ersten Kauf tätigt, erhalten Sie sofort Guthaben.",
       "yourReward": "Sie verdienen",
       "friendReward": "Ihr Freund erhält",
@@ -619,23 +634,15 @@
       "cta": "Empfehlungslink erhalten"
     },
     "cashback": {
-      "title": "Cashback bei Wiederholungskäufen",
-      "description": "Treue, die sich auszahlt! Je mehr Sie reisen und mit uns verbunden bleiben, desto mehr sparen Sie. Genießen Sie automatisches Cashback.",
-      "earnBack": "Erhalten Sie zurück",
-      "savingsGoal": "Intelligente Ersparnisse bei jeder Reise",
-      "benefit1": "Automatisches Cashback nach qualifizierten Käufen",
-      "benefit2": "Guthaben direkt auf Ihr Konto gutgeschrieben",
-      "benefit3": "Mit anderen Aktionen kombinierbar für maximale Ersparnisse",
+      "title": "Verbindungsvorteile",
+      "description": "Bleib mit ChillSIM verbunden und verdiene Reiseguthaben.",
+      "earnBack": "{{percentage}}% zurück bei Wiederholungskäufen",
+      "earned": "Gesamt verdient",
+      "benefit1": "Automatisch in Ihr Wallet aufgeladen",
+      "benefit2": "Guthaben für jeden zukünftigen Plan verwenden",
+      "benefit3": "Mit Aktionen und Empfehlungen kombinierbar",
+      "benefit4": "Mehr Reisen. Mehr Belohnungen.",
       "cta": "Guthaben ansehen"
-    },
-    "promotions": {
-      "title": "Exklusive Aktionen & Angebote",
-      "description": "Seien Sie die Ersten bei Flash-Sales, Saisonangeboten und zeitlich begrenzten Aktionen. Wir kuratieren die besten Deals für Sie.",
-      "benefit1": "Früher Zugang zu Saisonverkäufen und Flash-Deals",
-      "benefit2": "Personalisierte Angebote basierend auf Ihren Reisezielen",
-      "benefit3": "Spezielle Geburtstagsüberraschungen und Treue-Boni",
-      "receiving": "Sie erhalten Aktionsangebote",
-      "notReceiving": "Einschalten für exklusive Angebote"
     },
     "howItWorks": {
       "title": "So funktioniert's",
@@ -676,11 +683,9 @@
       "dontShowAgain": "Nicht mehr anzeigen"
     },
     "inline": {
-      "title": "🎉 Noch mehr sparen?",
-      "description": "Aktivieren Sie Aktionsbenachrichtigungen, um exklusive Deals, Flash-Sales und personalisierte Angebote für Ihre Reiseziele zu erhalten.",
-      "toggleEnabled": "Sie erhalten exklusive Deals",
-      "toggleDisabled": "Ja, senden Sie mir exklusive Deals!",
-      "disclaimer": "Sie können Ihre Einstellungen jederzeit in den Kontoinformationen ändern. Wir senden nur wertvolle Angebote - kein Spam!"
+      "title": "Travel SIM Angebote",
+      "description": "Als bestehender Kunde von ChillSIM haben Sie Anspruch auf spezielle Aktionen nur für Bestandskunden.",
+      "optOutLabel": "Ich möchte keine E-Mails über ähnliche Produkte und Dienstleistungen von ChillSIM erhalten. Sie können sich auch jederzeit kostenlos über den Abmeldelink in jeder E-Mail abmelden."
     }
   },
   "studentDiscounts": {

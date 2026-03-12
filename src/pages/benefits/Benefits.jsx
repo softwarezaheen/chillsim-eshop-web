@@ -1,20 +1,16 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Button,
   Card,
   CardContent,
-  Switch,
-  FormControlLabel,
-  Box,
   Chip,
 } from "@mui/material";
 import {
   CardGiftcard,
   MonetizationOn,
-  LocalOffer,
   EmojiEvents,
   TrendingUp,
   Loyalty,
@@ -22,19 +18,15 @@ import {
   CheckCircle,
   Person,
   ShoppingCart,
+  Star,
 } from "@mui/icons-material";
-import { toast } from "react-toastify";
-import { updateUserInfo } from "../../core/apis/authAPI";
-import { UpdateAuthInfo } from "../../redux/reducers/authReducer";
 import Container from "../../components/Container";
+import MilestoneProgress from "../../components/referral/MilestoneProgress";
+import { getReferralProgress, getCashbackTotal } from "../../core/apis/referralAPI";
 
 const Benefits = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isAuthenticated, user_info } = useSelector(
-    (state) => state.authentication
-  );
+  const { isAuthenticated } = useSelector((state) => state.authentication);
   const { 
     referral_amount, 
     user_currency, 
@@ -44,73 +36,51 @@ const Benefits = () => {
     (state) => state.currency
   );
 
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [shouldNotify, setShouldNotify] = useState(
-    user_info?.should_notify || false
-  );
   const [cashbackPercentage, setCashbackPercentage] = useState("5");
+  const [cashbackTotal, setCashbackTotal] = useState(null);
+  const [milestone5Bonus, setMilestone5Bonus] = useState("15");
+  const [milestone10Bonus, setMilestone10Bonus] = useState("20");
+  const [cycleSize, setCycleSize] = useState(10);
+  const [positionInCycle, setPositionInCycle] = useState(0);
 
   const currency = user_currency?.currency || system_currency || "EUR";
   const referralReward = referral_amount || "10";
   const friendDiscount = referred_discount_percentage || "10";
 
-  // Load cashback percentage from sessionStorage
+  // Load config values from sessionStorage
   React.useEffect(() => {
     try {
       const configurations = sessionStorage.getItem("configurations");
       if (configurations) {
         const configObj = JSON.parse(configurations);
-        const percentage = configObj.CASHBACK_PERCENTAGE || "5";
-        setCashbackPercentage(percentage);
+        setCashbackPercentage(configObj.CASHBACK_PERCENTAGE || "5");
+        setMilestone5Bonus(configObj.REFERRAL_MILESTONE_5_BONUS || "15");
+        setMilestone10Bonus(configObj.REFERRAL_MILESTONE_10_BONUS || "20");
+        setCycleSize(parseInt(configObj.REFERRAL_MILESTONE_CYCLE_SIZE, 10) || 10);
       }
     } catch (error) {
-      console.error("Error loading cashback configuration:", error);
+      console.error("Error loading configuration:", error);
     }
   }, []);
 
-  const handleToggleNotifications = async (checked) => {
-    if (!isAuthenticated) {
-      toast.info(t("benefits.signInToManagePreferences"));
-      navigate("/signin");
-      return;
-    }
-
-    setShouldNotify(checked);
-    setIsUpdating(true);
-
-    try {
-      const payload = {
-        should_notify: checked,
-      };
-
-      const res = await updateUserInfo(payload);
-      const statusBool = res?.data?.status;
-
-      if (statusBool) {
-        dispatch(UpdateAuthInfo(res?.data?.data?.user_info));
-        toast.success(
-          checked
-            ? t("benefits.promotionsEnabled")
-            : t("benefits.promotionsDisabled")
-        );
-      } else {
-        toast.error(t("benefits.failedToUpdatePreferences"));
-        setShouldNotify(!checked); // Revert on failure
-      }
-    } catch (error) {
-      toast.error(t("benefits.failedToUpdatePreferences"));
-      setShouldNotify(!checked); // Revert on failure
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  // Update local state when user_info changes
+  // Load referral progress when authenticated
   React.useEffect(() => {
-    if (user_info) {
-      setShouldNotify(user_info.should_notify || false);
-    }
-  }, [user_info]);
+    if (!isAuthenticated) return;
+    getReferralProgress()
+      .then((res) => {
+        if (res?.data?.data) {
+          setPositionInCycle(res.data.data.position_in_cycle ?? 0);
+        }
+      })
+      .catch(() => {});
+    getCashbackTotal()
+      .then((res) => {
+        if (res?.data?.data) {
+          setCashbackTotal(res.data.data.total_cashback ?? 0);
+        }
+      })
+      .catch(() => {});
+  }, [isAuthenticated]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -163,27 +133,41 @@ const Benefits = () => {
 
       {/* Main Benefits Section */}
       <Container className="py-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
           {/* Referral Program Card */}
           <Card
             className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-primary-600"
             sx={{ height: "100%" }}
           >
             <CardContent className="p-8 flex flex-col h-full">
-              <div className="bg-gradient-to-br from-primary-100 to-primary-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <CardGiftcard className="text-primary-700 text-3xl" />
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-gradient-to-br from-primary-100 to-primary-50 w-16 h-16 rounded-2xl flex-shrink-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <CardGiftcard className="text-primary-700 text-3xl" />
+                </div>
+                {isAuthenticated && (
+                  <div className="flex-1">
+                    <MilestoneProgress
+                      positionInCycle={positionInCycle}
+                      milestone5Bonus={milestone5Bonus}
+                      milestone10Bonus={milestone10Bonus}
+                      referralAmount={referralReward}
+                      cycleSize={cycleSize}
+                      currency={currency}
+                      compact={true}
+                    />
+                  </div>
+                )}
               </div>
-              
-              <h3 className="text-2xl font-bold mb-4 text-content-900">
-                {t("benefits.referralProgram.title")}
+
+              <h3 className="text-2xl font-bold mb-2 text-content-900">
+                {t("benefits.referralProgram.inviteFriends")}
               </h3>
-              
+              <p className="text-content-500 text-sm mb-5 leading-relaxed">
+                {t("benefits.referralProgram.shareText")}
+              </p>
+
               <div className="mb-6 flex-grow">
-                <p className="text-content-600 mb-4 leading-relaxed">
-                  {t("benefits.referralProgram.description")}
-                </p>
-                
-                <div className="bg-gradient-to-r from-primary-50 to-secondary-50 p-4 rounded-xl mb-4">
+                <div className="bg-gradient-to-r from-primary-50 to-secondary-50 p-4 rounded-xl mb-3">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm font-semibold text-content-700">
                       {t("benefits.referralProgram.yourReward")}
@@ -202,26 +186,25 @@ const Benefits = () => {
                   </div>
                 </div>
 
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="text-success mt-1 flex-shrink-0" fontSize="small" />
-                    <span className="text-sm text-content-600">
-                      {t("benefits.referralProgram.benefit1")}
+                <div className="bg-gradient-to-r from-primary-50 to-secondary-50 p-4 rounded-xl">
+                  <p className="text-xs font-semibold text-content-500 uppercase tracking-wide mb-3">
+                    🎯 {t("benefits.referralProgram.bonusMilestones")}
+                  </p>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="flex items-center gap-1.5 text-sm font-semibold text-content-700">
+                      <Star sx={{ fontSize: 14, color: "#906bae" }} />
+                      {t("benefits.referralProgram.milestone5Label")}
                     </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="text-success mt-1 flex-shrink-0" fontSize="small" />
-                    <span className="text-sm text-content-600">
-                      {t("benefits.referralProgram.benefit2")}
+                    <span className="font-bold text-primary-700">+€{milestone5Bonus}</span>
+                  </div>
+                  <div className="flex items-center justify-between border-t border-primary-200 pt-2">
+                    <span className="flex items-center gap-1.5 text-sm font-semibold text-content-700">
+                      <EmojiEvents sx={{ fontSize: 14, color: "#906bae" }} />
+                      {t("benefits.referralProgram.milestone10Label")}
                     </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="text-success mt-1 flex-shrink-0" fontSize="small" />
-                    <span className="text-sm text-content-600">
-                      {t("benefits.referralProgram.benefit3")}
-                    </span>
-                  </li>
-                </ul>
+                    <span className="font-bold text-primary-700">+€{milestone10Bonus}</span>
+                  </div>
+                </div>
               </div>
 
               <Button
@@ -246,29 +229,35 @@ const Benefits = () => {
             sx={{ height: "100%" }}
           >
             <CardContent className="p-8 flex flex-col h-full">
-              <div className="bg-gradient-to-br from-success-100 to-success-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <MonetizationOn className="text-success text-3xl" />
+              <div className="flex items-start justify-between mb-6">
+                <div className="bg-gradient-to-br from-success-100 to-success-50 w-16 h-16 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <MonetizationOn className="text-success text-3xl" />
+                </div>
+                {isAuthenticated && cashbackTotal !== null && cashbackTotal > 0 && (
+                  <div className="bg-success rounded-xl px-3 py-2 text-right">
+                    <p className="text-[0.65rem] text-green-100 font-medium uppercase tracking-wide leading-none mb-0.5">
+                      {t("benefits.cashback.earned")}
+                    </p>
+                    <p className="text-lg font-bold text-white leading-none">
+                      €{cashbackTotal.toFixed(2)}
+                    </p>
+                  </div>
+                )}
               </div>
-              
-              <h3 className="text-2xl font-bold mb-4 text-content-900">
+
+              <h3 className="text-2xl font-bold mb-2 text-content-900">
                 {t("benefits.cashback.title")}
               </h3>
-              
-              <div className="mb-6 flex-grow">
-                <p className="text-content-600 mb-4 leading-relaxed">
-                  {t("benefits.cashback.description")}
-                </p>
+              <p className="text-content-500 text-sm mb-5 leading-relaxed">
+                {t("benefits.cashback.description")}
+              </p>
 
-                <div className="bg-gradient-to-r from-success-50 to-warning-50 p-4 rounded-xl mb-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <TrendingUp className="text-success" />
-                      <span className="text-sm font-semibold text-content-700">
-                        {t("benefits.cashback.earnBack")}
-                      </span>
-                    </div>
-                    <span className="text-2xl font-bold text-success">
-                      {cashbackPercentage}%
+              <div className="mb-6 flex-grow">
+                <div className="bg-gradient-to-r from-success-50 to-warning-50 p-4 rounded-xl mb-5">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="text-success" />
+                    <span className="text-sm font-semibold text-success">
+                      {t("benefits.cashback.earnBack", { percentage: cashbackPercentage })}
                     </span>
                   </div>
                 </div>
@@ -293,6 +282,9 @@ const Benefits = () => {
                     </span>
                   </li>
                 </ul>
+                <p className="text-lg font-bold text-success mt-9 text-center tracking-wide">
+                  {t("benefits.cashback.benefit4")}
+                </p>
               </div>
 
               <Button
@@ -308,101 +300,6 @@ const Benefits = () => {
                   ? t("benefits.cashback.cta")
                   : t("benefits.signUpToSave")}
               </Button>
-            </CardContent>
-          </Card>
-
-          {/* Promotions Card */}
-          <Card
-            className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-t-4 border-warning"
-            sx={{ height: "100%" }}
-          >
-            <CardContent className="p-8 flex flex-col h-full">
-              <div className="bg-gradient-to-br from-warning-100 to-warning-50 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <LocalOffer className="text-warning text-3xl" />
-              </div>
-              
-              <h3 className="text-2xl font-bold mb-4 text-content-900">
-                {t("benefits.promotions.title")}
-              </h3>
-              
-              <div className="mb-6 flex-grow">
-                <p className="text-content-600 mb-4 leading-relaxed">
-                  {t("benefits.promotions.description")}
-                </p>
-
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="text-success mt-1 flex-shrink-0" fontSize="small" />
-                    <span className="text-sm text-content-600">
-                      {t("benefits.promotions.benefit1")}
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="text-success mt-1 flex-shrink-0" fontSize="small" />
-                    <span className="text-sm text-content-600">
-                      {t("benefits.promotions.benefit2")}
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="text-success mt-1 flex-shrink-0" fontSize="small" />
-                    <span className="text-sm text-content-600">
-                      {t("benefits.promotions.benefit3")}
-                    </span>
-                  </li>
-                </ul>
-
-                {isAuthenticated && (
-                  <div className="space-y-3">
-                    <Box className="bg-gradient-to-r from-warning-50 to-primary-50 p-4 rounded-xl border-2 border-warning-200">
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            checked={shouldNotify}
-                            onChange={(e) =>
-                              handleToggleNotifications(e.target.checked)
-                            }
-                            disabled={isUpdating}
-                            color="warning"
-                          />
-                        }
-                        label={
-                          <div>
-                            <div className="text-sm font-semibold text-content-900">
-                              {shouldNotify
-                                ? t("promotions.modal.toggleEnabled")
-                                : t("promotions.modal.toggleDisabled")}
-                            </div>
-                            <div className="text-xs text-content-600 mt-0.5">
-                              {t("promotions.modal.toggleHint")}
-                            </div>
-                          </div>
-                        }
-                        className="m-0"
-                      />
-                    </Box>
-                    <p className="text-xs text-content-500 leading-relaxed">
-                      {t("promotions.modal.disclaimer")}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {!isAuthenticated && (
-                <Button
-                  component={Link}
-                  to="/signin"
-                  variant="contained"
-                  sx={{
-                    bgcolor: "warning.main",
-                    "&:hover": { bgcolor: "warning.dark" },
-                  }}
-                  fullWidth
-                  endIcon={<ArrowForward />}
-                  className="mt-4"
-                >
-                  {t("benefits.signUpForOffers")}
-                </Button>
-              )}
             </CardContent>
           </Card>
         </div>

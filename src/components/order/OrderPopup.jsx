@@ -249,8 +249,8 @@ const OrderPopup = ({ id, onClose, orderData, isFromPaymentCompletion = false })
               />
             )}
 
-            {/* Promotions Inline Component - Show if user is authenticated and doesn't have notifications enabled */}
-            {isAuth && !user_info?.should_notify && (
+            {/* Promotions Inline Component - GDPR opt-out notice for all authenticated users */}
+            {isAuth && (
               <PromotionsInline />
             )}
             

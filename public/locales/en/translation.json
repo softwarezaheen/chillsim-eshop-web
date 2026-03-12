@@ -160,6 +160,10 @@
     "paymentMethods": "Payment Methods"
   },
   "referral": {
+    "milestones": {
+      "progress": "{{count}} of {{total}} referrals this cycle",
+      "cycleLabel": "Resets every cycle"
+    },
     "discountActive": "🎉 Referral Discount Active!",
     "discountMessage": "Get {{percentage}}% off thanks to {{referrerName}}",
     "youSave": "You save",
@@ -187,11 +191,13 @@
       "useNew": "Use New Code"
     },
     "program": {
-      "earnRewards": "Earn Rewards by Referring Friends",
-      "youGet": "You Get",
+      "earnRewards": "Invite Friends. Earn Chill Credits.",
+      "youGet": "Your reward",
       "youGetDescription": "Earn {{amount}} {{currency}} in your wallet for every friend who signs up and makes their first purchase",
-      "friendGets": "Your Friend Gets",
+      "friendGets": "Your friend's reward",
       "friendGetsDescription": "{{percentage}}% discount on their first eSIM purchase",
+      "milestone5Label": "5 referrals",
+      "milestone10Label": "10 referrals",
       "yourReferralLink": "Your Referral Link",
       "copyLink": "Copy Link",
       "copied": "Copied!",
@@ -203,7 +209,11 @@
       "shareEmailSubject": "Get {{percentage}}% off your first ChillSIM purchase!",
       "shareEmailBody": "Hi! I've been using ChillSIM for my travel eSIMs and thought you might like it too. Use my referral link to sign up and get {{percentage}}% off your first purchase: {{link}}",
       "shareWhatsappMessage": "Hi! Join ChillSIM using my referral link and get {{percentage}}% off your first purchase: {{link}}",
-      "shareTwitterMessage": "Get {{percentage}}% off your first ChillSIM eSIM! Use my referral link: {{link}}"
+      "shareTwitterMessage": "Get {{percentage}}% off your first ChillSIM eSIM! Use my referral link: {{link}}",
+      "milestonesTitle": "Bonus Milestones",
+      "yourProgress": "{{count}} of {{total}} referrals this cycle",
+      "bonusMilestone5": "Bonus at 5 referrals",
+      "bonusMilestone10": "Bonus at 10 referrals"
     },
     "rewardsHistory": "Rewards History",
     "noRewardsYet": "No rewards yet",
@@ -610,34 +620,28 @@
     "signUpToSave": "Start Saving",
     "signUpForOffers": "Get Exclusive Offers",
     "referralProgram": {
-      "title": "Refer Friends, Earn Rewards",
+      "title": "Refer Friends, Earn Chill Credits",
+      "inviteFriends": "Invite Friends. Earn Chill Credits.",
+      "shareText": "Share ChillSIM with friends and both of you benefit — plus unlock bonus milestones.",
       "description": "Share the love and get rewarded! Every friend you refer who makes their first purchase earns you instant credits to your wallet.",
-      "yourReward": "You Earn",
-      "friendReward": "Your Friend Gets",
+      "yourReward": "Your reward",
+      "friendReward": "Your friend's reward",
       "off": "OFF",
-      "benefit1": "Instant wallet credits when friends complete their first purchase",
-      "benefit2": "Your friends get an exclusive discount on their first order",
-      "benefit3": "No limit on how many friends you can refer",
+      "bonusMilestones": "Bonus milestones",
+      "milestone5Label": "5 referrals",
+      "milestone10Label": "10 referrals",
       "cta": "Get Referral Link"
     },
     "cashback": {
-      "title": "Recurring Orders Cashback",
-      "description": "Loyalty that pays! The more you travel and stay connected with us, the more you save. Enjoy automatic cashback on recurring purchases.",
-      "earnBack": "Earn Back",
-      "savingsGoal": "Smart savings on every trip",
-      "benefit1": "Automatic cashback applied after qualifying purchases",
-      "benefit2": "Credits deposited directly to your wallet",
-      "benefit3": "Stack with other promotions for maximum savings",
+      "title": "Connectivity Rewards",
+      "description": "Stay connected with ChillSIM and earn Chill Credits.",
+      "earnBack": "{{percentage}}% back on recurring purchases",
+      "earned": "Total earned",
+      "benefit1": "Automatically added to your wallet",
+      "benefit2": "Use credits on any future plan",
+      "benefit3": "Stack with promotions and referrals",
+      "benefit4": "More trips. More rewards.",
       "cta": "View Wallet"
-    },
-    "promotions": {
-      "title": "Exclusive Promotions & Deals",
-      "description": "Be first in line for flash sales, seasonal deals, and limited-time offers. We curate the best deals just for you.",
-      "benefit1": "Early access to seasonal sales and flash deals",
-      "benefit2": "Personalized offers based on your travel destinations",
-      "benefit3": "Special birthday month surprises and loyalty bonuses",
-      "receiving": "You're receiving promotional offers",
-      "notReceiving": "Turn on to receive exclusive offers"
     },
     "howItWorks": {
       "title": "How It Works",
@@ -706,11 +710,9 @@
       "dontShowAgain": "Don't show this again"
     },
     "inline": {
-      "title": "🎉 Want to save even more?",
-      "description": "Turn on promotional notifications to receive exclusive deals, flash sales, and personalized offers tailored to your travel destinations.",
-      "toggleEnabled": "You're getting exclusive deals",
-      "toggleDisabled": "Yes, send me exclusive deals!",
-      "disclaimer": "You can change your preferences anytime in Account Information. We only send valuable offers—no spam!"
+      "title": "Travel SIM deals",
+      "description": "As an existing customer of ChillSIM, you are entitled to special customer only promotions.",
+      "optOutLabel": "I do not wish to receive emails about similar products and services from ChillSIM. You can also opt out at any time, free of charge, via the unsubscribe link in each email."
     }
   },
   "landing": {
