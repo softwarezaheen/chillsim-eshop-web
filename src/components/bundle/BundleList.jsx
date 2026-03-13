@@ -1,5 +1,6 @@
 //UTILITIES
 import clsx from "clsx";
+import { deduplicateBundles } from "../../core/utils/bundleUtils";
 import { useQuery } from "react-query";
 import { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -79,74 +80,11 @@ const BundleList = ({
     { value: "more", label: t("home.duration.more") },
   ];
 
-  // Deduplicate bundles by data amount and type
-  const sortedBundles = useMemo(() => {
-    if (!data || data.length === 0) return [];
-
-    // Helper to convert data to MB for comparison
-    const getDataInMB = (bundle) => {
-      if (bundle.unlimited || bundle.gprs_limit < 0) {
-        return Infinity;
-      }
-      if (bundle.gprs_limit >= 100) {
-        return bundle.gprs_limit;
-      }
-      return bundle.gprs_limit * 1024;
-    };
-
-    const getPrice = (bundle) => {
-      return parseFloat(bundle.price || bundle.original_price || 0);
-    };
-
-    // Group bundles by data amount + validity + bundle type (country vs regional for country pages)
-    const grouped = data.reduce((acc, bundle) => {
-      const dataInMB = getDataInMB(bundle);
-      const bundleType = (!region && (countryData?.id || expandedCountry))
-        ? ((bundle.count_countries || 1) === 1 ? 'country' : 'regional')
-        : 'all';
-      // CRITICAL: Include validity in key for ALL bundles (not just unlimited)
-      const validity = bundle.validity_in_days || bundle.validity || 0;
-      const key = `${dataInMB}-${validity}-${bundleType}`;
-      
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(bundle);
-      return acc;
-    }, {});
-
-    // For each data amount group, pick the bundle with best value
-    const bestBundles = Object.values(grouped).map((group) => {
-      const sorted = group.sort((a, b) => {
-        // Prefer longer validity (better value)
-        const validityDiff = (b.validity_in_days || b.validity || 0) - (a.validity_in_days || a.validity || 0);
-        if (validityDiff !== 0) return validityDiff;
-        
-        // Then lowest price
-        return getPrice(a) - getPrice(b);
-      });
-      return sorted[0];
-    });
-
-    // Sort by data amount (ascending: 1GB → 50GB), then by price (ascending)
-    const sorted = bestBundles.sort((a, b) => {
-      const aData = getDataInMB(a);
-      const bData = getDataInMB(b);
-      
-      if (aData === Infinity && bData === Infinity) {
-        return getPrice(a) - getPrice(b);
-      }
-      if (aData === Infinity) return 1;
-      if (bData === Infinity) return -1;
-      
-      const dataDiff = aData - bData;
-      if (dataDiff !== 0) return dataDiff;
-      
-      return getPrice(a) - getPrice(b);
-    });
-    
-    return sorted;
-  }, [data, region, countryData, expandedCountry]);
+  // Deduplicate bundles by exact country set coverage, then sort by data → price
+  const sortedBundles = useMemo(
+    () => deduplicateBundles(data),
+    [data, region, countryData, expandedCountry]
+  );
 
   // Filter bundles based on duration and country count
   const filteredBundles = useMemo(() => {

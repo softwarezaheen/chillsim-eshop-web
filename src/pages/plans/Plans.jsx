@@ -1,5 +1,6 @@
 //UTILITIES
 import React, { useEffect, useMemo, useState } from "react";
+import { deduplicateBundles } from "../../core/utils/bundleUtils";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -158,70 +159,10 @@ const Plans = (props) => {
     }
   }, [data, activeTab, showAllCountries, filters?.type, activeRadio]);
 
-  // Deduplicate and sort bundles (for global/regions display)
+  // Deduplicate bundles by exact country set coverage, then sort by data → price
   const sortedBundles = useMemo(() => {
     if (!homeData || filters?.type === "" || !Array.isArray(homeData)) return homeData;
-    
-    const bundles = homeData;
-    
-    // Helper to convert data to MB for comparison
-    const getDataInMB = (bundle) => {
-      if (bundle.unlimited || bundle.gprs_limit < 0) {
-        return Infinity;
-      }
-      if (bundle.gprs_limit >= 100) {
-        return bundle.gprs_limit;
-      }
-      return bundle.gprs_limit * 1024;
-    };
-
-    const getPrice = (bundle) => {
-      return parseFloat(bundle.price || bundle.original_price || 0);
-    };
-
-    // Group by data + validity + type (country vs regional)
-    const grouped = bundles.reduce((acc, bundle) => {
-      const dataInMB = getDataInMB(bundle);
-      const bundleType = (filters?.type === "" && activeTab === "countries")
-        ? ((bundle.count_countries || 1) === 1 ? 'country' : 'regional')
-        : 'all';
-      // CRITICAL: Include validity in key for ALL bundles (not just unlimited)
-      const validity = bundle.validity_days || bundle.validity || 0;
-      const key = `${dataInMB}-${validity}-${bundleType}`;
-      
-      if (!acc[key]) {
-        acc[key] = [];
-      }
-      acc[key].push(bundle);
-      return acc;
-    }, {});
-
-    const bestBundles = Object.values(grouped).map((group) => {
-      const sorted = group.sort((a, b) => {
-        const validityDiff = (b.validity_days || b.validity || 0) - (a.validity_days || a.validity || 0);
-        if (validityDiff !== 0) return validityDiff;
-        return getPrice(a) - getPrice(b);
-      });
-      return sorted[0];
-    });
-
-    const sorted = bestBundles.sort((a, b) => {
-      const aData = getDataInMB(a);
-      const bData = getDataInMB(b);
-      
-      if (aData === Infinity && bData === Infinity) {
-        return getPrice(a) - getPrice(b);
-      }
-      if (aData === Infinity) return 1;
-      if (bData === Infinity) return -1;
-      
-      const dataDiff = aData - bData;
-      if (dataDiff !== 0) return dataDiff;
-      
-      return getPrice(a) - getPrice(b);
-    });
-    
-    return sorted;
+    return deduplicateBundles(homeData);
   }, [homeData, filters?.type, activeTab]);
 
   // Duration chip options
